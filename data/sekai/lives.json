@@ -1,0 +1,4877 @@
+[
+  {
+    "id": "sekai-symphony-2021",
+    "series": "sekai_symphony",
+    "name": "Sekai Symphony 2021",
+    "nameJa": "セカイシンフォニー",
+    "date": "October 16, 2021",
+    "startDate": "2021-10-16",
+    "venue": "Pacifico Yokohama National Exhibition Hall, Yokohama, Kanagawa, Japan",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Sekai_Symphony_2021",
+    "performances": [
+      {
+        "name": "",
+        "markers": [
+          {
+            "at": 8,
+            "label": "Intermission"
+          },
+          {
+            "at": 15,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "76",
+            "title": "セカイ",
+            "performers": ["Hatsune Miku", "Hoshino Ichika", "Tenma Tsukasa", "Yoisaki Kanade"]
+          },
+          {
+            "songId": "64",
+            "title": "ステラ",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "97",
+            "title": "霽れを待つ",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "144",
+            "title": "アイノマテリアル",
+            "performers": ["MEIKO", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "99",
+            "title": "モア！ジャンプ！モア！",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "54",
+            "title": "Ready Steady",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "101",
+            "title": "RAD DOGS",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "77",
+            "title": "ワーワーワールド",
+            "performers": ["Hatsune Miku", "Hanasato Minori", "Azusawa Kohane"]
+          },
+          {
+            "songId": "51",
+            "title": "セカイはまだ始まってすらいない",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "166",
+            "title": "Glory Steady Go!",
+            "performers": ["Megurine Luka", "Hirose Daisuke", "Machico"]
+          },
+          {
+            "songId": "41",
+            "title": "スイートマジック",
+            "performers": ["Kagamine Rin", "Hirose Daisuke", "Machico"]
+          },
+          {
+            "songId": "36",
+            "title": "ミラクルペイント",
+            "performers": ["Hatsune Miku", "Hirose Daisuke", "Machico"]
+          },
+          {
+            "songId": "62",
+            "title": "ジャックポットサッドガール",
+            "performers": ["Hatsune Miku", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "116",
+            "title": "アイディスマイル",
+            "performers": ["MEIKO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "76",
+            "title": "セカイ",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "126",
+            "title": "シネマ",
+            "performers": ["KAITO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "127",
+            "title": "トンデモワンダーズ",
+            "performers": ["KAITO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "141",
+            "title": "群青讃歌",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "project-sekai-colorful-live-1st-link",
+    "series": "colorful_live",
+    "name": "COLORFUL LIVE 1st -Link-",
+    "nameJa": "プロジェクトセカイ COLORFUL LIVE 1st -Link-",
+    "date": "January 28-30, 2022",
+    "startDate": "2022-01-28",
+    "venue": "Makuhari Messe International Exhibition Halls 1-3, Chiba, Tokyo, Japan",
+    "notes": ["Note: The setlist was the same on all three days."],
+    "source": "https://projectsekai.fandom.com/wiki/Project_SEKAI_COLORFUL_LIVE_1st_-Link-",
+    "performances": [
+      {
+        "name": "",
+        "markers": [
+          {
+            "at": 10,
+            "label": "Intermission"
+          },
+          {
+            "at": 21,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "63",
+            "title": "needLe",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "130",
+            "title": "フロムトーキョー",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "57",
+            "title": "アイドル新鋭隊",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "112",
+            "title": "天使のクローバー",
+            "performers": ["Kagamine Rin", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "54",
+            "title": "Ready Steady",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "126",
+            "title": "シネマ",
+            "performers": ["KAITO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "51",
+            "title": "セカイはまだ始まってすらいない",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "52",
+            "title": "potatoになっていく",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "60",
+            "title": "悔やむと書いてミライ",
+            "performers": ["Hatsune Miku", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "116",
+            "title": "アイディスマイル",
+            "performers": ["MEIKO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "70",
+            "title": "メルティランドナイトメア",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "11",
+            "title": "ビバハピ",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "111",
+            "title": "カトラリー",
+            "performers": ["Hatsune Miku", "Yoisaki Kanade", "Asahina Mafuyu"]
+          },
+          {
+            "songId": "145",
+            "title": "ベノム",
+            "performers": ["Shinonome Ena", "Akiyama Mizuki"]
+          },
+          {
+            "songId": "134",
+            "title": "テレキャスタービーボーイ",
+            "performers": ["Kagamine Len", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "36",
+            "title": "ミラクルペイント",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "27",
+            "title": "Just Be Friends",
+            "performers": ["Megurine Luka", "Azusawa Kohane", "Shiraishi An"]
+          },
+          {
+            "songId": "69",
+            "title": "フラジール",
+            "performers": ["Shinonome Akito", "Aoyagi Toya"]
+          },
+          {
+            "songId": "6",
+            "title": "ヒバナ -Reloaded-",
+            "performers": ["Hatsune Miku", "Hoshino Ichika"]
+          },
+          {
+            "songId": "91",
+            "title": "ドラマツルギー",
+            "performers": ["Hatsune Miku", "Hoshino Ichika"]
+          },
+          {
+            "songId": "110",
+            "title": "千本桜",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "76",
+            "title": "セカイ",
+            "performers": ["Hatsune Miku", "Hoshino Ichika", "Tenma Tsukasa", "Yoisaki Kanade"]
+          },
+          {
+            "songId": "77",
+            "title": "ワーワーワールド",
+            "performers": ["Hatsune Miku", "Hanasato Minori", "Azusawa Kohane"]
+          },
+          {
+            "songId": "141",
+            "title": "群青讃歌",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sekai-symphony-2022",
+    "series": "sekai_symphony",
+    "name": "Sekai Symphony 2022",
+    "nameJa": "セカイシンフォニー 2022",
+    "date": "June 11, 2022",
+    "startDate": "2022-06-11",
+    "venue": "Pacifico Yokohama National Convention Hall, Yokohama, Kanagawa, Japan",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Sekai_Symphony_2022",
+    "performances": [
+      {
+        "name": "",
+        "markers": [
+          {
+            "at": 7,
+            "label": "Intermission"
+          },
+          {
+            "at": 15,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "77",
+            "title": "ワーワーワールド",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "63",
+            "title": "needLe",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "64",
+            "title": "ステラ",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "99",
+            "title": "モア！ジャンプ！モア！",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "89",
+            "title": "Color of Drops",
+            "performers": ["Megurine Luka", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "101",
+            "title": "RAD DOGS",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "126",
+            "title": "シネマ",
+            "performers": ["KAITO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "166",
+            "title": "Glory Steady Go!",
+            "performers": ["Megurine Luka", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "127",
+            "title": "トンデモワンダーズ",
+            "performers": ["KAITO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "22",
+            "title": "命に嫌われている",
+            "performers": [
+              "Hatsune Miku",
+              "Kusunoki Tomori",
+              "Tanabe Rui",
+              "Suzuki Minori",
+              "Satou Hinata"
+            ]
+          },
+          {
+            "songId": "116",
+            "title": "アイディスマイル",
+            "performers": [
+              "MEIKO",
+              "Kusunoki Tomori",
+              "Tanabe Rui",
+              "Suzuki Minori",
+              "Satou Hinata"
+            ]
+          },
+          {
+            "songId": "90",
+            "title": "限りなく灰色へ",
+            "performers": [
+              "Kagamine Rin",
+              "Kusunoki Tomori",
+              "Tanabe Rui",
+              "Suzuki Minori",
+              "Satou Hinata"
+            ]
+          },
+          {
+            "songId": "62",
+            "title": "ジャックポットサッドガール",
+            "performers": [
+              "Hatsune Miku",
+              "Kusunoki Tomori",
+              "Tanabe Rui",
+              "Suzuki Minori",
+              "Satou Hinata"
+            ]
+          },
+          {
+            "songId": "149",
+            "title": "カナデトモスソラ",
+            "performers": [
+              "Megurine Luka",
+              "Kusunoki Tomori",
+              "Tanabe Rui",
+              "Suzuki Minori",
+              "Satou Hinata"
+            ]
+          },
+          {
+            "songId": "141",
+            "title": "群青讃歌",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "129",
+            "title": "ビターチョコデコレーション",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "88",
+            "title": "チュルリラ・チュルリラ・ダッダッダ！",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "143",
+            "title": "トラフィック・ジャム",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "154",
+            "title": "地球最後の告白を",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "148",
+            "title": "ray",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "76",
+            "title": "セカイ",
+            "performers": ["Hatsune Miku", "Hoshino Ichika", "Tenma Tsukasa", "Yoisaki Kanade"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "vivid-bad-squad-1st-connect-live-crash",
+    "series": "connect_live",
+    "name": "Vivid BAD SQUAD 1st Connect Live CRASH",
+    "nameJa": "Vivid BAD SQUAD 1st コネクトライブ CRASH",
+    "date": "June 11, 2022",
+    "startDate": "2022-06-11",
+    "venue": "Virtual Live",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Vivid_BAD_SQUAD_1st_Connect_Live_CRASH",
+    "performances": [
+      {
+        "name": "",
+        "markers": [
+          {
+            "at": 4,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "55",
+            "title": "Forward",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "156",
+            "title": "Beat Eater",
+            "performers": ["Kagamine Len", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "101",
+            "title": "RAD DOGS",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "126",
+            "title": "シネマ",
+            "performers": ["KAITO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "27",
+            "title": "Just Be Friends",
+            "performers": ["Megurine Luka", "Azusawa Kohane", "Shiraishi An"]
+          },
+          {
+            "songId": "95",
+            "title": "威風堂々",
+            "performers": ["KAITO", "Shinonome Akito", "Aoyagi Toya"]
+          },
+          {
+            "songId": "54",
+            "title": "Ready Steady",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "project-sekai-2nd-anniversary-thanks-festival",
+    "series": "thanks_festival",
+    "name": "2nd Anniversary Thanks Festival",
+    "nameJa": "ロジェクトセカイ 2nd Anniversary 感謝祭",
+    "date": "September 23-24, 2022",
+    "startDate": "2022-09-23",
+    "venue": "Tachikawa Stage Garden, Tokyo, Japan",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Project_SEKAI_2nd_Anniversary_Thanks_Festival",
+    "performances": [
+      {
+        "name": "Day 1",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "61",
+            "title": "携帯恋話"
+          },
+          {
+            "songId": "187",
+            "title": "ロウワー"
+          },
+          {
+            "songId": "182",
+            "title": "Flyer!"
+          },
+          {
+            "songId": "126",
+            "title": "シネマ"
+          },
+          {
+            "songId": "173",
+            "title": "流星のパルス"
+          },
+          {
+            "songId": "132",
+            "title": "「１」"
+          },
+          {
+            "songId": "129",
+            "title": "ビターチョコデコレーション"
+          },
+          {
+            "songId": "143",
+            "title": "トラフィック・ジャム"
+          },
+          {
+            "songId": "6",
+            "title": "ヒバナ -Reloaded-"
+          },
+          {
+            "songId": "141",
+            "title": "群青讃歌"
+          },
+          {
+            "songId": "235",
+            "title": "Journey"
+          }
+        ]
+      },
+      {
+        "name": "Day 2 · Day Performance",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "57",
+            "title": "アイドル新鋭隊"
+          },
+          {
+            "songId": "144",
+            "title": "アイノマテリアル"
+          },
+          {
+            "songId": "101",
+            "title": "RAD DOGS"
+          },
+          {
+            "songId": "182",
+            "title": "Flyer!"
+          },
+          {
+            "songId": "52",
+            "title": "potatoになっていく"
+          },
+          {
+            "songId": "127",
+            "title": "トンデモワンダーズ"
+          },
+          {
+            "songId": "123",
+            "title": "どりーみんチュチュ"
+          },
+          {
+            "songId": "167",
+            "title": "オルターエゴ"
+          },
+          {
+            "songId": "201",
+            "title": "神のまにまに"
+          },
+          {
+            "songId": "77",
+            "title": "ワーワーワールド"
+          },
+          {
+            "songId": "235",
+            "title": "Journey"
+          }
+        ]
+      },
+      {
+        "name": "Day 2 · Night Performance",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "173",
+            "title": "流星のパルス"
+          },
+          {
+            "songId": "207",
+            "title": "Peaky Peaky"
+          },
+          {
+            "songId": "166",
+            "title": "Glory Steady Go!"
+          },
+          {
+            "songId": "127",
+            "title": "トンデモワンダーズ"
+          },
+          {
+            "songId": "90",
+            "title": "限りなく灰色へ"
+          },
+          {
+            "songId": "248",
+            "title": "バグ"
+          },
+          {
+            "songId": "243",
+            "title": "Calc."
+          },
+          {
+            "songId": "129",
+            "title": "ビターチョコデコレーション"
+          },
+          {
+            "songId": "174",
+            "title": "いーあるふぁんくらぶ"
+          },
+          {
+            "songId": "76",
+            "title": "セカイ"
+          },
+          {
+            "songId": "235",
+            "title": "Journey"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "project-sekai-connect-live-2nd-anniversary-special-stage",
+    "series": "connect_live",
+    "name": "Connect Live 2nd ANNIVERSARY SPECIAL STAGE",
+    "nameJa": "プロジェクトセカイ コネクトライブ 2nd ANNIVERSARY SPECIAL STAGE",
+    "date": "October 9, 2022",
+    "startDate": "2022-10-09",
+    "venue": "Virtual Live",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Project_SEKAI_Connect_Live_2nd_ANNIVERSARY_SPECIAL_STAGE",
+    "performances": [
+      {
+        "name": "",
+        "markers": [
+          {
+            "at": 14,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "141",
+            "title": "群青讃歌",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          },
+          {
+            "songId": "110",
+            "title": "千本桜",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "89",
+            "title": "Color of Drops",
+            "performers": ["Megurine Luka", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "193",
+            "title": "ワールドワイドワンダー",
+            "performers": ["KAITO", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "132",
+            "title": "「１」",
+            "performers": ["Megurine Luka", "Leo/need"]
+          },
+          {
+            "songId": "64",
+            "title": "ステラ",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "239",
+            "title": "月光",
+            "performers": ["MEIKO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "217",
+            "title": "街",
+            "performers": ["Kagamine Rin", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "62",
+            "title": "ジャックポットサッドガール",
+            "performers": ["Hatsune Miku", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "187",
+            "title": "ロウワー",
+            "performers": ["MEIKO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "105",
+            "title": "ワンスアポンアドリーム",
+            "performers": ["Kagamine Len", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "127",
+            "title": "トンデモワンダーズ",
+            "performers": ["KAITO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "76",
+            "title": "セカイ",
+            "performers": ["Hatsune Miku", "Hoshino Ichika", "Tenma Tsukasa", "Yoisaki Kanade"]
+          },
+          {
+            "songId": "77",
+            "title": "ワーワーワールド",
+            "performers": ["Hatsune Miku", "Hanasato Minori", "Azusawa Kohane"]
+          },
+          {
+            "songId": "50",
+            "title": "Blessing",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "235",
+            "title": "Journey",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "project-sekai-colorful-live-2nd-will",
+    "series": "colorful_live",
+    "name": "COLORFUL LIVE 2nd -Will-",
+    "nameJa": "プロジェクトセカイ COLORFUL LIVE 2nd -Will-",
+    "date": "January 7-9, 2023 (Tokyo) / February 25-26 (Osaka)",
+    "startDate": "2023-01-07",
+    "venue": "Makuhari Messe International Exhibition Halls 7-8, Chiba, Tokyo, Japan / INTEX Osaka Halls 4-5, Suminoe, Osaka, Japan",
+    "notes": ["Note: The setlist was the same for all dates."],
+    "source": "https://projectsekai.fandom.com/wiki/Project_SEKAI_COLORFUL_LIVE_2nd_-Will-",
+    "performances": [
+      {
+        "name": "",
+        "markers": [
+          {
+            "at": 10,
+            "label": "Intermission"
+          },
+          {
+            "at": 21,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "159",
+            "title": "STAGE OF SEKAI",
+            "performers": ["Kagamine Len", "Leo/need"]
+          },
+          {
+            "songId": "243",
+            "title": "Calc.",
+            "performers": ["Hatsune Miku", "Hoshino Ichika", "Hinomori Shiho"]
+          },
+          {
+            "songId": "99",
+            "title": "モア！ジャンプ！モア！",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "213",
+            "title": "ヴァンパイア",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "126",
+            "title": "シネマ",
+            "performers": ["KAITO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "100",
+            "title": "ECHO",
+            "performers": ["Megurine Luka", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "127",
+            "title": "トンデモワンダーズ",
+            "performers": ["KAITO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "240",
+            "title": "踊れオーケストラ",
+            "performers": ["Megurine Luka", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "60",
+            "title": "悔やむと書いてミライ",
+            "performers": ["Hatsune Miku", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "277",
+            "title": "フォニイ",
+            "performers": ["MEIKO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "110",
+            "title": "千本桜",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "134",
+            "title": "テレキャスタービーボーイ",
+            "performers": ["Kagamine Len", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "178",
+            "title": "にっこり^^調査隊のテーマ",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "112",
+            "title": "天使のクローバー",
+            "performers": ["Kagamine Rin", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "188",
+            "title": "心予報",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "217",
+            "title": "街",
+            "performers": ["Kagamine Rin", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "253",
+            "title": "DAYBREAK FRONTLINE",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "129",
+            "title": "ビターチョコデコレーション",
+            "performers": ["Hatsune Miku", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "187",
+            "title": "ロウワー",
+            "performers": ["MEIKO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "6",
+            "title": "ヒバナ -Reloaded-",
+            "performers": ["Hatsune Miku", "Hoshino Ichika"]
+          },
+          {
+            "songId": "64",
+            "title": "ステラ",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "141",
+            "title": "群青讃歌",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "235",
+            "title": "Journey",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "more-more-jump-1st-connect-live-jumpin",
+    "series": "connect_live",
+    "name": "MORE MORE JUMP! 1st Connect Live JUMPIN!",
+    "nameJa": "MORE MORE JUMP！ 1st コネクトライブ JUMPIN！",
+    "date": "March 19, 2023",
+    "startDate": "2023-03-19",
+    "venue": "Virtual Live",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/MORE_MORE_JUMP!_1st_Connect_Live_JUMPIN!",
+    "performances": [
+      {
+        "name": "",
+        "markers": [
+          {
+            "at": 4,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "140",
+            "title": "アイスドロップ",
+            "performers": ["Kagamine Len", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "144",
+            "title": "アイノマテリアル",
+            "performers": ["MEIKO", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "209",
+            "title": "メタモリボン",
+            "performers": ["Kagamine Rin", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "112",
+            "title": "天使のクローバー",
+            "performers": ["Kagamine Rin", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "121",
+            "title": "ロミオとシンデレラ",
+            "performers": ["Hatsune Miku", "Momoi Airi", "Hinomori Shizuku"]
+          },
+          {
+            "songId": "168",
+            "title": "ダーリンダンス",
+            "performers": ["Hatsune Miku", "Hanasato Minori", "Kiritani Haruka"]
+          },
+          {
+            "songId": "57",
+            "title": "アイドル新鋭隊",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "leo-need-1st-connect-live-sparkle",
+    "series": "connect_live",
+    "name": "Leo/need 1st Connect Live SPARKLE",
+    "nameJa": "Leo/need 1st コネクトライブ SPARKLE",
+    "date": "May 21, 2023",
+    "startDate": "2023-05-21",
+    "venue": "Virtual Live",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Leo%2Fneed_1st_Connect_Live_SPARKLE",
+    "performances": [
+      {
+        "name": "",
+        "markers": [
+          {
+            "at": 4,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "207",
+            "title": "Peaky Peaky",
+            "performers": ["KAITO", "Leo/need"]
+          },
+          {
+            "songId": "97",
+            "title": "霽れを待つ",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "196",
+            "title": "オーダーメイド",
+            "performers": ["Megurine Luka", "Leo/need"]
+          },
+          {
+            "songId": "257",
+            "title": "てらてら",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "289",
+            "title": "天ノ弱",
+            "performers": ["Leo/need"]
+          },
+          {
+            "songId": "323",
+            "title": "快晴",
+            "performers": ["MEIKO", "Leo/need"]
+          },
+          {
+            "songId": "63",
+            "title": "needLe",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sekai-symphony-2023",
+    "series": "sekai_symphony",
+    "name": "Sekai Symphony 2023",
+    "nameJa": "セカイシンフォニー 2023",
+    "date": "June 10, 2023",
+    "startDate": "2023-06-10",
+    "venue": "Pacifico Yokohama National Convention Hall, Yokohama, Kanagawa, Japan",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Sekai_Symphony_2023",
+    "performances": [
+      {
+        "name": "",
+        "markers": [
+          {
+            "at": 9,
+            "label": "Intermission"
+          },
+          {
+            "at": 15,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "141",
+            "title": "群青讃歌",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "252",
+            "title": "DREAM PLACE",
+            "performers": ["MEIKO", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "308",
+            "title": "ももいろの鍵",
+            "performers": ["Megurine Luka", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "267",
+            "title": "仮死化",
+            "performers": ["MEIKO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "244",
+            "title": "Awake Now",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "224",
+            "title": "88☆彡",
+            "performers": ["KAITO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "52",
+            "title": "potatoになっていく",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "142",
+            "title": "再生",
+            "performers": ["Kagamine Rin", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "304",
+            "title": "Iなんです",
+            "performers": ["Hatsune Miku", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "2",
+            "title": "ロキ",
+            "performers": ["Hatsune Miku", "Hoshino Ichika"]
+          },
+          {
+            "songId": "236",
+            "title": "Voices",
+            "performers": ["Kagamine Rin", "Noguchi Ruriko", "Isobe Karin"]
+          },
+          {
+            "songId": "310",
+            "title": "Flyway",
+            "performers": ["Kagamine Len", "Noguchi Ruriko", "Isobe Karin"]
+          },
+          {
+            "songId": "196",
+            "title": "オーダーメイド",
+            "performers": ["Megurine Luka", "Noguchi Ruriko", "Isobe Karin"]
+          },
+          {
+            "songId": "351",
+            "title": "相生",
+            "performers": ["MEIKO", "Noguchi Ruriko", "Isobe Karin"]
+          },
+          {
+            "songId": "63",
+            "title": "needLe",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "73",
+            "title": "ニア",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "291",
+            "title": "フェレス",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "240",
+            "title": "踊れオーケストラ",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "125",
+            "title": "ボッカデラベリタ",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "321",
+            "title": "アトラクトライト",
+            "performers": ["Kagamine Len", "Noguchi Ruriko", "Isobe Karin"]
+          },
+          {
+            "songId": "235",
+            "title": "Journey",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "25-ji-nightcord-de-1st-connect-live-moment",
+    "series": "connect_live",
+    "name": "25-ji, Nightcord de. 1st Connect Live moment",
+    "nameJa": "25時、ナイトコードで。1st コネクトライブ moment",
+    "date": "July 7, 2023",
+    "startDate": "2023-07-07",
+    "venue": "Virtual Live",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/25-ji%2C_Nightcord_de._1st_Connect_Live_moment",
+    "performances": [
+      {
+        "name": "",
+        "markers": [
+          {
+            "at": 4,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "203",
+            "title": "トリコロージュ",
+            "performers": ["Hatsune Miku", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "90",
+            "title": "限りなく灰色へ",
+            "performers": ["Kagamine Rin", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "116",
+            "title": "アイディスマイル",
+            "performers": ["MEIKO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "248",
+            "title": "バグ",
+            "performers": ["Kagamine Len", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "194",
+            "title": "妄想感傷代償連盟",
+            "performers": ["Hatsune Miku", "Yoisaki Kanade", "Shinonome Ena"]
+          },
+          {
+            "songId": "170",
+            "title": "ヴィラン",
+            "performers": ["Asahina Mafuyu", "Akiyama Mizuki"]
+          },
+          {
+            "songId": "60",
+            "title": "悔やむと書いてミライ",
+            "performers": ["Hatsune Miku", "25-ji, Nightcord de."]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "wonderlands-x-showtime-1st-connect-live-stories",
+    "series": "connect_live",
+    "name": "Wonderlands x Showtime 1st Connect Live STORIES",
+    "nameJa": "ワンダーランズ×ショウタイム　1st コネクトライブ STORIES",
+    "date": "August 6, 2023",
+    "startDate": "2023-08-06",
+    "venue": "Virtual Live",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Wonderlands_x_Showtime_1st_Connect_Live_STORIES",
+    "performances": [
+      {
+        "name": "",
+        "markers": [
+          {
+            "at": 4,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "160",
+            "title": "ショウタイム・ルーラー",
+            "performers": ["Kagamine Rin", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "178",
+            "title": "にっこり^^調査隊のテーマ",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "166",
+            "title": "Glory Steady Go!",
+            "performers": ["Megurine Luka", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "224",
+            "title": "88☆彡",
+            "performers": ["KAITO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "138",
+            "title": "KING",
+            "performers": ["Tenma Tsukasa", "Kamishiro Rui"]
+          },
+          {
+            "songId": "122",
+            "title": "ポジティブ☆ダンスタイム",
+            "performers": ["Kagamine Rin", "Otori Emu", "Kusanagi Nene"]
+          },
+          {
+            "songId": "51",
+            "title": "セカイはまだ始まってすらいない",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "project-sekai-3rd-anniversary-thanks-festival",
+    "series": "thanks_festival",
+    "name": "3rd Anniversary Thanks Festival",
+    "nameJa": "プロジェクトセカイ 3rd Anniversary 感謝祭",
+    "date": "September 16-17, 2023",
+    "startDate": "2023-09-16",
+    "venue": "TOKYO DOME CITY HALL, Tokyo, Japan",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Project_SEKAI_3rd_Anniversary_Thanks_Festival",
+    "performances": [
+      {
+        "name": "Day 1 · Day Performance",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "99",
+            "title": "モア！ジャンプ！モア！"
+          },
+          {
+            "songId": "89",
+            "title": "Color of Drops"
+          },
+          {
+            "songId": "156",
+            "title": "Beat Eater"
+          },
+          {
+            "songId": "373",
+            "title": "下剋上"
+          },
+          {
+            "songId": "320",
+            "title": "Booo!"
+          },
+          {
+            "songId": "281",
+            "title": "気まぐれメルシィ"
+          },
+          {
+            "songId": "136",
+            "title": "チルドレンレコード"
+          },
+          {
+            "songId": "344",
+            "title": "脳内革命ガール"
+          },
+          {
+            "songId": "235",
+            "title": "Journey"
+          },
+          {
+            "songId": "366",
+            "title": "NEO"
+          }
+        ]
+      },
+      {
+        "name": "Day 1 · Night Performance",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "156",
+            "title": "Beat Eater"
+          },
+          {
+            "songId": "239",
+            "title": "月光"
+          },
+          {
+            "songId": "99",
+            "title": "モア！ジャンプ！モア！"
+          },
+          {
+            "songId": "193",
+            "title": "ワールドワイドワンダー"
+          },
+          {
+            "songId": "136",
+            "title": "チルドレンレコード"
+          },
+          {
+            "songId": "133",
+            "title": "悪魔の踊り方"
+          },
+          {
+            "songId": "11",
+            "title": "ビバハピ"
+          },
+          {
+            "songId": "281",
+            "title": "気まぐれメルシィ"
+          },
+          {
+            "songId": "76",
+            "title": "セカイ"
+          },
+          {
+            "songId": "366",
+            "title": "NEO"
+          }
+        ]
+      },
+      {
+        "name": "Day 2 · Day Performance",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "160",
+            "title": "ショウタイム・ルーラー"
+          },
+          {
+            "songId": "224",
+            "title": "88☆彡"
+          },
+          {
+            "songId": "62",
+            "title": "ジャックポットサッドガール"
+          },
+          {
+            "songId": "304",
+            "title": "Iなんです"
+          },
+          {
+            "songId": "225",
+            "title": "エゴロック"
+          },
+          {
+            "songId": "240",
+            "title": "踊れオーケストラ"
+          },
+          {
+            "songId": "293",
+            "title": "アイロニ"
+          },
+          {
+            "songId": "277",
+            "title": "フォニイ"
+          },
+          {
+            "songId": "141",
+            "title": "群青讃歌"
+          },
+          {
+            "songId": "366",
+            "title": "NEO"
+          }
+        ]
+      },
+      {
+        "name": "Day 2 · Night Performance",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "304",
+            "title": "Iなんです"
+          },
+          {
+            "songId": "353",
+            "title": "キティ"
+          },
+          {
+            "songId": "105",
+            "title": "ワンスアポンアドリーム"
+          },
+          {
+            "songId": "224",
+            "title": "88☆彡"
+          },
+          {
+            "songId": "340",
+            "title": "とても素敵な六月でした"
+          },
+          {
+            "songId": "277",
+            "title": "フォニイ"
+          },
+          {
+            "songId": "225",
+            "title": "エゴロック"
+          },
+          {
+            "songId": "360",
+            "title": "太陽系デスコ"
+          },
+          {
+            "songId": "77",
+            "title": "ワーワーワールド"
+          },
+          {
+            "songId": "366",
+            "title": "NEO"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "project-sekai-connect-live-3rd-anniversary-memorial-stage",
+    "series": "connect_live",
+    "name": "Connect Live 3rd ANNIVERSARY Memorial Stage",
+    "nameJa": "コネクトライブ 3rd ANNIVERSARY Memorial Stage",
+    "date": "October 8, 2023",
+    "startDate": "2023-10-08",
+    "venue": "Virtual Live",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Project_SEKAI_Connect_Live_3rd_ANNIVERSARY_Memorial_Stage",
+    "performances": [
+      {
+        "name": "",
+        "markers": [
+          {
+            "at": 34,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "235",
+            "title": "Journey",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          },
+          {
+            "songId": "119",
+            "title": "ワールズエンド・ダンスホール",
+            "performers": ["Hatsune Miku", "Megurine Luka"]
+          },
+          {
+            "songId": "63",
+            "title": "needLe",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "64",
+            "title": "ステラ",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "132",
+            "title": "「１」",
+            "performers": ["Megurine Luka", "Leo/need"]
+          },
+          {
+            "songId": "259",
+            "title": "the WALL",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "310",
+            "title": "Flyway",
+            "performers": ["Kagamine Len", "Leo/need"]
+          },
+          {
+            "songId": "375",
+            "title": "星を繋ぐ",
+            "performers": ["KAITO", "Leo/need"]
+          },
+          {
+            "songId": "54",
+            "title": "Ready Steady",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "101",
+            "title": "RAD DOGS",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "182",
+            "title": "Flyer!",
+            "performers": ["Kagamine Len", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "267",
+            "title": "仮死化",
+            "performers": ["MEIKO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "373",
+            "title": "下剋上",
+            "performers": ["Kagamine Rin", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "356",
+            "title": "リアライズ",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "86",
+            "title": "on the rocks",
+            "performers": ["MEIKO", "KAITO"]
+          },
+          {
+            "songId": "60",
+            "title": "悔やむと書いてミライ",
+            "performers": ["Hatsune Miku", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "187",
+            "title": "ロウワー",
+            "performers": ["MEIKO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "189",
+            "title": "ノマド",
+            "performers": ["Kagamine Rin", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "248",
+            "title": "バグ",
+            "performers": ["Kagamine Len", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "300",
+            "title": "ザムザ",
+            "performers": ["KAITO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "345",
+            "title": "演劇",
+            "performers": ["Megurine Luka", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "146",
+            "title": "リモコン",
+            "performers": ["Kagamine Rin", "Kagamine Len"]
+          },
+          {
+            "songId": "51",
+            "title": "セカイはまだ始まってすらいない",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "52",
+            "title": "potatoになっていく",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "178",
+            "title": "にっこり^^調査隊のテーマ",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "333",
+            "title": "Mr. Showtime",
+            "performers": ["Megurine Luka", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "324",
+            "title": "箱庭のコラル",
+            "performers": ["KAITO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "386",
+            "title": "キラピピ★キラピカ",
+            "performers": ["MEIKO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "57",
+            "title": "アイドル新鋭隊",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "99",
+            "title": "モア！ジャンプ！モア！",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "193",
+            "title": "ワールドワイドワンダー",
+            "performers": ["KAITO", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "295",
+            "title": "フロート・プランナー",
+            "performers": ["Kagamine Rin", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "287",
+            "title": "私は、私達は",
+            "performers": ["Kagamine Len", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "374",
+            "title": "チームメイト",
+            "performers": ["Kagamine Len", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "368",
+            "title": "アイムマイン",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "366",
+            "title": "NEO",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "project-sekai-colorful-live-3rd-evolve",
+    "series": "colorful_live",
+    "name": "COLORFUL LIVE 3rd -Evolve-",
+    "nameJa": "プロジェクトセカイ COLORFUL LIVE 3rd -Evolve-",
+    "date": "January 26-28, 2024 / February 17-18, 2024",
+    "startDate": "2024-01-26",
+    "venue": "Makuhari Messe International Exhibition Hall 9-11, Chiba, Tokyo, Japan / INTEXT Osaka",
+    "notes": ["Note: Both setlists were the same for all performances."],
+    "source": "https://projectsekai.fandom.com/wiki/Project_SEKAI_COLORFUL_LIVE_3rd_-Evolve-",
+    "performances": [
+      {
+        "name": "Daytime Performance",
+        "markers": [
+          {
+            "at": 22,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "235",
+            "title": "Journey",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          },
+          {
+            "songId": "160",
+            "title": "ショウタイム・ルーラー",
+            "performers": ["Kagamine Rin", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "183",
+            "title": "フィクサー",
+            "performers": ["Tenma Tsukasa", "Kamishiro Rui"]
+          },
+          {
+            "songId": "178",
+            "title": "にっこり^^調査隊のテーマ",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "154",
+            "title": "地球最後の告白を",
+            "performers": ["Megurine Luka", "Kiritani Haruka", "Hinomori Shizuku"]
+          },
+          {
+            "songId": "211",
+            "title": "イフ",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "57",
+            "title": "アイドル新鋭隊",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "187",
+            "title": "ロウワー",
+            "performers": ["MEIKO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "218",
+            "title": "メリュー",
+            "performers": ["Hatsune Miku", "Yoisaki Kanade", "Asahina Mafuyu"]
+          },
+          {
+            "songId": "300",
+            "title": "ザムザ",
+            "performers": ["KAITO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "291",
+            "title": "フェレス",
+            "performers": ["Hatsune Miku", "MEIKO", "Azusawa Kohane", "Shiraishi An"]
+          },
+          {
+            "songId": "217",
+            "title": "街",
+            "performers": ["Kagamine Rin", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "280",
+            "title": "虚ろを扇ぐ",
+            "performers": ["KAITO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "130",
+            "title": "フロムトーキョー",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "321",
+            "title": "アトラクトライト",
+            "performers": ["Kagamine Len", "Leo/need"]
+          },
+          {
+            "songId": "259",
+            "title": "the WALL",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "76",
+            "title": "セカイ",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "267",
+            "title": "仮死化",
+            "performers": ["MEIKO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "333",
+            "title": "Mr. Showtime",
+            "performers": ["Megurine Luka", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "257",
+            "title": "てらてら",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "264",
+            "title": "パラソルサイダー",
+            "performers": ["Megurine Luka", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "248",
+            "title": "バグ",
+            "performers": ["Kagamine Len", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "368",
+            "title": "アイムマイン",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "366",
+            "title": "NEO",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Nighttime Performance",
+        "markers": [
+          {
+            "at": 22,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "235",
+            "title": "Journey",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          },
+          {
+            "songId": "160",
+            "title": "ショウタイム・ルーラー",
+            "performers": ["Kagamine Rin", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "246",
+            "title": "エイリアンエイリアン",
+            "performers": ["Hatsune Miku", "Otori Emu", "Kusanagi Nene"]
+          },
+          {
+            "songId": "127",
+            "title": "トンデモワンダーズ",
+            "performers": ["KAITO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "354",
+            "title": "セツナトリップ",
+            "performers": ["Kagamine Rin", "Hanasato Minori", "Momoi Airi"]
+          },
+          {
+            "songId": "211",
+            "title": "イフ",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "99",
+            "title": "モア！ジャンプ！モア！",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "116",
+            "title": "アイディスマイル",
+            "performers": ["MEIKO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "272",
+            "title": "ジェヘナ",
+            "performers": ["Hatsune Miku", "Shinonome Ena", "Akiyama Mizuki"]
+          },
+          {
+            "songId": "300",
+            "title": "ザムザ",
+            "performers": ["KAITO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "210",
+            "title": "雨とペトラ",
+            "performers": ["Kagamine Len", "Shinonome Akito", "Aoyagi Toya"]
+          },
+          {
+            "songId": "54",
+            "title": "Ready Steady",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "280",
+            "title": "虚ろを扇ぐ",
+            "performers": ["KAITO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "159",
+            "title": "STAGE OF SEKAI",
+            "performers": ["Kagamine Len", "Leo/need"]
+          },
+          {
+            "songId": "286",
+            "title": "Hello, Worker",
+            "performers": ["Megurine Luka", "Leo/need"]
+          },
+          {
+            "songId": "259",
+            "title": "the WALL",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "76",
+            "title": "セカイ",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "267",
+            "title": "仮死化",
+            "performers": ["MEIKO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "333",
+            "title": "Mr. Showtime",
+            "performers": ["Megurine Luka", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "257",
+            "title": "てらてら",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "264",
+            "title": "パラソルサイダー",
+            "performers": ["Megurine Luka", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "248",
+            "title": "バグ",
+            "performers": ["Kagamine Len", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "368",
+            "title": "アイムマイン",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "366",
+            "title": "NEO",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sekai-symphony-2024",
+    "series": "sekai_symphony",
+    "name": "Sekai Symphony 2024",
+    "nameJa": "セカイシンフォニー 2024",
+    "date": "June 8, 2024 (Yokohama) / July 20, 2024 (Osaka)",
+    "startDate": "2024-06-08",
+    "venue": "Pacifico Yokohama National Convention Hall, Yokohama, Kanagawa, Japan / Osaka International Convention Center (Grand Cube Osaka)",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Sekai_Symphony_2024",
+    "performances": [
+      {
+        "name": "Yokohama Performance",
+        "markers": [
+          {
+            "at": 9,
+            "label": "Intermission"
+          },
+          {
+            "at": 15,
+            "label": "Instrumental Medley"
+          },
+          {
+            "at": 20,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "title": "New Landscape",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "159",
+            "title": "STAGE OF SEKAI",
+            "performers": ["Kagamine Len", "Leo/need"]
+          },
+          {
+            "songId": "383",
+            "title": "purpose",
+            "performers": ["Kagamine Rin", "Leo/need"]
+          },
+          {
+            "songId": "429",
+            "title": "はぐ",
+            "performers": ["Kagamine Len", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "422",
+            "title": "JUMPIN’ OVER !",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "386",
+            "title": "キラピピ★キラピカ",
+            "performers": ["MEIKO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "324",
+            "title": "箱庭のコラル",
+            "performers": ["KAITO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "353",
+            "title": "キティ",
+            "performers": ["Kagamine Len", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "345",
+            "title": "演劇",
+            "performers": ["Megurine Luka", "25-ji, Nightcord de."]
+          },
+          {
+            "title": "Traits",
+            "performers": ["Akina", "Sumi Tomomi Jiena", "Imai Fumiya", "Itou Kent"]
+          },
+          {
+            "songId": "316",
+            "title": "ひつじがいっぴき",
+            "performers": ["MEIKO", "Akina", "Sumi Tomomi Jiena", "Imai Fumiya", "Itou Kent"]
+          },
+          {
+            "songId": "180",
+            "title": "ミライ",
+            "performers": [
+              "Megurine Luka",
+              "Akina",
+              "Sumi Tomomi Jiena",
+              "Imai Fumiya",
+              "Itou Kent"
+            ]
+          },
+          {
+            "songId": "267",
+            "title": "仮死化",
+            "performers": ["MEIKO", "Akina", "Sumi Tomomi Jiena", "Imai Fumiya", "Itou Kent"]
+          },
+          {
+            "songId": "497",
+            "title": "烈火",
+            "performers": [
+              "Megurine Luka",
+              "Akina",
+              "Sumi Tomomi Jiena",
+              "Imai Fumiya",
+              "Itou Kent"
+            ]
+          },
+          {
+            "songId": "54",
+            "title": "Ready Steady",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "458",
+            "title": "抜錨",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "361",
+            "title": "きゅうくらりん",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "181",
+            "title": "愛して愛して愛して",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "410",
+            "title": "マーシャル・マキシマイザー",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "138",
+            "title": "KING",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "398",
+            "title": "Beyond the way",
+            "performers": ["Hatsune Miku", "Akina", "Sumi Tomomi Jiena", "Imai Fumiya", "Itou Kent"]
+          },
+          {
+            "songId": "366",
+            "title": "NEO",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Osaka Performance",
+        "markers": [
+          {
+            "at": 9,
+            "label": "Intermission"
+          },
+          {
+            "at": 15,
+            "label": "Instrumental Medley"
+          },
+          {
+            "at": 20,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "title": "New Landscape",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "159",
+            "title": "STAGE OF SEKAI",
+            "performers": ["Kagamine Len", "Leo/need"]
+          },
+          {
+            "songId": "375",
+            "title": "星を繋ぐ",
+            "performers": ["KAITO", "Leo/need"]
+          },
+          {
+            "songId": "429",
+            "title": "はぐ",
+            "performers": ["Kagamine Len", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "374",
+            "title": "チームメイト",
+            "performers": ["Kagamine Len", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "386",
+            "title": "キラピピ★キラピカ",
+            "performers": ["MEIKO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "333",
+            "title": "Mr. Showtime",
+            "performers": ["Megurine Luka", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "353",
+            "title": "キティ",
+            "performers": ["Kagamine Len", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "409",
+            "title": "25時の情熱",
+            "performers": ["KAITO", "25-ji, Nightcord de."]
+          },
+          {
+            "title": "Unstoppable",
+            "performers": ["Akina", "Sumi Tomomi Jiena", "Imai Fumiya", "Itou Kent"]
+          },
+          {
+            "songId": "316",
+            "title": "ひつじがいっぴき",
+            "performers": ["MEIKO", "Akina", "Sumi Tomomi Jiena", "Imai Fumiya", "Itou Kent"]
+          },
+          {
+            "songId": "180",
+            "title": "ミライ",
+            "performers": [
+              "Megurine Luka",
+              "Akina",
+              "Sumi Tomomi Jiena",
+              "Imai Fumiya",
+              "Itou Kent"
+            ]
+          },
+          {
+            "songId": "267",
+            "title": "仮死化",
+            "performers": ["MEIKO", "Akina", "Sumi Tomomi Jiena", "Imai Fumiya", "Itou Kent"]
+          },
+          {
+            "songId": "497",
+            "title": "烈火",
+            "performers": [
+              "Megurine Luka",
+              "Akina",
+              "Sumi Tomomi Jiena",
+              "Imai Fumiya",
+              "Itou Kent"
+            ]
+          },
+          {
+            "songId": "54",
+            "title": "Ready Steady",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "458",
+            "title": "抜錨",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "361",
+            "title": "きゅうくらりん",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "181",
+            "title": "愛して愛して愛して",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "410",
+            "title": "マーシャル・マキシマイザー",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "138",
+            "title": "KING",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "471",
+            "title": "ULTRA C",
+            "performers": ["Hatsune Miku", "Akina", "Sumi Tomomi Jiena", "Imai Fumiya", "Itou Kent"]
+          },
+          {
+            "songId": "366",
+            "title": "NEO",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "leo-need-x-vivid-bad-squad-connect-live-resonance-beats",
+    "series": "connect_live",
+    "name": "Leo/need x Vivid BAD SQUAD Connect Live RESONANCE BEATS!!",
+    "nameJa": "コネクトライブ RESONANCE BEATS!!",
+    "date": "June 15, 2024",
+    "startDate": "2024-06-15",
+    "venue": "Virtual Live",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Leo%2Fneed_x_Vivid_BAD_SQUAD_Connect_Live_RESONANCE_BEATS!!",
+    "performances": [
+      {
+        "name": "Daytime Performance",
+        "markers": [
+          {
+            "at": 10,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "236",
+            "title": "Voices",
+            "performers": ["Kagamine Rin", "Leo/need"]
+          },
+          {
+            "songId": "257",
+            "title": "てらてら",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "280",
+            "title": "虚ろを扇ぐ",
+            "performers": ["KAITO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "244",
+            "title": "Awake Now",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "173",
+            "title": "流星のパルス",
+            "performers": ["MEIKO", "Leo/need"]
+          },
+          {
+            "songId": "423",
+            "title": "レグルス",
+            "performers": ["KAITO", "Leo/need"]
+          },
+          {
+            "songId": "182",
+            "title": "Flyer!",
+            "performers": ["Kagamine Len", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "421",
+            "title": "CR詠ZY",
+            "performers": ["Megurine Luka", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "6",
+            "title": "ヒバナ -Reloaded-",
+            "performers": ["Hatsune Miku", "Leo/need", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "253",
+            "title": "DAYBREAK FRONTLINE",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD", "Leo/need"]
+          },
+          {
+            "songId": "366",
+            "title": "NEO",
+            "performers": ["Hatsune Miku", "Leo/need", "Vivid BAD SQUAD"]
+          }
+        ]
+      },
+      {
+        "name": "Nighttime Performance",
+        "markers": [
+          {
+            "at": 10,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "280",
+            "title": "虚ろを扇ぐ",
+            "performers": ["KAITO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "244",
+            "title": "Awake Now",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "236",
+            "title": "Voices",
+            "performers": ["Kagamine Rin", "Leo/need"]
+          },
+          {
+            "songId": "257",
+            "title": "てらてら",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "182",
+            "title": "Flyer!",
+            "performers": ["Kagamine Len", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "421",
+            "title": "CR詠ZY",
+            "performers": ["Megurine Luka", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "173",
+            "title": "流星のパルス",
+            "performers": ["MEIKO", "Leo/need"]
+          },
+          {
+            "songId": "423",
+            "title": "レグルス",
+            "performers": ["KAITO", "Leo/need"]
+          },
+          {
+            "songId": "6",
+            "title": "ヒバナ -Reloaded-",
+            "performers": ["Hatsune Miku", "Leo/need", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "253",
+            "title": "DAYBREAK FRONTLINE",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD", "Leo/need"]
+          },
+          {
+            "songId": "366",
+            "title": "NEO",
+            "performers": ["Hatsune Miku", "Leo/need", "Vivid BAD SQUAD"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "project-sekai-4th-anniversary-thanks-festival",
+    "series": "thanks_festival",
+    "name": "4th Anniversary Thanks Festival",
+    "nameJa": "プロジェクトセカイ 4th Anniversary 感謝祭",
+    "date": "September 27-28, 2024",
+    "startDate": "2024-09-27",
+    "venue": "YOKOHAMA BUNTAI, Kanagawa Prefecture, Japan",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Project_SEKAI_4th_Anniversary_Thanks_Festival",
+    "performances": [
+      {
+        "name": "Day Performance",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "276",
+            "title": "シャンティ"
+          },
+          {
+            "songId": "198",
+            "title": "グッバイ宣言"
+          },
+          {
+            "songId": "402",
+            "title": "エンヴィーベイビー"
+          },
+          {
+            "songId": "369",
+            "title": "メランコリック"
+          },
+          {
+            "songId": "396",
+            "title": "東京テディベア"
+          },
+          {
+            "songId": "507",
+            "title": "エンパープル"
+          },
+          {
+            "songId": "280",
+            "title": "虚ろを扇ぐ"
+          },
+          {
+            "songId": "333",
+            "title": "Mr. Showtime"
+          },
+          {
+            "songId": "112",
+            "title": "天使のクローバー"
+          },
+          {
+            "songId": "257",
+            "title": "てらてら"
+          },
+          {
+            "songId": "248",
+            "title": "バグ",
+            "note": "(Rin & Len ver.)"
+          },
+          {
+            "songId": "103",
+            "title": "ニジイロストーリーズ",
+            "note": "(MEIKO & KAITO ver.)"
+          },
+          {
+            "songId": "237",
+            "title": "君の夜をくれ",
+            "note": "(VIRTUAL SINGER ver.)"
+          },
+          {
+            "songId": "489",
+            "title": "熱風"
+          }
+        ]
+      },
+      {
+        "name": "Night Performance",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "493",
+            "title": "きょうもハレバレ"
+          },
+          {
+            "songId": "355",
+            "title": "白い雪のプリンセスは"
+          },
+          {
+            "songId": "352",
+            "title": "命ばっかり"
+          },
+          {
+            "songId": "321",
+            "title": "アトラクトライト"
+          },
+          {
+            "songId": "410",
+            "title": "マーシャル・マキシマイザー"
+          },
+          {
+            "songId": "429",
+            "title": "はぐ"
+          },
+          {
+            "songId": "324",
+            "title": "箱庭のコラル"
+          },
+          {
+            "songId": "116",
+            "title": "アイディスマイル"
+          },
+          {
+            "songId": "236",
+            "title": "Voices"
+          },
+          {
+            "songId": "471",
+            "title": "ULTRA C"
+          },
+          {
+            "songId": "264",
+            "title": "パラソルサイダー",
+            "note": "(Luka & MEIKO ver.)"
+          },
+          {
+            "songId": "310",
+            "title": "Flyway",
+            "note": "(VIRTUAL SINGER ver.)"
+          },
+          {
+            "songId": "239",
+            "title": "月光",
+            "note": "(VIRTUAL SINGER ver.)"
+          },
+          {
+            "songId": "489",
+            "title": "熱風"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "project-sekai-connect-live-4th-anniversary-brilliant-stage",
+    "series": "connect_live",
+    "name": "Connect Live 4th ANNIVERSARY BRILLIANT STAGE",
+    "nameJa": "コネクトライブ 4th ANNIVERSARY Brilliant Stage",
+    "date": "October 6, 2024",
+    "startDate": "2024-10-06",
+    "venue": "Virtual Live",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Project_SEKAI_Connect_Live_4th_ANNIVERSARY_BRILLIANT_STAGE",
+    "performances": [
+      {
+        "name": "",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "235",
+            "title": "Journey",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "366",
+            "title": "NEO",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          },
+          {
+            "songId": "411",
+            "title": "世界を照らすテトラッド",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "452",
+            "title": "サイバーパンクデッドボーイ",
+            "performers": ["Kagamine Rin", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "397",
+            "title": "フィラメントフィーバー",
+            "performers": ["MEIKO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "166",
+            "title": "Glory Steady Go!",
+            "performers": ["Megurine Luka", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "282",
+            "title": "星空オーケストラ",
+            "performers": ["Megurine Luka", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "472",
+            "title": "成敗いたAAAAAす！",
+            "performers": ["Megurine Luka", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "424",
+            "title": "インテグラル",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "173",
+            "title": "流星のパルス",
+            "performers": ["MEIKO", "Leo/need"]
+          },
+          {
+            "songId": "383",
+            "title": "purpose",
+            "performers": ["Kagamine Rin", "Leo/need"]
+          },
+          {
+            "songId": "351",
+            "title": "相生",
+            "performers": ["MEIKO", "Leo/need"]
+          },
+          {
+            "songId": "159",
+            "title": "STAGE OF SEKAI",
+            "performers": ["Kagamine Len", "Leo/need"]
+          },
+          {
+            "songId": "524",
+            "title": "それでも僕らは歌うことをやめない",
+            "performers": ["Kagamine Len", "Leo/need"]
+          },
+          {
+            "songId": "405",
+            "title": "MOTTO!!!",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "112",
+            "title": "天使のクローバー",
+            "performers": ["Kagamine Rin", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "457",
+            "title": "Supernova",
+            "performers": ["KAITO", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "429",
+            "title": "はぐ",
+            "performers": ["Kagamine Len", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "264",
+            "title": "パラソルサイダー",
+            "performers": ["Megurine Luka", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "422",
+            "title": "JUMPIN’ OVER !",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "384",
+            "title": "トワイライトライト",
+            "performers": ["Hatsune Miku", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "149",
+            "title": "カナデトモスソラ",
+            "performers": ["Megurine Luka", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "142",
+            "title": "再生",
+            "performers": ["Kagamine Rin", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "304",
+            "title": "Iなんです",
+            "performers": ["Hatsune Miku", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "353",
+            "title": "キティ",
+            "performers": ["Kagamine Len", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "492",
+            "title": "私は雨",
+            "performers": ["Kagamine Len", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "398",
+            "title": "Beyond the way",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "316",
+            "title": "ひつじがいっぴき",
+            "performers": ["MEIKO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "280",
+            "title": "虚ろを扇ぐ",
+            "performers": ["KAITO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "126",
+            "title": "シネマ",
+            "performers": ["KAITO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "497",
+            "title": "烈火",
+            "performers": ["Megurine Luka", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "471",
+            "title": "ULTRA C",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "403",
+            "title": "番凩",
+            "performers": ["MEIKO", "KAITO"]
+          },
+          {
+            "songId": "256",
+            "title": "ダブルラリアット",
+            "performers": ["Megurine Luka"]
+          },
+          {
+            "songId": "84",
+            "title": "ジャンキーナイトタウンオーケストラ",
+            "performers": ["Kagamine Len"]
+          },
+          {
+            "songId": "335",
+            "title": "トラッシュ・アンド・トラッシュ！",
+            "performers": ["Kagamine Rin"]
+          },
+          {
+            "songId": "47",
+            "title": "メルト",
+            "performers": ["Hatsune Miku"]
+          },
+          {
+            "songId": "489",
+            "title": "熱風",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "project-sekai-colorful-live-4th-unison",
+    "series": "colorful_live",
+    "name": "COLORFUL LIVE 4th -Unison-",
+    "nameJa": "プロジェクトセカイ COLORFUL LIVE 4th -Unison-",
+    "date": "December 13-15, 2024 (Osaka) / January 24-26, 2025 (Tokyo)",
+    "startDate": "2024-12-13",
+    "venue": "INTEX Osaka Halls 4-5, Suminoe, Osaka, Japan / Makuhari Messe International Exhibition Halls 9-10, Chiba, Tokyo, Japan",
+    "notes": ["This is the setlist for the Osaka Performance."],
+    "source": "https://projectsekai.fandom.com/wiki/Project_SEKAI_COLORFUL_LIVE_4th_-Unison-",
+    "performances": [
+      {
+        "name": "Daytime Performance",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "368",
+            "title": "アイムマイン",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "405",
+            "title": "MOTTO!!!",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "213",
+            "title": "ヴァンパイア",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "134",
+            "title": "テレキャスタービーボーイ",
+            "performers": ["Kagamine Len", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "411",
+            "title": "世界を照らすテトラッド",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "385",
+            "title": "神っぽいな",
+            "performers": ["Hatsune Miku", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "384",
+            "title": "トワイライトライト",
+            "performers": ["Hatsune Miku", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "424",
+            "title": "インテグラル",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "255",
+            "title": "夜もすがら君想ふ",
+            "performers": ["Kagamine Rin", "Leo/need"]
+          },
+          {
+            "songId": "253",
+            "title": "DAYBREAK FRONTLINE",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "398",
+            "title": "Beyond the way",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "166",
+            "title": "Glory Steady Go!",
+            "performers": ["Megurine Luka", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "248",
+            "title": "バグ",
+            "performers": ["Kagamine Len", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "404",
+            "title": "blender",
+            "performers": ["MEIKO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "429",
+            "title": "はぐ",
+            "performers": ["Kagamine Len", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "64",
+            "title": "ステラ",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "472",
+            "title": "成敗いたAAAAAす！",
+            "performers": ["Megurine Luka", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "423",
+            "title": "レグルス",
+            "performers": ["KAITO", "Leo/need"]
+          },
+          {
+            "songId": "308",
+            "title": "ももいろの鍵",
+            "performers": ["Megurine Luka", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "353",
+            "title": "キティ",
+            "performers": ["Kagamine Len", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "182",
+            "title": "Flyer!",
+            "performers": ["Kagamine Len", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "366",
+            "title": "NEO",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Night Performance",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "368",
+            "title": "アイムマイン",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "405",
+            "title": "MOTTO!!!",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "494",
+            "title": "ポッピンキャンディ☆フィーバー！",
+            "performers": ["Kagamine Rin", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "88",
+            "title": "チュルリラ・チュルリラ・ダッダッダ！",
+            "performers": ["Wonderlands x Showtime"]
+          },
+          {
+            "songId": "411",
+            "title": "世界を照らすテトラッド",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "277",
+            "title": "フォニイ",
+            "performers": ["MEIKO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "384",
+            "title": "トワイライトライト",
+            "performers": ["Hatsune Miku", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "424",
+            "title": "インテグラル",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "6",
+            "title": "ヒバナ -Reloaded-",
+            "performers": ["Hatsune Miku", "Hoshino Ichika"]
+          },
+          {
+            "songId": "441",
+            "title": "酔いどれ知らず",
+            "performers": ["MEIKO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "398",
+            "title": "Beyond the way",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "160",
+            "title": "ショウタイム・ルーラー",
+            "performers": ["Kagamine Rin", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "423",
+            "title": "レグルス",
+            "performers": ["KAITO", "Leo/need"]
+          },
+          {
+            "songId": "308",
+            "title": "ももいろの鍵",
+            "performers": ["Megurine Luka", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "267",
+            "title": "仮死化",
+            "performers": ["MEIKO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "189",
+            "title": "ノマド",
+            "performers": ["Kagamine Rin", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "472",
+            "title": "成敗いたAAAAAす！",
+            "performers": ["Megurine Luka", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "264",
+            "title": "パラソルサイダー",
+            "performers": ["Megurine Luka", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "207",
+            "title": "Peaky Peaky",
+            "performers": ["KAITO", "Leo/need"]
+          },
+          {
+            "songId": "353",
+            "title": "キティ",
+            "performers": ["Kagamine Len", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "182",
+            "title": "Flyer!",
+            "performers": ["Kagamine Len", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "366",
+            "title": "NEO",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ensemble-in-sekai-project-sekai-ensemble-stars",
+    "series": "connect_live",
+    "name": "Ensemble in SEKAI (Project SEKAI × Ensemble Stars!!)",
+    "nameJa": "Ensemble in SEKAI プロジェクトセカイ × あんさんぶるスターズ！！",
+    "date": "Pre-live: February 19 and 21, 2025 / Main Connect Live: February 22-23, 2025",
+    "startDate": "2025-02-19",
+    "venue": "Virtual Live",
+    "notes": [
+      "The pre-live featured Wonderlands x Showtime and Switch. The pre-live was live-streamed on the Enstars Channel and archived on the Project SEKAI Youtube Channel."
+    ],
+    "source": "https://projectsekai.fandom.com/wiki/Ensemble_in_SEKAI_(Project_SEKAI_%C3%97_Ensemble_Stars!!)",
+    "performances": [
+      {
+        "name": "",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "397",
+            "title": "フィラメントフィーバー",
+            "performers": ["MEIKO", "Wonderlands x Showtime"]
+          },
+          {
+            "title": "Brilliant Smile",
+            "performers": ["Switch"]
+          }
+        ]
+      },
+      {
+        "name": "Day 1",
+        "markers": [
+          {
+            "at": 22,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "138",
+            "title": "KING",
+            "performers": ["Crazy:B", "Tenma Tsukasa", "Kamishiro Rui"]
+          },
+          {
+            "songId": "180",
+            "title": "ミライ",
+            "performers": ["Megurine Luka", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "410",
+            "title": "マーシャル・マキシマイザー",
+            "performers": ["Megurine Luka", "Vivid BAD SQUAD"]
+          },
+          {
+            "title": "Twinkle Kuuchuusen",
+            "performers": ["2wink"]
+          },
+          {
+            "title": "Melody in the Dark",
+            "performers": ["UNDEAD"]
+          },
+          {
+            "songId": "171",
+            "title": "カゲロウデイズ",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "375",
+            "title": "星を繋ぐ",
+            "performers": ["KAITO", "Leo/need"]
+          },
+          {
+            "songId": "402",
+            "title": "エンヴィーベイビー",
+            "performers": ["Kagamine Rin", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "248",
+            "title": "バグ",
+            "performers": ["Kagamine Len", "25-ji, Nightcord de."]
+          },
+          {
+            "title": "Hyakka Ryouran, Akatsukiyo (2025 ver.)",
+            "performers": ["AKATSUKI"]
+          },
+          {
+            "title": "FALLIN' LOVE=IT'S WONDERLAND",
+            "performers": ["Ra*bits"]
+          },
+          {
+            "songId": "361",
+            "title": "きゅうくらりん",
+            "performers": ["MEIKO", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "374",
+            "title": "チームメイト",
+            "performers": ["Kagamine Len", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "360",
+            "title": "太陽系デスコ",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "386",
+            "title": "キラピピ★キラピカ",
+            "performers": ["MEIKO", "Wonderlands x Showtime"]
+          },
+          {
+            "title": "Honeycomb Summer",
+            "performers": ["Crazy:B"]
+          },
+          {
+            "title": "Shukufuku no Library",
+            "performers": ["Valkyrie"]
+          },
+          {
+            "title": "THE GENESIS",
+            "performers": ["Eden"]
+          },
+          {
+            "title": "Ringing evil phone",
+            "performers": ["EVIL NUM+"]
+          },
+          {
+            "title": "FIST OF SOUL",
+            "performers": ["Butou-kai"]
+          },
+          {
+            "title": "Have you been naughty or nice?",
+            "performers": ["Flambé!"]
+          },
+          {
+            "songId": "50",
+            "title": "Blessing",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "536",
+            "title": "Fire◎Flower (Rerec)",
+            "performers": [
+              "Kagamine Len",
+              "KAITO",
+              "Shinonome Akito",
+              "Aoyagi Toya",
+              "Tenma Tsukasa",
+              "Kamishiro Rui"
+            ]
+          },
+          {
+            "songId": "555",
+            "title": "フュージョン",
+            "performers": [
+              "Kagamine Len",
+              "KAITO",
+              "DI:Verse (Shinonome Akito, Sazanami Jun, Tenma Tsukasa, Morisawa Chiaki, Aoyagi Toya, Sena Izumi, Kamishiro Rui, Sakasaki Natsume)"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Day 2",
+        "markers": [
+          {
+            "at": 23,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "69",
+            "title": "フラジール",
+            "performers": ["ALKALOID", "Shinonome Akito", "Aoyagi Toya"]
+          },
+          {
+            "songId": "397",
+            "title": "フィラメントフィーバー",
+            "performers": ["MEIKO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "360",
+            "title": "太陽系デスコ",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "title": "Shougai Zettai Souai Sengen♥",
+            "performers": ["Special for Princess!"]
+          },
+          {
+            "title": "The Tempest Night",
+            "performers": ["fine"]
+          },
+          {
+            "title": "Nekketsu☆RYUSEI Ninpouchou",
+            "performers": ["RYUSEITAI"]
+          },
+          {
+            "title": "Yukai Tsuukai That's alright!",
+            "performers": ["MaM"]
+          },
+          {
+            "songId": "345",
+            "title": "演劇",
+            "performers": ["Megurine Luka", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "402",
+            "title": "エンヴィーベイビー",
+            "performers": ["Kagamine Rin", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "159",
+            "title": "STAGE OF SEKAI",
+            "performers": ["Kagamine Len", "Leo/need"]
+          },
+          {
+            "songId": "171",
+            "title": "カゲロウデイズ",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "title": "Black Out See Saw",
+            "performers": ["ALKALOID"]
+          },
+          {
+            "title": "Fight for Judge",
+            "performers": ["Knights"]
+          },
+          {
+            "songId": "193",
+            "title": "ワールドワイドワンダー",
+            "performers": ["KAITO", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "361",
+            "title": "きゅうくらりん",
+            "performers": ["MEIKO", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "410",
+            "title": "マーシャル・マキシマイザー",
+            "performers": ["Megurine Luka", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "471",
+            "title": "ULTRA C",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "title": "Brilliant Smile",
+            "performers": ["Switch"]
+          },
+          {
+            "title": "Welcome to the Trickstar Night☆",
+            "performers": ["Trickstar"]
+          },
+          {
+            "title": "Midnight Butlers",
+            "performers": ["XXVeil"]
+          },
+          {
+            "title": "Date Plan A to Z",
+            "performers": ["√AtoZ"]
+          },
+          {
+            "title": "Moonlight Disco",
+            "performers": ["Getto Spectacle"]
+          },
+          {
+            "songId": "368",
+            "title": "アイムマイン",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "536",
+            "title": "Fire◎Flower (Rerec)",
+            "performers": [
+              "Kagamine Len",
+              "KAITO",
+              "Shinonome Akito",
+              "Aoyagi Toya",
+              "Tenma Tsukasa",
+              "Kamishiro Rui"
+            ]
+          },
+          {
+            "songId": "555",
+            "title": "フュージョン",
+            "performers": [
+              "Kagamine Len",
+              "KAITO",
+              "DI:Verse (Shinonome Akito, Sazanami Jun, Tenma Tsukasa, Morisawa Chiaki, Aoyagi Toya, Sena Izumi, Kamishiro Rui, Sakasaki Natsume)"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sekai-symphony-2025",
+    "series": "sekai_symphony",
+    "name": "Sekai Symphony 2025",
+    "nameJa": "セカイシンフォニー 2025",
+    "date": "June 15, 2025 (Yokohama) / November 30, 2025 (Osaka)",
+    "startDate": "2025-06-15",
+    "venue": "Pacifico Yokohama National Convention Hall, Yokohama, Kanagawa, Japan / Osaka International Convention Center (Grand Cube Osaka)",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Sekai_Symphony_2025",
+    "performances": [
+      {
+        "name": "Yokohama Performance",
+        "markers": [
+          {
+            "at": 9,
+            "label": "Intermission"
+          },
+          {
+            "at": 14,
+            "label": "Instrumental Medley"
+          },
+          {
+            "at": 19,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "366",
+            "title": "NEO",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          },
+          {
+            "songId": "132",
+            "title": "「１」",
+            "performers": ["Megurine Luka", "Leo/need"]
+          },
+          {
+            "songId": "423",
+            "title": "レグルス",
+            "performers": ["KAITO", "Leo/need"]
+          },
+          {
+            "songId": "373",
+            "title": "下剋上",
+            "performers": ["Kagamine Rin", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "404",
+            "title": "blender",
+            "performers": ["MEIKO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "538",
+            "title": "オールセーブチャレンジ",
+            "performers": ["KAITO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "452",
+            "title": "サイバーパンクデッドボーイ",
+            "performers": ["Kagamine Rin", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "500",
+            "title": "余花にみとれて",
+            "performers": ["MEIKO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "203",
+            "title": "トリコロージュ",
+            "performers": ["Hatsune Miku", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "374",
+            "title": "チームメイト",
+            "performers": ["Kagamine Len", "Yoshioka Mayu", "Honnizumi Rina"]
+          },
+          {
+            "songId": "211",
+            "title": "イフ",
+            "performers": ["Hatsune Miku", "Yoshioka Mayu", "Honnizumi Rina"]
+          },
+          {
+            "songId": "498",
+            "title": "はしる! とおく! とどく!",
+            "performers": ["Hatsune Miku", "Yoshioka Mayu", "Honnizumi Rina"]
+          },
+          {
+            "songId": "264",
+            "title": "パラソルサイダー",
+            "performers": ["Megurine Luka", "Yoshioka Mayu", "Honnizumi Rina"]
+          },
+          {
+            "songId": "582",
+            "title": "アンチユー",
+            "performers": ["Megurine Luka", "Yoshioka Mayu", "Honnizumi Rina"]
+          },
+          {
+            "songId": "506",
+            "title": "QUEEN",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "169",
+            "title": "少女レイ",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "358",
+            "title": "心做し",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "537",
+            "title": "花に風",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "323",
+            "title": "快晴",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "57",
+            "title": "アイドル新鋭隊",
+            "performers": ["Hatsune Miku", "Yoshioka Mayu", "Honnizumi Rina"]
+          },
+          {
+            "songId": "489",
+            "title": "熱風",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Osaka Performance",
+        "markers": [
+          {
+            "at": 9,
+            "label": "Intermission"
+          },
+          {
+            "at": 14,
+            "label": "Instrumental Medley"
+          },
+          {
+            "at": 19,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "489",
+            "title": "熱風",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          },
+          {
+            "songId": "132",
+            "title": "「１」",
+            "performers": ["Megurine Luka", "Leo/need"]
+          },
+          {
+            "songId": "524",
+            "title": "それでも僕らは歌うことをやめない",
+            "performers": ["Kagamine Len", "Leo/need"]
+          },
+          {
+            "songId": "373",
+            "title": "下剋上",
+            "performers": ["Kagamine Rin", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "508",
+            "title": "ヘイヴン",
+            "performers": ["Kagamine Len", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "538",
+            "title": "オールセーブチャレンジ",
+            "performers": ["KAITO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "649",
+            "title": "サヨナラ天国また来て地獄",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "500",
+            "title": "余花にみとれて",
+            "performers": ["MEIKO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "187",
+            "title": "ロウワー",
+            "performers": ["MEIKO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "374",
+            "title": "チームメイト",
+            "performers": [
+              "Kagamine Len",
+              "Ogura Yui",
+              "Yoshioka Mayu",
+              "Furihata Ai",
+              "Honnizumi Rina"
+            ]
+          },
+          {
+            "songId": "211",
+            "title": "イフ",
+            "performers": [
+              "Hatsune Miku",
+              "Ogura Yui",
+              "Yoshioka Mayu",
+              "Furihata Ai",
+              "Honnizumi Rina"
+            ]
+          },
+          {
+            "songId": "498",
+            "title": "はしる! とおく! とどく!",
+            "performers": [
+              "Hatsune Miku",
+              "Ogura Yui",
+              "Yoshioka Mayu",
+              "Furihata Ai",
+              "Honnizumi Rina"
+            ]
+          },
+          {
+            "songId": "264",
+            "title": "パラソルサイダー",
+            "performers": [
+              "Megurine Luka",
+              "Ogura Yui",
+              "Yoshioka Mayu",
+              "Furihata Ai",
+              "Honnizumi Rina"
+            ]
+          },
+          {
+            "songId": "539",
+            "title": "イレヴンス",
+            "performers": ["MEIKO", "Ogura Yui", "Yoshioka Mayu", "Furihata Ai", "Honnizumi Rina"]
+          },
+          {
+            "songId": "506",
+            "title": "QUEEN",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "169",
+            "title": "少女レイ",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "358",
+            "title": "心做し",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "537",
+            "title": "花に風",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "323",
+            "title": "快晴",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "57",
+            "title": "アイドル新鋭隊",
+            "performers": [
+              "Hatsune Miku",
+              "Ogura Yui",
+              "Yoshioka Mayu",
+              "Furihata Ai",
+              "Honnizumi Rina"
+            ]
+          },
+          {
+            "songId": "585",
+            "title": "ペンタトニック",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "25-ji-nightcord-de-x-virtual-singer-connect-live-dreamscape",
+    "series": "connect_live",
+    "name": "25-ji, Nightcord de. x VIRTUAL SINGER Connect Live Dreamscape",
+    "nameJa": "コネクトライブ Dreamscape",
+    "date": "July 27, 2025",
+    "startDate": "2025-07-27",
+    "venue": "Virtual Live",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/25-ji%2C_Nightcord_de._x_VIRTUAL_SINGER_Connect_Live_Dreamscape",
+    "performances": [
+      {
+        "name": "",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "507",
+            "title": "エンパープル",
+            "performers": ["Kagamine Rin", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "462",
+            "title": "レッドランドマーカー",
+            "performers": ["MEIKO"]
+          },
+          {
+            "songId": "216",
+            "title": "ルカルカ★ナイトフィーバー",
+            "performers": ["Megurine Luka"]
+          },
+          {
+            "songId": "149",
+            "title": "カナデトモスソラ",
+            "performers": ["Megurine Luka", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "549",
+            "title": "化けの花",
+            "performers": ["KAITO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "338",
+            "title": "Where shall we go?",
+            "performers": ["Kagamine Rin", "Kagamine Len"]
+          },
+          {
+            "songId": "271",
+            "title": "あったかいと",
+            "performers": ["KAITO"]
+          },
+          {
+            "songId": "370",
+            "title": "人生",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "500",
+            "title": "余花にみとれて",
+            "performers": ["MEIKO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "50",
+            "title": "Blessing",
+            "performers": ["VIRTUAL SINGER", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "470",
+            "title": "ハジメテノオト",
+            "performers": ["Hatsune Miku"]
+          },
+          {
+            "songId": "141",
+            "title": "群青讃歌",
+            "performers": ["VIRTUAL SINGER", "25-ji, Nightcord de."]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "project-sekai-5th-anniversary-thanks-festival",
+    "series": "thanks_festival",
+    "name": "5th Anniversary Thanks Festival",
+    "nameJa": "プロジェクトセカイ 5th Anniversary 感謝祭",
+    "date": "October 18-19, 2025",
+    "startDate": "2025-10-18",
+    "venue": "Tokyo Garden Theater, Tokyo Prefecture, Japan",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Project_SEKAI_5th_Anniversary_Thanks_Festival",
+    "performances": [
+      {
+        "name": "Day 1",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "289",
+            "title": "天ノ弱"
+          },
+          {
+            "songId": "172",
+            "title": "Happy Halloween"
+          },
+          {
+            "songId": "510",
+            "title": "失敗作少女"
+          },
+          {
+            "songId": "253",
+            "title": "DAYBREAK FRONTLINE"
+          },
+          {
+            "songId": "244",
+            "title": "Awake Now"
+          },
+          {
+            "songId": "508",
+            "title": "ヘイヴン"
+          },
+          {
+            "songId": "492",
+            "title": "私は雨"
+          },
+          {
+            "songId": "345",
+            "title": "演劇"
+          },
+          {
+            "songId": "442",
+            "title": "すれすれ"
+          },
+          {
+            "songId": "375",
+            "title": "星を繋ぐ"
+          },
+          {
+            "songId": "474",
+            "title": "キラー"
+          },
+          {
+            "songId": "211",
+            "title": "イフ"
+          },
+          {
+            "songId": "573",
+            "title": "はじまりの未来",
+            "note": "(by Hatsune Miku)"
+          },
+          {
+            "songId": "576",
+            "title": "ファイアダンス"
+          },
+          {
+            "songId": "575",
+            "title": "FUN!!"
+          },
+          {
+            "songId": "564",
+            "title": "そこに在る、光。"
+          },
+          {
+            "songId": "574",
+            "title": "SToRY"
+          },
+          {
+            "songId": "578",
+            "title": "ハローセカイ"
+          },
+          {
+            "songId": "57",
+            "title": "アイドル新鋭隊",
+            "note": "(VIRTUAL SINGER Ver.)"
+          },
+          {
+            "songId": "555",
+            "title": "フュージョン",
+            "note": "(VIRTUAL SINGER Ver.)"
+          },
+          {
+            "songId": "141",
+            "title": "群青讃歌",
+            "note": "(VIRTUAL SINGER; Game Ver.)"
+          },
+          {
+            "songId": "235",
+            "title": "Journey",
+            "note": "(VIRTUAL SINGER Ver.)"
+          },
+          {
+            "songId": "585",
+            "title": "ペンタトニック"
+          },
+          {
+            "songId": "579",
+            "title": "Worlders"
+          }
+        ]
+      },
+      {
+        "name": "Day 2",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "499",
+            "title": "混沌ブギ"
+          },
+          {
+            "songId": "299",
+            "title": "エゴイスト"
+          },
+          {
+            "songId": "255",
+            "title": "夜もすがら君想ふ"
+          },
+          {
+            "songId": "476",
+            "title": "Shadow Shadow"
+          },
+          {
+            "songId": "621",
+            "title": "東京サマーセッション"
+          },
+          {
+            "songId": "498",
+            "title": "はしる! とおく! とどく!"
+          },
+          {
+            "songId": "478",
+            "title": "フューエル"
+          },
+          {
+            "songId": "596",
+            "title": "D/N/A"
+          },
+          {
+            "songId": "452",
+            "title": "サイバーパンクデッドボーイ"
+          },
+          {
+            "songId": "383",
+            "title": "purpose"
+          },
+          {
+            "songId": "573",
+            "title": "はじまりの未来",
+            "note": "(by Hatsune Miku)"
+          },
+          {
+            "songId": "576",
+            "title": "ファイアダンス"
+          },
+          {
+            "songId": "577",
+            "title": "スマイル*シンフォニー"
+          },
+          {
+            "songId": "575",
+            "title": "FUN!!"
+          },
+          {
+            "songId": "564",
+            "title": "そこに在る、光。"
+          },
+          {
+            "songId": "574",
+            "title": "SToRY"
+          },
+          {
+            "songId": "578",
+            "title": "ハローセカイ"
+          },
+          {
+            "songId": "232",
+            "title": "青色絵具",
+            "note": "(VIRTUAL SINGER Ver.)"
+          },
+          {
+            "songId": "555",
+            "title": "フュージョン",
+            "note": "(VIRTUAL SINGER Ver.)"
+          },
+          {
+            "songId": "233",
+            "title": "コスモスパイス",
+            "note": "(VIRTUAL SINGER Ver.)"
+          },
+          {
+            "songId": "366",
+            "title": "NEO",
+            "note": "(VIRTUAL SINGER; Game Ver.)"
+          },
+          {
+            "songId": "489",
+            "title": "熱風",
+            "note": "(VIRTUAL SINGER; Game Ver.)"
+          },
+          {
+            "songId": "585",
+            "title": "ペンタトニック"
+          },
+          {
+            "songId": "579",
+            "title": "Worlders"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "more-more-jump-x-wonderlands-x-showtime-connect-live-won-more-happy-time",
+    "series": "connect_live",
+    "name": "MORE MORE JUMP! x Wonderlands x Showtime Connect Live WON! MORE! HAPPY TIME",
+    "nameJa": "コネクトライブ わん！もあ！HAPPY TIME",
+    "date": "November 2, 2025",
+    "startDate": "2025-11-02",
+    "venue": "Virtual Live",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/MORE_MORE_JUMP!_x_Wonderlands_x_Showtime_Connect_Live_WON!_MORE!_HAPPY_TIME",
+    "performances": [
+      {
+        "name": "",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "320",
+            "title": "Booo!",
+            "performers": ["Kagamine Rin", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "475",
+            "title": "ちがう!!!",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "377",
+            "title": "悪役にキスシーンを",
+            "performers": ["KAITO", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "436",
+            "title": "古書屋敷殺人事件",
+            "performers": ["KAITO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "346",
+            "title": "嗚呼、素晴らしきニャン生",
+            "performers": ["Kagamine Len", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "530",
+            "title": "キャットフード",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "89",
+            "title": "Color of Drops",
+            "performers": ["Megurine Luka", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "635",
+            "title": "ありのままのストーリーを",
+            "performers": ["KAITO", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "582",
+            "title": "アンチユー",
+            "performers": ["Megurine Luka", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "539",
+            "title": "イレヴンス",
+            "performers": ["MEIKO", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "575",
+            "title": "FUN!!",
+            "performers": ["MORE MORE JUMP!"]
+          },
+          {
+            "songId": "538",
+            "title": "オールセーブチャレンジ",
+            "performers": ["KAITO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "212",
+            "title": "星空のメロディー",
+            "performers": ["MEIKO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "649",
+            "title": "サヨナラ天国また来て地獄",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "560",
+            "title": "アイリッド",
+            "performers": ["Megurine Luka", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "577",
+            "title": "スマイル*シンフォニー",
+            "performers": ["Wonderlands x Showtime"]
+          },
+          {
+            "songId": "369",
+            "title": "メランコリック",
+            "performers": ["Kagamine Rin", "MORE MORE JUMP!", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "480",
+            "title": "おちゃめ機能",
+            "performers": ["Kagamine Len", "Wonderlands x Showtime", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "235",
+            "title": "Journey",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!", "Wonderlands x Showtime"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "project-sekai-colorful-live-5th-frontier",
+    "series": "colorful_live",
+    "name": "COLORFUL LIVE 5th -Frontier-",
+    "nameJa": "プロジェクトセカイ COLORFUL LIVE 5th -Frontier-",
+    "date": "December 12-14, 2025 (Osaka) / January 23-25, 2026 (Tokyo)",
+    "startDate": "2025-12-12",
+    "venue": "INTEX Osaka Halls 4-5, Suminoe, Osaka, Japan / Makuhari Messe International Exhibition Halls 2-3, Chiba, Tokyo, Japan",
+    "notes": ["The setlists were identical for all days at both locations."],
+    "source": "https://projectsekai.fandom.com/wiki/Project_SEKAI_COLORFUL_LIVE_5th_-Frontier-",
+    "performances": [
+      {
+        "name": "Daytime Performance",
+        "markers": [
+          {
+            "at": 22,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "583",
+            "title": "アクセラレイト",
+            "performers": ["Megurine Luka", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "392",
+            "title": "春嵐",
+            "performers": ["MEIKO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "521",
+            "title": "オーバーライド",
+            "performers": ["Kagamine Rin", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "422",
+            "title": "JUMPIN’ OVER !",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "499",
+            "title": "混沌ブギ",
+            "performers": ["KAITO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "397",
+            "title": "フィラメントフィーバー",
+            "performers": ["MEIKO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "520",
+            "title": "透明エレジー",
+            "performers": ["Kagamine Len", "Leo/need"]
+          },
+          {
+            "songId": "196",
+            "title": "オーダーメイド",
+            "performers": ["Megurine Luka", "Leo/need"]
+          },
+          {
+            "songId": "540",
+            "title": "虚無さん",
+            "performers": ["Kagamine Len", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "451",
+            "title": "熱異常",
+            "performers": ["KAITO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "336",
+            "title": "Be The MUSIC!",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "99",
+            "title": "モア！ジャンプ！モア！",
+            "performers": ["Hatsune Miku", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "280",
+            "title": "虚ろを扇ぐ",
+            "performers": ["KAITO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "300",
+            "title": "ザムザ",
+            "performers": ["KAITO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "423",
+            "title": "レグルス",
+            "performers": ["KAITO", "Leo/need"]
+          },
+          {
+            "songId": "178",
+            "title": "にっこり^^調査隊のテーマ",
+            "performers": ["Hatsune Miku", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "619",
+            "title": "Connecting",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "596",
+            "title": "D/N/A",
+            "performers": ["Kagamine Rin", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "605",
+            "title": "Sympathy",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "452",
+            "title": "サイバーパンクデッドボーイ",
+            "performers": ["Kagamine Rin", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "474",
+            "title": "キラー",
+            "performers": ["Kagamine Rin", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "471",
+            "title": "ULTRA C",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "578",
+            "title": "ハローセカイ",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "585",
+            "title": "ペンタトニック",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Nighttime Performance",
+        "markers": [
+          {
+            "at": 22,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "546",
+            "title": "その音が鳴るなら",
+            "performers": ["Megurine Luka", "Leo/need"]
+          },
+          {
+            "songId": "520",
+            "title": "透明エレジー",
+            "performers": ["Kagamine Len", "Leo/need"]
+          },
+          {
+            "songId": "499",
+            "title": "混沌ブギ",
+            "performers": ["KAITO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "560",
+            "title": "アイリッド",
+            "performers": ["Megurine Luka", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "521",
+            "title": "オーバーライド",
+            "performers": ["Kagamine Rin", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "582",
+            "title": "アンチユー",
+            "performers": ["Megurine Luka", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "356",
+            "title": "リアライズ",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "392",
+            "title": "春嵐",
+            "performers": ["MEIKO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "500",
+            "title": "余花にみとれて",
+            "performers": ["MEIKO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "451",
+            "title": "熱異常",
+            "performers": ["KAITO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "336",
+            "title": "Be The MUSIC!",
+            "performers": ["Music MIKUdemy students"]
+          },
+          {
+            "songId": "353",
+            "title": "キティ",
+            "performers": ["Kagamine Len", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "166",
+            "title": "Glory Steady Go!",
+            "performers": ["Megurine Luka", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "429",
+            "title": "はぐ",
+            "performers": ["Kagamine Len", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "257",
+            "title": "てらてら",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "126",
+            "title": "シネマ",
+            "performers": ["KAITO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "619",
+            "title": "Connecting",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "596",
+            "title": "D/N/A",
+            "performers": ["Kagamine Rin", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "605",
+            "title": "Sympathy",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "452",
+            "title": "サイバーパンクデッドボーイ",
+            "performers": ["Kagamine Rin", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "474",
+            "title": "キラー",
+            "performers": ["Kagamine Rin", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "471",
+            "title": "ULTRA C",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "578",
+            "title": "ハローセカイ",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "585",
+            "title": "ペンタトニック",
+            "performers": [
+              "Hatsune Miku",
+              "Hoshino Ichika",
+              "Hanasato Minori",
+              "Azusawa Kohane",
+              "Tenma Tsukasa",
+              "Yoisaki Kanade"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unit-fan-meeting-more-more-jump-in-miyagi",
+    "series": "fan_meeting",
+    "name": "Unit Fan Meeting MORE MORE JUMP! in Miyagi",
+    "nameJa": "プロセカユニットファンミーティング MORE MORE JUMP! in 宮城",
+    "date": "April 12, 2026",
+    "venue": "名取市文化会館 大ホール (Miyagi)",
+    "notes": ["Two shows: 14:00 and 18:30."],
+    "source": "https://www.livefans.jp/events/1929681",
+    "performances": [],
+    "startDate": "2026-04-12"
+  },
+  {
+    "id": "parallel-paaaarty",
+    "series": "connect_live",
+    "name": "Parallel Paaaarty!!!!",
+    "date": "May 10, 2026",
+    "startDate": "2026-05-10",
+    "venue": "Virtual Live",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Parallel_Paaaarty!!!!",
+    "performances": [
+      {
+        "name": "",
+        "markers": [
+          {
+            "at": 13,
+            "label": "Encore"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "329",
+            "title": "ヤミナベ!!!!",
+            "performers": ["Hatsune Miku"]
+          },
+          {
+            "songId": "571",
+            "title": "偽物人間40号",
+            "performers": ["Kamishiro Rui", "Akiyama Mizuki"]
+          },
+          {
+            "songId": "242",
+            "title": "トリノコシティ",
+            "performers": ["Mochizuki Honami", "Yoisaki Kanade"]
+          },
+          {
+            "songId": "491",
+            "title": "キャットラビング",
+            "performers": ["Tenma Saki", "Momoi Airi", "Otori Emu"]
+          },
+          {
+            "songId": "19",
+            "title": "シャルル",
+            "performers": ["Kiritani Haruka", "Shiraishi An"]
+          },
+          {
+            "songId": "229",
+            "title": "脳漿炸裂ガール",
+            "performers": ["Kagamine Rin", "Megurine Luka", "MEIKO"]
+          },
+          {
+            "songId": "667",
+            "title": "㋰責任集合体",
+            "performers": ["Hatsune Miku", "Kagamine Len", "KAITO"]
+          },
+          {
+            "songId": "208",
+            "title": "僕らまだアンダーグラウンド",
+            "performers": ["Aoyagi Toya", "Tenma Tsukasa"]
+          },
+          {
+            "songId": "458",
+            "title": "抜錨",
+            "performers": ["Hinomori Shizuku", "Asahina Mafuyu"]
+          },
+          {
+            "songId": "154",
+            "title": "地球最後の告白を",
+            "performers": ["Hoshino Ichika", "Kusanagi Nene"]
+          },
+          {
+            "songId": "201",
+            "title": "神のまにまに",
+            "performers": ["Hinomori Shiho", "Hanasato Minori", "Azusawa Kohane"]
+          },
+          {
+            "songId": "198",
+            "title": "グッバイ宣言",
+            "performers": ["Shinonome Akito", "Shinonome Ena"]
+          },
+          {
+            "songId": "408",
+            "title": "CIRCUS PANIC!!!",
+            "performers": ["VIRTUAL SINGER"]
+          },
+          {
+            "songId": "331",
+            "title": "39",
+            "performers": ["VIRTUAL SINGER"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unit-fan-meeting-vivid-bad-squad-in-hyogo",
+    "series": "fan_meeting",
+    "name": "Unit Fan Meeting Vivid BAD SQUAD in Hyogo",
+    "nameJa": "プロセカユニットファンミーティング Vivid BAD SQUAD in 兵庫",
+    "date": "May 16, 2026",
+    "venue": "神戸国際会館こくさいホール (Hyogo)",
+    "notes": ["Two shows: 14:00 and 18:30."],
+    "source": "https://www.livefans.jp/events/1918965",
+    "performances": [],
+    "startDate": "2026-05-16"
+  },
+  {
+    "id": "sekai-symphony-2026",
+    "series": "sekai_symphony",
+    "name": "Sekai Symphony 2026",
+    "nameJa": "セカイシンフォニー 2026",
+    "date": "June 7, 2026 (Osaka) / June 13, 2026 (Yokohama) / August 11, 2026 (Tokyo)",
+    "startDate": "2026-06-07",
+    "venue": "Osaka International Convention Center (Grand Cube Osaka) / Pacifico Yokohama National Convention Hall / Tokyo International Forum Hall C",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Sekai_Symphony_2026",
+    "performances": [
+      {
+        "name": "Osaka Performance",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "578",
+            "title": "ハローセカイ",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "173",
+            "title": "流星のパルス",
+            "performers": ["MEIKO", "Leo/need"]
+          },
+          {
+            "songId": "546",
+            "title": "その音が鳴るなら",
+            "performers": ["Isobe Karin"]
+          },
+          {
+            "songId": "397",
+            "title": "フィラメントフィーバー",
+            "performers": ["MEIKO", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "600",
+            "title": "征け",
+            "performers": ["Machico"]
+          },
+          {
+            "songId": "597",
+            "title": "その絵の名前は",
+            "performers": ["Hatsune Miku", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "237",
+            "title": "君の夜をくれ",
+            "performers": ["Satou Hinata"]
+          },
+          {
+            "songId": "683",
+            "title": "カラフルファンデーション",
+            "performers": ["KAITO", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "610",
+            "title": "Polar Star",
+            "performers": ["Yoshioka Mayu"]
+          },
+          {
+            "songId": "634",
+            "title": "光線歌",
+            "performers": ["Hatsune Miku", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "217",
+            "title": "街",
+            "performers": ["Sumi Tomomi Jiena"]
+          },
+          {
+            "songId": "167",
+            "title": "オルターエゴ",
+            "note": "(Short ver.)",
+            "performers": ["Sumi Tomomi Jiena", "Satou Hinata"]
+          },
+          {
+            "songId": "402",
+            "title": "エンヴィーベイビー",
+            "performers": ["Satou Hinata", "Machico"]
+          },
+          {
+            "songId": "477",
+            "title": "モザイクロール (Reloaded)",
+            "note": "(Short ver.)",
+            "performers": ["Isobe Karin", "Sumi Tomomi Jiena"]
+          },
+          {
+            "songId": "511",
+            "title": "如月アテンション",
+            "note": "(Short ver.)",
+            "performers": ["Yoshioka Mayu", "Isobe Karin"]
+          },
+          {
+            "songId": "198",
+            "title": "グッバイ宣言",
+            "note": "(Short ver.)",
+            "performers": ["Machico", "Yoshioka Mayu"]
+          },
+          {
+            "songId": "141",
+            "title": "群青讃歌",
+            "performers": [
+              "Isobe Karin",
+              "Yoshioka Mayu",
+              "Sumi Tomomi Jiena",
+              "Machico",
+              "Satou Hinata"
+            ]
+          },
+          {
+            "songId": "579",
+            "title": "Worlders",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "585",
+            "title": "ペンタトニック",
+            "performers": [
+              "Isobe Karin",
+              "Yoshioka Mayu",
+              "Sumi Tomomi Jiena",
+              "Machico",
+              "Satou Hinata"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Yokohama Performance",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "585",
+            "title": "ペンタトニック",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "605",
+            "title": "Sympathy",
+            "performers": ["Hatsune Miku", "Leo/need"]
+          },
+          {
+            "songId": "546",
+            "title": "その音が鳴るなら",
+            "performers": ["Isobe Karin"]
+          },
+          {
+            "songId": "560",
+            "title": "アイリッド",
+            "performers": ["Megurine Luka", "Wonderlands x Showtime"]
+          },
+          {
+            "songId": "600",
+            "title": "征け",
+            "performers": ["Machico"]
+          },
+          {
+            "songId": "300",
+            "title": "ザムザ",
+            "performers": ["KAITO", "25-ji, Nightcord de."]
+          },
+          {
+            "songId": "237",
+            "title": "君の夜をくれ",
+            "performers": ["Satou Hinata"]
+          },
+          {
+            "songId": "287",
+            "title": "私は、私達は",
+            "performers": ["Kagamine Len", "MORE MORE JUMP!"]
+          },
+          {
+            "songId": "610",
+            "title": "Polar Star",
+            "performers": ["Yoshioka Mayu"]
+          },
+          {
+            "songId": "716",
+            "title": "透過する温度",
+            "performers": ["KAITO", "Vivid BAD SQUAD"]
+          },
+          {
+            "songId": "217",
+            "title": "街",
+            "performers": ["Sumi Tomomi Jiena"]
+          },
+          {
+            "songId": "167",
+            "title": "オルターエゴ",
+            "note": "(Short ver.)",
+            "performers": ["Sumi Tomomi Jiena", "Satou Hinata"]
+          },
+          {
+            "songId": "402",
+            "title": "エンヴィーベイビー",
+            "performers": ["Satou Hinata", "Machico"]
+          },
+          {
+            "songId": "477",
+            "title": "モザイクロール (Reloaded)",
+            "note": "(Short ver.)",
+            "performers": ["Isobe Karin", "Sumi Tomomi Jiena"]
+          },
+          {
+            "songId": "511",
+            "title": "如月アテンション",
+            "note": "(Short ver.)",
+            "performers": ["Yoshioka Mayu", "Isobe Karin"]
+          },
+          {
+            "songId": "198",
+            "title": "グッバイ宣言",
+            "note": "(Short ver.)",
+            "performers": ["Machico", "Yoshioka Mayu"]
+          },
+          {
+            "songId": "141",
+            "title": "群青讃歌",
+            "performers": [
+              "Isobe Karin",
+              "Yoshioka Mayu",
+              "Sumi Tomomi Jiena",
+              "Machico",
+              "Satou Hinata"
+            ]
+          },
+          {
+            "songId": "578",
+            "title": "ハローセカイ",
+            "performers": ["Instrumental"]
+          },
+          {
+            "songId": "579",
+            "title": "Worlders",
+            "performers": [
+              "Isobe Karin",
+              "Yoshioka Mayu",
+              "Sumi Tomomi Jiena",
+              "Machico",
+              "Satou Hinata"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unit-fan-meeting-leo-need-in-tokyo",
+    "series": "fan_meeting",
+    "name": "Unit Fan Meeting Leo/need in Tokyo",
+    "nameJa": "プロセカユニットファンミーティング Leo/need in 東京",
+    "date": "August 8, 2026",
+    "venue": "LINE CUBE SHIBUYA (Tokyo)",
+    "notes": ["Two shows: 14:00 and 18:30."],
+    "source": "https://www.livefans.jp/events/1952258",
+    "performances": [],
+    "startDate": "2026-08-08"
+  },
+  {
+    "id": "unit-fan-meeting-wonderlands-x-showtime-in-aichi",
+    "series": "fan_meeting",
+    "name": "Unit Fan Meeting Wonderlands×Showtime in Aichi",
+    "nameJa": "プロセカユニットファンミーティング ワンダーランズ×ショウタイム in 愛知",
+    "date": "August 16, 2026",
+    "venue": "Home & nicoホール 大ホール (Aichi)",
+    "notes": ["Two shows: 14:00 and 18:30."],
+    "source": "https://www.livefans.jp/events/1952260",
+    "performances": [],
+    "startDate": "2026-08-16"
+  },
+  {
+    "id": "unit-fan-meeting-25-ji-nightcord-de-in-oita",
+    "series": "fan_meeting",
+    "name": "Unit Fan Meeting 25-ji, Nightcord de. in Oita",
+    "nameJa": "プロセカユニットファンミーティング 25時、ナイトコードで。 in 大分",
+    "date": "September 5, 2026",
+    "venue": "iichiko総合文化センター グランシアタ (Oita)",
+    "notes": ["Two shows: 14:00 and 18:30."],
+    "source": "https://www.livefans.jp/events/1974097",
+    "performances": [],
+    "startDate": "2026-09-05"
+  },
+  {
+    "id": "project-sekai-6th-anniversary-thanks-festival",
+    "series": "thanks_festival",
+    "name": "6th Anniversary Thanks Festival",
+    "nameJa": "プロジェクトセカイ 6th Anniversary 感謝祭",
+    "date": "October 3-4, 2026",
+    "startDate": "2026-10-03",
+    "venue": "Tokyo Metropolitan Gymnasium, Tokyo, Japan",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Project_SEKAI_6th_Anniversary_Thanks_Festival",
+    "performances": []
+  },
+  {
+    "id": "go-hoppin-parade",
+    "series": "connect_live",
+    "name": "GO Hoppin' Parade",
+    "date": "October 24-25, 2026",
+    "startDate": "2026-10-24",
+    "venue": "Virtual Live",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/GO_Hoppin'_Parade",
+    "performances": []
+  },
+  {
+    "id": "awake-real-pulse",
+    "series": "connect_live",
+    "name": "AWAKE Real Pulse",
+    "date": "November 28-29, 2026",
+    "startDate": "2026-11-28",
+    "venue": "Virtual Live",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/AWAKE_Real_Pulse",
+    "performances": []
+  },
+  {
+    "id": "project-sekai-colorful-live-6th-crossing",
+    "series": "colorful_live",
+    "name": "COLORFUL LIVE 6th -Crossing-",
+    "nameJa": "プロジェクトセカイ COLORFUL LIVE 6th -Crossing-",
+    "date": "December 25-27, 2026 (Osaka) / February 26-28, 2027 (Tokyo)",
+    "startDate": "2026-12-25",
+    "venue": "World Hall, Kobe, Hyogo (Osaka Performance) / PIA ARENA MM, Yokohama, Kanagawa (Tokyo Performance)",
+    "notes": [],
+    "source": "https://projectsekai.fandom.com/wiki/Project_SEKAI_COLORFUL_LIVE_6th_-Crossing-",
+    "performances": []
+  }
+]

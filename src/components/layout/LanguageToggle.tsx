@@ -1,0 +1,38 @@
+import { useTranslation } from 'react-i18next';
+import { Button } from '../ui/button';
+import { Wrap } from 'styled-system/jsx';
+import type { Locale } from '~/i18n';
+
+export function LanguageToggle() {
+  const { i18n } = useTranslation();
+
+  const currentLanguage = i18n.language;
+  const handleSetLocale = (locale: Locale) => {
+    void i18n.changeLanguage(locale);
+  };
+
+  const isEn = currentLanguage?.toLowerCase().startsWith('en');
+  const isJa = currentLanguage?.toLowerCase().startsWith('ja');
+
+  return (
+    <Wrap>
+      <Button
+        variant="link"
+        data-active={isEn ? 'true' : undefined}
+        onClick={() => handleSetLocale('en')}
+        _active={{ fontWeight: 'bold' }}
+      >
+        English
+      </Button>
+      |
+      <Button
+        variant="link"
+        onClick={() => handleSetLocale('ja')}
+        data-active={isJa ? 'true' : undefined}
+        _active={{ fontWeight: 'bold' }}
+      >
+        日本語
+      </Button>
+    </Wrap>
+  );
+}

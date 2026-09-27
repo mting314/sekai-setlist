@@ -1,0 +1,34 @@
+name: Continous Integration
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Typecheck, Lint & Test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Dependencies
+        uses: ./.github/composite-actions/setup
+      - name: Run Lint All
+        run: bun ci:check
+      - uses: MeilCli/common-lint-reporter/transformer/eslint@v1.2.1
+        if: always()
+        with:
+          report_files: |
+            lint_report.json
+      - name: Unit Test
+        run: bun ci:test
+      - name: 'Report Coverage'
+        # Set if: always() to also generate the report if tests are failing
+        # Only works if you set `reportOnFailure: true` in your vite config as specified above
+        if: always()
+        uses: davelosert/vitest-coverage-report-action@v2
