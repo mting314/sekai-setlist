@@ -1,6 +1,6 @@
 /**
  * Project Sekai Past Setlists Page
- * Setlists of past COLORFUL LIVE, Thanks Festival, Sekai Symphony and Connect Live shows.
+ * Setlists of past COLORFUL LIVE, Thanks Festival, Sekai Symphony, Connect Live and fan meeting shows.
  */
 
 import { useTranslation } from 'react-i18next';
@@ -26,7 +26,7 @@ export function Page() {
           <Text color="fg.muted" fontSize="md">
             {t('sekaiSetlist.lives.description', {
               defaultValue:
-                'Setlists from COLORFUL LIVE, the Anniversary Thanks Festival, Sekai Symphony and Connect Lives.'
+                'Setlists from COLORFUL LIVE, the Anniversary Thanks Festival, Sekai Symphony, Connect Lives and unit fan meetings.'
             })}
           </Text>
           <Link href={join(import.meta.env.BASE_URL, '/sekai-setlist')} fontSize="sm">
@@ -36,7 +36,8 @@ export function Page() {
         <PastSetlists />
         <Text color="fg.subtle" fontSize="xs">
           {t('sekaiSetlist.lives.credit', {
-            defaultValue: 'Setlists from the Project SEKAI Wiki (projectsekai.fandom.com).'
+            defaultValue:
+              'Setlists from the Project SEKAI Wiki (projectsekai.fandom.com), plus hand-entered fan meeting data.'
           })}
         </Text>
       </Stack>

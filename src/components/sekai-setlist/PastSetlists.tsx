@@ -1,7 +1,8 @@
 /**
  * Past Project Sekai live setlists (COLORFUL LIVE, Thanks Festival, Sekai Symphony, Connect
- * Lives): filter by series and by the song picker's filters (search, unit, commissioned/cover),
- * browse each live's setlists or the most-performed songs, and open any setlist in the builder.
+ * Lives, unit fan meetings): filter by series and by the song picker's filters (search, unit,
+ * commissioned/cover), browse each live's setlists or the most-performed songs, and open any
+ * setlist in the builder.
  */
 import { Fragment, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -46,7 +47,6 @@ const CardHeader = styled('button', {
     w: 'full',
     p: { base: '3', md: '4' },
     textAlign: 'left',
-    _disabled: { cursor: 'default', _hover: { bgColor: 'transparent' } },
     _hover: { bgColor: 'bg.subtle' }
   }
 });
@@ -215,7 +215,7 @@ function LiveCard({
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
   const filtered = hasSongFilters(filters);
-  const upcoming = live.performances.length === 0;
+  const noSetlist = live.performances.length === 0;
   const matchNames = filtered
     ? [
         ...new Set(
@@ -230,23 +230,18 @@ function LiveCard({
 
   return (
     <Box borderRadius="xl" borderWidth="1px" overflow="hidden">
-      <CardHeader
-        type="button"
-        disabled={upcoming}
-        aria-expanded={upcoming ? undefined : open}
-        onClick={() => setOpen((o) => !o)}
-      >
+      <CardHeader type="button" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
         <Box flexShrink={0} color="fg.muted">
-          {upcoming ? null : open ? <BiChevronDown size={20} /> : <BiChevronRight size={20} />}
+          {open ? <BiChevronDown size={20} /> : <BiChevronRight size={20} />}
         </Box>
         <Stack flex={1} gap={1} minW={0}>
           <HStack gap={2} flexWrap="wrap">
             <Badge variant="outline" size="sm">
               {t(`sekaiSetlist.lives.series.${live.series}`, { defaultValue: live.series })}
             </Badge>
-            {upcoming && (
+            {noSetlist && (
               <Badge variant="subtle" size="sm">
-                {t('sekaiSetlist.lives.upcoming', { defaultValue: 'Setlist TBA' })}
+                {t('sekaiSetlist.lives.noSetlist', { defaultValue: 'No setlist yet' })}
               </Badge>
             )}
             {filtered && (
@@ -289,7 +284,10 @@ function LiveCard({
             color="fg.muted"
             fontSize="xs"
           >
-            {t('sekaiSetlist.lives.source', { defaultValue: 'Source: Project SEKAI Wiki' })}
+            {t('sekaiSetlist.lives.source', {
+              site: new URL(live.source).hostname,
+              defaultValue: `Source: ${new URL(live.source).hostname}`
+            })}
             <BiLinkExternal />
           </Link>
         </Stack>

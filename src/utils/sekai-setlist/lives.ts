@@ -15,7 +15,8 @@ export const LIVE_SERIES: SekaiLiveSeries[] = [
   'colorful_live',
   'thanks_festival',
   'sekai_symphony',
-  'connect_live'
+  'connect_live',
+  'fan_meeting'
 ];
 
 export interface LiveFilters extends Omit<SongFilters, 'yearFrom' | 'yearTo'> {
