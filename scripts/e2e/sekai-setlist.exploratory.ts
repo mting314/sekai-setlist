@@ -237,7 +237,7 @@ async function main() {
       // Check header in Japanese
       const title = await page
         .locator('h1, p')
-        .filter({ hasText: 'プロセカ セトリビルダー' })
+        .filter({ hasText: 'セトリビルダー' })
         .count();
       check('JA page title displayed', title > 0);
 

@@ -266,7 +266,7 @@ async function run(label: string, opts: BrowserContextOptions, browser: Browser)
   await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
   if (label === 'phone') await page.getByRole('button', { name: 'Open Menu' }).click();
   for (const name of ['Lives', 'Songs', 'My Lives', 'Predict'])
-    check(`nav has ${name}`, await page.getByRole('link', { name, exact: true }).isVisible());
+    check(`nav has ${name}`, await page.getByRole('link', { name, exact: true }).first().isVisible());
   if (label === 'phone') await page.keyboard.press('Escape');
   await overflow('home');
 
@@ -285,18 +285,34 @@ async function run(label: string, opts: BrowserContextOptions, browser: Browser)
 
   const firstSong = page.locator('a[href*="/songs/"]').first();
   const songHref = await firstSong.getAttribute('href');
-  await firstSong.click();
+  await Promise.all([
+    page.waitForURL((u) => u.pathname.includes('/songs/')),
+    firstSong.click()
+  ]);
   await page.waitForLoadState('networkidle');
-  check('setlist song links to its page', page.url().endsWith(songHref ?? '?'), page.url());
-  check('song page says you heard it', (await page.getByText(/You heard this live/).count()) > 0);
-  await page.locator('a[href*="/units/"]').first().click();
+  check(
+    'setlist song links to its page',
+    page.url().replace(/\/$/, '').endsWith(songHref?.replace(/\/$/, '') ?? '?'),
+    page.url()
+  );
+  const heardNote = page.getByText(/You heard this live/);
+  await heardNote.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+  check('song page says you heard it', await heardNote.isVisible());
+  const unitLink = page.locator('a[href*="/units/"]').first();
+  await Promise.all([
+    page.waitForURL((u) => u.pathname.includes('/units/')),
+    unitLink.click()
+  ]);
   await page.waitForLoadState('networkidle');
-  check('unit page loads', (await page.getByText('Most performed').count()) > 0, page.url());
+  const mostPerf = page.getByText('Most performed');
+  await mostPerf.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+  check('unit page loads', await mostPerf.isVisible(), page.url());
   await overflow('unit page');
 
   await page.goto(`${BASE}/me`, { waitUntil: 'networkidle' });
   const showsStat = page
     .locator('p', { hasText: /^Shows$/ })
+    .first()
     .locator('xpath=following-sibling::*[1]');
   check('My Lives counts the show', (await showsStat.textContent()) === '1');
   await overflow('my lives');
