@@ -40,3 +40,6 @@ coverage*
 .env
 
 dogfood-output
+
+# Playwright e2e screenshots
+test-results/

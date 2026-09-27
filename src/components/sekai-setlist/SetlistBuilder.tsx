@@ -411,6 +411,7 @@ function SongRow({ id, left, right }: { id: string; left?: ReactNode; right?: Re
   const song = getSekaiSong(id);
   return (
     <HStack
+      data-song-id={id}
       position="relative"
       gap={2}
       borderColor="border.subtle"
