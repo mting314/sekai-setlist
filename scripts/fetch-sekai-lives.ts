@@ -8,6 +8,10 @@
  * Songs resolve through the wiki song page's infobox `id` (the in-game music id), cross-checked
  * against its `japanese` title; unresolved songs are kept by title and listed at the end.
  * Upcoming lives are included with an empty setlist.
+ *
+ * Lives the wiki doesn't cover (unit fan meetings) are hand-entered in data/sekai/lives-manual.json
+ * — same shape as lives.json, but songs only need a `title` (JP or EN; resolved by name here),
+ * `markers` may be omitted and `startDate` is derived from `date`.
  */
 import fs from 'fs';
 import songsData from '../data/sekai/songs.json';
@@ -17,6 +21,7 @@ import type { SekaiLive, SekaiLiveSeries, SekaiLiveSong, SekaiSong } from '../sr
 const API = 'https://projectsekai.fandom.com/api.php';
 const WIKI = 'https://projectsekai.fandom.com/wiki/';
 const OUT = 'data/sekai/lives.json';
+const MANUAL = 'data/sekai/lives-manual.json';
 
 const EVENTS: { series: SekaiLiveSeries; pages: string[] }[] = [
   {
@@ -201,6 +206,30 @@ const lives: SekaiLive[] = parsed.map(({ series, page, parsed: p }) => ({
     })
   }))
 }));
+
+type ManualLive = Omit<SekaiLive, 'performances'> & {
+  performances: (Omit<SekaiLive['performances'][number], 'markers'> & {
+    markers?: SekaiLive['performances'][number]['markers'];
+  })[];
+};
+const manual = JSON.parse(fs.readFileSync(MANUAL, 'utf8')) as ManualLive[];
+for (const m of manual) {
+  const startDate = m.startDate ?? parseStartDate(m.date);
+  lives.push({
+    ...m,
+    ...(startDate && { startDate }),
+    performances: m.performances.map((perf) => ({
+      ...perf,
+      markers: perf.markers ?? [],
+      songs: perf.songs.map((s): SekaiLiveSong => {
+        const songId = s.songId ?? resolveSong(undefined, undefined, s.title);
+        if (!songId) unresolved.set(s.title, [...(unresolved.get(s.title) ?? []), m.name]);
+        return { ...s, ...(songId && { songId, title: byId.get(songId)!.title }) };
+      })
+    }))
+  });
+}
+
 lives.sort((a, b) => (a.startDate ?? '9999').localeCompare(b.startDate ?? '9999'));
 
 fs.writeFileSync(OUT, JSON.stringify(lives, null, 2) + '\n');

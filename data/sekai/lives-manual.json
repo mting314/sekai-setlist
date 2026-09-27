@@ -1,0 +1,57 @@
+[
+  {
+    "id": "unit-fan-meeting-more-more-jump-in-miyagi",
+    "series": "fan_meeting",
+    "name": "Unit Fan Meeting MORE MORE JUMP! in Miyagi",
+    "nameJa": "プロセカユニットファンミーティング MORE MORE JUMP! in 宮城",
+    "date": "April 12, 2026",
+    "venue": "名取市文化会館 大ホール (Miyagi)",
+    "notes": ["Two shows: 14:00 and 18:30."],
+    "source": "https://www.livefans.jp/events/1929681",
+    "performances": []
+  },
+  {
+    "id": "unit-fan-meeting-vivid-bad-squad-in-hyogo",
+    "series": "fan_meeting",
+    "name": "Unit Fan Meeting Vivid BAD SQUAD in Hyogo",
+    "nameJa": "プロセカユニットファンミーティング Vivid BAD SQUAD in 兵庫",
+    "date": "May 16, 2026",
+    "venue": "神戸国際会館こくさいホール (Hyogo)",
+    "notes": ["Two shows: 14:00 and 18:30."],
+    "source": "https://www.livefans.jp/events/1918965",
+    "performances": []
+  },
+  {
+    "id": "unit-fan-meeting-leo-need-in-tokyo",
+    "series": "fan_meeting",
+    "name": "Unit Fan Meeting Leo/need in Tokyo",
+    "nameJa": "プロセカユニットファンミーティング Leo/need in 東京",
+    "date": "August 8, 2026",
+    "venue": "LINE CUBE SHIBUYA (Tokyo)",
+    "notes": ["Two shows: 14:00 and 18:30."],
+    "source": "https://www.livefans.jp/events/1952258",
+    "performances": []
+  },
+  {
+    "id": "unit-fan-meeting-wonderlands-x-showtime-in-aichi",
+    "series": "fan_meeting",
+    "name": "Unit Fan Meeting Wonderlands×Showtime in Aichi",
+    "nameJa": "プロセカユニットファンミーティング ワンダーランズ×ショウタイム in 愛知",
+    "date": "August 16, 2026",
+    "venue": "Home & nicoホール 大ホール (Aichi)",
+    "notes": ["Two shows: 14:00 and 18:30."],
+    "source": "https://www.livefans.jp/events/1952260",
+    "performances": []
+  },
+  {
+    "id": "unit-fan-meeting-25-ji-nightcord-de-in-oita",
+    "series": "fan_meeting",
+    "name": "Unit Fan Meeting 25-ji, Nightcord de. in Oita",
+    "nameJa": "プロセカユニットファンミーティング 25時、ナイトコードで。 in 大分",
+    "date": "September 5, 2026",
+    "venue": "iichiko総合文化センター グランシアタ (Oita)",
+    "notes": ["Two shows: 14:00 and 18:30."],
+    "source": "https://www.livefans.jp/events/1974097",
+    "performances": []
+  }
+]

@@ -36,13 +36,14 @@ export interface SekaiCharacter {
   nameJa: string;
 }
 
-// Past real-life / connect lives (data/sekai/lives.json), baked from the Project SEKAI fandom
-// wiki by scripts/fetch-sekai-lives.ts.
+// Past real-life / connect lives (data/sekai/lives.json), baked by scripts/fetch-sekai-lives.ts
+// from the Project SEKAI fandom wiki plus hand-entered data/sekai/lives-manual.json.
 export type SekaiLiveSeries =
   | 'colorful_live'
   | 'thanks_festival'
   | 'sekai_symphony'
-  | 'connect_live';
+  | 'connect_live'
+  | 'fan_meeting';
 
 export interface SekaiLiveSong {
   songId?: string; // catalog id; absent for songs outside the game (e.g. collab covers)
