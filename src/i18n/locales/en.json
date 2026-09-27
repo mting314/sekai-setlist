@@ -16,7 +16,8 @@
     "characters": "Characters",
     "hasu-music": "Hasunosora",
     "songs": "Songs",
-    "setlist-prediction": "Setlist Prediction"
+    "setlist-prediction": "Setlist Prediction",
+    "sekai-setlist": "Sekai Setlist"
   },
   "settings": {
     "sort_count": "{{ count }} to be sorted",
@@ -387,5 +388,50 @@
     "noSongsFound": "No songs found",
     "backToPerformances": "Back to Performance List",
     "performanceNotOccurred": "This performance has not occurred yet"
+  },
+  "sekaiSetlist": {
+    "title": "Project Sekai Setlist Builder",
+    "description": "Build a dream Project Sekai setlist and share it with a link.",
+    "titlePlaceholder": "Setlist title (e.g. My Dream Sekai Live)",
+    "slotName": "Slot name",
+    "shareLink": "Share link",
+    "savedSlots": "Saved:",
+    "deleteSlot": "Delete {{name}}",
+    "saved": "Saved “{{name}}”",
+    "linkCopied": "Share link copied!",
+    "linkInAddressBar": "Copy the link from the address bar",
+    "credit": "Song data and jackets from sekai.best / Sekai master DB.",
+    "addSongs": "Add songs",
+    "songCount": "{{count}}/{{max}} songs",
+    "orderedToggle": "Exact order (drag to reorder)",
+    "empty": "No songs yet — click “Add songs” to start building your setlist.",
+    "mainSet": "Main set",
+    "encore": "✦ Encore",
+    "encoreDivider": "Encore — drag songs below this line",
+    "moveToMain": "Move to main set",
+    "moveToEncore": "Move to encore",
+    "dragToReorder": "Drag to reorder",
+    "remove": "Remove",
+    "searchPlaceholder": "Search by title or reading…",
+    "kindAll": "All",
+    "commissioned": "Commissioned",
+    "commissionedHint": "Commissioned — written for Project Sekai",
+    "cover": "Cover",
+    "covers": "Covers",
+    "coverHint": "Cover of an existing song",
+    "resultCount": "{{count}} songs",
+    "noResults": "No songs match.",
+    "add": "Add",
+    "addAgain": "Again",
+    "truncated": "Showing first {{shown}} of {{total}} — refine your search.",
+    "units": {
+      "virtual_singer": "Virtual Singer",
+      "leo_need": "Leo/need",
+      "more_more_jump": "MORE MORE JUMP!",
+      "vivid_bad_squad": "Vivid BAD SQUAD",
+      "wonderlands_showtime": "Wonderlands×Showtime",
+      "nightcord": "25-ji, Nightcord de.",
+      "other": "Other"
+    }
   }
 }
