@@ -36,12 +36,14 @@ export function PerformanceList({
   live,
   perf,
   filters,
-  title
+  title,
+  badges
 }: {
   live: SekaiLive;
   perf: SekaiLivePerformance;
   filters?: LiveFilters; // dims rows that don't match
   title?: React.ReactNode; // overrides the performance name
+  badges?: React.ReactNode; // shown after the name (e.g. "You were here")
 }) {
   const { t, i18n } = useTranslation();
   const markerLabel = (label: string) =>
@@ -54,14 +56,17 @@ export function PerformanceList({
   return (
     <Stack gap={1}>
       <HStack gap={2} justifyContent="space-between">
-        <Text fontSize="sm" fontWeight="semibold">
-          {title ??
-            (perf.name ||
-              t('sekaiSetlist.lives.setlist', {
-                count: perf.songs.length,
-                defaultValue: `Setlist (${perf.songs.length} songs)`
-              }))}
-        </Text>
+        <HStack gap={2} minW={0} flexWrap="wrap">
+          <Text fontSize="sm" fontWeight="semibold">
+            {title ??
+              (perf.name ||
+                t('sekaiSetlist.lives.setlist', {
+                  count: perf.songs.length,
+                  defaultValue: `Setlist (${perf.songs.length} songs)`
+                }))}
+          </Text>
+          {badges}
+        </HStack>
         <Button asChild size="xs" variant="outline" flexShrink={0}>
           <a href={builderHref(performanceToState(live, perf))}>
             <BiListPlus />

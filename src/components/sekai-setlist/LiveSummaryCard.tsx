@@ -3,7 +3,7 @@
  * right. Used by the home hub, the predictions hub and unit pages.
  */
 import { useTranslation } from 'react-i18next';
-import { HStack, Stack, Wrap, styled } from 'styled-system/jsx';
+import { Box, HStack, Stack, Wrap, styled } from 'styled-system/jsx';
 import { Badge } from '~/components/ui/styled/badge';
 import { Link } from '~/components/ui/link';
 import { Text } from '~/components/ui/styled/text';
@@ -19,6 +19,22 @@ export const Card = styled('div', {
     bgColor: 'bg.default'
   }
 });
+
+/** A labelled number in a card (song and My Lives stat grids). */
+export function Stat({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <Card>
+      <Stack gap={0.5}>
+        <Text color="fg.muted" fontSize="xs">
+          {label}
+        </Text>
+        <Box fontSize="lg" fontWeight="bold">
+          {value}
+        </Box>
+      </Stack>
+    </Card>
+  );
+}
 
 export function LiveSummaryCard({
   live,

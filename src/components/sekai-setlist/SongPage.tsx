@@ -4,13 +4,17 @@
  */
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Grid, HStack, Stack, Wrap } from 'styled-system/jsx';
-import { Card } from './LiveSummaryCard';
+import { Grid, HStack, Stack, Wrap } from 'styled-system/jsx';
+import { Card, Stat } from './LiveSummaryCard';
 import { SongJacket } from './SongJacket';
+import { useHowLabel } from './ShowAttendance';
 import { KindBadge, UnitBadge, VocalistIcons } from './SongMeta';
 import { Badge } from '~/components/ui/styled/badge';
 import { Link } from '~/components/ui/link';
 import { Text } from '~/components/ui/styled/text';
+import { useAttendance } from '~/hooks/useAttendance';
+import { ATTENDANCE_HOWS } from '~/utils/sekai-setlist/attendance';
+import { attendedShows, timesHeard } from '~/utils/sekai-setlist/attendance-stats';
 import { sekaiSongName, sekaiSongSubName } from '~/utils/sekai-setlist/catalog';
 import { sekaiLiveName, sekaiLives } from '~/utils/sekai-setlist/live-data';
 import { songHistory, type SongPerformance } from '~/utils/sekai-setlist/lives';
@@ -19,24 +23,16 @@ import type { SekaiLive, SekaiSong } from '~/types/sekai';
 
 const isoDate = (ms: number) => new Date(ms).toISOString().slice(0, 10);
 
-function Stat({ label, value }: { label: string; value: React.ReactNode }) {
-  return (
-    <Card>
-      <Stack gap={0.5}>
-        <Text color="fg.muted" fontSize="xs">
-          {label}
-        </Text>
-        <Box fontSize="lg" fontWeight="bold">
-          {value}
-        </Box>
-      </Stack>
-    </Card>
-  );
-}
-
 export function SongPage({ song }: { song: SekaiSong }) {
   const { t, i18n } = useTranslation();
   const history = useMemo(() => songHistory(song.id, sekaiLives), [song.id]);
+  const { attendance } = useAttendance();
+  const heard = useMemo(
+    () => timesHeard(attendedShows(attendance, sekaiLives), song.id),
+    [attendance, song.id]
+  );
+  const heardTotal = heard.in_person + heard.viewing + heard.stream;
+  const howLabel = useHowLabel();
 
   // Group appearances by live, keeping newest-first order.
   const byLive = useMemo(() => {
@@ -79,6 +75,21 @@ export function SongPage({ song }: { song: SekaiSong }) {
               <KindBadge commissioned={song.commissioned} />
             </Wrap>
             <VocalistIcons id={song.id} size={28} max={12} />
+            {heardTotal > 0 && (
+              <Text fontSize="sm" fontWeight="semibold">
+                {t('attendance.youHeard', {
+                  count: heardTotal,
+                  defaultValue: `You heard this live ${heardTotal}×`
+                })}{' '}
+                <Text as="span" color="fg.muted" fontWeight="normal">
+                  (
+                  {ATTENDANCE_HOWS.filter((h) => heard[h] > 0)
+                    .map((h) => `${howLabel(h)} ${heard[h]}`)
+                    .join(', ')}
+                  )
+                </Text>
+              </Text>
+            )}
             {song.publishedAt && (
               <Text color="fg.muted" fontSize="xs">
                 {t('song.released', {
