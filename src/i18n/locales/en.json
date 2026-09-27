@@ -432,6 +432,32 @@
       "wonderlands_showtime": "Wonderlands×Showtime",
       "nightcord": "25-ji, Nightcord de.",
       "other": "Other"
+    },
+    "lives": {
+      "title": "Project Sekai Past Setlists",
+      "description": "Setlists from COLORFUL LIVE, the Anniversary Thanks Festival, Sekai Symphony and Connect Lives.",
+      "toBuilder": "← Setlist builder",
+      "fromBuilder": "Browse past live setlists →",
+      "credit": "Setlists from the Project SEKAI Wiki (projectsekai.fandom.com).",
+      "series": {
+        "colorful_live": "COLORFUL LIVE",
+        "thanks_festival": "Thanks Festival",
+        "sekai_symphony": "Sekai Symphony",
+        "connect_live": "Connect Live"
+      },
+      "viewLives": "Setlists",
+      "viewSongs": "Most performed",
+      "noLives": "No lives match.",
+      "liveCount": "{{count}} lives",
+      "upcoming": "Setlist TBA",
+      "matchCount": "{{count}} matching",
+      "source": "Source: Project SEKAI Wiki",
+      "setlist": "Setlist ({{count}} songs)",
+      "openInBuilder": "Open in builder",
+      "markerEncore": "Encore",
+      "markerIntermission": "Intermission",
+      "livesCount": "{{count}} lives",
+      "showsCount": "{{count}} setlists"
     }
   }
 }

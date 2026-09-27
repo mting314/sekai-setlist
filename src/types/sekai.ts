@@ -35,3 +35,45 @@ export interface SekaiCharacter {
   name: string; // EN, given name first
   nameJa: string;
 }
+
+// Past real-life / connect lives (data/sekai/lives.json), baked from the Project SEKAI fandom
+// wiki by scripts/fetch-sekai-lives.ts.
+export type SekaiLiveSeries =
+  | 'colorful_live'
+  | 'thanks_festival'
+  | 'sekai_symphony'
+  | 'connect_live';
+
+export interface SekaiLiveSong {
+  songId?: string; // catalog id; absent for songs outside the game (e.g. collab covers)
+  title: string; // wiki title, shown when songId is absent
+  note?: string; // e.g. "(Short ver.)", "(Rin & Len ver.)"
+  performers?: string[];
+}
+
+// A divider shown before songs[at]: "Intermission", "Encore", "Instrumental Medley", …
+export interface SekaiLiveMarker {
+  at: number;
+  label: string;
+}
+
+// One setlist within a live: a day, a day/night show or a city leg. name is '' when the live
+// had a single setlist.
+export interface SekaiLivePerformance {
+  name: string;
+  songs: SekaiLiveSong[];
+  markers: SekaiLiveMarker[];
+}
+
+export interface SekaiLive {
+  id: string; // slug of the wiki page title
+  series: SekaiLiveSeries;
+  name: string;
+  nameJa?: string;
+  date: string; // as written on the wiki, e.g. "January 28-30, 2022"
+  startDate?: string; // YYYY-MM-DD, for sorting and the upcoming check
+  venue?: string;
+  notes: string[]; // e.g. "The setlist was the same on all three days."
+  source: string; // wiki page URL
+  performances: SekaiLivePerformance[]; // [] = setlist not published yet
+}

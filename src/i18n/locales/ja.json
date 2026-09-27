@@ -363,6 +363,32 @@
       "wonderlands_showtime": "ワンダーランズ×ショウタイム",
       "nightcord": "25時、ナイトコードで。",
       "other": "その他"
+    },
+    "lives": {
+      "title": "プロセカ 過去ライブセトリ",
+      "description": "COLORFUL LIVE・周年感謝祭・セカイシンフォニー・コネクトライブのセットリスト。",
+      "toBuilder": "← セトリビルダー",
+      "fromBuilder": "過去ライブのセトリを見る →",
+      "credit": "セットリストは Project SEKAI Wiki（projectsekai.fandom.com）より。",
+      "series": {
+        "colorful_live": "COLORFUL LIVE",
+        "thanks_festival": "感謝祭",
+        "sekai_symphony": "セカイシンフォニー",
+        "connect_live": "コネクトライブ"
+      },
+      "viewLives": "セトリ",
+      "viewSongs": "披露回数",
+      "noLives": "該当するライブがありません。",
+      "liveCount": "{{count}}公演",
+      "upcoming": "セトリ未発表",
+      "matchCount": "{{count}}曲該当",
+      "source": "出典：Project SEKAI Wiki",
+      "setlist": "セットリスト（{{count}}曲）",
+      "openInBuilder": "ビルダーで開く",
+      "markerEncore": "アンコール",
+      "markerIntermission": "幕間",
+      "livesCount": "{{count}}公演",
+      "showsCount": "{{count}}セトリ"
     }
   }
 }

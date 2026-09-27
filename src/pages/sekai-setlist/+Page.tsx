@@ -4,8 +4,10 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import { join } from 'path-browserify';
 import { Stack } from 'styled-system/jsx';
 import { Metadata } from '~/components/layout/Metadata';
+import { Link } from '~/components/ui/link';
 import { Text } from '~/components/ui/styled/text';
 import { SekaiSetlistEditor } from '~/components/sekai-setlist/SekaiSetlistEditor';
 
@@ -26,6 +28,11 @@ export function Page() {
               defaultValue: 'Build a dream Project Sekai setlist and share it with a link.'
             })}
           </Text>
+          <Link href={join(import.meta.env.BASE_URL, '/sekai-setlist/lives')} fontSize="sm">
+            {t('sekaiSetlist.lives.fromBuilder', {
+              defaultValue: 'Browse past live setlists →'
+            })}
+          </Link>
         </Stack>
         <SekaiSetlistEditor />
       </Stack>

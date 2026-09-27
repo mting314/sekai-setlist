@@ -34,8 +34,15 @@
   commissioned vs cover, bag mode with per-song encore toggle, exact-order mode with dnd-kit
   (pointer + keyboard sensors, sortable encore divider, duplicate songs supported), localStorage
   save slots, lz-string share link in `#s=…`.
-- `bun check` green; 37 vitest tests pass (`bun node_modules/vitest/vitest.mjs run src/utils/sekai-setlist`).
-- SSR HTML renders the page and nav link; icon URLs return 200.
+- Past setlists at `/sekai-setlist/lives` (`PastSetlists.tsx`, `src/utils/sekai-setlist/lives.ts`):
+  COLORFUL LIVE, Anniversary Thanks Festival, Sekai Symphony and Connect Lives from
+  `data/sekai/lives.json`, generated from the Project SEKAI fandom wiki by
+  `bun scripts/fetch-sekai-lives.ts` (parser: `live-wikitext.ts`). Series filter plus the same
+  search / unit / commissioned-cover filters, a "Most performed" view, and "Open in builder" per
+  setlist (encodes it as a `#s=` link to `/sekai-setlist`). Upcoming lives show "Setlist TBA";
+  re-run the script once the wiki posts their setlists.
+- `bun check` green; 53 vitest tests pass (`bun node_modules/vitest/vitest.mjs run src/utils/sekai-setlist`).
+- SSR HTML renders both pages and the nav link; icon URLs return 200.
 
 **Not verified:** anything that needs a rendered browser — images actually painting, filters
 changing the list, drag and drop, clipboard, share-link round trip, slots, phone layout.
@@ -94,6 +101,11 @@ to break it. At minimum:
    load empty, not crash), and a link containing a song id that no longer exists in the catalog.
 8. **Keyboard / a11y:** tab through the editor and dialog, Escape closes the dialog, focus returns
    to "Add songs", drag handles have labels.
+
+9. **Past setlists** (`/sekai-setlist/lives`): series / unit / kind filters narrow the live list
+   and dim non-matching rows in an expanded setlist; Encore/Intermission dividers sit in the right
+   place; "Most performed" counts change with the filters; "Open in builder" loads that setlist
+   (title, order, encore) in the builder; JA shows `nameJa` and JP titles.
 
 Record findings as a short list; fix what's clearly a bug, ask about anything that's a design call.
 

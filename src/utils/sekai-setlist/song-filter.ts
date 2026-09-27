@@ -30,21 +30,22 @@ export function songMatchesUnit(song: SekaiSong, unit: UnitFilter): boolean {
 export const songReleaseYears = (songs: SekaiSong[]): string[] =>
   [...new Set(songs.map(yearOf).filter((y): y is string => !!y))].toSorted();
 
-export function filterSongs(songs: SekaiSong[], filters: SongFilters): SekaiSong[] {
+/** One song against the search / unit / kind / release-year filters. */
+export function songMatchesFilters(song: SekaiSong, filters: SongFilters): boolean {
   const q = filters.search.trim().toLowerCase();
-  return songs.filter((song) => {
-    if (q) {
-      const hay =
-        `${song.title} ${song.pronunciation ?? ''} ${song.englishName ?? ''}`.toLowerCase();
-      if (!hay.includes(q)) return false;
-    }
-    if (filters.units.length > 0 && !filters.units.some((u) => songMatchesUnit(song, u)))
-      return false;
-    if (filters.kind === 'commissioned' && !song.commissioned) return false;
-    if (filters.kind === 'cover' && song.commissioned) return false;
-    const year = yearOf(song);
-    if (filters.yearFrom && (!year || year < filters.yearFrom)) return false;
-    if (filters.yearTo && (!year || year > filters.yearTo)) return false;
-    return true;
-  });
+  if (q) {
+    const hay = `${song.title} ${song.pronunciation ?? ''} ${song.englishName ?? ''}`.toLowerCase();
+    if (!hay.includes(q)) return false;
+  }
+  if (filters.units.length > 0 && !filters.units.some((u) => songMatchesUnit(song, u)))
+    return false;
+  if (filters.kind === 'commissioned' && !song.commissioned) return false;
+  if (filters.kind === 'cover' && song.commissioned) return false;
+  const year = yearOf(song);
+  if (filters.yearFrom && (!year || year < filters.yearFrom)) return false;
+  if (filters.yearTo && (!year || year > filters.yearTo)) return false;
+  return true;
 }
+
+export const filterSongs = (songs: SekaiSong[], filters: SongFilters): SekaiSong[] =>
+  songs.filter((song) => songMatchesFilters(song, filters));
