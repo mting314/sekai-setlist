@@ -16,9 +16,11 @@ import { getSekaiSong, sekaiSongName } from '~/utils/sekai-setlist/catalog';
 import {
   hasSongFilters,
   liveSongMatches,
-  performanceToState,
+  performanceTitle,
+  performanceToItems,
   type LiveFilters
 } from '~/utils/sekai-setlist/lives';
+import { newPrediction } from '~/utils/sekai-setlist/prediction';
 import { builderHref, songHref } from '~/utils/sekai-setlist/routes';
 import type { SekaiLive, SekaiLivePerformance } from '~/types/sekai';
 
@@ -68,7 +70,14 @@ export function PerformanceList({
           {badges}
         </HStack>
         <Button asChild size="xs" variant="outline" flexShrink={0}>
-          <a href={builderHref(performanceToState(live, perf))}>
+          <a
+            href={builderHref({
+              share: newPrediction({
+                name: performanceTitle(live, perf),
+                items: performanceToItems(perf)
+              })
+            })}
+          >
             <BiListPlus />
             {t('sekaiSetlist.lives.openInBuilder', { defaultValue: 'Open in builder' })}
           </a>

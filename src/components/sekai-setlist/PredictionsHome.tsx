@@ -2,7 +2,6 @@
  * Predictions hub (/predict): how the game works, lives still waiting on a setlist (predict them), your
  * saved predictions (edit / mark) and the latest setlists to mark against.
  */
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiCheckDouble, BiEdit, BiLink, BiListOl } from 'react-icons/bi';
 import { Grid, HStack, Stack, Wrap } from 'styled-system/jsx';
@@ -10,14 +9,15 @@ import { Card, LiveSummaryCard as LiveCard } from './LiveSummaryCard';
 import { Button } from '~/components/ui/styled/button';
 import { Link } from '~/components/ui/link';
 import { Text } from '~/components/ui/styled/text';
+import { usePredictions } from '~/hooks/usePredictions';
 import {
   awaitingLives,
   getSekaiLive,
   livesWithSetlists,
   sekaiLiveName
 } from '~/utils/sekai-setlist/live-data';
+import { songCount } from '~/utils/sekai-setlist/prediction';
 import { builderHref, livesHref, markHref } from '~/utils/sekai-setlist/routes';
-import { listSlots, type SavedSlot } from '~/utils/sekai-setlist/storage';
 
 const RECENT_LIVES = 3;
 
@@ -34,8 +34,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 
 export function PredictionsHome() {
   const { t, i18n } = useTranslation();
-  const [slots, setSlots] = useState<SavedSlot[]>([]);
-  useEffect(() => setSlots(listSlots()), []);
+  const { predictions } = usePredictions();
 
   const steps = [
     {
@@ -107,24 +106,26 @@ export function PredictionsHome() {
         ))}
       </Grid>
 
-      {slots.length > 0 && (
+      {predictions.length > 0 && (
         <Stack gap={3}>
           <SectionTitle>
             {t('game.yourPredictions', { defaultValue: 'Your predictions' })}
           </SectionTitle>
-          {slots.map((s) => {
-            const live = getSekaiLive(s.state.live);
+          {predictions.map((s) => {
+            const live = getSekaiLive(s.live);
             return (
-              <Card key={s.name}>
+              <Card key={s.id}>
                 <HStack gap={3} justifyContent="space-between" flexWrap="wrap">
                   <Stack gap={0.5} minW={0}>
-                    <Text fontWeight="semibold">{s.name}</Text>
+                    <Text fontWeight="semibold">
+                      {s.name || t('game.untitled', { defaultValue: 'Untitled prediction' })}
+                    </Text>
                     <Text color="fg.muted" fontSize="xs">
                       {[
                         live && sekaiLiveName(live, i18n.language),
                         t('game.songCount', {
-                          count: s.state.songs.length,
-                          defaultValue: `${s.state.songs.length} songs`
+                          count: songCount(s),
+                          defaultValue: `${songCount(s)} songs`
                         })
                       ]
                         .filter(Boolean)
@@ -133,7 +134,7 @@ export function PredictionsHome() {
                   </Stack>
                   <HStack gap={2}>
                     <Button asChild size="xs" variant="outline">
-                      <a href={builderHref(s.state)}>
+                      <a href={builderHref({ prediction: s.id })}>
                         <BiEdit /> {t('game.edit', { defaultValue: 'Edit' })}
                       </a>
                     </Button>
@@ -142,7 +143,7 @@ export function PredictionsHome() {
                       size="xs"
                       variant={live?.performances.length ? 'solid' : 'outline'}
                     >
-                      <a href={markHref(s.state)}>
+                      <a href={markHref({ prediction: s.id, live: s.live })}>
                         <BiCheckDouble /> {t('game.mark', { defaultValue: 'Mark' })}
                       </a>
                     </Button>
@@ -171,7 +172,7 @@ export function PredictionsHome() {
             live={live}
             action={
               <Button asChild size="sm" flexShrink={0}>
-                <a href={builderHref(undefined, live.id)}>
+                <a href={builderHref({ live: live.id })}>
                   <BiEdit /> {t('game.predict', { defaultValue: 'Predict' })}
                 </a>
               </Button>
@@ -188,7 +189,7 @@ export function PredictionsHome() {
             live={live}
             action={
               <Button asChild size="sm" variant="outline" flexShrink={0}>
-                <a href={markHref(undefined, live.id)}>
+                <a href={markHref({ live: live.id })}>
                   <BiCheckDouble /> {t('game.mark', { defaultValue: 'Mark' })}
                 </a>
               </Button>

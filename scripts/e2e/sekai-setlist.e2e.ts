@@ -73,7 +73,7 @@ async function run(label: string, opts: BrowserContextOptions, browser: Browser)
   page.on('response', (r) => {
     if (r.status() >= 400) httpErrors.push(`${r.status()} ${r.url()}`);
   });
-  page.on('dialog', (d) => void d.accept()); // slot delete uses window.confirm
+  page.on('dialog', (d) => void d.accept()); // prediction delete uses window.confirm
 
   await page.goto(PAGE_URL, { waitUntil: 'networkidle' });
   await page.evaluate(() => {
@@ -234,9 +234,8 @@ async function run(label: string, opts: BrowserContextOptions, browser: Browser)
   await p2.screenshot({ path: `${OUT}/${label}-05-roundtrip.png`, fullPage: true });
   await ctx2.close();
 
-  // --- save slots
-  const slot = `slot-${label}`;
-  await page.getByPlaceholder(/Slot name/).fill(slot);
+  // --- saved predictions (saved under the title)
+  const slot = `E2E ${label}`;
   await page.getByRole('button', { name: /^Save$/ }).click();
   await page.getByRole('button', { name: /^New$/ }).click();
   await page.waitForTimeout(200);

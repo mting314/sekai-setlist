@@ -1,12 +1,24 @@
-// Page links. Setlists travel in the hash (`#s=…`, see share.ts) and the live in `?live=`, so
-// prerendered pages stay static and pick both up on the client.
+// Page links. Shared predictions travel in the hash (`#p=…`, see share.ts), saved ones by id in
+// `?prediction=` and the live in `?live=`, so prerendered pages stay static and pick them up on
+// the client.
 import { join } from 'path-browserify';
-import { encodeState, type SetlistState } from './share';
+import { encodePrediction } from './share';
+import type { SekaiPrediction } from '~/types/sekai-prediction';
 
-const page = (path: string, state?: SetlistState, live?: string) =>
-  join(import.meta.env.BASE_URL, path) +
-  (live ? `?live=${encodeURIComponent(live)}` : '') +
-  (state ? `#${encodeState(state)}` : '');
+const page = (path: string, query: Record<string, string | undefined> = {}, hash?: string) => {
+  const q = new URLSearchParams(
+    Object.entries(query).filter((e): e is [string, string] => !!e[1])
+  ).toString();
+  return join(import.meta.env.BASE_URL, path) + (q ? `?${q}` : '') + (hash ? `#${hash}` : '');
+};
+
+export interface PredictionTarget {
+  prediction?: string; // a saved prediction's id
+  live?: string; // a lives.json id
+  share?: SekaiPrediction; // carried whole in the hash
+}
+const predictionPage = (path: string, { prediction, live, share }: PredictionTarget = {}) =>
+  page(path, { prediction, live }, share && encodePrediction(share));
 
 export const homeHref = () => page('/');
 export const livesHref = () => page('/lives');
@@ -16,11 +28,14 @@ export const songHref = (id: string) => page(`/songs/${encodeURIComponent(id)}`)
 export const unitHref = (id: string) => page(`/units/${encodeURIComponent(id)}`);
 export const meHref = () => page('/me');
 export const predictHref = () => page('/predict');
-/** The builder, optionally opened on a setlist or as a new prediction for a live. */
-export const builderHref = (state?: SetlistState, live?: string) => page('/builder', state, live);
+/** The builder: a saved prediction, a shared one to import, or a new one for a live. */
+export const builderHref = (target?: PredictionTarget) => predictionPage('/builder', target);
 /** Mark a prediction against a live's real setlist (either may be picked on the page). */
-export const markHref = (prediction?: SetlistState, live?: string) =>
-  page('/mark', prediction, live ?? prediction?.live);
+export const markHref = (target?: PredictionTarget) =>
+  predictionPage('/mark', { ...target, live: target?.live ?? target?.share?.live });
 
+const param = (name: string) => new URLSearchParams(window.location.search).get(name) ?? undefined;
 /** `?live=` of the current page (client only). */
-export const liveParam = () => new URLSearchParams(window.location.search).get('live') ?? undefined;
+export const liveParam = () => param('live');
+/** `?prediction=` of the current page (client only). */
+export const predictionParam = () => param('prediction');

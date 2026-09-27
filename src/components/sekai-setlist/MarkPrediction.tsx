@@ -1,5 +1,5 @@
 /**
- * Mark a setlist prediction: pick the prediction (share link, saved slot) and the real setlist
+ * Mark a setlist prediction: pick the prediction (share link, saved prediction) and the real setlist
  * (a performance from lives.json, or a pasted list for lives not in the data yet), then score it
  * with the-sorter's setlist-prediction rules.
  */
@@ -17,7 +17,10 @@ import { Textarea } from '~/components/ui/styled/textarea';
 import { sekaiSongName, sekaiSongs } from '~/utils/sekai-setlist/catalog';
 import { getSekaiLive, sekaiLiveName } from '~/utils/sekai-setlist/live-data';
 import { performanceToState } from '~/utils/sekai-setlist/lives';
-import { builderHref, liveParam } from '~/utils/sekai-setlist/routes';
+import { usePredictions } from '~/hooks/usePredictions';
+import { toSetlistState } from '~/utils/sekai-setlist/prediction';
+import { getPrediction } from '~/utils/sekai-setlist/predictions-store';
+import { builderHref, liveParam, predictionParam } from '~/utils/sekai-setlist/routes';
 import {
   DEFAULT_SCORING_RULES,
   scorePrediction,
@@ -25,10 +28,18 @@ import {
   type ScoreResult
 } from '~/utils/sekai-setlist/scoring';
 import { buildTitleIndex, parseSetlistText } from '~/utils/sekai-setlist/setlist-text';
-import { decodeHash, type SetlistState } from '~/utils/sekai-setlist/share';
-import { listSlots, type SavedSlot } from '~/utils/sekai-setlist/storage';
+import { decodeShare, type SetlistState } from '~/utils/sekai-setlist/share';
+import type { SekaiPrediction } from '~/types/sekai-prediction';
 
 type ActualSource = 'live' | 'paste';
+
+interface Picked {
+  prediction: SekaiPrediction;
+  saved: boolean; // in your predictions (edit by id) vs from a link (edit a copy)
+  ordered: boolean; // false only for legacy "any order" links, which are bag-scored
+}
+
+const linkHash = (link: string) => link.split('#')[1] ?? '';
 
 const Card = styled('div', {
   base: {
@@ -77,17 +88,17 @@ const getTitleIndex = () => (titleIndex ??= buildTitleIndex(sekaiSongs));
 
 export function MarkPrediction() {
   const { t, i18n } = useTranslation();
-  const [prediction, setPrediction] = useState<SetlistState>();
-  const [slots, setSlots] = useState<SavedSlot[]>([]);
+  const [picked, setPicked] = useState<Picked>();
+  const { predictions } = usePredictions();
   const [pastedLink, setPastedLink] = useState('');
   const [source, setSource] = useState<ActualSource>('live');
   const [liveId, setLiveId] = useState<string>();
   const [perfIndex, setPerfIndex] = useState(0);
   const [pastedSetlist, setPastedSetlist] = useState('');
 
-  const pickPrediction = (p: SetlistState | undefined) => {
-    setPrediction(p);
-    const live = getSekaiLive(p?.live);
+  const pickPrediction = (p: Picked) => {
+    setPicked(p);
+    const live = getSekaiLive(p.prediction.live);
     if (live?.performances.length) {
       setLiveId(live.id);
       setPerfIndex(0);
@@ -95,13 +106,21 @@ export function MarkPrediction() {
   };
 
   useEffect(() => {
-    setSlots(listSlots());
-    const fromHash = decodeHash(window.location.hash);
-    const live = getSekaiLive(liveParam() ?? fromHash?.live);
+    const id = predictionParam();
+    const saved = id ? getPrediction(id) : undefined;
+    const shared = saved ? undefined : decodeShare(window.location.hash);
+    const p: Picked | undefined = saved
+      ? { prediction: saved, saved: true, ordered: true }
+      : shared && { ...shared, saved: false };
+    const live = getSekaiLive(liveParam() ?? p?.prediction.live);
     if (live?.performances.length) setLiveId(live.id);
-    if (fromHash) setPrediction(fromHash);
+    if (p) setPicked(p);
   }, []);
 
+  const prediction: SetlistState | undefined = useMemo(
+    () => picked && { ...toSetlistState(picked.prediction), ordered: picked.ordered },
+    [picked]
+  );
   const live = getSekaiLive(liveId);
   const predictedLive = getSekaiLive(prediction?.live);
   const pasted = useMemo(
@@ -115,7 +134,7 @@ export function MarkPrediction() {
   const result =
     prediction && actual?.songs.length ? scorePrediction(prediction, actual) : undefined;
 
-  const linkError = pastedLink.trim() !== '' && !decodeHash(pastedLink.split('#')[1] ?? '');
+  const linkError = pastedLink.trim() !== '' && !decodeShare(linkHash(pastedLink));
 
   return (
     <Stack gap={4}>
@@ -124,7 +143,7 @@ export function MarkPrediction() {
           <Text fontWeight="semibold">
             {t('game.step1', { defaultValue: '1. Your prediction' })}
           </Text>
-          {prediction ? (
+          {picked && prediction ? (
             <HStack gap={2} justifyContent="space-between" flexWrap="wrap">
               <Stack gap={0}>
                 <Text fontWeight="bold">
@@ -141,11 +160,17 @@ export function MarkPrediction() {
               </Stack>
               <HStack gap={2}>
                 <Button asChild size="xs" variant="outline">
-                  <a href={builderHref(prediction)}>
+                  <a
+                    href={
+                      picked.saved
+                        ? builderHref({ prediction: picked.prediction.id })
+                        : builderHref({ share: picked.prediction })
+                    }
+                  >
                     <BiEdit /> {t('game.edit', { defaultValue: 'Edit' })}
                   </a>
                 </Button>
-                <Button size="xs" variant="ghost" onClick={() => setPrediction(undefined)}>
+                <Button size="xs" variant="ghost" onClick={() => setPicked(undefined)}>
                   {t('game.change', { defaultValue: 'Change' })}
                 </Button>
               </HStack>
@@ -157,8 +182,8 @@ export function MarkPrediction() {
                 value={pastedLink}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setPastedLink(e.target.value);
-                  const p = decodeHash(e.target.value.split('#')[1] ?? '');
-                  if (p) pickPrediction(p);
+                  const shared = decodeShare(linkHash(e.target.value));
+                  if (shared) pickPrediction({ ...shared, saved: false });
                 }}
                 placeholder={t('game.pasteLink', {
                   defaultValue: 'Paste a prediction share link'
@@ -170,19 +195,19 @@ export function MarkPrediction() {
                   {t('game.badLink', { defaultValue: 'That link has no setlist in it.' })}
                 </Text>
               )}
-              {slots.length > 0 && (
+              {predictions.length > 0 && (
                 <Wrap gap={1.5} alignItems="center">
                   <HStack gap={1} color="fg.subtle" fontSize="xs">
                     <BiFolderOpen /> {t('sekaiSetlist.savedSlots', { defaultValue: 'Saved:' })}
                   </HStack>
-                  {slots.map((s) => (
+                  {predictions.map((p) => (
                     <Button
-                      key={s.name}
+                      key={p.id}
                       size="xs"
                       variant="outline"
-                      onClick={() => pickPrediction(s.state)}
+                      onClick={() => pickPrediction({ prediction: p, saved: true, ordered: true })}
                     >
-                      {s.name}
+                      {p.name || t('game.untitled', { defaultValue: 'Untitled prediction' })}
                     </Button>
                   ))}
                 </Wrap>

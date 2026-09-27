@@ -1,6 +1,7 @@
-import { beforeEach, describe, expect, it } from 'vitest';
-import { EMPTY_STATE, decodeHash, encodeState, type SetlistState } from './share';
-import { deleteSlot, listSlots, loadSlot, saveSlot } from './storage';
+import { describe, expect, it } from 'vitest';
+import { newPrediction } from './prediction';
+import { decodeHash, decodeShare, encodePrediction, encodeState, type SetlistState } from './share';
+import type { SekaiPrediction } from '~/types/sekai-prediction';
 
 const STATE: SetlistState = {
   title: 'My Sekai Live',
@@ -34,26 +35,51 @@ describe('share URL encoding', () => {
   });
 });
 
-describe('save slots', () => {
-  beforeEach(() => localStorage.clear());
+const strip = (p: SekaiPrediction) => ({
+  ...p,
+  id: '',
+  createdAt: '',
+  updatedAt: '',
+  items: p.items.map((i) => ({ ...i, id: '' }))
+});
 
-  it('upserts by name and lists newest first', () => {
-    saveSlot('a', STATE, 1);
-    saveSlot('b', EMPTY_STATE, 2);
-    saveSlot('a', { ...STATE, title: 'updated' }, 3);
-    expect(listSlots().map((s) => s.name)).toEqual(['a', 'b']);
-    expect(loadSlot('a')?.title).toBe('updated');
+describe('prediction share links (#p=)', () => {
+  const P = newPrediction({
+    name: 'My 6th anniv prediction',
+    live: 'go-hoppin-parade',
+    items: [
+      { id: 'a', type: 'song', songId: '1', remarks: 'Short Ver.' },
+      { id: 'b', type: 'mc', title: 'MC' },
+      { id: 'c', type: 'custom', name: 'Collab song' },
+      { id: 'd', type: 'intermission', title: 'Medley' },
+      { id: 'e', type: 'encore' },
+      { id: 'f', type: 'song', songId: '74' }
+    ]
+  });
+  it('round-trips every row type with a fresh id', () => {
+    const hash = encodePrediction(P);
+    expect(hash.startsWith('p=')).toBe(true);
+    const got = decodeShare('#' + hash);
+    expect(got?.ordered).toBe(true);
+    expect(got?.prediction.id).not.toBe(P.id);
+    expect(strip(got!.prediction)).toEqual(strip(P));
   });
 
-  it('deletes slots', () => {
-    saveSlot('a', STATE, 1);
-    deleteSlot('a');
-    expect(loadSlot('a')).toBeUndefined();
-    expect(listSlots()).toEqual([]);
+  it('keeps a custom event', () => {
+    const p = { ...P, live: undefined, custom: { name: 'Dream live', venue: 'Budokan' } };
+    expect(decodeShare(encodePrediction(p))?.prediction.custom).toEqual(p.custom);
   });
 
-  it('treats corrupt storage as empty', () => {
-    localStorage.setItem('sekai-setlist:slots', '{not json');
-    expect(listSlots()).toEqual([]);
+  it('reads legacy #s= links, flagging any-order ones', () => {
+    const got = decodeShare(encodeState(STATE));
+    expect(got?.ordered).toBe(true);
+    expect(got?.prediction.name).toBe(STATE.title);
+    expect(got?.prediction.items.map((i) => i.type)).toEqual(['song', 'song', 'encore', 'song']);
+    expect(decodeShare(encodeState({ ...STATE, ordered: false }))?.ordered).toBe(false);
+  });
+
+  it('returns undefined for missing or corrupt hashes', () => {
+    expect(decodeShare('')).toBeUndefined();
+    expect(decodeShare('#p=not-lz-data')).toBeUndefined();
   });
 });

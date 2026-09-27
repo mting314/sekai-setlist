@@ -293,13 +293,13 @@ function LiveCard({
               </a>
             </Button>
             <Button asChild size="xs" variant="outline">
-              <a href={builderHref(undefined, live.id)}>
+              <a href={builderHref({ live: live.id })}>
                 <BiEdit /> {t('game.predictLive', { defaultValue: 'Predict this setlist' })}
               </a>
             </Button>
             {!noSetlist && (
               <Button asChild size="xs" variant="outline">
-                <a href={markHref(undefined, live.id)}>
+                <a href={markHref({ live: live.id })}>
                   <BiCheckDouble /> {t('game.markLive', { defaultValue: 'Mark a prediction' })}
                 </a>
               </Button>

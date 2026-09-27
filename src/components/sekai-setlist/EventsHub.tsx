@@ -122,7 +122,7 @@ export function EventsHub() {
             }
             action={
               <Button asChild size="sm" flexShrink={0}>
-                <a href={builderHref(undefined, live.id)}>
+                <a href={builderHref({ live: live.id })}>
                   <BiEdit /> {t('game.predict', { defaultValue: 'Predict' })}
                 </a>
               </Button>

@@ -3,6 +3,7 @@ import {
   EMPTY_LIVE_FILTERS,
   filterLives,
   liveSongMatches,
+  performanceToItems,
   performanceToState,
   songHistory,
   songStats
@@ -135,6 +136,34 @@ describe('performanceToState', () => {
       encore: [1, 2],
       ordered: true
     });
+  });
+});
+
+describe('performanceToItems', () => {
+  it('keeps dividers, off-catalog songs and notes', () => {
+    const items = performanceToItems({
+      name: '',
+      markers: [
+        { at: 1, label: 'Intermission' },
+        { at: 2, label: 'Instrumental Medley' },
+        { at: 3, label: 'Encore' }
+      ],
+      songs: [
+        { songId: '1', title: '', note: '(Short ver.)' },
+        { title: 'Collab' },
+        { songId: '2', title: '' },
+        { songId: '1', title: '' }
+      ]
+    });
+    expect(items.map(({ id: _, ...rest }) => rest)).toEqual([
+      { type: 'song', songId: '1', remarks: 'Short ver.' },
+      { type: 'intermission' },
+      { type: 'custom', name: 'Collab' },
+      { type: 'intermission', title: 'Instrumental Medley' },
+      { type: 'song', songId: '2' },
+      { type: 'encore' },
+      { type: 'song', songId: '1' }
+    ]);
   });
 });
 

@@ -1,8 +1,10 @@
 // Past-live browsing for the Sekai setlist builder: filter lives by series and by the same
 // song filters as the song picker (search, unit, commissioned/cover), count how often songs were
 // performed, and turn a past setlist into builder state. Pure functions over data/sekai/lives.json.
+import { itemId } from './prediction';
 import { songMatchesFilters, type SongFilters } from './song-filter';
 import type { SetlistState } from './share';
+import type { PredictionItem } from '~/types/sekai-prediction';
 import type {
   SekaiLive,
   SekaiLivePerformance,
@@ -116,12 +118,42 @@ export function performanceToState(live: SekaiLive, perf: SekaiLivePerformance):
     songs.push(s.songId);
   });
   return {
-    title: perf.name ? `${live.name} (${perf.name})` : live.name,
+    title: performanceTitle(live, perf),
     songs,
     encore,
     ordered: true
   };
 }
+
+/**
+ * Builder rows for a past setlist, keeping what performanceToState drops: dividers
+ * (Encore → encore row, anything else → a titled intermission row), songs outside the catalog
+ * (as custom songs) and notes such as "(Short ver.)" (as remarks).
+ */
+export function performanceToItems(perf: SekaiLivePerformance): PredictionItem[] {
+  const items: PredictionItem[] = [];
+  perf.songs.forEach((s, i) => {
+    for (const m of perf.markers.filter((mk) => mk.at === i))
+      items.push(
+        /encore/i.test(m.label)
+          ? { id: itemId(), type: 'encore' }
+          : /^intermission$/i.test(m.label)
+            ? { id: itemId(), type: 'intermission' }
+            : { id: itemId(), type: 'intermission', title: m.label }
+      );
+    const remarks = s.note?.replace(/^\s*[(（]\s*|\s*[)）]\s*$/g, '');
+    const r = remarks ? { remarks } : {};
+    items.push(
+      s.songId
+        ? { id: itemId(), type: 'song', songId: s.songId, ...r }
+        : { id: itemId(), type: 'custom', name: s.title, ...r }
+    );
+  });
+  return items;
+}
+
+export const performanceTitle = (live: SekaiLive, perf: SekaiLivePerformance) =>
+  perf.name ? `${live.name} (${perf.name})` : live.name;
 
 export interface SongPerformance {
   live: SekaiLive;

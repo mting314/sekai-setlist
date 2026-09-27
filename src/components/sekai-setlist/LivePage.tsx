@@ -2,7 +2,6 @@
  * One live: series, dates, venue and notes, every setlist, and the prediction actions (predict
  * while the setlist is out, mark once it is) plus your saved predictions for it.
  */
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiCheckDouble, BiEdit, BiLinkExternal } from 'react-icons/bi';
 import { HStack, Stack, Wrap } from 'styled-system/jsx';
@@ -14,10 +13,11 @@ import { Button } from '~/components/ui/styled/button';
 import { Link } from '~/components/ui/link';
 import { Text } from '~/components/ui/styled/text';
 import { useAttendance } from '~/hooks/useAttendance';
+import { usePredictions } from '~/hooks/usePredictions';
 import { sekaiLiveName } from '~/utils/sekai-setlist/live-data';
+import { songCount } from '~/utils/sekai-setlist/prediction';
 import { builderHref, livesHref, markHref, meHref } from '~/utils/sekai-setlist/routes';
 import { liveShows } from '~/utils/sekai-setlist/shows';
-import { listSlots, type SavedSlot } from '~/utils/sekai-setlist/storage';
 import type { SekaiLive } from '~/types/sekai';
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
@@ -30,8 +30,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 
 export function LivePage({ live }: { live: SekaiLive }) {
   const { t, i18n } = useTranslation();
-  const [slots, setSlots] = useState<SavedSlot[]>([]);
-  useEffect(() => setSlots(listSlots().filter((s) => s.state.live === live.id)), [live.id]);
+  const { predictions } = usePredictions(live.id);
   const { attendance, setShow } = useAttendance();
   const howLabel = useHowLabel();
   const logged = attendance.shows[live.id] ?? {};
@@ -83,13 +82,13 @@ export function LivePage({ live }: { live: SekaiLive }) {
         <Wrap gap={2} pt={1}>
           {noSetlist ? (
             <Button asChild size="sm">
-              <a href={builderHref(undefined, live.id)}>
+              <a href={builderHref({ live: live.id })}>
                 <BiEdit /> {t('game.predictLive', { defaultValue: 'Predict this setlist' })}
               </a>
             </Button>
           ) : (
             <Button asChild size="sm" variant="outline">
-              <a href={markHref(undefined, live.id)}>
+              <a href={markHref({ live: live.id })}>
                 <BiCheckDouble /> {t('game.markLive', { defaultValue: 'Mark a prediction' })}
               </a>
             </Button>
@@ -97,32 +96,34 @@ export function LivePage({ live }: { live: SekaiLive }) {
         </Wrap>
       </Stack>
 
-      {slots.length > 0 && (
+      {predictions.length > 0 && (
         <Stack gap={2}>
           <SectionTitle>
             {t('live.yourPredictions', { defaultValue: 'Your predictions for this live' })}
           </SectionTitle>
-          {slots.map((s) => (
-            <Card key={s.name}>
+          {predictions.map((s) => (
+            <Card key={s.id}>
               <HStack gap={3} justifyContent="space-between" flexWrap="wrap">
                 <Stack gap={0.5} minW={0}>
-                  <Text fontWeight="semibold">{s.name}</Text>
+                  <Text fontWeight="semibold">
+                    {s.name || t('game.untitled', { defaultValue: 'Untitled prediction' })}
+                  </Text>
                   <Text color="fg.muted" fontSize="xs">
                     {t('game.songCount', {
-                      count: s.state.songs.length,
-                      defaultValue: `${s.state.songs.length} songs`
+                      count: songCount(s),
+                      defaultValue: `${songCount(s)} songs`
                     })}
                   </Text>
                 </Stack>
                 <HStack gap={2}>
                   <Button asChild size="xs" variant="outline">
-                    <a href={builderHref(s.state)}>
+                    <a href={builderHref({ prediction: s.id })}>
                       <BiEdit /> {t('game.edit', { defaultValue: 'Edit' })}
                     </a>
                   </Button>
                   {!noSetlist && (
                     <Button asChild size="xs">
-                      <a href={markHref(s.state)}>
+                      <a href={markHref({ prediction: s.id, live: s.live })}>
                         <BiCheckDouble /> {t('game.mark', { defaultValue: 'Mark' })}
                       </a>
                     </Button>

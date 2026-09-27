@@ -1,6 +1,6 @@
 /**
- * Sekai setlist editor: user-written title, the live being predicted, localStorage save slots
- * and an lz-string share URL around the SetlistBuilder. No backend.
+ * Sekai setlist editor: user-written title, the live being predicted, saved predictions
+ * (localStorage) and an lz-string share URL around the SetlistBuilder. No backend.
  */
 import { useEffect, useState } from 'react';
 import i18next from 'i18next';
@@ -14,15 +14,15 @@ import { Input } from '~/components/ui/styled/input';
 import { Text } from '~/components/ui/styled/text';
 import { useToaster } from '~/context/ToasterContext';
 import { getSekaiLive, sekaiLiveName } from '~/utils/sekai-setlist/live-data';
-import { liveParam, markHref } from '~/utils/sekai-setlist/routes';
-import { EMPTY_STATE, decodeHash, shareUrl, type SetlistState } from '~/utils/sekai-setlist/share';
+import { usePredictions } from '~/hooks/usePredictions';
+import { fromSetlistState, toSetlistState } from '~/utils/sekai-setlist/prediction';
 import {
-  listSlots,
-  saveSlot,
-  loadSlot,
-  deleteSlot,
-  type SavedSlot
-} from '~/utils/sekai-setlist/storage';
+  deletePrediction,
+  getPrediction,
+  savePrediction
+} from '~/utils/sekai-setlist/predictions-store';
+import { liveParam, markHref, predictionParam } from '~/utils/sekai-setlist/routes';
+import { EMPTY_STATE, decodeShare, shareUrl, type SetlistState } from '~/utils/sekai-setlist/share';
 
 /** Default title for a prediction of the given live (i18next's global instance, so effects can call it). */
 function predictionTitle(id: string) {
@@ -38,15 +38,22 @@ export function SekaiSetlistEditor() {
   const { t } = useTranslation();
   const { toast } = useToaster();
   const [state, setState] = useState<SetlistState>(EMPTY_STATE);
-  const [slots, setSlots] = useState<SavedSlot[]>([]);
-  const [slotName, setSlotName] = useState('');
+  const [savedId, setSavedId] = useState<string>();
+  const { predictions } = usePredictions();
 
   useEffect(() => {
-    const fromHash = decodeHash(window.location.hash);
+    const id = predictionParam();
+    const saved = id ? getPrediction(id) : undefined;
+    if (saved) {
+      setState(toSetlistState(saved));
+      setSavedId(saved.id);
+      return;
+    }
+    const shared = decodeShare(window.location.hash);
+    const fromHash = shared && { ...toSetlistState(shared.prediction), ordered: shared.ordered };
     const live = getSekaiLive(fromHash?.live ?? liveParam());
     if (fromHash) {
       setState({ ...fromHash, live: live?.id });
-      setSlotName(fromHash.title);
     } else if (live) {
       setState({
         ...EMPTY_STATE,
@@ -54,7 +61,6 @@ export function SekaiSetlistEditor() {
         title: predictionTitle(live.id)
       });
     }
-    setSlots(listSlots());
   }, []);
 
   const update = (partial: Partial<SetlistState>) => setState((s) => ({ ...s, ...partial }));
@@ -70,31 +76,35 @@ export function SekaiSetlistEditor() {
     });
 
   const doSave = () => {
-    const name = (slotName || state.title || 'Untitled').trim();
-    saveSlot(name, { ...state, title: state.title || name }, Date.now());
-    setSlots(listSlots());
+    const name = (state.title || 'Untitled').trim();
+    const next = fromSetlistState({ ...state, title: name });
+    const prev = savedId ? getPrediction(savedId) : undefined;
+    const saved = savePrediction(
+      prev ? { ...prev, name, live: next.live, items: next.items } : next
+    );
+    setSavedId(saved.id);
     toast({
       title: t('sekaiSetlist.saved', { name, defaultValue: `Saved “${name}”` }),
       type: 'success'
     });
   };
-  const doLoad = (name: string) => {
-    const loaded = loadSlot(name);
+  const doLoad = (id: string) => {
+    const loaded = getPrediction(id);
     if (!loaded) return;
-    setState(loaded);
-    setSlotName(loaded.title || name);
+    setState(toSetlistState(loaded));
+    setSavedId(id);
     clearHash();
   };
-  const doDelete = (name: string) => {
+  const doDelete = (id: string) => {
     if (!window.confirm(t('common.confirmDelete', { defaultValue: 'Are you sure?' }))) return;
-    deleteSlot(name);
-    setSlots(listSlots());
+    deletePrediction(id);
+    if (id === savedId) setSavedId(undefined);
   };
   const doNew = () => {
     setState(
       live ? { ...EMPTY_STATE, live: live.id, title: predictionTitle(live.id) } : EMPTY_STATE
     );
-    setSlotName('');
+    setSavedId(undefined);
     clearHash();
   };
   const doShare = async () => {
@@ -150,52 +160,37 @@ export function SekaiSetlistEditor() {
             <Button size="sm" variant="outline" onClick={doNew}>
               <BiPlus /> {t('common.new', { defaultValue: 'New' })}
             </Button>
-            <HStack gap={1}>
-              <Input
-                size="sm"
-                value={slotName}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSlotName(e.target.value)}
-                placeholder={t('sekaiSetlist.slotName', { defaultValue: 'Slot name' })}
-                w="44"
-              />
-              <Button size="sm" variant="outline" onClick={doSave}>
-                <BiSave /> {t('save', { defaultValue: 'Save' })}
-              </Button>
-            </HStack>
+            <Button size="sm" variant="outline" onClick={doSave}>
+              <BiSave /> {t('save', { defaultValue: 'Save' })}
+            </Button>
             <Button size="sm" variant="outline" onClick={() => void doShare()}>
               <BiLink /> {t('sekaiSetlist.shareLink', { defaultValue: 'Share link' })}
             </Button>
             <Button asChild size="sm" variant={live?.performances.length ? 'solid' : 'outline'}>
-              <a href={markHref(state)}>
+              <a href={markHref({ share: fromSetlistState(state) })}>
                 <BiCheckDouble /> {t('game.mark', { defaultValue: 'Mark' })}
               </a>
             </Button>
           </Wrap>
 
-          {slots.length > 0 && (
+          {predictions.length > 0 && (
             <Wrap gap={1.5} alignItems="center">
               <HStack gap={1} color="fg.subtle" fontSize="xs">
                 <BiFolderOpen /> {t('sekaiSetlist.savedSlots', { defaultValue: 'Saved:' })}
               </HStack>
-              {slots.map((s) => (
-                <HStack
-                  key={s.name}
-                  gap={0}
-                  borderRadius="full"
-                  borderWidth="1px"
-                  overflow="hidden"
-                >
-                  <Button size="xs" variant="ghost" onClick={() => doLoad(s.name)} borderRadius="0">
-                    {s.name}
+              {predictions.map((p) => (
+                <HStack key={p.id} gap={0} borderRadius="full" borderWidth="1px" overflow="hidden">
+                  <Button size="xs" variant="ghost" onClick={() => doLoad(p.id)} borderRadius="0">
+                    {p.name || t('game.untitled', { defaultValue: 'Untitled prediction' })}
                   </Button>
                   <Button
                     size="xs"
                     variant="ghost"
                     aria-label={t('sekaiSetlist.deleteSlot', {
-                      name: s.name,
-                      defaultValue: `Delete ${s.name}`
+                      name: p.name,
+                      defaultValue: `Delete ${p.name}`
                     })}
-                    onClick={() => doDelete(s.name)}
+                    onClick={() => doDelete(p.id)}
                     borderRadius="0"
                     color="fg.subtle"
                   >
