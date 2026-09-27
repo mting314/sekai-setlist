@@ -4,14 +4,11 @@ on:
   push:
     branches:
       - main
-  workflow_run:
-    workflows: ["Update Data"]
-    types: [completed]
+
 jobs:
   # Build job
   build:
     name: Build Project
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,7 +16,7 @@ jobs:
       - name: Install Dependencies
         uses: ./.github/composite-actions/setup
       - name: Build
-        run: PUBLIC_ENV__BASE_URL=/the-sorter bun run ci:build
+        run: PUBLIC_ENV__BASE_URL=/sekai-setlist bun run ci:build
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
