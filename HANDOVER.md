@@ -87,12 +87,11 @@ break it. At minimum:
 
 Record findings as a short list; fix what's clearly a bug, ask about anything that's a design call.
 
-## Task 3: deploy (ask before enabling)
+## Task 3: check the deployed site
 
-GitHub Actions are disabled on this repo. To go live: enable Actions, set Pages → Source to
-"GitHub Actions", and push to `main`; `deploy.yml` builds with `PUBLIC_ENV__BASE_URL=/sekai-setlist`.
-Then run the e2e script against the deployed site. This is the real test of the no-referrer jacket
-fix, since localhost Referers aren't blocked:
+`deploy.yml` publishes every push to `main` to https://mting314.github.io/sekai-setlist/ (built with
+`PUBLIC_ENV__BASE_URL=/sekai-setlist`). Run the e2e script against it. This is the real test of the
+no-referrer jacket fix, since localhost Referers aren't blocked:
 
 ```bash
 BASE_URL=https://mting314.github.io/sekai-setlist bun scripts/e2e/sekai-setlist.e2e.ts
@@ -102,4 +101,4 @@ BASE_URL=https://mting314.github.io/sekai-setlist bun scripts/e2e/sekai-setlist.
 
 - Conventional commits with a lowercase-kebab scope, e.g. `fix(mark): …`. Keep `bun check` green.
 - Related: [sekai-story-indexer PR #57](https://github.com/mting314/sekai-story-indexer/pull/57)
-  (draft) removes the old builder from the indexer. Merge it only after this site is live.
+  (draft) removes the old builder from the indexer. The site is live, so it can merge once Task 3 passes.
