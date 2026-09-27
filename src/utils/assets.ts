@@ -3,7 +3,8 @@ import { join } from 'path-browserify';
 export const assetsURL = import.meta.env.PUBLIC_ENV__BASE_URL + 'assets/';
 
 export const getAssetUrl = (path: string) => {
-  return join(import.meta.env.PUBLIC_ENV__BASE_URL ?? '', path);
+  // BASE_URL is Vite's resolved `base` (always set, '/' by default), so dev URLs stay absolute.
+  return join(import.meta.env.BASE_URL, path);
 };
 export const getPicUrl = (
   id: string,
