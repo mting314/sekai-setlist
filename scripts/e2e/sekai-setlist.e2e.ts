@@ -15,13 +15,21 @@
  * can shift them. They're computed here rather than hard-coded.
  */
 import fs from 'fs';
-import { chromium, devices, type Browser, type BrowserContextOptions, type Page } from 'playwright';
+import {
+  chromium,
+  devices,
+  type Browser,
+  type BrowserContextOptions,
+  type Locator,
+  type Page
+} from 'playwright';
 const songs = JSON.parse(
   fs.readFileSync(new URL('../../data/sekai/songs.json', import.meta.url), 'utf8')
 );
 
 const BASE = (process.env.BASE_URL ?? 'http://localhost:3000').replace(/\/$/, '');
 const PAGE_URL = `${BASE}/builder`;
+const LIVE_ID = 'project-sekai-colorful-live-3rd-evolve';
 const OUT = 'test-results/sekai-setlist';
 fs.mkdirSync(OUT, { recursive: true });
 
@@ -44,8 +52,8 @@ function check(name: string, ok: boolean, detail?: unknown) {
   if (!ok) failures.push(line);
 }
 
-async function imgStats(page: Page, pattern: string) {
-  return page.locator(`img[src*="${pattern}"]`).evaluateAll((els) =>
+async function imgStats(root: Page | Locator, pattern: string) {
+  return root.locator(`img[src*="${pattern}"]`).evaluateAll((els) =>
     (els as HTMLImageElement[]).map((i) => ({
       loaded: i.complete && i.naturalWidth > 0,
       failed: i.complete && i.naturalWidth === 0,
@@ -54,9 +62,10 @@ async function imgStats(page: Page, pattern: string) {
   );
 }
 
+// Setlist rows only; search results carry data-song-id too.
 const setlistIds = (page: Page) =>
   page
-    .locator('[data-song-id]')
+    .locator('[data-item-id][data-song-id]')
     .evaluateAll((els) => els.map((e) => e.getAttribute('data-song-id')));
 
 async function run(label: string, opts: BrowserContextOptions, browser: Browser) {
@@ -84,27 +93,51 @@ async function run(label: string, opts: BrowserContextOptions, browser: Browser)
   const shot = (n: string, fullPage = true) =>
     page.screenshot({ path: `${OUT}/${label}-${n}.png`, fullPage });
 
-  await shot('01-empty');
+  const phone = label === 'phone';
+  const menu = async (trigger: string, item: string) => {
+    await page.getByRole('button', { name: trigger }).click();
+    await page.getByRole('menuitem', { name: item }).click();
+  };
+  const noOverflow = async (where: string) => {
+    if (!phone) return;
+    const px = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
+    check(`no horizontal page overflow (${where})`, px <= 0, px);
+  };
+  const nameInput = page.getByRole('textbox', { name: 'Prediction name' });
+  const rows = page.locator('[data-item-id]');
 
-  // --- search dialog + filters
-  await page
-    .getByRole('button', { name: /Add songs/ })
-    .first()
-    .click();
-  const dialog = page.getByRole('dialog');
-  await dialog.waitFor();
+  // --- first visit: the New dialog opens on its own
+  const newDialog = page.getByRole('dialog', { name: 'New prediction' });
+  await newDialog.waitFor();
+  check('New dialog opens on first visit', await newDialog.isVisible());
+  await shot('01-new-dialog', false);
+  await newDialog.getByRole('textbox', { name: 'Search lives' }).fill('evolve');
+  await newDialog.locator(`[data-live-option="${LIVE_ID}"]`).click();
+  await newDialog.getByRole('button', { name: 'Create' }).click();
+  await newDialog.waitFor({ state: 'hidden' });
+  check('new prediction gets a default name', (await nameInput.inputValue()).length > 0);
+  check('URL points at the prediction', /[?&]prediction=/.test(page.url()), page.url());
+  await shot('02-empty-builder');
+
+  // --- song search: left panel on desktop, drawer on phone
+  let search: Locator;
+  if (phone) {
+    await page.getByRole('button', { name: 'Song search' }).click();
+    search = page.getByRole('dialog', { name: 'Song search' });
+    await search.waitFor();
+  } else {
+    search = page.locator('[data-builder-panel="search"]');
+  }
   const resultCount = async () => {
     await page.waitForTimeout(150);
-    const txt = await dialog
-      .getByText(/^\d+ songs$/)
-      .first()
-      .textContent();
-    return Number(txt?.match(/\d+/)?.[0]);
+    const txt = await search.getByText(/^Showing \d+/).textContent();
+    const [, shown, total] = txt?.match(/Showing (\d+)(?: of (\d+))?/) ?? [];
+    return Number(total ?? shown);
   };
   check('initial result count = catalog size', (await resultCount()) === EXPECT.all, EXPECT.all);
 
   await page.waitForTimeout(2500); // let lazy jackets + icons load
-  const jackets = await imgStats(page, 'music/jacket');
+  const jackets = await imgStats(search, 'music/jacket');
   const loadedCount = jackets.filter((j) => j.loaded).length;
   check('jackets rendered', jackets.length > 0, jackets.length);
   check(
@@ -116,21 +149,21 @@ async function run(label: string, opts: BrowserContextOptions, browser: Browser)
     'jackets use no-referrer',
     jackets.every((j) => j.referrerPolicy === 'no-referrer')
   );
-  const unitIcons = await imgStats(page, 'sekai/units');
+  const unitIcons = await imgStats(search, 'sekai/units');
   check(
     'unit icons loaded',
     unitIcons.length >= 6 && unitIcons.every((i) => i.loaded),
     unitIcons.length
   );
-  const charaIcons = await imgStats(page, 'sekai/chara');
+  const charaIcons = await imgStats(search, 'sekai/chara');
   check(
     'vocalist icons loaded',
     charaIcons.length > 0 && charaIcons.every((i) => i.loaded),
     charaIcons.length
   );
-  await shot('02-dialog', false);
+  await shot('03-search', false);
 
-  const chip = (name: RegExp) => dialog.getByRole('button', { name });
+  const chip = (name: RegExp) => search.getByRole('button', { name });
   await chip(/^Leo\/need/).click();
   check('Leo/need filter', (await resultCount()) === EXPECT.leo, EXPECT.leo);
   await chip(/^Other/).click();
@@ -144,47 +177,54 @@ async function run(label: string, opts: BrowserContextOptions, browser: Browser)
   check('Covers', (await resultCount()) === EXPECT.cover, EXPECT.cover);
   await chip(/^All$/).click();
 
-  const search = dialog.getByPlaceholder(/Search by title/);
-  await search.fill('roki'); // EN name of ロキ (id 2)
-  check(
-    'EN-name search finds ROKI',
-    (await dialog.getByRole('button', { name: /^Add ROKI$/ }).count()) === 1
-  );
-  await dialog.getByRole('button', { name: /^Add ROKI$/ }).click();
-  await search.fill('Tell Your World');
-  const tyw = dialog.getByRole('button', { name: /^Add Tell Your World$/ });
-  await tyw.click();
-  await tyw.click(); // duplicate on purpose ("Again")
-  await search.fill('teo');
-  await dialog.getByRole('button', { name: /^Add Teo$/ }).click();
-  await search.fill('');
-  await shot('03-dialog-used', false);
-  if (label === 'phone') {
-    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
-    check('no horizontal overflow with dialog open', overflow <= 0, overflow);
+  const box = search.getByRole('textbox', { name: 'Search songs' });
+  const add = (name: string) => search.getByRole('button', { name: `Add ${name} to setlist` });
+  await box.fill('roki'); // EN name of ロキ (id 2)
+  check('EN-name search finds ROKI', (await add('ROKI').count()) === 1);
+  await add('ROKI').click();
+  await box.fill('Tell Your World');
+  await add('Tell Your World').click();
+  await add('Tell Your World').click(); // duplicate on purpose
+  await box.fill('teo');
+  await add('Teo').click();
+  await box.fill('');
+  await shot('04-songs-added', false);
+  if (phone) {
+    await noOverflow('song search drawer open');
+    await page.keyboard.press('Escape');
+    await search.waitFor({ state: 'hidden' });
   }
-  await dialog.getByRole('button', { name: 'Close', exact: true }).click();
-  await dialog.waitFor({ state: 'hidden' });
 
-  const bagIds = await setlistIds(page);
+  const added = await setlistIds(page);
   check(
     '4 songs in setlist incl. duplicate',
-    bagIds.length === 4 && bagIds.filter((i) => i === '1').length === 2,
-    bagIds
+    added.length === 4 && added.filter((i) => i === '1').length === 2,
+    added
   );
 
-  // --- ordered mode + reorder
-  const orderToggle = page.getByRole('checkbox', { name: /Exact order/ });
-  if (!(await orderToggle.isChecked())) {
-    await orderToggle.click();
-    await page.waitForTimeout(300);
+  // --- quick add ENCORE: double-click in the panel, or the + button's sheet on phone
+  if (phone) {
+    await page.getByRole('button', { name: 'Add item' }).click();
+    const sheet = page.getByRole('dialog', { name: 'Add item' });
+    await sheet.getByRole('button', { name: 'Encore' }).click();
+    await sheet.waitFor({ state: 'hidden' });
+  } else {
+    await search.locator('[data-quick-add="encore"]').dblclick();
   }
+  await page.waitForTimeout(200);
+  check(
+    'encore row added at the end',
+    (await rows.last().getAttribute('data-item-type')) === 'encore',
+    await rows.evaluateAll((els) => els.map((e) => e.getAttribute('data-item-type')))
+  );
+
+  // --- reorder by drag handle
   const before = await setlistIds(page);
-  const handle = page.locator('[data-drag-handle]').first();
-  if (label === 'phone') {
-    // Pointer drag (PointerSensor, 4px activation) — first row down to the second row.
+  const handle = rows.first().locator('[data-drag-handle]');
+  if (phone) {
+    // Pointer drag (PointerSensor, 8px activation): first row down onto the second row.
     const a = await handle.boundingBox();
-    const b = await page.locator('[data-drag-handle]').nth(1).boundingBox();
+    const b = await rows.nth(1).locator('[data-drag-handle]').boundingBox();
     if (a && b) {
       await page.mouse.move(a.x + a.width / 2, a.y + a.height / 2);
       await page.mouse.down();
@@ -208,69 +248,121 @@ async function run(label: string, opts: BrowserContextOptions, browser: Browser)
     after[0] !== before[0] && JSON.stringify(after) !== JSON.stringify(before),
     { before, after }
   );
-  await shot('04-ordered');
 
-  // --- title, share link, round trip
-  await page.getByPlaceholder(/Setlist title/).fill(`E2E ${label}`);
-  await page.getByRole('button', { name: /Share link/ }).click();
+  // --- edit dialog: add a remark to the first row
+  await rows
+    .first()
+    .getByRole('button', { name: /^Edit / })
+    .click();
+  const editDialog = page.getByRole('dialog', { name: 'Edit item' });
+  await editDialog.getByRole('button', { name: 'Short Ver.' }).click();
+  await editDialog.getByRole('button', { name: 'Save' }).click();
+  await editDialog.waitFor({ state: 'hidden' });
+  check('remark shows on the row', (await rows.first().getByText('Short Ver.').count()) === 1);
+
+  // --- name + autosave survives a reload
+  const name = `E2E ${label}`;
+  await nameInput.fill(name);
+  await page.waitForTimeout(800); // autosave debounce
+  await shot('05-built');
+  await noOverflow('builder');
+  await page.reload({ waitUntil: 'networkidle' });
+  await nameInput.waitFor();
+  check('name survives reload', (await nameInput.inputValue()) === name);
+  check(
+    'songs + order survive reload',
+    JSON.stringify(await setlistIds(page)) === JSON.stringify(after),
+    await setlistIds(page)
+  );
+  check('remark survives reload', (await rows.first().getByText('Short Ver.').count()) === 1);
+
+  // --- share link -> /view in a fresh browser
+  let actions: Locator;
+  if (phone) {
+    await menu('More', 'Actions');
+    actions = page.getByRole('dialog', { name: 'Actions' });
+    await actions.waitFor();
+    await shot('06-actions-drawer', false);
+  } else {
+    actions = page.locator('[data-builder-panel="actions"]');
+  }
+  await actions.getByRole('button', { name: 'Copy share link' }).click();
   await page.waitForTimeout(300);
-  const clip = await page.evaluate(() => navigator.clipboard.readText().catch(() => ''));
-  const shared = clip || page.url();
-  check('share link has #s= payload', /#s=/.test(shared), shared.slice(0, 80));
+  const shared = await page.evaluate(() => navigator.clipboard.readText().catch(() => ''));
+  check('share link is /view#p=', /\/view#p=/.test(shared), shared.slice(0, 80));
+  if (phone) await page.keyboard.press('Escape');
 
   const ctx2 = await browser.newContext({ ...opts, locale: 'en-US' });
   const p2 = await ctx2.newPage();
   await p2.goto(shared, { waitUntil: 'networkidle' });
   await p2.waitForTimeout(500);
+  check('/view shows the name', (await p2.getByText(name, { exact: true }).count()) > 0);
   check(
-    'round-trip title',
-    (await p2.getByPlaceholder(/Setlist title/).inputValue()) === `E2E ${label}`
+    '/view shows every song',
+    (await p2.locator('[data-view-item="song"]').count()) === after.length,
+    await p2.locator('[data-view-item="song"]').count()
   );
+  check('/view shows the encore', (await p2.locator('[data-view-item="encore"]').count()) === 1);
+  check('/view shows the remark', (await p2.getByText('Short Ver.').count()) > 0);
   check(
-    'round-trip songs + order',
-    JSON.stringify(await setlistIds(p2)) === JSON.stringify(after),
-    await setlistIds(p2)
+    '/view offers saving',
+    await p2.getByRole('button', { name: 'Save to my predictions' }).isVisible()
   );
-  await p2.screenshot({ path: `${OUT}/${label}-05-roundtrip.png`, fullPage: true });
+  await p2.screenshot({ path: `${OUT}/${label}-07-view.png`, fullPage: true });
   await ctx2.close();
 
-  // --- saved predictions (saved under the title)
-  const slot = `E2E ${label}`;
-  await page.getByRole('button', { name: /^Save$/ }).click();
-  await page.getByRole('button', { name: /^New$/ }).click();
-  await page.waitForTimeout(200);
-  check('New clears setlist', (await setlistIds(page)).length === 0);
-  await page.getByRole('button', { name: slot, exact: true }).click();
-  await page.waitForTimeout(200);
+  // --- a second (custom event) prediction, then Load / Delete
+  if (phone) await menu('Builder menu', 'New');
+  else await page.getByRole('button', { name: 'New', exact: true }).click();
+  await newDialog.waitFor();
+  await newDialog.getByRole('button', { name: 'Custom' }).click();
+  await newDialog.getByRole('textbox', { name: 'Event name' }).fill('E2E custom event');
+  await newDialog.getByRole('button', { name: 'Create' }).click();
+  await newDialog.waitFor({ state: 'hidden' });
+  check('New starts an empty setlist', (await rows.count()) === 0);
+  check('custom event name used', (await nameInput.inputValue()).includes('E2E custom event'));
+  await page.waitForTimeout(800);
+
+  const openLoad = async () => {
+    if (phone) await menu('Builder menu', 'Load');
+    else await page.getByRole('button', { name: 'Load', exact: true }).click();
+    const dialog = page.getByRole('dialog', { name: 'Load prediction' });
+    await dialog.waitFor();
+    return dialog;
+  };
+  let loadDialog = await openLoad();
+  const saved = loadDialog.locator('[data-prediction-id]');
+  check('Load lists both predictions', (await saved.count()) === 2, await saved.count());
+  await shot('08-load-dialog', false);
+  await saved.filter({ hasText: name }).click();
+  await loadDialog.getByRole('button', { name: 'Load', exact: true }).click();
+  await loadDialog.waitFor({ state: 'hidden' });
+  check('Load restores the name', (await nameInput.inputValue()) === name);
   check(
-    'slot restores title',
-    (await page.getByPlaceholder(/Setlist title/).inputValue()) === `E2E ${label}`
-  );
-  check('slot restores songs', JSON.stringify(await setlistIds(page)) === JSON.stringify(after));
-  await page.getByRole('button', { name: `Delete ${slot}` }).click();
-  await page.waitForTimeout(200);
-  check(
-    'slot deleted',
-    (await page.getByRole('button', { name: slot, exact: true }).count()) === 0
+    'Load restores the songs',
+    JSON.stringify(await setlistIds(page)) === JSON.stringify(after)
   );
 
-  await shot('06-builder-final');
+  loadDialog = await openLoad();
+  await loadDialog.getByRole('button', { name: `Delete ${name}` }).click(); // confirm auto-accepted
+  await page.waitForTimeout(200);
+  check('prediction deleted', (await saved.filter({ hasText: name }).count()) === 0);
+  await page.keyboard.press('Escape');
+
+  await shot('09-builder-final');
 
   // --- repository pages + attendance log
-  const overflow = async (where: string) => {
-    if (label !== 'phone') return;
-    const px = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
-    check(`no horizontal page overflow (${where})`, px <= 0, px);
-  };
   await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
-  if (label === 'phone') await page.getByRole('button', { name: 'Open Menu' }).click();
+  if (phone) await page.getByRole('button', { name: 'Open Menu' }).click();
   for (const name of ['Lives', 'Songs', 'My Lives', 'Predict'])
-    check(`nav has ${name}`, await page.getByRole('link', { name, exact: true }).first().isVisible());
-  if (label === 'phone') await page.keyboard.press('Escape');
-  await overflow('home');
+    check(
+      `nav has ${name}`,
+      await page.getByRole('link', { name, exact: true }).first().isVisible()
+    );
+  if (phone) await page.keyboard.press('Escape');
+  await noOverflow('home');
 
-  const liveId = 'project-sekai-colorful-live-3rd-evolve';
-  await page.goto(`${BASE}/lives/${liveId}`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE}/lives/${LIVE_ID}`, { waitUntil: 'networkidle' });
   const show = page.getByRole('group', { name: 'How you attended Tokyo Day 1 · Daytime' });
   await show.getByRole('button', { name: 'In person' }).click();
   await page.reload({ waitUntil: 'networkidle' });
@@ -279,34 +371,31 @@ async function run(label: string, opts: BrowserContextOptions, browser: Browser)
     (await show.getByRole('button', { name: 'In person' }).getAttribute('aria-pressed')) === 'true'
   );
   check('attended setlist marked', (await page.getByText('You were here').count()) === 1);
-  await overflow('live page');
-  await shot('07-live-page');
+  await noOverflow('live page');
+  await shot('10-live-page');
 
   const firstSong = page.locator('a[href*="/songs/"]').first();
   const songHref = await firstSong.getAttribute('href');
-  await Promise.all([
-    page.waitForURL((u) => u.pathname.includes('/songs/')),
-    firstSong.click()
-  ]);
+  await Promise.all([page.waitForURL((u) => u.pathname.includes('/songs/')), firstSong.click()]);
   await page.waitForLoadState('networkidle');
   check(
     'setlist song links to its page',
-    page.url().replace(/\/$/, '').endsWith(songHref?.replace(/\/$/, '') ?? '?'),
+    page
+      .url()
+      .replace(/\/$/, '')
+      .endsWith(songHref?.replace(/\/$/, '') ?? '?'),
     page.url()
   );
   const heardNote = page.getByText(/You heard this live/);
   await heardNote.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
   check('song page says you heard it', await heardNote.isVisible());
   const unitLink = page.locator('a[href*="/units/"]').first();
-  await Promise.all([
-    page.waitForURL((u) => u.pathname.includes('/units/')),
-    unitLink.click()
-  ]);
+  await Promise.all([page.waitForURL((u) => u.pathname.includes('/units/')), unitLink.click()]);
   await page.waitForLoadState('networkidle');
   const mostPerf = page.getByText('Most performed');
   await mostPerf.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
   check('unit page loads', await mostPerf.isVisible(), page.url());
-  await overflow('unit page');
+  await noOverflow('unit page');
 
   await page.goto(`${BASE}/me`, { waitUntil: 'networkidle' });
   const showsStat = page
@@ -314,8 +403,8 @@ async function run(label: string, opts: BrowserContextOptions, browser: Browser)
     .first()
     .locator('xpath=following-sibling::*[1]');
   check('My Lives counts the show', (await showsStat.textContent()) === '1');
-  await overflow('my lives');
-  await shot('08-my-lives');
+  await noOverflow('my lives');
+  await shot('11-my-lives');
   await page.evaluate(() => localStorage.removeItem('sekai-setlist:attendance'));
   check('no console errors', consoleErrors.length === 0, consoleErrors);
   check('no HTTP >= 400', httpErrors.length === 0, httpErrors);

@@ -18,17 +18,19 @@ Deploys to https://mting314.github.io/sekai-setlist/ via GitHub Pages (`deploy.y
 | `/units/:id` | One unit (or Other): its songs by times performed, the lives that featured it                              |
 | `/me`        | My Lives: shows you attended, songs heard, per-unit progress; export / import JSON, read-only share link   |
 | `/predict`   | How the prediction game works, your saved predictions, lives still waiting on a setlist                    |
-| `/builder`   | Build a prediction for a live: search, unit / commissioned / cover filters, ordered or unordered, encore   |
+| `/builder`   | Build a prediction: drag in songs, MC / encore rows, remarks, import a past setlist, share as link / image |
+| `/view`      | A shared prediction, read-only, with save / edit / mark                                                    |
 | `/mark`      | Score a prediction against a setlist from `/lives` or a pasted one-song-per-line setlist                   |
 
 Shows (which dates and day/night performances a live had, and which setlist each used) come from
 `data/sekai/shows.json`; lives not listed there get one show per setlist. Attendance is stored in
 `localStorage` (`sekai-setlist:attendance`); a `/me#a=…` link shares it read-only.
 
-A prediction (title, live, songs, encore split, ordered or not) is lz-string encoded into the URL
-hash (`#s=…`), so a link is the whole prediction. Saved slots live in `localStorage`. The old
-`/sekai-setlist/`, `/sekai-setlist/lives/` and `/setlist-prediction/` paths redirect via static
-pages in `public/`.
+The builder autosaves each prediction to `localStorage` (`sekai-setlist:predictions`); New / Load
+switch between them, and saved slots from the old builder are migrated on first load. A share link
+(`/view#p=…`) is the whole prediction lz-string encoded into the hash, so there's no backend; old
+`#s=…` links still open in the builder and in `/mark`. The old `/sekai-setlist/`,
+`/sekai-setlist/lives/` and `/setlist-prediction/` paths redirect via static pages in `public/`.
 
 ## Scoring
 
@@ -43,7 +45,8 @@ Ordered predictions score each predicted song once, against its best unclaimed l
 
 Max is `songs × 15 + 10`, plus 5 when the real setlist has an encore. A song performed twice has to
 be predicted twice to score twice. Unordered predictions score 10 per performed song and no
-bonuses. Rules live in `src/utils/sekai-setlist/scoring.ts`.
+bonuses; only old `#s=` links made with the previous builder's unordered mode can be unordered.
+Rules live in `src/utils/sekai-setlist/scoring.ts`.
 
 ## Data
 

@@ -1,5 +1,5 @@
-// Shareable Sekai setlist URLs. The full builder state is lz-string-compressed into the URL
-// hash, so a setlist can be shared/bookmarked with no backend.
+// Shareable Sekai setlist URLs. A prediction is lz-string-compressed into the URL hash
+// (`#p=`, or the legacy `#s=` setlist), so it can be shared/bookmarked with no backend.
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
 import { fromSetlistState, itemId, newPrediction } from './prediction';
 import type { PredictionItem, SekaiPrediction } from '~/types/sekai-prediction';
@@ -15,17 +15,9 @@ export interface SetlistState {
   live?: string;
 }
 
-export const EMPTY_STATE: SetlistState = { title: '', songs: [], encore: [], ordered: true };
-
 /** Encode state into a hash fragment string (no leading '#'). */
 export function encodeState(state: SetlistState): string {
   return 's=' + compressToEncodedURIComponent(JSON.stringify(state));
-}
-
-/** Full shareable URL for the current state (uses the running page's origin+path). */
-export function shareUrl(state: SetlistState): string {
-  const base = typeof window !== 'undefined' ? window.location.href.split('#')[0] : '';
-  return `${base}#${encodeState(state)}`;
 }
 
 /** Parse a state from a hash fragment (with or without leading '#'). Undefined if absent/invalid. */
