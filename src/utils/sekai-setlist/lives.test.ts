@@ -4,6 +4,7 @@ import {
   filterLives,
   liveSongMatches,
   performanceToState,
+  songHistory,
   songStats
 } from './lives';
 import type { SekaiLive, SekaiSong } from '~/types/sekai';
@@ -134,5 +135,41 @@ describe('performanceToState', () => {
       encore: [1, 2],
       ordered: true
     });
+  });
+});
+
+describe('songHistory', () => {
+  it('lists every appearance newest first, reprises included', () => {
+    const h = songHistory('2', LIVES).map((p) => [p.live.id, p.perf.name, p.position]);
+    expect(h).toEqual([
+      ['tf2', 'Day 1', 1],
+      ['tf2', 'Day 2', 1],
+      ['cl1', '', 2]
+    ]);
+    expect(songHistory('1', LIVES).map((p) => p.position)).toEqual([1, 3]);
+  });
+  it('flags encore songs and keeps notes', () => {
+    const l: SekaiLive = {
+      ...live('x', 'colorful_live', '2022-01-01', []),
+      performances: [
+        {
+          name: '',
+          markers: [{ at: 1, label: 'Encore' }],
+          songs: [
+            { songId: '1', title: '' },
+            { songId: '1', title: '', note: '(Short ver.)' }
+          ]
+        }
+      ]
+    };
+    expect(
+      songHistory('1', [l]).map(({ position, encore, note }) => ({ position, encore, note }))
+    ).toEqual([
+      { position: 1, encore: false, note: undefined },
+      { position: 2, encore: true, note: '(Short ver.)' }
+    ]);
+  });
+  it('is empty for a song never performed', () => {
+    expect(songHistory('99', LIVES)).toEqual([]);
   });
 });

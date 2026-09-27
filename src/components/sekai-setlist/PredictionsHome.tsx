@@ -1,66 +1,34 @@
 /**
- * Predictions home: how the game works, lives still waiting on a setlist (predict them), your
+ * Predictions hub (/predict): how the game works, lives still waiting on a setlist (predict them), your
  * saved predictions (edit / mark) and the latest setlists to mark against.
  */
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiCheckDouble, BiEdit, BiLink, BiListOl } from 'react-icons/bi';
-import { Box, Grid, HStack, Stack, Wrap, styled } from 'styled-system/jsx';
-import { Badge } from '~/components/ui/styled/badge';
+import { Grid, HStack, Stack, Wrap } from 'styled-system/jsx';
+import { Card, LiveSummaryCard as LiveCard } from './LiveSummaryCard';
 import { Button } from '~/components/ui/styled/button';
 import { Link } from '~/components/ui/link';
 import { Text } from '~/components/ui/styled/text';
-import { getSekaiLive, sekaiLiveName, sekaiLives } from '~/utils/sekai-setlist/live-data';
+import {
+  awaitingLives,
+  getSekaiLive,
+  livesWithSetlists,
+  sekaiLiveName
+} from '~/utils/sekai-setlist/live-data';
 import { builderHref, livesHref, markHref } from '~/utils/sekai-setlist/routes';
 import { listSlots, type SavedSlot } from '~/utils/sekai-setlist/storage';
-import type { SekaiLive } from '~/types/sekai';
 
 const RECENT_LIVES = 3;
 
-const Card = styled('div', {
-  base: {
-    borderRadius: 'xl',
-    borderWidth: '1px',
-    p: { base: '3', md: '4' },
-    bgColor: 'bg.default'
-  }
-});
-
-const byDate = (dir: 1 | -1) => (a: SekaiLive, b: SekaiLive) =>
-  dir * (a.startDate ?? '').localeCompare(b.startDate ?? '');
-const awaiting = sekaiLives.filter((l) => l.performances.length === 0).toSorted(byDate(1));
-const recent = sekaiLives
-  .filter((l) => l.performances.length > 0)
-  .toSorted(byDate(-1))
-  .slice(0, RECENT_LIVES);
+const awaiting = awaitingLives;
+const recent = livesWithSetlists.slice(0, RECENT_LIVES);
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <Text fontSize="lg" fontWeight="bold">
       {children}
     </Text>
-  );
-}
-
-function LiveCard({ live, action }: { live: SekaiLive; action: React.ReactNode }) {
-  const { t, i18n } = useTranslation();
-  return (
-    <Card>
-      <HStack gap={3} justifyContent="space-between" alignItems="center">
-        <Stack gap={0.5} minW={0}>
-          <Box>
-            <Badge variant="outline" size="sm">
-              {t(`sekaiSetlist.lives.series.${live.series}`, { defaultValue: live.series })}
-            </Badge>
-          </Box>
-          <Text fontWeight="semibold">{sekaiLiveName(live, i18n.language)}</Text>
-          <Text color="fg.muted" fontSize="xs">
-            {[live.date, live.venue].filter(Boolean).join(' · ')}
-          </Text>
-        </Stack>
-        {action}
-      </HStack>
-    </Card>
   );
 }
 

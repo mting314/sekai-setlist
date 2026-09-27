@@ -122,3 +122,35 @@ export function performanceToState(live: SekaiLive, perf: SekaiLivePerformance):
     ordered: true
   };
 }
+
+export interface SongPerformance {
+  live: SekaiLive;
+  perf: SekaiLivePerformance;
+  position: number; // 1-based, counting every setlist entry
+  note?: string;
+  encore: boolean;
+}
+
+/** Every time a catalog song appears in a setlist, newest live first, setlist order within a live. */
+export function songHistory(songId: string, lives: SekaiLive[]): SongPerformance[] {
+  return lives
+    .toSorted((a, b) => (b.startDate ?? '').localeCompare(a.startDate ?? ''))
+    .flatMap((live) =>
+      live.performances.flatMap((perf) => {
+        const start = encoreStart(perf);
+        return perf.songs.flatMap((s, i) =>
+          s.songId === songId
+            ? [
+                {
+                  live,
+                  perf,
+                  position: i + 1,
+                  ...(s.note && { note: s.note }),
+                  encore: start !== undefined && i >= start
+                }
+              ]
+            : []
+        );
+      })
+    );
+}

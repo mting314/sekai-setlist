@@ -15,6 +15,7 @@ const characterById = new Map<number, SekaiCharacter>(sekaiCharacters.map((c) =>
 const OTHER_COLOR = '#8a8a8a';
 
 export const getSekaiSong = (id: string) => songById.get(id);
+export const getSekaiUnit = (id: string) => unitById.get(id);
 
 /** Display name: the EN title for English UI when known, otherwise the JP title. */
 export const sekaiSongName = (id: string, lang: string) => {

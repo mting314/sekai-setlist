@@ -1,13 +1,14 @@
 {
-  "title": "プロセカ セトリ予想",
-  "description": "プロセカのライブのセトリを予想して、リンクで共有、本番のセトリで採点しよう。",
-  "site_name": "プロセカ セトリ予想",
+  "title": "プロセカ ライブセットリスト",
+  "description": "プロセカのライブセトリ・データベース。楽曲の披露履歴を調べたり、参戦記録をつけたり、次のセトリを予想したりできます。",
+  "site_name": "Sekai Setlists",
   "save": "保存",
   "navigation": {
-    "predict": "セトリ予想",
-    "builder": "ビルダー",
-    "mark": "採点",
-    "lives": "過去のセトリ"
+    "home": "ホーム",
+    "lives": "ライブ",
+    "songs": "楽曲",
+    "me": "参戦記録",
+    "predict": "セトリ予想"
   },
   "error_page": {
     "title": "エラーが発生しました",
@@ -18,7 +19,7 @@
     "clear": "データをクリアして再読み込み",
     "issues_link": "GitHubのIssue",
     "not_found": "このページは存在しません。",
-    "home": "セトリ予想に戻る"
+    "home": "ホームに戻る"
   },
   "common": {
     "menu": "メニュー",
@@ -163,5 +164,38 @@
     "predictingFor": "予想するライブ：",
     "noLive": "ライブなし（理想のセトリ）",
     "pickLive": "予想するライブ"
+  },
+  "hub": {
+    "title": "プロセカ ライブセットリスト",
+    "description": "COLORFUL LIVE、感謝祭、セカイシンフォニー、コネクトライブ、ファンミーティングのセトリを網羅。楽曲がどのライブで披露されたか調べたり、次のセトリを予想したりできます。",
+    "browseLives": "{{count}}公演を見る",
+    "browseSongs": "{{count}}曲を見る",
+    "upcoming": "開催予定",
+    "setlistPending": "セトリ未公開",
+    "toPredict": "自分の予想と採点ルール →",
+    "setlist": "セトリ"
+  },
+  "live": {
+    "open": "公演ページ",
+    "allLives": "← ライブ一覧",
+    "yourPredictions": "この公演の予想",
+    "setlists": "セットリスト",
+    "setlistPending": "セトリはまだ公開されていません。"
+  },
+  "song": {
+    "title": "プロセカ 楽曲一覧",
+    "description": "ゲーム内の全楽曲と、ライブでの披露回数。",
+    "allSongs": "← 楽曲一覧",
+    "released": "ゲーム追加日 {{date}}",
+    "neverPerformed": "まだライブで披露されていません。",
+    "statLives": "公演数",
+    "statSetlists": "セトリ数",
+    "firstPerformed": "初披露",
+    "lastPerformed": "最終披露",
+    "history": "披露されたライブ",
+    "performedOnly": "ライブ披露あり",
+    "sortPerformed": "披露回数順",
+    "sortNewest": "新しい順",
+    "notPerformed": "未披露"
   }
 }

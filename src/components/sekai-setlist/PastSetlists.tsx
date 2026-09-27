@@ -4,7 +4,7 @@
  * commissioned/cover), browse each live's setlists or the most-performed songs, and open any
  * setlist in the builder.
  */
-import { Fragment, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   BiCheckDouble,
@@ -12,9 +12,10 @@ import {
   BiChevronRight,
   BiEdit,
   BiLinkExternal,
-  BiListPlus
+  BiRightArrowAlt
 } from 'react-icons/bi';
 import { Box, HStack, Stack, Wrap, styled } from 'styled-system/jsx';
+import { PerformanceList } from './PerformanceList';
 import { SongJacket } from './SongJacket';
 import { KindBadge } from './SongMeta';
 import { UnitFilterChips } from './UnitFilterChips';
@@ -31,14 +32,13 @@ import {
   filterLives,
   hasSongFilters,
   liveSongMatches,
-  performanceToState,
   songStats,
   type LiveFilters,
   type SongStat
 } from '~/utils/sekai-setlist/lives';
-import { builderHref, markHref } from '~/utils/sekai-setlist/routes';
+import { builderHref, liveHref, markHref, songHref } from '~/utils/sekai-setlist/routes';
 import { NON_UNIT, type SongKind, type UnitFilter } from '~/utils/sekai-setlist/song-filter';
-import type { SekaiLive, SekaiLivePerformance, SekaiLiveSeries } from '~/types/sekai';
+import type { SekaiLive, SekaiLiveSeries } from '~/types/sekai';
 
 const KINDS: SongKind[] = ['all', 'commissioned', 'cover'];
 const MAX_STATS = 100;
@@ -55,16 +55,6 @@ const CardHeader = styled('button', {
     p: { base: '3', md: '4' },
     textAlign: 'left',
     _hover: { bgColor: 'bg.subtle' }
-  }
-});
-
-const SetlistRow = styled('div', {
-  base: {
-    display: 'flex',
-    gap: '2.5',
-    alignItems: 'center',
-    py: '1',
-    '&[data-dim=true]': { opacity: 0.35 }
   }
 });
 
@@ -279,7 +269,12 @@ function LiveCard({
             </Text>
           ))}
           <Wrap gap={2}>
-            <Button asChild size="xs" variant={noSetlist ? 'solid' : 'outline'}>
+            <Button asChild size="xs">
+              <a href={liveHref(live.id)}>
+                {t('live.open', { defaultValue: 'Live page' })} <BiRightArrowAlt />
+              </a>
+            </Button>
+            <Button asChild size="xs" variant="outline">
               <a href={builderHref(undefined, live.id)}>
                 <BiEdit /> {t('game.predictLive', { defaultValue: 'Predict this setlist' })}
               </a>
@@ -311,117 +306,6 @@ function LiveCard({
         </Stack>
       )}
     </Box>
-  );
-}
-
-function PerformanceList({
-  live,
-  perf,
-  filters
-}: {
-  live: SekaiLive;
-  perf: SekaiLivePerformance;
-  filters: LiveFilters;
-}) {
-  const { t, i18n } = useTranslation();
-  const filtered = hasSongFilters(filters);
-  const markerLabel = (label: string) =>
-    /^encore$/i.test(label)
-      ? t('sekaiSetlist.lives.markerEncore', { defaultValue: 'Encore' })
-      : /^intermission$/i.test(label)
-        ? t('sekaiSetlist.lives.markerIntermission', { defaultValue: 'Intermission' })
-        : label;
-
-  return (
-    <Stack gap={1}>
-      <HStack gap={2} justifyContent="space-between">
-        <Text fontSize="sm" fontWeight="semibold">
-          {perf.name ||
-            t('sekaiSetlist.lives.setlist', {
-              count: perf.songs.length,
-              defaultValue: `Setlist (${perf.songs.length} songs)`
-            })}
-        </Text>
-        <Button asChild size="xs" variant="outline" flexShrink={0}>
-          <a href={builderHref(performanceToState(live, perf))}>
-            <BiListPlus />
-            {t('sekaiSetlist.lives.openInBuilder', { defaultValue: 'Open in builder' })}
-          </a>
-        </Button>
-      </HStack>
-      <Stack gap={0.5}>
-        {perf.songs.map((s, i) => {
-          const song = s.songId ? getSekaiSong(s.songId) : undefined;
-          const dim = filtered && !liveSongMatches(s, filters, getSekaiSong);
-          const markers = perf.markers.filter((m) => m.at === i);
-          return (
-            <Fragment key={i}>
-              {markers.map((m) => (
-                <Text
-                  key={m.label}
-                  borderTopWidth="1px"
-                  mt={1}
-                  py={1}
-                  color="fg.muted"
-                  fontSize="xs"
-                  fontWeight="semibold"
-                  textAlign="center"
-                  borderStyle="dashed"
-                >
-                  {markerLabel(m.label)}
-                </Text>
-              ))}
-              <SetlistRow data-dim={dim}>
-                <Text
-                  flexShrink={0}
-                  w="6"
-                  color="fg.subtle"
-                  fontSize="xs"
-                  fontVariantNumeric="tabular-nums"
-                  textAlign="right"
-                >
-                  {i + 1}
-                </Text>
-                {song ? (
-                  <SongJacket id={song.id} size={32} />
-                ) : (
-                  <Box flexShrink={0} borderRadius="md" w="32px" h="32px" bgColor="bg.muted" />
-                )}
-                <Stack flex={1} gap={0} minW={0}>
-                  <HStack gap={1.5} minW={0}>
-                    <Text
-                      fontSize="sm"
-                      textOverflow="ellipsis"
-                      overflow="hidden"
-                      whiteSpace="nowrap"
-                    >
-                      {song ? sekaiSongName(song.id, i18n.language) : s.title}
-                    </Text>
-                    {s.note && (
-                      <Text flexShrink={0} color="fg.muted" fontSize="xs">
-                        {s.note}
-                      </Text>
-                    )}
-                  </HStack>
-                  {s.performers && (
-                    <Text
-                      color="fg.subtle"
-                      fontSize="xs"
-                      textOverflow="ellipsis"
-                      overflow="hidden"
-                      whiteSpace="nowrap"
-                    >
-                      {s.performers.join(', ')}
-                    </Text>
-                  )}
-                </Stack>
-                {song && <KindBadge commissioned={song.commissioned} />}
-              </SetlistRow>
-            </Fragment>
-          );
-        })}
-      </Stack>
-    </Stack>
   );
 }
 
@@ -465,7 +349,8 @@ function SongStatsList({ stats }: { stats: SongStat[] }) {
             <SongJacket id={st.songId} size={40} />
             <Stack flex={1} gap={0.5} minW={0}>
               <HStack gap={1.5} minW={0}>
-                <Text
+                <Link
+                  href={songHref(st.songId)}
                   fontSize="sm"
                   fontWeight="medium"
                   textOverflow="ellipsis"
@@ -473,7 +358,7 @@ function SongStatsList({ stats }: { stats: SongStat[] }) {
                   whiteSpace="nowrap"
                 >
                   {sekaiSongName(st.songId, i18n.language)}
-                </Text>
+                </Link>
                 {song && <KindBadge commissioned={song.commissioned} />}
               </HStack>
               <Text

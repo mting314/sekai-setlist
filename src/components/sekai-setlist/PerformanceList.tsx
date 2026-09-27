@@ -1,0 +1,161 @@
+/**
+ * One setlist of a live (a day, a day/night show or a city leg): numbered rows with jackets,
+ * Encore / Intermission dividers and an "Open in builder" action. Shared by the past-setlists
+ * browser and the live page.
+ */
+import { Fragment } from 'react';
+import { useTranslation } from 'react-i18next';
+import { BiListPlus } from 'react-icons/bi';
+import { Box, HStack, Stack, styled } from 'styled-system/jsx';
+import { SongJacket } from './SongJacket';
+import { KindBadge } from './SongMeta';
+import { Button } from '~/components/ui/styled/button';
+import { Link } from '~/components/ui/link';
+import { Text } from '~/components/ui/styled/text';
+import { getSekaiSong, sekaiSongName } from '~/utils/sekai-setlist/catalog';
+import {
+  hasSongFilters,
+  liveSongMatches,
+  performanceToState,
+  type LiveFilters
+} from '~/utils/sekai-setlist/lives';
+import { builderHref, songHref } from '~/utils/sekai-setlist/routes';
+import type { SekaiLive, SekaiLivePerformance } from '~/types/sekai';
+
+const SetlistRow = styled('div', {
+  base: {
+    display: 'flex',
+    gap: '2.5',
+    alignItems: 'center',
+    py: '1',
+    '&[data-dim=true]': { opacity: 0.35 }
+  }
+});
+
+export function PerformanceList({
+  live,
+  perf,
+  filters,
+  title
+}: {
+  live: SekaiLive;
+  perf: SekaiLivePerformance;
+  filters?: LiveFilters; // dims rows that don't match
+  title?: React.ReactNode; // overrides the performance name
+}) {
+  const { t, i18n } = useTranslation();
+  const markerLabel = (label: string) =>
+    /^encore$/i.test(label)
+      ? t('sekaiSetlist.lives.markerEncore', { defaultValue: 'Encore' })
+      : /^intermission$/i.test(label)
+        ? t('sekaiSetlist.lives.markerIntermission', { defaultValue: 'Intermission' })
+        : label;
+
+  return (
+    <Stack gap={1}>
+      <HStack gap={2} justifyContent="space-between">
+        <Text fontSize="sm" fontWeight="semibold">
+          {title ??
+            (perf.name ||
+              t('sekaiSetlist.lives.setlist', {
+                count: perf.songs.length,
+                defaultValue: `Setlist (${perf.songs.length} songs)`
+              }))}
+        </Text>
+        <Button asChild size="xs" variant="outline" flexShrink={0}>
+          <a href={builderHref(performanceToState(live, perf))}>
+            <BiListPlus />
+            {t('sekaiSetlist.lives.openInBuilder', { defaultValue: 'Open in builder' })}
+          </a>
+        </Button>
+      </HStack>
+      <Stack gap={0.5}>
+        {perf.songs.map((s, i) => {
+          const song = s.songId ? getSekaiSong(s.songId) : undefined;
+          const dim =
+            filters !== undefined &&
+            hasSongFilters(filters) &&
+            !liveSongMatches(s, filters, getSekaiSong);
+          const markers = perf.markers.filter((m) => m.at === i);
+          return (
+            <Fragment key={i}>
+              {markers.map((m) => (
+                <Text
+                  key={m.label}
+                  borderTopWidth="1px"
+                  mt={1}
+                  py={1}
+                  color="fg.muted"
+                  fontSize="xs"
+                  fontWeight="semibold"
+                  textAlign="center"
+                  borderStyle="dashed"
+                >
+                  {markerLabel(m.label)}
+                </Text>
+              ))}
+              <SetlistRow data-dim={dim}>
+                <Text
+                  flexShrink={0}
+                  w="6"
+                  color="fg.subtle"
+                  fontSize="xs"
+                  fontVariantNumeric="tabular-nums"
+                  textAlign="right"
+                >
+                  {i + 1}
+                </Text>
+                {song ? (
+                  <SongJacket id={song.id} size={32} />
+                ) : (
+                  <Box flexShrink={0} borderRadius="md" w="32px" h="32px" bgColor="bg.muted" />
+                )}
+                <Stack flex={1} gap={0} minW={0}>
+                  <HStack gap={1.5} minW={0}>
+                    {song ? (
+                      <Link
+                        href={songHref(song.id)}
+                        fontSize="sm"
+                        textOverflow="ellipsis"
+                        overflow="hidden"
+                        whiteSpace="nowrap"
+                      >
+                        {sekaiSongName(song.id, i18n.language)}
+                      </Link>
+                    ) : (
+                      <Text
+                        fontSize="sm"
+                        textOverflow="ellipsis"
+                        overflow="hidden"
+                        whiteSpace="nowrap"
+                      >
+                        {s.title}
+                      </Text>
+                    )}
+                    {s.note && (
+                      <Text flexShrink={0} color="fg.muted" fontSize="xs">
+                        {s.note}
+                      </Text>
+                    )}
+                  </HStack>
+                  {s.performers && (
+                    <Text
+                      color="fg.subtle"
+                      fontSize="xs"
+                      textOverflow="ellipsis"
+                      overflow="hidden"
+                      whiteSpace="nowrap"
+                    >
+                      {s.performers.join(', ')}
+                    </Text>
+                  )}
+                </Stack>
+                {song && <KindBadge commissioned={song.commissioned} />}
+              </SetlistRow>
+            </Fragment>
+          );
+        })}
+      </Stack>
+    </Stack>
+  );
+}

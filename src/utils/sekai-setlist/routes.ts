@@ -10,6 +10,12 @@ const page = (path: string, state?: SetlistState, live?: string) =>
 
 export const homeHref = () => page('/');
 export const livesHref = () => page('/lives');
+export const liveHref = (id: string) => page(`/lives/${encodeURIComponent(id)}`);
+export const songsHref = () => page('/songs');
+export const songHref = (id: string) => page(`/songs/${encodeURIComponent(id)}`);
+export const unitHref = (id: string) => page(`/units/${encodeURIComponent(id)}`);
+export const meHref = () => page('/me');
+export const predictHref = () => page('/predict');
 /** The builder, optionally opened on a setlist or as a new prediction for a live. */
 export const builderHref = (state?: SetlistState, live?: string) => page('/builder', state, live);
 /** Mark a prediction against a live's real setlist (either may be picked on the page). */

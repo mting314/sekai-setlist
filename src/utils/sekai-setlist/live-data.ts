@@ -10,3 +10,16 @@ export const getSekaiLive = (id: string | undefined) => (id ? liveById.get(id) :
 
 export const sekaiLiveName = (live: SekaiLive, lang: string) =>
   lang.startsWith('ja') && live.nameJa ? live.nameJa : live.name;
+
+const byStart = (dir: 1 | -1) => (a: SekaiLive, b: SekaiLive) =>
+  dir * (a.startDate ?? '').localeCompare(b.startDate ?? '');
+
+/** Announced lives with no published setlist yet, soonest first. */
+export const awaitingLives = sekaiLives
+  .filter((l) => l.performances.length === 0)
+  .toSorted(byStart(1));
+
+/** Lives with a setlist, newest first. */
+export const livesWithSetlists = sekaiLives
+  .filter((l) => l.performances.length > 0)
+  .toSorted(byStart(-1));

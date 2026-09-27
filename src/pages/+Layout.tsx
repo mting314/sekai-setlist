@@ -11,12 +11,13 @@ import { Link } from '~/components/ui/link';
 import { Button } from '~/components/ui/styled/button';
 import { IconButton } from '~/components/ui/styled/icon-button';
 
-const NAV = [
-  { path: '/', key: 'predict', exact: true },
-  { path: '/builder', key: 'builder', exact: false },
-  { path: '/mark', key: 'mark', exact: false },
-  { path: '/lives', key: 'lives', exact: false }
-] as const;
+// `also`: other sections that highlight the item (the builder and marking belong to Predict).
+const NAV: { path: string; key: string; exact: boolean; also?: string[] }[] = [
+  { path: '/', key: 'home', exact: true },
+  { path: '/lives', key: 'lives', exact: false },
+  { path: '/songs', key: 'songs', exact: false },
+  { path: '/predict', key: 'predict', exact: false, also: ['/builder', '/mark'] }
+];
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation();
@@ -27,23 +28,23 @@ export function Layout({ children }: { children: React.ReactNode }) {
     setCurrentPath(window.location.pathname);
   }, [children]);
 
-  const isActive = (path: string, exact: boolean) => {
+  const matches = (path: string, exact: boolean) => {
     const full = join(import.meta.env.BASE_URL, path);
-    return (
-      exact ? currentPath === full || currentPath === full + '/' : currentPath.startsWith(full)
-    )
-      ? true
-      : undefined;
+    return exact
+      ? currentPath === full || currentPath === full + '/'
+      : currentPath.startsWith(full);
   };
+  const isActive = (path: string, exact: boolean, also: string[] = []) =>
+    matches(path, exact) || also.some((p) => matches(p, false)) ? true : undefined;
 
   function NavLinks() {
     return (
       <>
-        {NAV.map(({ path, key, exact }) => (
+        {NAV.map(({ path, key, exact, also }) => (
           <Link
             key={path}
             href={join(import.meta.env.BASE_URL, path)}
-            data-active={isActive(path, exact)}
+            data-active={isActive(path, exact, also)}
             onClick={() => setIsDrawerOpen(false)}
             _active={{ fontWeight: 'bold' }}
           >

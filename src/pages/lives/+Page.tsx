@@ -4,10 +4,8 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { join } from 'path-browserify';
 import { Stack } from 'styled-system/jsx';
 import { Metadata } from '~/components/layout/Metadata';
-import { Link } from '~/components/ui/link';
 import { Text } from '~/components/ui/styled/text';
 import { PastSetlists } from '~/components/sekai-setlist/PastSetlists';
 
@@ -29,9 +27,6 @@ export function Page() {
                 'Setlists from COLORFUL LIVE, the Anniversary Thanks Festival, Sekai Symphony, Connect Lives and unit fan meetings.'
             })}
           </Text>
-          <Link href={join(import.meta.env.BASE_URL, '/builder')} fontSize="sm">
-            {t('sekaiSetlist.lives.toBuilder', { defaultValue: '← Setlist builder' })}
-          </Link>
         </Stack>
         <PastSetlists />
         <Text color="fg.subtle" fontSize="xs">

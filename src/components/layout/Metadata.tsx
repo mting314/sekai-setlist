@@ -5,11 +5,11 @@ import { VERSION } from '../../version';
 
 export function Metadata(props: { title?: string; helmet?: boolean }) {
   const { t } = useTranslation();
-  const siteName = t('site_name', { defaultValue: 'Sekai Setlist Predictions' });
-  const title = props.title ?? t('title', { defaultValue: 'Project Sekai Setlist Predictions' });
+  const siteName = t('site_name', { defaultValue: 'Sekai Setlists' });
+  const title = props.title ?? t('title', { defaultValue: 'Project Sekai Live Setlists' });
   const description = t('description', {
     defaultValue:
-      'Predict Project Sekai live setlists, share them with a link and mark them against what was performed.'
+      'Every Project Sekai live setlist: look up where songs were performed, log the shows you went to and predict the next setlist.'
   });
   const url = 'https://mting314.github.io/sekai-setlist/';
   const Wrapper = props.helmet ? Helmet : Fragment;

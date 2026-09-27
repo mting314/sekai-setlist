@@ -1,12 +1,54 @@
 /**
- * Small per-song decorations shared by the search dialog and the setlist rows:
- * commissioned/cover badge and the vocalist character icons.
+ * Small per-song decorations shared by the search dialog, setlist rows and song pages:
+ * commissioned/cover badge, unit badges and the vocalist character icons.
  */
+import type { CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
-import { HStack } from 'styled-system/jsx';
+import { HStack, styled } from 'styled-system/jsx';
 import { Badge } from '~/components/ui/styled/badge';
-import { getSekaiSong, sekaiCharacterName } from '~/utils/sekai-setlist/catalog';
-import { characterIconUrl } from '~/utils/sekai-setlist/assets';
+import {
+  getSekaiSong,
+  getSekaiUnit,
+  sekaiCharacterName,
+  sekaiUnitColor
+} from '~/utils/sekai-setlist/catalog';
+import { characterIconUrl, unitIconUrl } from '~/utils/sekai-setlist/assets';
+
+const UnitPill = styled('span', {
+  base: {
+    display: 'inline-flex',
+    gap: '1.5',
+    flexShrink: 0,
+    alignItems: 'center',
+    borderColor: 'var(--unit-color)',
+    borderRadius: 'full',
+    borderWidth: '1px',
+    py: '0.5',
+    px: '2',
+    fontSize: 'xs',
+    fontWeight: 'semibold',
+    whiteSpace: 'nowrap'
+  }
+});
+
+/** A unit (or "Other") as a pill in its unit color. */
+export function UnitBadge({ unit }: { unit: string }) {
+  const { t } = useTranslation();
+  return (
+    <UnitPill style={{ '--unit-color': sekaiUnitColor(unit) } as CSSProperties}>
+      {unit !== 'other' && (
+        <img
+          src={unitIconUrl(unit)}
+          alt=""
+          width={14}
+          height={14}
+          style={{ objectFit: 'contain' }}
+        />
+      )}
+      {t(`sekaiSetlist.units.${unit}`, { defaultValue: getSekaiUnit(unit)?.name ?? unit })}
+    </UnitPill>
+  );
+}
 
 export function KindBadge({ commissioned }: { commissioned: boolean }) {
   const { t } = useTranslation();

@@ -1,13 +1,14 @@
 {
-  "title": "Project Sekai Setlist Predictions",
-  "description": "Predict Project Sekai live setlists, share them with a link and mark them against what was performed.",
-  "site_name": "Sekai Setlist Predictions",
+  "title": "Project Sekai Live Setlists",
+  "description": "Every Project Sekai live setlist: look up where songs were performed, log the shows you went to and predict the next setlist.",
+  "site_name": "Sekai Setlists",
   "save": "Save",
   "navigation": {
-    "predict": "Predict",
-    "builder": "Builder",
-    "mark": "Mark",
-    "lives": "Past setlists"
+    "home": "Home",
+    "lives": "Lives",
+    "songs": "Songs",
+    "me": "My Lives",
+    "predict": "Predict"
   },
   "error_page": {
     "title": "Something went wrong",
@@ -17,7 +18,7 @@
     "reload": "Reload Page",
     "clear": "Clear Data and Reload Page",
     "not_found": "This page doesn't exist.",
-    "home": "Back to predictions",
+    "home": "Back to home",
     "issues_link": "open an issue on GitHub"
   },
   "common": {
@@ -170,5 +171,38 @@
   "footer": {
     "fan_made": "Fan-made. Not affiliated with SEGA, Colorful Palette or Crypton Future Media.",
     "based_on": "Based on"
+  },
+  "hub": {
+    "title": "Project Sekai Live Setlists",
+    "description": "Every COLORFUL LIVE, Thanks Festival, Sekai Symphony, Connect Live and fan meeting setlist. Look up where a song was played, and predict the next setlist.",
+    "browseLives": "Browse {{count}} lives",
+    "browseSongs": "Browse {{count}} songs",
+    "upcoming": "Upcoming",
+    "setlistPending": "Setlist pending",
+    "toPredict": "Your predictions and how scoring works →",
+    "setlist": "Setlist"
+  },
+  "live": {
+    "open": "Live page",
+    "allLives": "← All lives",
+    "yourPredictions": "Your predictions for this live",
+    "setlists": "Setlists",
+    "setlistPending": "The setlist hasn't been published yet."
+  },
+  "song": {
+    "title": "Project Sekai Songs",
+    "description": "Every song in the game and how many lives performed it.",
+    "allSongs": "← All songs",
+    "released": "Added to the game {{date}}",
+    "neverPerformed": "Not performed at a live yet.",
+    "statLives": "Lives",
+    "statSetlists": "Setlists",
+    "firstPerformed": "First performed",
+    "lastPerformed": "Last performed",
+    "history": "Performed at",
+    "performedOnly": "Performed live",
+    "sortPerformed": "Most performed",
+    "sortNewest": "Newest",
+    "notPerformed": "Not performed"
   }
 }

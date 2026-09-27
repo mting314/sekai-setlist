@@ -1,5 +1,5 @@
 import type { Config } from 'vike/types';
 
 export default {
-  title: 'Project Sekai Live Setlists'
+  title: 'Project Sekai Setlist Predictions'
 } satisfies Config;
