@@ -81,12 +81,38 @@ const LIST_PAGE = `==Setlists==
 ==Merchandise==
 TBA`;
 
+// Connect Live medleys: one rowspan'd № cell, continuation rows without a № of their own.
+const MEDLEY_PAGE = `{{Live
+|venue = Virtual Live}}
+==Setlist==
+{| class="article-table"
+!№
+!Song
+!Producers
+!Performers
+|-
+|rowspan="2"|01
+|[[needLe]]
+|DECO*27
+|[[Hatsune Miku]], [[25-ji, Nightcord de.]]
+|-
+|{{jp|[[Stella]]|ステラ}}
+|JIN
+|[[Hatsune Miku]], [[Leo/need]]
+|-
+|02
+|{{jp|[[Nihil-san]]|{{Ruby|虚無|にひる}}さん|Mx.Nihil}}
+|Kairiki Bear
+|[[KAITO]]
+|}`;
+
 describe('plainText', () => {
   it('flattens links, jp and interwiki templates, refs and markup', () => {
     expect(plainText("'''[[Leo/need]]''' <small>(x)</small>")).toBe('Leo/need (x)');
     expect(plainText('{{jp|[[Cinema]]|シネマ}}')).toBe('Cinema');
     expect(plainText('{{IW|ensemble-stars|Jun Sazanami|Sazanami Jun}}')).toBe('Sazanami Jun');
     expect(plainText('A<ref>[[B|b]]</ref> [https://x.test Site]')).toBe('A Site');
+    expect(plainText('{{Ruby|虚無|にひる}}さん')).toBe('虚無さん');
   });
 });
 
@@ -161,6 +187,18 @@ describe('parseLivePage', () => {
     expect(page.notes).toEqual([]);
   });
 
+  it('reads rowspan medley rows, linked names with commas and furigana titles', () => {
+    const page = parseLivePage(MEDLEY_PAGE);
+    expect(page.venue).toBe('Virtual Live');
+    const [perf] = page.performances;
+    expect(perf.songs.map((s) => [s.title, s.performers])).toEqual([
+      ['needLe', ['Hatsune Miku', '25-ji, Nightcord de.']],
+      ['Stella', ['Hatsune Miku', 'Leo/need']],
+      ['Nihil-san', ['KAITO']]
+    ]);
+    expect(perf.songs[2].jp).toBe('虚無さん');
+  });
+
   it('returns no performances for an upcoming live', () => {
     expect(parseLivePage('==Setlist==\nTBA\n==Gallery==').performances).toEqual([]);
   });
@@ -174,5 +212,6 @@ describe('parseStartDate', () => {
     );
     expect(parseStartDate('23 February 2025')).toBe('2025-02-23');
     expect(parseStartDate('TBA')).toBeUndefined();
+    expect(parseStartDate('2026 June')).toBeUndefined();
   });
 });

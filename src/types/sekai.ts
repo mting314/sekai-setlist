@@ -72,7 +72,7 @@ export interface SekaiLive {
   name: string;
   nameJa?: string;
   date: string; // as written on the wiki, e.g. "January 28-30, 2022"
-  startDate?: string; // YYYY-MM-DD, for sorting and the upcoming check
+  startDate?: string; // YYYY-MM-DD, for sorting
   venue?: string;
   notes: string[]; // e.g. "The setlist was the same on all three days."
   source: string; // wiki page URL

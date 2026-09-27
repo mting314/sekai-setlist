@@ -44,7 +44,7 @@ export function liveSongMatches(item: SekaiLiveSong, f: LiveFilters, getSong: Ge
 
 export interface LiveMatch {
   live: SekaiLive;
-  matches: number; // setlist entries matching the song filters (every entry when none are set)
+  matches: number; // distinct songs matching the song filters (every song when none are set)
 }
 
 /** Lives in the selected series, newest first; with song filters set, only lives with a match. */
@@ -54,10 +54,11 @@ export function filterLives(lives: SekaiLive[], f: LiveFilters, getSong: GetSong
     .filter((l) => f.series.length === 0 || f.series.includes(l.series))
     .map((live) => ({
       live,
-      matches: live.performances.reduce(
-        (n, p) => n + p.songs.filter((s) => liveSongMatches(s, f, getSong)).length,
-        0
-      )
+      matches: new Set(
+        live.performances.flatMap((p) =>
+          p.songs.filter((s) => liveSongMatches(s, f, getSong)).map((s) => s.songId ?? s.title)
+        )
+      ).size
     }))
     .filter((m) => !active || m.matches > 0)
     .toSorted((a, b) => (b.live.startDate ?? '').localeCompare(a.live.startDate ?? ''));
@@ -101,7 +102,7 @@ export function songStats(lives: SekaiLive[], f: LiveFilters, getSong: GetSong):
 }
 
 /** Index of the first encore song, if the setlist has an "Encore" divider. */
-export const encoreStart = (perf: SekaiLivePerformance): number | undefined =>
+const encoreStart = (perf: SekaiLivePerformance): number | undefined =>
   perf.markers.find((m) => /encore/i.test(m.label))?.at;
 
 /** Builder state for a past setlist: catalog songs in order, encore kept, other entries dropped. */

@@ -42,7 +42,7 @@
   search / unit / commissioned-cover filters, a "Most performed" view, and "Open in builder" per
   setlist (encodes it as a `#s=` link to `/sekai-setlist`). Lives without a setlist show "No setlist yet";
   re-run the script once the wiki posts their setlists.
-- `bun check` green; 53 vitest tests pass (`bun node_modules/vitest/vitest.mjs run src/utils/sekai-setlist`).
+- `bun check` green; 54 vitest tests pass (`bun node_modules/vitest/vitest.mjs run src/utils/sekai-setlist`).
 - SSR HTML renders both pages and the nav link; icon URLs return 200.
 
 **Not verified:** anything that needs a rendered browser — images actually painting, filters

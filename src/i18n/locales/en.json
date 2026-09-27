@@ -419,7 +419,8 @@
     "cover": "Cover",
     "covers": "Covers",
     "coverHint": "Cover of an existing song",
-    "resultCount": "{{count}} songs",
+    "resultCount_one": "{{count}} song",
+    "resultCount_other": "{{count}} songs",
     "noResults": "No songs match.",
     "add": "Add",
     "addAgain": "Again",
@@ -449,16 +450,21 @@
       "viewLives": "Setlists",
       "viewSongs": "Most performed",
       "noLives": "No lives match.",
-      "liveCount": "{{count}} lives",
+      "liveCount_one": "{{count}} live",
+      "liveCount_other": "{{count}} lives",
       "noSetlist": "No setlist yet",
-      "matchCount": "{{count}} matching",
+      "matchCount_one": "{{count}} matching song",
+      "matchCount_other": "{{count}} matching songs",
       "source": "Source: {{site}}",
-      "setlist": "Setlist ({{count}} songs)",
+      "setlist_one": "Setlist ({{count}} song)",
+      "setlist_other": "Setlist ({{count}} songs)",
       "openInBuilder": "Open in builder",
       "markerEncore": "Encore",
       "markerIntermission": "Intermission",
-      "livesCount": "{{count}} lives",
-      "showsCount": "{{count}} setlists"
+      "livesCount_one": "{{count}} live",
+      "livesCount_other": "{{count}} lives",
+      "showsCount_one": "{{count}} setlist",
+      "showsCount_other": "{{count}} setlists"
     }
   }
 }

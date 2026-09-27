@@ -383,7 +383,7 @@
       "noLives": "該当するライブがありません。",
       "liveCount": "{{count}}公演",
       "noSetlist": "セトリ未登録",
-      "matchCount": "{{count}}曲該当",
+      "matchCount": "該当{{count}}曲",
       "source": "出典：{{site}}",
       "setlist": "セットリスト（{{count}}曲）",
       "openInBuilder": "ビルダーで開く",

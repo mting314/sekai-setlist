@@ -79,12 +79,12 @@ describe('filterLives', () => {
     const f = { ...EMPTY_LIVE_FILTERS, series: ['colorful_live' as const] };
     expect(ids(filterLives(LIVES, f, getSong))).toEqual(['up', 'cl1']);
   });
-  it('keeps only lives with a matching song, with match counts', () => {
+  it('keeps only lives with a matching song, counting each song once', () => {
     const f = { ...EMPTY_LIVE_FILTERS, units: ['leo_need' as const] };
-    expect(filterLives(LIVES, f, getSong).map((m) => [m.live.id, m.matches])).toEqual([['cl1', 2]]);
+    expect(filterLives(LIVES, f, getSong).map((m) => [m.live.id, m.matches])).toEqual([['cl1', 1]]);
     const covers = filterLives(LIVES, { ...EMPTY_LIVE_FILTERS, kind: 'cover' }, getSong);
     expect(covers.map((m) => [m.live.id, m.matches])).toEqual([
-      ['tf2', 3],
+      ['tf2', 2],
       ['cl1', 1],
       ['ss', 1]
     ]);

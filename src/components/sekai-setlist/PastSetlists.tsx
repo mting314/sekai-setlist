@@ -17,7 +17,8 @@ import { Button } from '~/components/ui/styled/button';
 import { Input } from '~/components/ui/styled/input';
 import { Link } from '~/components/ui/link';
 import { Text } from '~/components/ui/styled/text';
-import { getSekaiSong, sekaiLives, sekaiSongName } from '~/utils/sekai-setlist/catalog';
+import livesData from '../../../data/sekai/lives.json';
+import { getSekaiSong, sekaiSongName } from '~/utils/sekai-setlist/catalog';
 import {
   EMPTY_LIVE_FILTERS,
   LIVE_SERIES,
@@ -26,12 +27,15 @@ import {
   liveSongMatches,
   performanceToState,
   songStats,
-  type LiveFilters
+  type LiveFilters,
+  type SongStat
 } from '~/utils/sekai-setlist/lives';
 import { encodeState } from '~/utils/sekai-setlist/share';
 import { NON_UNIT, type SongKind, type UnitFilter } from '~/utils/sekai-setlist/song-filter';
 import type { SekaiLive, SekaiLivePerformance, SekaiLiveSeries } from '~/types/sekai';
 
+// Imported here, not in catalog.ts, so the builder bundle doesn't carry every past setlist.
+const sekaiLives = livesData as unknown as SekaiLive[];
 const KINDS: SongKind[] = ['all', 'commissioned', 'cover'];
 const MAX_STATS = 100;
 const liveById = new Map(sekaiLives.map((l) => [l.id, l]));
@@ -248,7 +252,7 @@ function LiveCard({
               <Text color="fg.muted" fontSize="xs">
                 {t('sekaiSetlist.lives.matchCount', {
                   count: matches,
-                  defaultValue: `${matches} matching`
+                  defaultValue: `${matches} matching songs`
                 })}
               </Text>
             )}
@@ -407,7 +411,7 @@ function PerformanceList({
   );
 }
 
-function SongStatsList({ stats }: { stats: ReturnType<typeof songStats> }) {
+function SongStatsList({ stats }: { stats: SongStat[] }) {
   const { t, i18n } = useTranslation();
   if (stats.length === 0)
     return (

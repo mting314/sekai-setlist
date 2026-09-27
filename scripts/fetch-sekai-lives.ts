@@ -123,13 +123,23 @@ const norm = (s: string) =>
   s
     .normalize('NFKC')
     .toLowerCase()
-    .replace(/[\s・･·.,!?！？'"’“”「」『』~〜ー-]/g, '');
+    // ー is kept: dropping it would make ルーマー and ルマ the same key.
+    .replace(/[\s・･·.,!?！？'"’“”「」『』~〜-]/g, '');
 const byId = new Map(catalog.map((s) => [s.id, s]));
 const byTitle = new Map<string, string>();
+const ambiguous = new Set<string>(); // keys shared by different songs never resolve by name
 for (const s of catalog) {
-  byTitle.set(norm(s.title), s.id);
-  if (s.englishName && !byTitle.has(norm(s.englishName))) byTitle.set(norm(s.englishName), s.id);
+  const key = norm(s.title);
+  const prev = byTitle.get(key);
+  if (prev && prev !== s.id) {
+    ambiguous.add(key);
+    console.warn(`ambiguous title key "${key}": songs ${prev} and ${s.id}`);
+  }
+  byTitle.set(key, s.id);
 }
+for (const s of catalog)
+  if (s.englishName && !byTitle.has(norm(s.englishName))) byTitle.set(norm(s.englishName), s.id);
+const lookupTitle = (t: string) => (ambiguous.has(norm(t)) ? undefined : byTitle.get(norm(t)));
 
 const infobox = (content: string, field: string) =>
   new RegExp(`^\\|\\s*${field}\\s*=\\s*(.+?)\\s*$`, 'm').exec(content)?.[1];
@@ -143,7 +153,7 @@ function resolveSong(
   const pageJa = songPage && infobox(songPage.content, 'japanese');
   const byName = [pageJa, jp, songPage?.title, title]
     .filter((t): t is string => !!t)
-    .map((t) => byTitle.get(norm(t)))
+    .map(lookupTitle)
     .find(Boolean);
   if (pageId && /^\d+$/.test(pageId)) {
     const id = String(Number(pageId));
@@ -222,7 +232,8 @@ for (const m of manual) {
       ...perf,
       markers: perf.markers ?? [],
       songs: perf.songs.map((s): SekaiLiveSong => {
-        const songId = s.songId ?? resolveSong(undefined, undefined, s.title);
+        const songId =
+          s.songId && byId.has(s.songId) ? s.songId : resolveSong(undefined, undefined, s.title);
         if (!songId) unresolved.set(s.title, [...(unresolved.get(s.title) ?? []), m.name]);
         return { ...s, ...(songId && { songId, title: byId.get(songId)!.title }) };
       })

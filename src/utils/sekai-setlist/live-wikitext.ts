@@ -83,6 +83,9 @@ export function plainText(s: string): string {
   // {{IW|wiki|Page|Label}} interwiki links (collab lives) → Label, else Page.
   for (let t = findTemplate(out, 'IW'); t; t = findTemplate(out, 'IW'))
     out = out.slice(0, t.start) + (t.args[2] ?? t.args[1] ?? '') + out.slice(t.end);
+  // {{Ruby|虚無|にひる}} furigana → the base text.
+  for (let t = findTemplate(out, 'Ruby'); t; t = findTemplate(out, 'Ruby'))
+    out = out.slice(0, t.start) + t.args[0] + out.slice(t.end);
   return out
     .replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1')
     .replace(/\[https?:\/\/\S+\s+([^\]]+)\]/g, '$1')
@@ -121,26 +124,45 @@ export function parseSongText(raw: string): ParsedLiveSong {
   return song;
 }
 
-/** Split a singer cell on top-level commas: "KAITO, DI:Verse (Akito, Toya)" → 2 names. */
+/**
+ * Split a singer cell on top-level commas: "KAITO, DI:Verse (Akito, Toya)" → 2 names. Runs on the
+ * wikitext so a comma inside a link ("[[25-ji, Nightcord de.]]") doesn't split the name.
+ */
 function splitPerformers(cell: string): string[] {
   const names: string[] = [];
   let depth = 0;
   let cur = '';
-  for (const ch of plainText(cell)) {
-    if (ch === '(') depth++;
-    if (ch === ')') depth--;
+  for (const ch of cell.replace(REF, '')) {
+    if ('([{'.includes(ch)) depth++;
+    if (')]}'.includes(ch)) depth--;
     if ((ch === ',' || ch === '、') && depth === 0) {
-      names.push(cur.trim());
+      names.push(plainText(cur));
       cur = '';
     } else cur += ch;
   }
-  names.push(cur.trim());
+  names.push(plainText(cur));
   return names.filter(Boolean);
 }
 
+/** Table cell text without its attributes: `rowspan="3"|19` → `19`. */
+function cellText(cell: string): string {
+  const parts = splitTopLevel(cell);
+  return parts.length > 1 && /^\s*[a-z-]+\s*=/i.test(parts[0])
+    ? parts.slice(1).join('|').trim()
+    : cell.trim();
+}
+
+const cellAttr = (cell: string, attr: string): number | undefined => {
+  const parts = splitTopLevel(cell);
+  if (parts.length < 2) return undefined;
+  const m = new RegExp(`\\b${attr}\\s*=\\s*"?(\\d+)`, 'i').exec(parts[0]);
+  return m ? Number(m[1]) : undefined;
+};
+
 const infoboxField = (wikitext: string, field: string): string | undefined => {
   const m = new RegExp(`^\\|\\s*${field}\\s*=\\s*(.+)$`, 'm').exec(wikitext);
-  const v = m && plainText(m[1]);
+  // The last field often closes the infobox on the same line ("|venue = Virtual Live}}").
+  const v = m && plainText(m[1].replace(/\}\}\s*$/, ''));
   return v || undefined;
 };
 
@@ -163,6 +185,7 @@ export function parseLivePage(wikitext: string): ParsedLivePage {
   let tableDepth = 0;
   let sawSetlist = false;
   let row: string[] = [];
+  let spanned = 0; // rows still covered by a rowspan'd № cell (they have no № of their own)
 
   const setLabel = (level: number, text: string) => {
     for (const l of labels.keys()) if (l >= level) labels.delete(l);
@@ -190,11 +213,18 @@ export function parseLivePage(wikitext: string): ParsedLivePage {
     if (label) p.markers.push({ at: p.songs.length, label });
   };
   const flushRow = () => {
-    const cells = row.map((c) => c.trim());
+    const raw = row;
     row = [];
-    if (cells.length < 2 || !/^\d+$/.test(cells[0])) return;
-    const song = parseSongText(cells[1]);
-    const performers = cells[3] ? splitPerformers(cells[3]) : [];
+    if (raw.length === 0) return;
+    let cells = raw.map(cellText);
+    if (/^\d+$/.test(cells[0])) {
+      spanned = (cellAttr(raw[0], 'rowspan') ?? 1) - 1;
+      cells = cells.slice(1);
+    } else if (spanned > 0) spanned--;
+    else return;
+    if (!cells[0]) return;
+    const song = parseSongText(cells[0]);
+    const performers = cells[2] ? splitPerformers(cells[2]) : [];
     if (performers.length) song.performers = performers;
     addSong(song);
   };
@@ -218,6 +248,7 @@ export function parseLivePage(wikitext: string): ParsedLivePage {
     if (line.startsWith('{|')) {
       tableDepth++;
       row = [];
+      spanned = 0;
       continue;
     }
     if (tableDepth > 0) {
@@ -272,8 +303,11 @@ const MONTHS = [
 /** First "Month D … YYYY" (or "D Month YYYY") in a wiki date string → YYYY-MM-DD. */
 export function parseStartDate(date: string | undefined): string | undefined {
   if (!date) return undefined;
-  // (?!\d) keeps "February 2025" from reading "20" as the day.
-  const re = new RegExp(`(\\d{1,2})?\\s*\\b(${MONTHS.join('|')})\\b\\s*(\\d{1,2}(?!\\d))?`, 'i');
+  // The digit guards keep "February 2025" / "2026 June" from reading part of the year as the day.
+  const re = new RegExp(
+    `(?<!\\d)(\\d{1,2})?\\s*\\b(${MONTHS.join('|')})\\b\\s*(\\d{1,2}(?!\\d))?`,
+    'i'
+  );
   const m = re.exec(date);
   const year = /\b(20\d\d)\b/.exec(date)?.[1];
   const day = m?.[3] ?? m?.[1];

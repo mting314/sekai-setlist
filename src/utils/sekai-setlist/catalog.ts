@@ -2,8 +2,7 @@
 import songsData from '../../../data/sekai/songs.json';
 import unitsData from '../../../data/sekai/units.json';
 import charactersData from '../../../data/sekai/characters.json';
-import livesData from '../../../data/sekai/lives.json';
-import type { SekaiCharacter, SekaiLive, SekaiSong, SekaiUnitMeta } from '~/types/sekai';
+import type { SekaiCharacter, SekaiSong, SekaiUnitMeta } from '~/types/sekai';
 
 export const sekaiSongs = songsData as unknown as SekaiSong[];
 export const sekaiUnits = unitsData as unknown as SekaiUnitMeta[];
@@ -56,6 +55,3 @@ export function colorBarBackground(colors: string[]): string {
     .join(', ');
   return `linear-gradient(to bottom, ${stops})`;
 }
-
-// Past lives (data/sekai/lives.json, from scripts/fetch-sekai-lives.ts).
-export const sekaiLives = livesData as unknown as SekaiLive[];
