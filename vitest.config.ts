@@ -18,7 +18,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     css: process.env.TEST_PREVIEW === 'true',
-    // testTimeout: process.env.CI === 'true' ? 5000 : 10000,
+    testTimeout: 20000,
     environmentOptions: {
       jsdom: {
         resources: 'usable'

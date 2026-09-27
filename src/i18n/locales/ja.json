@@ -14,7 +14,8 @@
     "characters": "キャラ",
     "hasu-music": "蓮ノ空",
     "songs": "楽曲",
-    "setlist-prediction": "セトリ予想"
+    "setlist-prediction": "セトリ予想",
+    "sekai-setlist": "プロセカ セトリ"
   },
   "settings": {
     "sort_count": "{{ count }}人をランキングする",
@@ -239,6 +240,7 @@
     "unsavedChanges": "未保存の変更",
     "error": "エラー",
     "edit": "編集",
+    "close": "閉じる",
     "confirmDelete": "本当によろしいですか？"
   },
   "setlistPrediction": {
@@ -318,5 +320,76 @@
     "calculateScore": "スコアを計算",
     "startTyping": "曲名やアーティスト名を入力して検索...",
     "showingResults": "{{count}}件を表示"
+  },
+  "sekaiSetlist": {
+    "title": "プロセカ セトリビルダー",
+    "description": "プロセカの理想のセトリを作って、リンクで共有しよう。",
+    "titlePlaceholder": "セトリのタイトル（例：私の理想のセカライ）",
+    "slotName": "保存名",
+    "shareLink": "共有リンク",
+    "savedSlots": "保存済み：",
+    "deleteSlot": "{{name}}を削除",
+    "saved": "「{{name}}」を保存しました",
+    "linkCopied": "共有リンクをコピーしました！",
+    "linkInAddressBar": "アドレスバーからリンクをコピーしてください",
+    "credit": "楽曲データ・ジャケットは sekai.best / Sekai master DB より。",
+    "addSongs": "曲を追加",
+    "songCount": "{{count}}/{{max}}曲",
+    "orderedToggle": "曲順を指定（ドラッグで並べ替え）",
+    "empty": "まだ曲がありません。「曲を追加」からセトリを作り始めましょう。",
+    "mainSet": "本編",
+    "encore": "✦ アンコール",
+    "encoreDivider": "アンコール — この線より下にドラッグ",
+    "moveToMain": "本編に移動",
+    "moveToEncore": "アンコールに移動",
+    "dragToReorder": "ドラッグで並べ替え",
+    "remove": "削除",
+    "searchPlaceholder": "曲名・読みで検索…",
+    "kindAll": "すべて",
+    "commissioned": "書き下ろし",
+    "commissionedHint": "書き下ろし — プロセカのために作られた曲",
+    "cover": "カバー",
+    "covers": "カバー",
+    "coverHint": "既存曲のカバー",
+    "resultCount": "{{count}}曲",
+    "noResults": "該当する曲がありません。",
+    "add": "追加",
+    "addAgain": "もう一度",
+    "truncated": "{{total}}曲中、最初の{{shown}}曲を表示中 — 検索を絞り込んでください。",
+    "units": {
+      "virtual_singer": "バーチャル・シンガー",
+      "leo_need": "Leo/need",
+      "more_more_jump": "MORE MORE JUMP！",
+      "vivid_bad_squad": "Vivid BAD SQUAD",
+      "wonderlands_showtime": "ワンダーランズ×ショウタイム",
+      "nightcord": "25時、ナイトコードで。",
+      "other": "その他"
+    },
+    "lives": {
+      "title": "プロセカ 過去ライブセトリ",
+      "description": "COLORFUL LIVE・周年感謝祭・セカイシンフォニー・コネクトライブのセットリスト。",
+      "toBuilder": "← セトリビルダー",
+      "fromBuilder": "過去ライブのセトリを見る →",
+      "credit": "セットリストは Project SEKAI Wiki（projectsekai.fandom.com）より。",
+      "series": {
+        "colorful_live": "COLORFUL LIVE",
+        "thanks_festival": "感謝祭",
+        "sekai_symphony": "セカイシンフォニー",
+        "connect_live": "コネクトライブ"
+      },
+      "viewLives": "セトリ",
+      "viewSongs": "披露回数",
+      "noLives": "該当するライブがありません。",
+      "liveCount": "{{count}}公演",
+      "upcoming": "セトリ未発表",
+      "matchCount": "{{count}}曲該当",
+      "source": "出典：Project SEKAI Wiki",
+      "setlist": "セットリスト（{{count}}曲）",
+      "openInBuilder": "ビルダーで開く",
+      "markerEncore": "アンコール",
+      "markerIntermission": "幕間",
+      "livesCount": "{{count}}公演",
+      "showsCount": "{{count}}セトリ"
+    }
   }
 }
