@@ -40,9 +40,16 @@ export interface SongSearchDialogProps {
   onPick: (id: string) => void;
   /** Songs already in the setlist (shown as "Add again"; repeats are allowed for reprises). */
   addedIds: Set<string>;
+  full?: boolean;
 }
 
-export function SongSearchDialog({ open, onOpenChange, onPick, addedIds }: SongSearchDialogProps) {
+export function SongSearchDialog({
+  open,
+  onOpenChange,
+  onPick,
+  addedIds,
+  full = false
+}: SongSearchDialogProps) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
   const [filters, setFilters] = useState<SongFilters>(EMPTY_SONG_FILTERS);
@@ -84,6 +91,7 @@ export function SongSearchDialog({ open, onOpenChange, onPick, addedIds }: SongS
           display="flex"
           flexDirection="column"
           w={{ base: 'calc(100vw - 16px)', md: '720px' }}
+          minW={0}
           maxW="720px"
           h={{ base: 'calc(100dvh - 32px)', md: '80vh' }}
           overflow="hidden"
@@ -180,6 +188,7 @@ export function SongSearchDialog({ open, onOpenChange, onPick, addedIds }: SongS
                       </Stack>
                       <Button
                         size="xs"
+                        disabled={full}
                         variant={addedIds.has(s.id) ? 'outline' : 'solid'}
                         aria-label={`${t('sekaiSetlist.add', { defaultValue: 'Add' })} ${sekaiSongName(s.id, lang)}`}
                         onClick={() => onPick(s.id)}

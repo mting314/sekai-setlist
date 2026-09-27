@@ -11,11 +11,14 @@ export function LanguageToggle() {
     void i18n.changeLanguage(locale);
   };
 
+  const isEn = currentLanguage?.toLowerCase().startsWith('en');
+  const isJa = currentLanguage?.toLowerCase().startsWith('ja');
+
   return (
     <Wrap>
       <Button
         variant="link"
-        data-active={currentLanguage === 'en' ? 'true' : undefined}
+        data-active={isEn ? 'true' : undefined}
         onClick={() => handleSetLocale('en')}
         _active={{ fontWeight: 'bold' }}
       >
@@ -25,7 +28,7 @@ export function LanguageToggle() {
       <Button
         variant="link"
         onClick={() => handleSetLocale('ja')}
-        data-active={currentLanguage === 'ja' ? 'true' : undefined}
+        data-active={isJa ? 'true' : undefined}
         _active={{ fontWeight: 'bold' }}
       >
         日本語

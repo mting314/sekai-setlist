@@ -21,20 +21,20 @@ export const getSekaiSong = (id: string) => songById.get(id);
 export const sekaiSongName = (id: string, lang: string) => {
   const s = songById.get(id);
   if (!s) return id;
-  return lang === 'en' ? (s.englishName ?? s.title) : s.title;
+  return lang?.toLowerCase().startsWith('en') ? (s.englishName ?? s.title) : s.title;
 };
 
 /** Secondary line: whichever of JP title / EN title isn't the display name, if any. */
 export const sekaiSongSubName = (id: string, lang: string) => {
   const s = songById.get(id);
   if (!s?.englishName) return undefined;
-  return lang === 'en' ? s.title : s.englishName;
+  return lang?.toLowerCase().startsWith('en') ? s.title : s.englishName;
 };
 
 export const sekaiCharacterName = (id: number, lang: string) => {
   const c = characterById.get(id);
   if (!c) return String(id);
-  return lang === 'ja' ? c.nameJa : c.name;
+  return lang?.toLowerCase().startsWith('ja') ? c.nameJa : c.name;
 };
 
 export const sekaiUnitColor = (id: string) => unitById.get(id)?.color ?? OTHER_COLOR;

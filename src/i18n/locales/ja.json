@@ -240,6 +240,7 @@
     "unsavedChanges": "未保存の変更",
     "error": "エラー",
     "edit": "編集",
+    "close": "閉じる",
     "confirmDelete": "本当によろしいですか？"
   },
   "setlistPrediction": {

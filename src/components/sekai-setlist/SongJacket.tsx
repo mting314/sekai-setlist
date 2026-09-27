@@ -28,6 +28,7 @@ export function SongJacket({ id, size = 44 }: { id: string; size?: number }) {
   }
   return (
     <Box
+      data-jacket-fallback
       aria-hidden
       style={{ width: size, height: size, background: colorBarBackground(sekaiSongColors(id)) }}
       flexShrink={0}

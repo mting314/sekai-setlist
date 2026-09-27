@@ -135,6 +135,7 @@ export function SetlistBuilder({
         onOpenChange={setSearchOpen}
         onPick={addSong}
         addedIds={addedIds}
+        full={full}
       />
     </Stack>
   );
@@ -326,6 +327,7 @@ function SortableSong({
               ref={setActivatorNodeRef}
               {...attributes}
               {...listeners}
+              data-drag-handle
               aria-label={t('sekaiSetlist.dragToReorder', { defaultValue: 'Drag to reorder' })}
               style={{ touchAction: 'none' }}
               cursor="grab"
