@@ -22,10 +22,13 @@ import {
 } from '@dnd-kit/core';
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { useTranslation } from 'react-i18next';
-import { BiCheckDouble, BiDotsVerticalRounded, BiPlus, BiSlider } from 'react-icons/bi';
+import { BiCheckDouble, BiDotsVerticalRounded, BiImport, BiPlus, BiSlider } from 'react-icons/bi';
 import { MdDragIndicator } from 'react-icons/md';
 import { AddItemDrawer } from './AddItemDrawer';
 import { DraggableQuickAddItem } from './DraggableQuickAddItem';
+import { EditItemDialog } from './EditItemDialog';
+import { ExportShareTools } from './ExportShareTools';
+import { ImportDialog } from './ImportDialog';
 import { QUICK_ADD_TYPES, newQuickAddItem, type QuickAddType } from './quick-add';
 import { ItemColorBar, ItemSummary } from './setlist-editor/ItemSummary';
 import { END_DROP_ZONE } from './setlist-editor/SetlistEndDropZone';
@@ -209,6 +212,7 @@ function ActionsPanel({
           </a>
         </Button>
       )}
+      <ExportShareTools prediction={prediction} />
       <Box borderRadius="md" borderWidth="1px" p={3} bgColor="bg.emphasized">
         <Text color="fg.muted" fontSize="xs">
           {t('builder.help', {
@@ -227,6 +231,9 @@ export function PredictionBuilder({ prediction, onChange, onSaveNow }: Predictio
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
+  const [importOpen, setImportOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string>();
+  const editing = items.find((i) => i.id === editingId);
   const [active, setActive] = useState<DragData>();
   const [overId, setOverId] = useState<string>();
 
@@ -268,6 +275,8 @@ export function PredictionBuilder({ prediction, onChange, onSaveNow }: Predictio
       return;
     setItems(() => []);
   };
+  const replaceItem = (item: PredictionItem) =>
+    setItems((list) => list.map((i) => (i.id === item.id ? item : i)));
 
   // Where a search result / quick-add row would land: above the row it's over, or after the
   // last row over the end zones. Reorders get their feedback from the sortable list itself.
@@ -379,6 +388,9 @@ export function PredictionBuilder({ prediction, onChange, onSaveNow }: Predictio
               size={{ base: 'sm', md: 'md' }}
               flex={1}
             />
+            <Button variant="outline" onClick={() => setImportOpen(true)} hideBelow="md">
+              <BiImport /> {t('builder.import', { defaultValue: 'Import' })}
+            </Button>
             <Button variant="subtle" onClick={clear} disabled={!items.length} hideBelow="md">
               {t('builder.clear', { defaultValue: 'Clear' })}
             </Button>
@@ -393,7 +405,13 @@ export function PredictionBuilder({ prediction, onChange, onSaveNow }: Predictio
             <Box hideFrom="md">
               <Menu.Root
                 positioning={{ placement: 'bottom-end' }}
-                onSelect={({ value }) => (value === 'clear' ? clear() : setRightOpen(true))}
+                onSelect={({ value }) =>
+                  value === 'clear'
+                    ? clear()
+                    : value === 'import'
+                      ? setImportOpen(true)
+                      : setRightOpen(true)
+                }
               >
                 <Menu.Trigger asChild>
                   <IconButton
@@ -407,6 +425,9 @@ export function PredictionBuilder({ prediction, onChange, onSaveNow }: Predictio
                 <Menu.Positioner>
                   <Menu.Content>
                     <Menu.Item value="actions">{actionsLabel}</Menu.Item>
+                    <Menu.Item value="import">
+                      {t('builder.import', { defaultValue: 'Import' })}
+                    </Menu.Item>
                     <Menu.Item value="clear" color="fg.error">
                       {t('builder.clear', { defaultValue: 'Clear' })}
                     </Menu.Item>
@@ -454,6 +475,8 @@ export function PredictionBuilder({ prediction, onChange, onSaveNow }: Predictio
               onRemove={removeItem}
               onMoveUp={(i) => move(i, i - 1)}
               onMoveDown={(i) => move(i, i + 1)}
+              onEdit={setEditingId}
+              onOpenImport={() => setImportOpen(true)}
               dropIndicator={dropIndicator}
             />
             <Box hideFrom="md" zIndex={100} position="fixed" right={6} bottom={6}>
@@ -511,6 +534,22 @@ export function PredictionBuilder({ prediction, onChange, onSaveNow }: Predictio
         onAddSong={addSong}
         onAddCustomSong={addCustomSong}
         onAddQuickItem={addQuickItem}
+      />
+
+      {editing && (
+        <EditItemDialog
+          key={editing.id}
+          open
+          onOpenChange={(open) => !open && setEditingId(undefined)}
+          item={editing}
+          onSave={replaceItem}
+        />
+      )}
+      <ImportDialog
+        open={importOpen}
+        onOpenChange={setImportOpen}
+        onImport={(imported) => setItems(() => imported)}
+        liveId={prediction.live}
       />
     </DndContext>
   );

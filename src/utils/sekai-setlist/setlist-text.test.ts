@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { buildTitleIndex, parseSetlistText } from './setlist-text';
+import { sekaiSongs } from './catalog';
+import { exportText, newPrediction } from './prediction';
+import { buildTitleIndex, parseSetlistItems, parseSetlistText } from './setlist-text';
 import type { SekaiSong } from '~/types/sekai';
 
 const song = (id: string, title: string, extra: Partial<SekaiSong> = {}): SekaiSong => ({
@@ -43,5 +45,50 @@ describe('parseSetlistText', () => {
     );
     expect(state.songs).toEqual(['1', '2']);
     expect(unresolved).toEqual(['MC']);
+  });
+});
+
+const strip = (items: ReturnType<typeof parseSetlistItems>) =>
+  items.map(({ id: _id, ...rest }) => rest);
+
+describe('parseSetlistItems', () => {
+  it('keeps song ids, MCs, dividers, remarks and unmatched lines', () => {
+    const items = parseSetlistItems(
+      '1. セカイ\nMC\nM02 Tell Your World (Short ver.)\n━━ INTERMISSION ━━\nMystery Song\nEN01 群青讃歌\nMC② Thanks',
+      INDEX
+    );
+    expect(strip(items)).toEqual([
+      { type: 'song', songId: '1' },
+      { type: 'mc', title: 'MC' },
+      { type: 'song', songId: '3', remarks: 'Short ver.' },
+      { type: 'intermission' },
+      { type: 'custom', name: 'Mystery Song' },
+      { type: 'encore' },
+      { type: 'song', songId: '4' },
+      { type: 'mc', title: 'Thanks' }
+    ]);
+  });
+
+  it('adds one encore row for an encore line followed by EN numbering', () => {
+    const items = parseSetlistItems('セカイ\n-- Encore --\nEN1 Gunjou Sanka\nEN2 Sekai', INDEX);
+    expect(items.map((i) => i.type)).toEqual(['song', 'encore', 'song', 'song']);
+  });
+
+  it('reads exportText output back', () => {
+    const p = newPrediction({
+      name: '',
+      items: [
+        { id: 'a', type: 'song', songId: '1', remarks: 'VIRTUAL SINGER Ver.' },
+        { id: 'f', type: 'song', songId: '10' },
+        { id: 'b', type: 'mc', title: 'MC' },
+        { id: 'c', type: 'intermission', title: 'Day 2' },
+        { id: 'd', type: 'encore' },
+        { id: 'e', type: 'custom', name: 'New song' }
+      ]
+    });
+    const catalog = buildTitleIndex(sekaiSongs);
+    expect(strip(parseSetlistItems(exportText(p, 'ja'), catalog))).toEqual(
+      p.items.map(({ id: _id, ...rest }) => rest)
+    );
   });
 });

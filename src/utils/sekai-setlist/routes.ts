@@ -30,6 +30,11 @@ export const meHref = () => page('/me');
 export const predictHref = () => page('/predict');
 /** The builder: a saved prediction, a shared one to import, or a new one for a live. */
 export const builderHref = (target?: PredictionTarget) => predictionPage('/builder', target);
+/** Read-only page for a shared prediction (`share`) or a saved one (`prediction`). */
+export const viewHref = (target?: PredictionTarget) => predictionPage('/view', target);
+/** Absolute /view link for sharing a prediction (client only). */
+export const shareLink = (p: SekaiPrediction) =>
+  new URL(viewHref({ share: p }), window.location.origin).href;
 /** Mark a prediction against a live's real setlist (either may be picked on the page). */
 export const markHref = (target?: PredictionTarget) =>
   predictionPage('/mark', { ...target, live: target?.live ?? target?.share?.live });
