@@ -23,3 +23,8 @@ export const awaitingLives = sekaiLives
 export const livesWithSetlists = sekaiLives
   .filter((l) => l.performances.length > 0)
   .toSorted(byStart(-1));
+
+/** Catalog songs performed at any recorded live. */
+export const performedSongIds = new Set(
+  sekaiLives.flatMap((l) => l.performances.flatMap((p) => p.songs.flatMap((s) => s.songId ?? [])))
+);

@@ -168,22 +168,28 @@ export function predictionEventName(p: SekaiPrediction, lang: string): string | 
   return live ? sekaiLiveName(live, lang) : p.custom?.name;
 }
 
+/** A row's display text: song title, custom song name, MC title, or `━━ ENCORE ━━`. */
+export function itemName(item: PredictionItem, lang: string): string {
+  switch (item.type) {
+    case 'song':
+      return sekaiSongName(item.songId, lang);
+    case 'custom':
+      return item.name;
+    case 'mc':
+      return item.title;
+    default:
+      return `━━ ${item.title || DIVIDER_TITLES[item.type]} ━━`;
+  }
+}
+
 /** Plain-text setlist for sharing: title, event, then one numbered row per line. */
 export function exportText(p: SekaiPrediction, lang: string): string {
   const labels = numberItems(p.items);
   const lines = p.items.map((item, i) => {
-    const label = labels[i];
-    switch (item.type) {
-      case 'song':
-      case 'custom': {
-        const name = item.type === 'song' ? sekaiSongName(item.songId, lang) : item.name;
-        return `${label} ${name}${item.remarks ? ` (${item.remarks})` : ''}`;
-      }
-      case 'mc':
-        return `${label} ${item.title}`;
-      default:
-        return `━━ ${item.title || DIVIDER_TITLES[item.type]} ━━`;
-    }
+    const name = itemName(item, lang);
+    if (!labels[i]) return name;
+    const remarks = isSongRow(item) && item.remarks ? ` (${item.remarks})` : '';
+    return `${labels[i]} ${name}${remarks}`;
   });
   const header = [p.name, predictionEventName(p, lang)].filter(
     (s, i, all): s is string => !!s && all.indexOf(s) === i

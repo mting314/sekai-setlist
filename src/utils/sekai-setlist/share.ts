@@ -4,8 +4,8 @@ import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from
 import { fromSetlistState, itemId, newPrediction } from './prediction';
 import type { PredictionItem, SekaiPrediction } from '~/types/sekai-prediction';
 
-// The wire shape the builder reads/writes (setlist-items' SetlistPrediction minus guests, plus
-// a user-entered title). `encore` = the song positions flagged as encore; `live` = the id of the
+// The flat setlist that scoring and legacy `#s=` links use (see toSetlistState), plus a
+// user-entered title. `encore` = the song positions flagged as encore; `live` = the id of the
 // lives.json live this setlist is a prediction for.
 export interface SetlistState {
   title: string;
