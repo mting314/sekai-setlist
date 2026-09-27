@@ -299,7 +299,7 @@ export function MyLives() {
                     return (
                       <Stack key={u.id} gap={1}>
                         <HStack gap={2} justifyContent="space-between">
-                          <UnitBadge unit={u.id} />
+                          <UnitBadge unit={u.id} link />
                           <Text color="fg.muted" fontSize="xs" fontVariantNumeric="tabular-nums">
                             {t('attendance.heardOf', {
                               heard,

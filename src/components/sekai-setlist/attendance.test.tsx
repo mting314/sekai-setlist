@@ -3,9 +3,10 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { LivePage } from './LivePage';
 import { MyLives } from './MyLives';
 import { SongPage } from './SongPage';
+import { UnitPage } from './UnitPage';
 import { render, screen, within } from '~/__test__/utils';
 import { encodeAttendance, getAttendance, type Attendance } from '~/utils/sekai-setlist/attendance';
-import { getSekaiSong } from '~/utils/sekai-setlist/catalog';
+import { getSekaiSong, getSekaiUnit } from '~/utils/sekai-setlist/catalog';
 import { getSekaiLive } from '~/utils/sekai-setlist/live-data';
 
 const CL3 = getSekaiLive('project-sekai-colorful-live-3rd-evolve')!;
@@ -83,5 +84,26 @@ describe('song page', () => {
     localStorage.setItem('sekai-setlist:attendance', JSON.stringify(LOG));
     await render(<SongPage song={getSekaiSong(heardSong)!} />);
     expect(await screen.findByText(/You heard this live/)).toBeInTheDocument();
+  });
+});
+
+describe('unit page', () => {
+  it('lists the unit and counts songs you heard', async () => {
+    const unit = getSekaiUnit(getSekaiSong(heardSong)!.units[0] ?? 'other')!;
+    const heardStat = async () =>
+      (await screen.findByText('You heard', { selector: 'p' })).nextElementSibling?.textContent;
+
+    const [first] = await render(<UnitPage unit={unit} />);
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(unit.name);
+    expect(screen.getByRole('link', { current: 'page' })).toHaveAttribute(
+      'href',
+      expect.stringContaining(`/units/${unit.id}`)
+    );
+    expect(await heardStat()).toMatch(/^0 \/ \d+$/);
+    first.unmount();
+
+    localStorage.setItem('sekai-setlist:attendance', JSON.stringify(LOG));
+    await render(<UnitPage unit={unit} />);
+    expect(await heardStat()).toMatch(/^[1-9]\d* \/ \d+$/);
   });
 });

@@ -13,8 +13,9 @@ import {
   sekaiUnitColor
 } from '~/utils/sekai-setlist/catalog';
 import { characterIconUrl, unitIconUrl } from '~/utils/sekai-setlist/assets';
+import { unitHref } from '~/utils/sekai-setlist/routes';
 
-const UnitPill = styled('span', {
+const unitPill = {
   base: {
     display: 'inline-flex',
     gap: '1.5',
@@ -29,13 +30,29 @@ const UnitPill = styled('span', {
     fontWeight: 'semibold',
     whiteSpace: 'nowrap'
   }
+} as const;
+const UnitPill = styled('span', unitPill);
+const UnitPillLink = styled('a', {
+  base: {
+    ...unitPill.base,
+    _hover: { color: '#111', bgColor: 'var(--unit-color)' },
+    '&[aria-current=page]': { color: '#111', bgColor: 'var(--unit-color)' }
+  }
 });
 
-/** A unit (or "Other") as a pill in its unit color. */
-export function UnitBadge({ unit }: { unit: string }) {
+/** A unit (or "Other") as a pill in its unit color; `link` makes it go to the unit page. */
+export function UnitBadge({
+  unit,
+  link,
+  current
+}: {
+  unit: string;
+  link?: boolean;
+  current?: boolean; // the unit page being viewed
+}) {
   const { t } = useTranslation();
-  return (
-    <UnitPill style={{ '--unit-color': sekaiUnitColor(unit) } as CSSProperties}>
+  const content = (
+    <>
       {unit !== 'other' && (
         <img
           src={unitIconUrl(unit)}
@@ -46,7 +63,15 @@ export function UnitBadge({ unit }: { unit: string }) {
         />
       )}
       {t(`sekaiSetlist.units.${unit}`, { defaultValue: getSekaiUnit(unit)?.name ?? unit })}
-    </UnitPill>
+    </>
+  );
+  const style = { '--unit-color': sekaiUnitColor(unit) } as CSSProperties;
+  return link ? (
+    <UnitPillLink href={unitHref(unit)} style={style} aria-current={current ? 'page' : undefined}>
+      {content}
+    </UnitPillLink>
+  ) : (
+    <UnitPill style={style}>{content}</UnitPill>
   );
 }
 

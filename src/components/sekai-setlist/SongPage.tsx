@@ -70,7 +70,7 @@ export function SongPage({ song }: { song: SekaiSong }) {
             </Stack>
             <Wrap gap={1.5}>
               {units.map((u) => (
-                <UnitBadge key={u} unit={u} />
+                <UnitBadge key={u} unit={u} link />
               ))}
               <KindBadge commissioned={song.commissioned} />
             </Wrap>

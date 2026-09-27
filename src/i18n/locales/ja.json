@@ -239,5 +239,16 @@
     "imported": "読み込みました（{{count}}公演）",
     "importFailed": "Sekai Setlistsの書き出しファイルではありません",
     "importHint": "読み込んだファイルは記録に統合されます。重複する公演はファイルの内容で上書きされます。"
+  },
+  "unit": {
+    "statSongs": "楽曲",
+    "statPerformed": "ライブ披露",
+    "statLives": "ライブ",
+    "statHeard": "聴いた曲",
+    "mostPerformed": "披露回数の多い曲",
+    "showFewer": "折りたたむ",
+    "showAll": "すべて表示（{{count}}曲）",
+    "lives": "このユニットが出演したライブ",
+    "songsAtLive": "{{count}}曲"
   }
 }

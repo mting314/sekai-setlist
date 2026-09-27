@@ -1,5 +1,6 @@
 /**
- * Chromium end-to-end check for the Project Sekai setlist builder (/builder).
+ * Chromium end-to-end check for the Project Sekai setlist builder (/builder), plus the live /
+ * song / unit pages and the attendance log (/me).
  *
  *   bun dev                                   # in another terminal (serves :3000)
  *   bun scripts/e2e/sekai-setlist.e2e.ts      # headless, desktop + phone
@@ -83,10 +84,6 @@ async function run(label: string, opts: BrowserContextOptions, browser: Browser)
   const shot = (n: string, fullPage = true) =>
     page.screenshot({ path: `${OUT}/${label}-${n}.png`, fullPage });
 
-  check(
-    'nav link to /builder',
-    (await page.locator('a[href$="/builder"]').count()) > 0
-  );
   await shot('01-empty');
 
   // --- search dialog + filters
@@ -258,11 +255,53 @@ async function run(label: string, opts: BrowserContextOptions, browser: Browser)
     (await page.getByRole('button', { name: slot, exact: true }).count()) === 0
   );
 
-  if (label === 'phone') {
-    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
-    check('no horizontal page overflow', overflow <= 0, overflow);
-  }
-  await shot('06-final');
+  await shot('06-builder-final');
+
+  // --- repository pages + attendance log
+  const overflow = async (where: string) => {
+    if (label !== 'phone') return;
+    const px = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
+    check(`no horizontal page overflow (${where})`, px <= 0, px);
+  };
+  await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+  if (label === 'phone') await page.getByRole('button', { name: 'Open Menu' }).click();
+  for (const name of ['Lives', 'Songs', 'My Lives', 'Predict'])
+    check(`nav has ${name}`, await page.getByRole('link', { name, exact: true }).isVisible());
+  if (label === 'phone') await page.keyboard.press('Escape');
+  await overflow('home');
+
+  const liveId = 'project-sekai-colorful-live-3rd-evolve';
+  await page.goto(`${BASE}/lives/${liveId}`, { waitUntil: 'networkidle' });
+  const show = page.getByRole('group', { name: 'How you attended Tokyo Day 1 · Daytime' });
+  await show.getByRole('button', { name: 'In person' }).click();
+  await page.reload({ waitUntil: 'networkidle' });
+  check(
+    'attendance survives reload',
+    (await show.getByRole('button', { name: 'In person' }).getAttribute('aria-pressed')) === 'true'
+  );
+  check('attended setlist marked', (await page.getByText('You were here').count()) === 1);
+  await overflow('live page');
+  await shot('07-live-page');
+
+  const firstSong = page.locator('a[href*="/songs/"]').first();
+  const songHref = await firstSong.getAttribute('href');
+  await firstSong.click();
+  await page.waitForLoadState('networkidle');
+  check('setlist song links to its page', page.url().endsWith(songHref ?? '?'), page.url());
+  check('song page says you heard it', (await page.getByText(/You heard this live/).count()) > 0);
+  await page.locator('a[href*="/units/"]').first().click();
+  await page.waitForLoadState('networkidle');
+  check('unit page loads', (await page.getByText('Most performed').count()) > 0, page.url());
+  await overflow('unit page');
+
+  await page.goto(`${BASE}/me`, { waitUntil: 'networkidle' });
+  const showsStat = page
+    .locator('p', { hasText: /^Shows$/ })
+    .locator('xpath=following-sibling::*[1]');
+  check('My Lives counts the show', (await showsStat.textContent()) === '1');
+  await overflow('my lives');
+  await shot('08-my-lives');
+  await page.evaluate(() => localStorage.removeItem('sekai-setlist:attendance'));
   check('no console errors', consoleErrors.length === 0, consoleErrors);
   check('no HTTP >= 400', httpErrors.length === 0, httpErrors);
   await ctx.close();

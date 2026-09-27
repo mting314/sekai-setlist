@@ -8,12 +8,22 @@ Deploys to https://mting314.github.io/sekai-setlist/ via GitHub Pages (`deploy.y
 
 ## Pages
 
-| Path       | What it does                                                                                             |
-| ---------- | -------------------------------------------------------------------------------------------------------- |
-| `/`        | How the game works, your saved predictions, lives still waiting on a setlist, the latest setlists        |
-| `/builder` | Build a prediction for a live: search, unit / commissioned / cover filters, ordered or unordered, encore |
-| `/mark`    | Score a prediction against a setlist from `/lives` or a pasted one-song-per-line setlist                 |
-| `/lives`   | Past setlists with series / unit / kind filters, "Most performed", open any setlist in the builder       |
+| Path         | What it does                                                                                               |
+| ------------ | ---------------------------------------------------------------------------------------------------------- |
+| `/`          | Events hub: upcoming lives to predict, the latest setlists, your attendance stats                          |
+| `/lives`     | Past setlists with series / unit / kind filters, "Most performed", attended badges                         |
+| `/lives/:id` | One live: its shows (log whether you were there, in person / live viewing / stream), setlists, predictions |
+| `/songs`     | Every song, searchable, filterable by unit and kind, sortable by times performed                           |
+| `/songs/:id` | One song: units, vocalists, every live performance, how many times you heard it                            |
+| `/units/:id` | One unit (or Other): its songs by times performed, the lives that featured it                              |
+| `/me`        | My Lives: shows you attended, songs heard, per-unit progress; export / import JSON, read-only share link   |
+| `/predict`   | How the prediction game works, your saved predictions, lives still waiting on a setlist                    |
+| `/builder`   | Build a prediction for a live: search, unit / commissioned / cover filters, ordered or unordered, encore   |
+| `/mark`      | Score a prediction against a setlist from `/lives` or a pasted one-song-per-line setlist                   |
+
+Shows (which dates and day/night performances a live had, and which setlist each used) come from
+`data/sekai/shows.json`; lives not listed there get one show per setlist. Attendance is stored in
+`localStorage` (`sekai-setlist:attendance`); a `/me#a=…` link shares it read-only.
 
 A prediction (title, live, songs, encore split, ordered or not) is lz-string encoded into the URL
 hash (`#s=…`), so a link is the whole prediction. Saved slots live in `localStorage`. The old

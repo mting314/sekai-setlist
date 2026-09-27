@@ -251,5 +251,17 @@
     "imported_other": "Imported — {{count}} shows in your log",
     "importFailed": "That file isn't a Sekai Setlists export",
     "importHint": "Importing merges the file into your log; shows in both take the file's value."
+  },
+  "unit": {
+    "statSongs": "Songs",
+    "statPerformed": "Performed live",
+    "statLives": "Lives",
+    "statHeard": "You heard",
+    "mostPerformed": "Most performed",
+    "showFewer": "Show fewer",
+    "showAll": "Show all {{count}}",
+    "lives": "Lives featuring this unit",
+    "songsAtLive_one": "{{count}} song",
+    "songsAtLive_other": "{{count}} songs"
   }
 }
