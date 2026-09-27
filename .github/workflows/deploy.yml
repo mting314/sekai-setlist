@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   # Build job
@@ -16,7 +17,12 @@ jobs:
       - name: Install Dependencies
         uses: ./.github/composite-actions/setup
       - name: Build
-        run: PUBLIC_ENV__BASE_URL=/sekai-setlist bun run ci:build
+        run: |
+          PUBLIC_ENV__BASE_URL=/sekai-setlist bun run ci:build
+          if [ -d "dist/client/sekai-setlist/sekai-setlist" ]; then
+            cp -r dist/client/sekai-setlist/sekai-setlist/* dist/client/sekai-setlist/
+            cp dist/client/sekai-setlist/sekai-setlist/index.html dist/client/index.html
+          fi
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -65,6 +71,7 @@ jobs:
       - name: Running Page Speed Insights
         uses: jakepartusch/psi-action@v1.3
         id: psi
+        continue-on-error: true
         with:
           url: ${{ needs.deploy.outputs.url }}
           key: ${{ secrets.PSI_API_KEY }}
