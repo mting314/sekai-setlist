@@ -57,5 +57,9 @@ export default defineConfig({
     commonjsOptions: {
       exclude: ['react/cjs', 'react-dom/cjs']
     }
+  },
+  preview: {
+    host: '127.0.0.1',
+    port: 4173
   }
 });
