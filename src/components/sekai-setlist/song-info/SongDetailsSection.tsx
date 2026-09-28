@@ -24,7 +24,7 @@ const isoDate = (ms: number) => new Date(ms + JST_OFFSET_MS).toISOString().slice
 const eventName = (e: SekaiSongEvent, lang: string) =>
   lang.startsWith('en') ? (e.nameEn ?? e.name) : e.name;
 
-const KIND_ORDER: SekaiVersionKind[] = ['sekai', 'virtual_singer', 'another_vocal'];
+const KIND_ORDER: SekaiVersionKind[] = ['sekai', 'virtual_singer', 'original', 'another_vocal'];
 
 /** A version's singers: character icons, then any singer without one (flower, GUMI…) by name. */
 function VersionSingers({ version }: { version: SekaiSongVersion }) {
@@ -52,7 +52,9 @@ export function SongVersions({ versions }: { versions?: SekaiSongVersion[] }) {
     v.caption ??
     (v.kind === 'sekai'
       ? t('version.sekai', { defaultValue: 'Sekai ver.' })
-      : t('version.virtualSinger', { defaultValue: 'VIRTUAL SINGER ver.' }));
+      : v.kind === 'original'
+        ? t('version.original', { defaultValue: 'Original ver.' })
+        : t('version.virtualSinger', { defaultValue: 'VIRTUAL SINGER ver.' }));
   const sorted = versions.toSorted(
     (a, b) => KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind)
   );

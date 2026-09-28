@@ -129,7 +129,10 @@ describe('song versions', () => {
     const versions = await within(dialog).findByText('Versions');
     const list = versions.parentElement!;
     expect(list.querySelector('[data-version=sekai]')).toHaveTextContent('Sekai ver.');
-    expect(list.querySelectorAll('[data-version=virtual_singer]')).toHaveLength(2);
+    expect(list.querySelector('[data-version=virtual_singer]')).toHaveTextContent(
+      'VIRTUAL SINGER ver.'
+    );
+    expect(list.querySelector('[data-version=original]')).toHaveTextContent('Original ver.');
     expect(dialog.querySelectorAll('[data-performance-row] [data-version-badge]')).toHaveLength(2);
   });
 });

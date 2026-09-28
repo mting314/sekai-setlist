@@ -46,15 +46,17 @@ export function decodeHash(hash: string): SetlistState | undefined {
 // --- v2: whole predictions (#p=) ---
 
 // Compact wire rows: [type code, value, remarks]. Value is the song id, custom song name, MC
-// title or divider title. 'v' is a song as the VIRTUAL SINGER ver.
+// title or divider title. A song as the VIRTUAL SINGER ver. adds a trailing 1, which older
+// builds ignore (they show the Sekai ver. rather than dropping the row). Early links used 'v'.
 const CODES = { song: 's', custom: 'c', mc: 'm', encore: 'e', intermission: 'i' } as const;
-const VS_SONG = 'v';
-type Code = (typeof CODES)[keyof typeof CODES] | typeof VS_SONG;
+const LEGACY_VS_SONG = 'v';
+type Code = (typeof CODES)[keyof typeof CODES] | typeof LEGACY_VS_SONG;
 const TYPES = {
   ...Object.fromEntries(Object.entries(CODES).map(([t, c]) => [c, t])),
-  [VS_SONG]: 'song'
+  [LEGACY_VS_SONG]: 'song'
 } as Record<Code, PredictionItem['type']>;
-type WireItem = [Code, string?, string?];
+const VS_FLAG = 1;
+type WireItem = [Code, string?, string?, typeof VS_FLAG?];
 interface WireV2 {
   v: 2;
   n: string;
@@ -67,10 +69,11 @@ interface WireV2 {
 export const MAX_SHARE_URL_LENGTH = 2000;
 
 function toWire(item: PredictionItem): WireItem {
-  const code =
-    item.type === 'song' && item.version === 'virtual_singer' ? VS_SONG : CODES[item.type];
+  const code = CODES[item.type];
   switch (item.type) {
     case 'song':
+      if (item.version === 'virtual_singer')
+        return [code, item.songId, item.remarks ?? '', VS_FLAG];
       return item.remarks ? [code, item.songId, item.remarks] : [code, item.songId];
     case 'custom':
       return item.remarks ? [code, item.name, item.remarks] : [code, item.name];
@@ -83,7 +86,7 @@ function toWire(item: PredictionItem): WireItem {
 
 function fromWire(w: unknown): PredictionItem | undefined {
   if (!Array.isArray(w)) return undefined;
-  const [code, value, remarks] = w as unknown[];
+  const [code, value, remarks, flag] = w as unknown[];
   const type = TYPES[code as Code];
   const v = typeof value === 'string' && value ? value : undefined;
   const rs = typeof remarks === 'string' && remarks ? remarks : undefined;
@@ -91,7 +94,7 @@ function fromWire(w: unknown): PredictionItem | undefined {
   const id = itemId();
   switch (type) {
     case 'song':
-      return v ? songItem(id, v, rs, code === VS_SONG) : undefined;
+      return v ? songItem(id, v, rs, code === LEGACY_VS_SONG || flag === VS_FLAG) : undefined;
     case 'custom':
       return v ? { id, type, name: v, ...r } : undefined;
     case 'mc':

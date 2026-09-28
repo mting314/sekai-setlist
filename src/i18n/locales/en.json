@@ -395,13 +395,14 @@
   },
   "version": {
     "version": "Version",
+    "versionOf": "Version: {{name}}",
     "versions": "Versions",
     "sekai": "Sekai ver.",
     "virtualSinger": "VIRTUAL SINGER ver.",
     "vsShort": "VS ver.",
     "vsSwitch": "VS",
     "sekaiShort": "Sekai",
-    "anotherVocal": "Another Vocal ver.",
+    "original": "Original ver.",
     "anotherVocals": "Another Vocal ({{count}})"
   }
 }

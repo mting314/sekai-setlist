@@ -39,32 +39,44 @@ export const songCount = (p: SekaiPrediction) => p.items.filter(isSongRow).lengt
 // A whole note segment naming the VIRTUAL SINGER ver.: "VIRTUAL SINGER Ver.", "(Virtual Singers)",
 // "バーチャル・シンガーver.". Remarks that merely mention them ("with virtual singers only") don't count.
 const VS_SEGMENT =
-  /^[(（]?\s*(?:virtual\s*singers?(?:\s*ver(?:sion|\.)?)?|バーチャル・?シンガー\s*ver\.?)\s*[)）]?$/i;
-const SEGMENT_SEPARATOR = /\s*[;,、/]\s*/;
+  /^[(（]?\s*(?:virtual\s*singers?(?:\s*ver(?:sion|\.)?)?|バーチャル・?シンガー(?:\s*ver\.?)?)\s*[)）]?$/i;
+// Captured, so the rest of a note keeps its own separators ("Short ver., with dancers").
+const SEGMENT_SEPARATOR = /(\s*[;,、/]\s*)/;
 
 /**
  * A note ("VIRTUAL SINGER Ver.", "VIRTUAL SINGER; Game Ver.") split into whether one of its
- * segments names the VIRTUAL SINGER ver. and whatever else it says.
+ * segments names the VIRTUAL SINGER ver. and whatever else it says, as written.
  */
 export function splitVersionNote(note: string): { vs: boolean; rest?: string } {
-  const segments = note.split(SEGMENT_SEPARATOR).map((x) => x.trim());
-  if (!segments.some((x) => VS_SEGMENT.test(x))) return { vs: false, rest: note || undefined };
-  const rest = segments.filter((x) => x && !VS_SEGMENT.test(x)).join('; ');
-  return { vs: true, rest: rest || undefined };
+  const parts = note.split(SEGMENT_SEPARATOR); // segment, separator, segment, …
+  const kept: string[] = [];
+  let vs = false;
+  for (let i = 0; i < parts.length; i += 2) {
+    if (VS_SEGMENT.test(parts[i].trim())) {
+      vs = true;
+      continue;
+    }
+    if (kept.length) kept.push(parts[i - 1]);
+    kept.push(parts[i]);
+  }
+  if (!vs) return { vs: false, rest: note || undefined };
+  return { vs: true, rest: kept.join('').trim() || undefined };
 }
 
 /**
  * A catalog song row. A VIRTUAL SINGER ver. note in the remarks becomes the version (older saves
- * and links stored it as a remark); the version is dropped for songs that only have one.
+ * and links stored it as a remark) unless `readRemarks` is off, e.g. where the version was picked
+ * explicitly; the version is dropped for songs that only have one.
  */
 export function songItem(
   id: string,
   songId: string,
   remarks?: string,
-  vs = false
+  vs = false,
+  readRemarks = true
 ): Extract<PredictionItem, { type: 'song' }> {
   let r = remarks;
-  if (hasVsVersion(songId) && r) {
+  if (readRemarks && hasVsVersion(songId) && r) {
     const split = splitVersionNote(r);
     vs ||= split.vs;
     r = split.rest;

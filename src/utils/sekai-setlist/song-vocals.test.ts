@@ -37,6 +37,24 @@ describe('songVocals', () => {
       vocal('sekai', 2, [1, 13, 17, 21])
     ]);
     expect(v.vsCharacters).toEqual([21, 22, 23, 24, 25, 26]);
+    // …and lists the original upload as its own version
+    expect(v.versions.map((x) => x.kind)).toEqual(['original', 'sekai', 'virtual_singer']);
+  });
+
+  it('shows the VS ver. icons when the Sekai ver. has no game characters (Worlders)', () => {
+    const v = songVocals(
+      [
+        vocal('virtual_singer', 1, [21]),
+        {
+          ...vocal('sekai', 2, []),
+          characters: [{ characterType: 'outside_character', characterId: 9 }]
+        }
+      ],
+      new Map([[9, 'ALLユニット']])
+    );
+    expect(v.characters).toEqual([21]);
+    expect(v.vsCharacters).toEqual([21]);
+    expect(v.versions[1]).toEqual({ kind: 'sekai', characters: [], others: ['ALLユニット'] });
   });
 
   it('defaults to the lowest-seq Sekai ver. and keeps unit and collab captions', () => {

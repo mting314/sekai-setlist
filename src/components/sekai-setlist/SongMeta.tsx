@@ -132,11 +132,13 @@ const VersionOption = styled('button', {
   }
 });
 
-/** A setlist row's Sekai ver. / VS ver. switch, for a song with both versions. */
+/** A setlist row's Sekai ver. / VS ver. switch, for a song with both versions (`name`). */
 export function VersionSwitch({
+  name,
   version,
   onChange
 }: {
+  name: string;
   version?: SongVersion;
   onChange: (version: SongVersion) => void;
 }) {
@@ -157,7 +159,7 @@ export function VersionSwitch({
   return (
     <HStack
       role="group"
-      aria-label={t('version.version', { defaultValue: 'Version' })}
+      aria-label={t('version.versionOf', { name, defaultValue: `Version: ${name}` })}
       data-version-switch={current}
       gap={0}
       flexShrink={0}
@@ -171,7 +173,6 @@ export function VersionSwitch({
           type="button"
           data-version-option={value}
           aria-pressed={current === value}
-          aria-label={full}
           title={full}
           onClick={(e) => {
             e.stopPropagation();

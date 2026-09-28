@@ -47,7 +47,8 @@ export interface SekaiSongDetails {
 
 // Which vocal version a setlist row or live performance is. Sekai ver. is the default.
 export type SongVersion = 'sekai' | 'virtual_singer';
-export type SekaiVersionKind = SongVersion | 'another_vocal';
+// 'original' is the original upload, listed apart only when there's also an in-game VS ver.
+export type SekaiVersionKind = SongVersion | 'original' | 'another_vocal';
 
 /** One of a song's vocal versions (musicVocals), in in-game order. */
 export interface SekaiSongVersion {

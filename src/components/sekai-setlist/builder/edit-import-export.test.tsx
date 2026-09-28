@@ -4,7 +4,7 @@ import { ViewPrediction } from '../ViewPrediction';
 import { EditItemDialog } from './EditItemDialog';
 import { ExportShareTools, exportFileName } from './ExportShareTools';
 import { ImportDialog } from './ImportDialog';
-import { fireEvent, render, screen, waitFor } from '~/__test__/utils';
+import { fireEvent, render, screen, waitFor, within } from '~/__test__/utils';
 import { Page as BuilderPage } from '~/pages/builder/+Page';
 import { getSekaiLive } from '~/utils/sekai-setlist/live-data';
 import { performanceToItems } from '~/utils/sekai-setlist/lives';
@@ -63,7 +63,7 @@ describe('EditItemDialog', () => {
     });
   });
 
-  it('switches a song to its VIRTUAL SINGER ver. and back', async () => {
+  it('switches a song to its VIRTUAL SINGER ver.', async () => {
     const onSave = vi.fn();
     const [, user] = await render(
       <EditItemDialog
@@ -93,6 +93,32 @@ describe('EditItemDialog', () => {
       type: 'song',
       songId: '178',
       version: 'virtual_singer'
+    });
+  });
+
+  it('switches back to the Sekai ver., even with remarks naming the VS ver.', async () => {
+    const onSave = vi.fn();
+    const [, user] = await render(
+      <EditItemDialog
+        open
+        onOpenChange={vi.fn()}
+        item={{ id: 'a', type: 'song', songId: '178', version: 'virtual_singer' }}
+        onSave={onSave}
+      />
+    );
+    const sekai = await waitFor(() => {
+      const el = document.querySelector<HTMLElement>('[data-version-option="sekai"]');
+      expect(el).not.toBeNull();
+      return el!;
+    });
+    await user.click(sekai);
+    await user.type(screen.getByRole('textbox', { name: /remarks/i }), 'VIRTUAL SINGER ver.');
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+    expect(onSave).toHaveBeenLastCalledWith({
+      id: 'a',
+      type: 'song',
+      songId: '178',
+      remarks: 'VIRTUAL SINGER ver.'
     });
   });
 
@@ -422,7 +448,8 @@ describe('builder page editing', () => {
       'data-version-switch',
       'sekai'
     );
-    await user.click(screen.getByRole('button', { name: 'VIRTUAL SINGER ver.' }));
+    const versions = within(row).getByRole('group', { name: /^Version: / });
+    await user.click(within(versions).getByRole('button', { name: 'VS' }));
     await waitFor(() =>
       expect(getPrediction(p.id)?.items[0]).toEqual({
         id: 'a',
@@ -436,6 +463,10 @@ describe('builder page editing', () => {
     ).toEqual(['Rin Kagamine', 'Len Kagamine']);
     // The switch shows the version, so the title has no badge
     expect(row.querySelector('[data-version-badge]')).toBeNull();
+    await user.click(within(versions).getByRole('button', { name: 'Sekai' }));
+    await waitFor(() =>
+      expect(getPrediction(p.id)?.items[0]).toEqual({ id: 'a', type: 'song', songId: '178' })
+    );
   });
 
   it('edits a row through the dialog and autosaves it', async () => {

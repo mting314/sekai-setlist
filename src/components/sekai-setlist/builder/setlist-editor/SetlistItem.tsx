@@ -140,7 +140,7 @@ export const SetlistItem = memo(function SetlistItem({
 
             <HStack gap={1} flexShrink={0}>
               {versionSwitch && item.type === 'song' && (
-                <VersionSwitch version={item.version} onChange={onVersionChange!} />
+                <VersionSwitch name={name} version={item.version} onChange={onVersionChange!} />
               )}
               <Stack gap={0}>
                 <IconButton

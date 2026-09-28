@@ -1,3 +1,4 @@
+import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
 import { describe, expect, it } from 'vitest';
 import { newPrediction } from './prediction';
 import { decodeHash, decodeShare, encodePrediction, encodeState, type SetlistState } from './share';
@@ -81,6 +82,18 @@ describe('prediction share links (#p=)', () => {
       // Tell Your World has no VS ver. to switch to, so the remark stays
       { type: 'song', songId: '1', remarks: 'VIRTUAL SINGER Ver.' }
     ]);
+  });
+
+  it('marks VIRTUAL SINGER ver. rows with a flag older builds ignore, and reads early v rows', () => {
+    const wire = (hash: string) =>
+      JSON.parse(decompressFromEncodedURIComponent(hash.slice(2))) as { i: unknown[] };
+    const p = newPrediction({
+      items: [{ id: 'a', type: 'song', songId: '76', version: 'virtual_singer' }]
+    });
+    expect(wire(encodePrediction(p)).i).toEqual([['s', '76', '', 1]]);
+    const early =
+      'p=' + compressToEncodedURIComponent(JSON.stringify({ v: 2, n: '', i: [['v', '76']] }));
+    expect(decodeShare(early)!.prediction.items[0]).toMatchObject({ version: 'virtual_singer' });
   });
 
   it('keeps a custom event', () => {

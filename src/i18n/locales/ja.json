@@ -382,13 +382,14 @@
   },
   "version": {
     "version": "バージョン",
+    "versionOf": "バージョン：{{name}}",
     "versions": "バージョン",
     "sekai": "セカイver.",
     "virtualSinger": "バーチャル・シンガーver.",
     "vsShort": "VS ver.",
     "vsSwitch": "VS",
     "sekaiShort": "セカイ",
-    "anotherVocal": "アナザーボーカルver.",
+    "original": "オリジナルver.",
     "anotherVocals": "アナザーボーカル（{{count}}）"
   }
 }

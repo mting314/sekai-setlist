@@ -64,14 +64,18 @@ export function songVocals(
   const vs = listed
     .filter((v) => KIND[v.musicVocalType] === 'virtual_singer')
     .toSorted((a, b) => rank(a) - rank(b))[0];
-  const fallback = sekai ?? vs ?? listed[0] ?? vocals[0];
+  // A Sekai ver. by singers without icons ("ALLユニット", DI:Verse) shows the VS ver.'s icons.
+  const fallback = [sekai, vs, listed[0], vocals[0]].find((v) => v && singers(v).length) ?? sekai;
+  const inGameVs = listed.some((v) => v.musicVocalType === 'virtual_singer');
   return {
     characters: fallback ? singers(fallback) : [],
     ...(sekai && vs ? { vsCharacters: singers(vs) } : {}),
     versions: listed.map((v) => {
       const others = outsiders(v, outsideNames);
       return {
-        kind: KIND[v.musicVocalType],
+        // Next to the in-game VS arrangement, the original upload is listed as its own version.
+        kind:
+          v.musicVocalType === 'original_song' && inGameVs ? 'original' : KIND[v.musicVocalType],
         ...(v.caption && !STANDARD_CAPTIONS.has(v.caption) ? { caption: v.caption } : {}),
         characters: singers(v),
         ...(others.length ? { others } : {})

@@ -77,16 +77,17 @@ export function EditItemDialog({ open, onOpenChange, item, onSave }: EditItemDia
   );
   const staged = songId && songId !== (item.type === 'song' ? item.songId : undefined);
 
+  // The version picker decides the version, even if the remarks name one.
   const save = () => {
     const r = remarks.trim() || undefined;
     let next: PredictionItem;
     switch (item.type) {
       case 'song':
-        next = songItem(item.id, songId ?? item.songId, r, vs);
+        next = songItem(item.id, songId ?? item.songId, r, vs, false);
         break;
       case 'custom':
         next = songId
-          ? songItem(item.id, songId, r, vs)
+          ? songItem(item.id, songId, r, vs, false)
           : {
               id: item.id,
               type: 'custom',
