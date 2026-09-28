@@ -1,10 +1,11 @@
 /**
  * Share and export a prediction: a /view link (the whole prediction in the hash), plain text,
- * a JSON file and a PNG of an off-screen SetlistView.
+ * a JSON file and a PNG of an off-screen SetlistView. "Share" sends the text and image together
+ * through the Web Share API, falling back to the clipboard like the-sorter's results share.
  */
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { domToPng } from 'modern-screenshot';
+import { domToBlob } from 'modern-screenshot';
 import { SetlistView } from '../SetlistView';
 import { Box, Stack } from 'styled-system/jsx';
 import { Button } from '~/components/ui/styled/button';
@@ -30,6 +31,18 @@ export function exportFileName(p: SekaiPrediction, lang: string): string {
   return slug || 'setlist-prediction';
 }
 
+/** Copies text and image as one clipboard item, or just the image where that isn't supported. */
+async function copyTextAndImage(text: string, image: Blob) {
+  const textBlob = new Blob([text], { type: 'text/plain' });
+  try {
+    await navigator.clipboard.write([
+      new ClipboardItem({ 'image/png': image, 'text/plain': textBlob })
+    ]);
+  } catch {
+    await navigator.clipboard.write([new ClipboardItem({ 'image/png': image })]);
+  }
+}
+
 function download(href: string, filename: string) {
   const link = document.createElement('a');
   link.download = filename;
@@ -37,12 +50,105 @@ function download(href: string, filename: string) {
   link.click();
 }
 
+/**
+ * Image export for a prediction: `share` sends text + PNG through the share sheet (clipboard
+ * fallback), `downloadImage` saves the PNG. Render `canvas` somewhere; it's the off-screen
+ * SetlistView the image is taken from.
+ */
+export function useSetlistImage(prediction: SekaiPrediction, authorName = '') {
+  const { t, i18n } = useTranslation();
+  const { toast } = useToaster();
+  const [exporting, setExporting] = useState(false);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const author = authorName.trim();
+  const filename = exportFileName(prediction, i18n.language);
+  const failed = (title: string) => toast({ title, type: 'error' });
+
+  const shareText = () => {
+    const url = shareLink(prediction);
+    return [
+      exportText(prediction, i18n.language),
+      author && `— ${author}`,
+      url.length < MAX_SHARE_URL_LENGTH && url
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  };
+
+  const renderImage = async () => {
+    if (!imageRef.current) return;
+    return domToBlob(imageRef.current, {
+      type: 'image/png',
+      scale: 2,
+      backgroundColor: window.getComputedStyle(imageRef.current).backgroundColor,
+      // Jackets come from sekai.best, which allows CORS but 403s a third-party Referer.
+      fetch: { requestInit: { mode: 'cors', referrerPolicy: 'no-referrer' } }
+    });
+  };
+
+  const withImage = async (use: (image: Blob) => Promise<void>) => {
+    setExporting(true);
+    try {
+      const image = await renderImage();
+      if (image) await use(image);
+    } catch {
+      failed(t('builder.imageFailed', { defaultValue: 'Could not create the image' }));
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  const share = () =>
+    withImage(async (image) => {
+      const text = shareText();
+      const data = { text, files: [new File([image], `${filename}.png`, { type: 'image/png' })] };
+      if (navigator.canShare?.(data)) {
+        try {
+          await navigator.share(data);
+          return;
+        } catch (e) {
+          if (e instanceof DOMException && e.name === 'AbortError') return;
+        }
+      }
+      try {
+        await copyTextAndImage(text, image);
+        toast({
+          title: t('builder.shareCopied', { defaultValue: 'Text and image copied' }),
+          type: 'success'
+        });
+      } catch {
+        failed(t('builder.copyFailed', { defaultValue: 'Could not copy to the clipboard' }));
+      }
+    });
+
+  const downloadImage = () =>
+    withImage(async (image) => {
+      const url = URL.createObjectURL(image);
+      download(url, `${filename}.png`);
+      URL.revokeObjectURL(url);
+      toast({
+        title: t('builder.imageDownloaded', { defaultValue: 'Image downloaded' }),
+        type: 'success'
+      });
+    });
+
+  const canvas = (
+    // Rendered off-screen at a fixed width for the image export.
+    <Box aria-hidden position="fixed" top="-10000px" left="-10000px" pointerEvents="none">
+      <Box ref={imageRef} w="800px" p={8} bgColor="bg.default">
+        <SetlistView prediction={prediction} authorName={author || undefined} />
+      </Box>
+    </Box>
+  );
+
+  return { share, downloadImage, exporting, canvas };
+}
+
 export function ExportShareTools({ prediction }: ExportShareToolsProps) {
   const { t, i18n } = useTranslation();
   const { toast } = useToaster();
   const [authorName, setAuthorName] = useState('');
-  const [exporting, setExporting] = useState(false);
-  const imageRef = useRef<HTMLDivElement>(null);
+  const { share, downloadImage, exporting, canvas } = useSetlistImage(prediction, authorName);
   const filename = exportFileName(prediction, i18n.language);
   const failed = (title: string) => toast({ title, type: 'error' });
 
@@ -90,28 +196,6 @@ export function ExportShareTools({ prediction }: ExportShareToolsProps) {
     URL.revokeObjectURL(url);
   };
 
-  const downloadImage = async () => {
-    if (!imageRef.current) return;
-    setExporting(true);
-    try {
-      const dataUrl = await domToPng(imageRef.current, {
-        scale: 2,
-        backgroundColor: window.getComputedStyle(imageRef.current).backgroundColor,
-        // Jackets come from sekai.best, which allows CORS but 403s a third-party Referer.
-        fetch: { requestInit: { mode: 'cors', referrerPolicy: 'no-referrer' } }
-      });
-      download(dataUrl, `${filename}.png`);
-      toast({
-        title: t('builder.imageDownloaded', { defaultValue: 'Image downloaded' }),
-        type: 'success'
-      });
-    } catch {
-      failed(t('builder.imageFailed', { defaultValue: 'Could not create the image' }));
-    } finally {
-      setExporting(false);
-    }
-  };
-
   return (
     <Stack gap={2}>
       <Text fontSize="sm" fontWeight="medium">
@@ -131,7 +215,10 @@ export function ExportShareTools({ prediction }: ExportShareToolsProps) {
           aria-label={t('builder.authorName', { defaultValue: 'Your name (optional)' })}
         />
       </Box>
-      <Button size="sm" onClick={() => void copyLink()}>
+      <Button size="sm" onClick={() => void share()} disabled={exporting}>
+        {t('builder.shareTextImage', { defaultValue: 'Share text + image' })}
+      </Button>
+      <Button size="sm" variant="outline" onClick={() => void copyLink()}>
         {t('builder.copyLink', { defaultValue: 'Copy share link' })}
       </Button>
       <Button size="sm" variant="outline" onClick={() => void copyText()}>
@@ -145,13 +232,7 @@ export function ExportShareTools({ prediction }: ExportShareToolsProps) {
           ? t('builder.exportingImage', { defaultValue: 'Creating image…' })
           : t('builder.downloadImage', { defaultValue: 'Download image' })}
       </Button>
-
-      {/* Rendered off-screen at a fixed width for the image export. */}
-      <Box aria-hidden position="fixed" top="-10000px" left="-10000px" pointerEvents="none">
-        <Box ref={imageRef} w="800px" p={8} bgColor="bg.default">
-          <SetlistView prediction={prediction} authorName={authorName.trim() || undefined} />
-        </Box>
-      </Box>
+      {canvas}
     </Stack>
   );
 }

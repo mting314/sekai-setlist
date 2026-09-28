@@ -33,10 +33,12 @@ export function ItemColorBar({ item }: { item: PredictionItem }) {
 /** Title line plus remarks (or vocalists / "custom song"); dividers are a centred bold band. */
 export function ItemSummary({
   item,
-  nameSuffix
+  nameSuffix,
+  iconSize = 16
 }: {
   item: PredictionItem;
   nameSuffix?: ReactNode;
+  iconSize?: number;
 }) {
   const { t, i18n } = useTranslation();
   const name = itemName(item, i18n.language);
@@ -63,7 +65,7 @@ export function ItemSummary({
           {remarks}
         </Text>
       ) : item.type === 'song' ? (
-        <VocalistIcons id={item.songId} size={16} />
+        <VocalistIcons id={item.songId} size={iconSize} />
       ) : item.type === 'custom' ? (
         <Text color="fg.muted" fontSize="xs" lineHeight="1.3">
           {t('builder.customSong', { defaultValue: 'Custom song' })}

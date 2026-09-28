@@ -18,14 +18,17 @@ import { decodeShare, encodePrediction } from '~/utils/sekai-setlist/share';
 import type { PredictionItem } from '~/types/sekai-prediction';
 
 vi.mock('modern-screenshot', () => ({
-  domToPng: vi.fn(() => Promise.resolve('data:image/png;base64,AAAA'))
+  domToBlob: vi.fn(() => Promise.resolve(new Blob(['png'], { type: 'image/png' })))
 }));
 
 const CL3 = getSekaiLive('project-sekai-colorful-live-3rd-evolve')!;
 const withoutIds = (items: PredictionItem[]) => items.map(({ id: _id, ...rest }) => rest);
 
 beforeEach(() => localStorage.clear());
-afterEach(() => vi.restoreAllMocks());
+afterEach(() => {
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+});
 
 describe('EditItemDialog', () => {
   it('swaps a song and sets remarks from a suggestion', async () => {
@@ -195,13 +198,44 @@ describe('ExportShareTools', () => {
 
   it('downloads the image through modern-screenshot', async () => {
     const click = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+    vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:image');
+    vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
     const [, user] = await render(<ExportShareTools prediction={prediction} />);
     await user.click(screen.getByRole('button', { name: 'Download image' }));
     await waitFor(() => expect(click).toHaveBeenCalled());
     const link = click.mock.contexts[0] as HTMLAnchorElement;
     expect(link.download).toBe('my-cl3-guess.png');
-    expect(link.href).toBe('data:image/png;base64,AAAA');
+    expect(link.href).toBe('blob:image');
     expect(exportFileName(newPrediction({ name: '6周年 予想' }), 'ja')).toBe('6周年-予想');
+  });
+
+  it('shares the text, link and image together', async () => {
+    const share = vi.fn(() => Promise.resolve());
+    vi.stubGlobal('navigator', { ...navigator, canShare: () => true, share });
+    const [, user] = await render(<ExportShareTools prediction={prediction} />);
+    await user.type(screen.getByRole('textbox', { name: 'Your name (optional)' }), 'Mizuki');
+    await user.click(screen.getByRole('button', { name: 'Share text + image' }));
+    await waitFor(() => expect(share).toHaveBeenCalled());
+    const data = (share.mock.calls[0] as unknown as [{ text: string; files: File[] }])[0];
+    expect(data.text).toContain(exportText(prediction, 'en'));
+    expect(data.text).toContain('— Mizuki');
+    expect(data.text).toMatch(/\/view#p=/);
+    expect(data.files[0].name).toBe('my-cl3-guess.png');
+    expect(data.files[0].type).toBe('image/png');
+  });
+
+  it('copies text and image when the share sheet is unavailable', async () => {
+    class FakeClipboardItem {
+      constructor(public items: Record<string, Blob>) {}
+    }
+    vi.stubGlobal('ClipboardItem', FakeClipboardItem);
+    const [, user] = await render(<ExportShareTools prediction={prediction} />);
+    // user-event installs its clipboard on render, so spy on it afterwards.
+    const write = vi.spyOn(navigator.clipboard, 'write').mockResolvedValue();
+    await user.click(screen.getByRole('button', { name: 'Share text + image' }));
+    expect(await screen.findByText('Text and image copied')).toBeInTheDocument();
+    const item = write.mock.calls[0][0][0] as unknown as FakeClipboardItem;
+    expect(Object.keys(item.items).toSorted()).toEqual(['image/png', 'text/plain']);
   });
 });
 
@@ -214,7 +248,8 @@ describe('ViewPrediction', () => {
     });
     window.location.hash = encodePrediction(shared);
     const [, user] = await render(<ViewPrediction />);
-    expect(await screen.findByText('Shared guess')).toBeInTheDocument();
+    // Twice: the page and the off-screen copy the share image is taken from.
+    expect(await screen.findAllByText('Shared guess')).toHaveLength(2);
     expect(screen.getByRole('link', { name: 'Mark' })).toHaveAttribute(
       'href',
       expect.stringMatching(/^\/mark\?live=.+#p=/)
@@ -226,6 +261,22 @@ describe('ViewPrediction', () => {
       'href',
       `/mark?prediction=${listPredictions()[0].id}&live=${CL3.id}`
     );
+  });
+
+  it('shares a shared prediction as text + image', async () => {
+    const share = vi.fn(() => Promise.resolve());
+    vi.stubGlobal('navigator', { ...navigator, canShare: () => true, share });
+    const shared = newPrediction({
+      name: 'Shared guess',
+      items: [{ id: 'a', type: 'song', songId: '1' }]
+    });
+    window.location.hash = encodePrediction(shared);
+    const [, user] = await render(<ViewPrediction />);
+    await user.click(await screen.findByRole('button', { name: 'Share text + image' }));
+    await waitFor(() => expect(share).toHaveBeenCalled());
+    const data = (share.mock.calls[0] as unknown as [{ text: string; files: File[] }])[0];
+    expect(data.text).toContain('Tell Your World');
+    expect(data.files[0].name).toBe('shared-guess.png');
   });
 
   it('explains a link without a prediction', async () => {

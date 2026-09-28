@@ -106,7 +106,7 @@ export function SetlistView({
                 </Text>
               )}
               {item.type === 'song' && <SongJacket id={item.songId} size={compact ? 28 : 40} />}
-              <ItemSummary item={item} />
+              <ItemSummary item={item} iconSize={compact ? 18 : 24} />
             </HStack>
           </Box>
         ))}

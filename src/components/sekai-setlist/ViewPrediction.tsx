@@ -1,11 +1,13 @@
 /**
  * A shared (`#p=` / legacy `#s=`) or saved (`?prediction=`) prediction, read-only, with actions
- * to save it, open a copy in the builder and mark it once its live has a setlist.
+ * to save it, open a copy in the builder, share it as text + image and mark it once its live has
+ * a setlist.
  */
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BiCheckDouble, BiEdit, BiSave } from 'react-icons/bi';
+import { BiCheckDouble, BiDownload, BiEdit, BiSave, BiShareAlt } from 'react-icons/bi';
 import { SetlistView } from './SetlistView';
+import { useSetlistImage } from './builder/ExportShareTools';
 import { Box, HStack, Stack } from 'styled-system/jsx';
 import { Button } from '~/components/ui/styled/button';
 import { Text } from '~/components/ui/styled/text';
@@ -18,7 +20,6 @@ import type { SekaiPrediction } from '~/types/sekai-prediction';
 
 export function ViewPrediction() {
   const { t } = useTranslation();
-  const { toast } = useToaster();
   const [state, setState] = useState<{ prediction?: SekaiPrediction; savedId?: string }>();
 
   useEffect(() => {
@@ -46,10 +47,31 @@ export function ViewPrediction() {
     );
   }
 
+  return (
+    <SharedPrediction
+      prediction={prediction}
+      savedId={savedId}
+      onSaved={(saved) => setState({ prediction: saved, savedId: saved.id })}
+    />
+  );
+}
+
+function SharedPrediction({
+  prediction,
+  savedId,
+  onSaved
+}: {
+  prediction: SekaiPrediction;
+  savedId?: string;
+  onSaved: (saved: SekaiPrediction) => void;
+}) {
+  const { t } = useTranslation();
+  const { toast } = useToaster();
+  const { share, downloadImage, exporting, canvas } = useSetlistImage(prediction);
   const save = () => {
     if (savedId) return savedId;
     const saved = savePrediction(prediction);
-    setState({ prediction: saved, savedId: saved.id });
+    onSaved(saved);
     return saved.id;
   };
   const markable = !!getSekaiLive(prediction.live)?.performances.length;
@@ -79,6 +101,12 @@ export function ViewPrediction() {
         >
           <BiEdit /> {t('view.edit', { defaultValue: 'Edit in the builder' })}
         </Button>
+        <Button variant="outline" disabled={exporting} onClick={() => void share()}>
+          <BiShareAlt /> {t('builder.shareTextImage', { defaultValue: 'Share text + image' })}
+        </Button>
+        <Button variant="outline" disabled={exporting} onClick={() => void downloadImage()}>
+          <BiDownload /> {t('builder.downloadImage', { defaultValue: 'Download image' })}
+        </Button>
         {markable && (
           <Button asChild variant="outline">
             <a
@@ -96,6 +124,7 @@ export function ViewPrediction() {
       <Box borderRadius="md" borderWidth="1px" p={{ base: 3, md: 6 }} bgColor="bg.default">
         <SetlistView prediction={prediction} />
       </Box>
+      {canvas}
     </Stack>
   );
 }
