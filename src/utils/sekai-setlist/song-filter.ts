@@ -1,5 +1,6 @@
 // Song search/filter for the Sekai setlist builder. Songs are grouped by unit; a song with no
 // owning unit is the "Other" bucket. Pure functions over the bundled catalog.
+import { fuzzySearch, getSearchScore } from '~/utils/search';
 import type { SekaiSong, SekaiUnitId } from '~/types/sekai';
 
 export const NON_UNIT = 'other' as const;
@@ -30,13 +31,28 @@ export function songMatchesUnit(song: SekaiSong, unit: UnitFilter): boolean {
 export const songReleaseYears = (songs: SekaiSong[]): string[] =>
   [...new Set(songs.map(yearOf).filter((y): y is string => !!y))].toSorted();
 
+const searchable = (song: SekaiSong) => ({
+  id: song.id,
+  name: song.title,
+  englishName: song.englishName,
+  phoneticName: song.pronunciation
+});
+
+/** Title, kana reading (also typed as romaji) or EN name, via the-sorter's fuzzy search. */
+export const songMatchesSearch = (song: SekaiSong, search: string): boolean =>
+  fuzzySearch(searchable(song), search);
+
+/** Best search matches first, as in the-sorter's song search. */
+export const rankBySearch = (songs: SekaiSong[], search: string): SekaiSong[] =>
+  search.trim()
+    ? songs.toSorted(
+        (a, b) => getSearchScore(searchable(b), search) - getSearchScore(searchable(a), search)
+      )
+    : songs;
+
 /** One song against the search / unit / kind / release-year filters. */
 export function songMatchesFilters(song: SekaiSong, filters: SongFilters): boolean {
-  const q = filters.search.trim().toLowerCase();
-  if (q) {
-    const hay = `${song.title} ${song.pronunciation ?? ''} ${song.englishName ?? ''}`.toLowerCase();
-    if (!hay.includes(q)) return false;
-  }
+  if (!songMatchesSearch(song, filters.search)) return false;
   if (filters.units.length > 0 && !filters.units.some((u) => songMatchesUnit(song, u)))
     return false;
   if (filters.kind === 'commissioned' && !song.commissioned) return false;

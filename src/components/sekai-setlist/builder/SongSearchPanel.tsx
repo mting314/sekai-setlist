@@ -22,6 +22,7 @@ import {
   EMPTY_SONG_FILTERS,
   NON_UNIT,
   filterSongs,
+  rankBySearch,
   type SongFilters,
   type SongKind,
   type UnitFilter
@@ -137,7 +138,10 @@ export function SongSearchPanel({
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
   const [filters, setFilters] = useState<SongFilters>(EMPTY_SONG_FILTERS);
-  const results = useMemo(() => filterSongs(sekaiSongs, filters), [filters]);
+  const results = useMemo(
+    () => rankBySearch(filterSongs(sekaiSongs, filters), filters.search),
+    [filters]
+  );
   const query = filters.search.trim();
 
   // Per-unit counts under the current search + kind, so each chip shows what picking it adds.

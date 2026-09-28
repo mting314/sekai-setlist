@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { EMPTY_SONG_FILTERS, filterSongs, songMatchesUnit, songReleaseYears } from './song-filter';
+import { sekaiSongs } from './catalog';
+import {
+  EMPTY_SONG_FILTERS,
+  filterSongs,
+  rankBySearch,
+  songMatchesUnit,
+  songReleaseYears
+} from './song-filter';
 import type { SekaiSong } from '~/types/sekai';
 
 const song = (over: Partial<SekaiSong> & { id: string }): SekaiSong => ({
@@ -90,5 +97,17 @@ describe('filterSongs', () => {
 describe('songReleaseYears', () => {
   it('returns sorted unique years', () => {
     expect(songReleaseYears(SONGS)).toEqual(['2020', '2021', '2023']);
+  });
+});
+
+describe('romaji search (the-sorter fuzzySearch)', () => {
+  const search = (q: string) =>
+    rankBySearch(filterSongs(sekaiSongs, { ...EMPTY_SONG_FILTERS, search: q }), q).map(
+      (s) => s.title
+    );
+  it('finds songs by their kana reading typed in romaji, best match first', () => {
+    expect(search('anti sainou')[0]).toBe('アンチサイノウ');
+    expect(search('senbonzakura')[0]).toBe('千本桜');
+    expect(search('yoru ni kakeru')[0]).toBe('夜に駆ける');
   });
 });

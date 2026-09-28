@@ -21,7 +21,7 @@ import { Input } from '~/components/ui/styled/input';
 import { Text } from '~/components/ui/styled/text';
 import { sekaiSongName, sekaiSongSubName, sekaiSongs } from '~/utils/sekai-setlist/catalog';
 import { DIVIDER_TITLES, itemName } from '~/utils/sekai-setlist/prediction';
-import { EMPTY_SONG_FILTERS, filterSongs } from '~/utils/sekai-setlist/song-filter';
+import { EMPTY_SONG_FILTERS, filterSongs, rankBySearch } from '~/utils/sekai-setlist/song-filter';
 import type { PredictionItem } from '~/types/sekai-prediction';
 import { isSongRow } from '~/types/sekai-prediction';
 
@@ -59,7 +59,10 @@ export function EditItemDialog({ open, onOpenChange, item, onSave }: EditItemDia
   const results = useMemo(
     () =>
       search.trim()
-        ? filterSongs(sekaiSongs, { ...EMPTY_SONG_FILTERS, search }).slice(0, MAX_RESULTS)
+        ? rankBySearch(filterSongs(sekaiSongs, { ...EMPTY_SONG_FILTERS, search }), search).slice(
+            0,
+            MAX_RESULTS
+          )
         : [],
     [search]
   );
