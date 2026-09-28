@@ -1,6 +1,6 @@
 // Pure helpers for SekaiPrediction: creation, validation, row numbering, and conversion to and
 // from the SetlistState that scoring and legacy (#s=) links use.
-import { sekaiSongName } from './catalog';
+import { hasVsVersion, sekaiSongName } from './catalog';
 import { getSekaiLive, sekaiLiveName } from './live-data';
 import type { SetlistState } from './share';
 import type {
@@ -34,6 +34,48 @@ export function newPrediction(
 /** Song rows (catalog and custom). */
 export const songCount = (p: SekaiPrediction) => p.items.filter(isSongRow).length;
 
+// --- song versions ---
+
+const VS_LABEL = /virtual\s*singers?(?:\s*ver(?:sion|\.)?)?|バーチャル・?シンガー\s*ver\.?/i;
+
+/**
+ * A note ("VIRTUAL SINGER Ver.", "VIRTUAL SINGER; Game Ver.") split into whether it names the
+ * VIRTUAL SINGER ver. and whatever else it says.
+ */
+export function splitVersionNote(note: string): { vs: boolean; rest?: string } {
+  if (!VS_LABEL.test(note)) return { vs: false, rest: note || undefined };
+  const rest = note
+    .replace(VS_LABEL, '')
+    .replace(/^[\s;,、/・]+|[\s;,、/・]+$/g, '')
+    .trim();
+  return { vs: true, rest: rest || undefined };
+}
+
+/**
+ * A catalog song row. A VIRTUAL SINGER ver. note in the remarks becomes the version (older saves
+ * and links stored it as a remark); the version is dropped for songs that only have one.
+ */
+export function songItem(
+  id: string,
+  songId: string,
+  remarks?: string,
+  vs = false
+): Extract<PredictionItem, { type: 'song' }> {
+  let r = remarks;
+  if (hasVsVersion(songId) && r) {
+    const split = splitVersionNote(r);
+    vs ||= split.vs;
+    r = split.rest;
+  }
+  return {
+    id,
+    type: 'song',
+    songId,
+    ...(r ? { remarks: r } : {}),
+    ...(vs && hasVsVersion(songId) ? { version: 'virtual_singer' as const } : {})
+  };
+}
+
 // --- validation (storage, imported JSON) ---
 
 const str = (x: unknown): string | undefined => (typeof x === 'string' && x ? x : undefined);
@@ -51,7 +93,7 @@ export function parseItem(x: unknown): PredictionItem | undefined {
   switch (type) {
     case 'song': {
       const songId = typeof o.songId === 'number' ? String(o.songId) : str(o.songId);
-      return songId ? { id, type, songId, ...withRemarks } : undefined;
+      return songId ? songItem(id, songId, remarks, o.version === 'virtual_singer') : undefined;
     }
     case 'custom': {
       const name = str(o.name);
@@ -182,14 +224,18 @@ export function itemName(item: PredictionItem, lang: string): string {
   }
 }
 
+const vsLabel = (lang: string) =>
+  lang?.toLowerCase().startsWith('ja') ? 'バーチャル・シンガーver.' : 'VIRTUAL SINGER ver.';
+
 /** Plain-text setlist for sharing: title, event, then one numbered row per line. */
 export function exportText(p: SekaiPrediction, lang: string): string {
   const labels = numberItems(p.items);
   const lines = p.items.map((item, i) => {
     const name = itemName(item, lang);
     if (!labels[i]) return name;
-    const remarks = isSongRow(item) && item.remarks ? ` (${item.remarks})` : '';
-    return `${labels[i]} ${name}${remarks}`;
+    const vs = item.type === 'song' && item.version === 'virtual_singer' && vsLabel(lang);
+    const note = [vs, isSongRow(item) && item.remarks].filter(Boolean).join('; ');
+    return `${labels[i]} ${name}${note ? ` (${note})` : ''}`;
   });
   const header = [p.name, predictionEventName(p, lang)].filter(
     (s, i, all): s is string => !!s && all.indexOf(s) === i

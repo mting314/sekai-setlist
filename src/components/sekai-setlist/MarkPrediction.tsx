@@ -9,6 +9,7 @@ import { BiEdit, BiFolderOpen } from 'react-icons/bi';
 import { Box, HStack, Stack, Wrap, styled } from 'styled-system/jsx';
 import { LiveSelect } from './LiveSelect';
 import { SongJacket } from './SongJacket';
+import { VersionBadge } from './SongMeta';
 import { NicknameChips } from './song-info/NicknameChips';
 import { SongInfoButton } from './song-info/SongInfoButton';
 import { Badge } from '~/components/ui/styled/badge';
@@ -392,6 +393,9 @@ function ScoreCard({ result, actual }: { result: ScoreResult; actual: SetlistSta
                   {sekaiSongName(s.songId, lang)}
                 </Text>
                 <NicknameChips songId={s.songId} />
+                {s.actualAt !== undefined && actual.vs?.includes(s.actualAt) && (
+                  <VersionBadge version="virtual_singer" />
+                )}
                 <SongInfoButton songId={s.songId} />
               </HStack>
               {s.actualAt !== undefined && result.ordered && s.kind !== 'exact' && (
@@ -436,6 +440,7 @@ function ScoreCard({ result, actual }: { result: ScoreResult; actual: SetlistSta
                     {sekaiSongName(actual.songs[j], lang)}
                   </Text>
                   <NicknameChips songId={actual.songs[j]} />
+                  {actual.vs?.includes(j) && <VersionBadge version="virtual_singer" />}
                   <SongInfoButton songId={actual.songs[j]} />
                 </HStack>
               ))}

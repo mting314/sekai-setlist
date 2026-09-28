@@ -1,19 +1,20 @@
 /**
  * Small per-song decorations shared by the search dialog, setlist rows and song pages:
- * commissioned/cover badge, unit badges and the vocalist character icons.
+ * commissioned/cover badge, unit badges, the vocalist character icons and the version badge.
  */
 import type { CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HStack, styled } from 'styled-system/jsx';
 import { Badge } from '~/components/ui/styled/badge';
 import {
-  getSekaiSong,
   getSekaiUnit,
   sekaiCharacterName,
-  sekaiUnitColor
+  sekaiUnitColor,
+  songVocalists
 } from '~/utils/sekai-setlist/catalog';
 import { characterIconUrl, unitIconUrl } from '~/utils/sekai-setlist/assets';
 import { unitHref } from '~/utils/sekai-setlist/routes';
+import type { SongVersion } from '~/types/sekai';
 
 const unitPill = {
   base: {
@@ -97,18 +98,51 @@ export function KindBadge({ commissioned }: { commissioned: boolean }) {
   );
 }
 
-/** Vocalist icons for a song (game characters from musicVocals), overlapping when crowded. */
+/**
+ * "VS ver." for a row or performance that's the VIRTUAL SINGER ver.; nothing for the Sekai ver.,
+ * which is the default.
+ */
+export function VersionBadge({ version }: { version?: SongVersion }) {
+  const { t } = useTranslation();
+  if (version !== 'virtual_singer') return null;
+  return (
+    <Badge
+      data-version-badge
+      title={t('version.virtualSinger', { defaultValue: 'VIRTUAL SINGER ver.' })}
+      variant="outline"
+      size="sm"
+      flexShrink={0}
+    >
+      {t('version.vsShort', { defaultValue: 'VS ver.' })}
+    </Badge>
+  );
+}
+
+/** A song's vocalist icons: its Sekai ver. unless `version` is the VIRTUAL SINGER ver. */
 export function VocalistIcons({
   id,
+  version,
+  ...rest
+}: {
+  id: string;
+  version?: SongVersion;
+  size?: number;
+  max?: number;
+}) {
+  return <CharacterIcons characters={songVocalists(id, version)} {...rest} />;
+}
+
+/** Game-character icons, overlapping when crowded. */
+export function CharacterIcons({
+  characters,
   size = 20,
   max = 6
 }: {
-  id: string;
+  characters: number[];
   size?: number;
   max?: number;
 }) {
   const { i18n } = useTranslation();
-  const characters = getSekaiSong(id)?.characters ?? [];
   if (characters.length === 0) return null;
   const shown = characters.slice(0, max);
   const hidden = characters.length - shown.length;

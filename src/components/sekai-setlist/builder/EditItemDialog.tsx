@@ -1,11 +1,13 @@
 /**
  * Edit one setlist row: swap a song for another (or link a custom song to the catalog), rename
- * a custom song, retitle an MC or divider, and set remarks such as "VIRTUAL SINGER Ver.".
+ * a custom song, retitle an MC or divider, pick the Sekai ver. or VIRTUAL SINGER ver. and set
+ * remarks such as "Short Ver.".
  * Mount it with `key={item.id}` so its fields start from the row being edited.
  */
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SongJacket } from '../SongJacket';
+import { VocalistIcons } from '../SongMeta';
 import { NicknameChips } from '../song-info/NicknameChips';
 import { Box, HStack, Stack, Wrap, styled } from 'styled-system/jsx';
 import { Button } from '~/components/ui/styled/button';
@@ -20,14 +22,19 @@ import {
 } from '~/components/ui/styled/dialog';
 import { Input } from '~/components/ui/styled/input';
 import { Text } from '~/components/ui/styled/text';
-import { sekaiSongName, sekaiSongSubName, sekaiSongs } from '~/utils/sekai-setlist/catalog';
-import { DIVIDER_TITLES, itemName } from '~/utils/sekai-setlist/prediction';
+import {
+  hasVsVersion,
+  sekaiSongName,
+  sekaiSongSubName,
+  sekaiSongs
+} from '~/utils/sekai-setlist/catalog';
+import { DIVIDER_TITLES, itemName, songItem } from '~/utils/sekai-setlist/prediction';
 import { EMPTY_SONG_FILTERS, filterSongs, rankBySearch } from '~/utils/sekai-setlist/song-filter';
 import type { PredictionItem } from '~/types/sekai-prediction';
 import { isSongRow } from '~/types/sekai-prediction';
 
 const MAX_RESULTS = 20;
-export const REMARK_SUGGESTIONS = ['VIRTUAL SINGER Ver.', 'Game Ver.', 'Short Ver.'];
+export const REMARK_SUGGESTIONS = ['Game Ver.', 'Short Ver.'];
 
 export interface EditItemDialogProps {
   open: boolean;
@@ -56,6 +63,7 @@ export function EditItemDialog({ open, onOpenChange, item, onSave }: EditItemDia
   const [customName, setCustomName] = useState(item.type === 'custom' ? item.name : '');
   const [title, setTitle] = useState(songRow ? '' : (item.title ?? ''));
   const [remarks, setRemarks] = useState(songRow ? (item.remarks ?? '') : '');
+  const [vs, setVs] = useState(item.type === 'song' && item.version === 'virtual_singer');
 
   const results = useMemo(
     () =>
@@ -70,17 +78,21 @@ export function EditItemDialog({ open, onOpenChange, item, onSave }: EditItemDia
   const staged = songId && songId !== (item.type === 'song' ? item.songId : undefined);
 
   const save = () => {
-    const r = remarks.trim();
-    const withRemarks = r ? { remarks: r } : {};
+    const r = remarks.trim() || undefined;
     let next: PredictionItem;
     switch (item.type) {
       case 'song':
-        next = { id: item.id, type: 'song', songId: songId ?? item.songId, ...withRemarks };
+        next = songItem(item.id, songId ?? item.songId, r, vs);
         break;
       case 'custom':
         next = songId
-          ? { id: item.id, type: 'song', songId, ...withRemarks }
-          : { id: item.id, type: 'custom', name: customName.trim() || item.name, ...withRemarks };
+          ? songItem(item.id, songId, r, vs)
+          : {
+              id: item.id,
+              type: 'custom',
+              name: customName.trim() || item.name,
+              ...(r ? { remarks: r } : {})
+            };
         break;
       case 'mc':
         next = { id: item.id, type: 'mc', title: title.trim() || 'MC' };
@@ -108,7 +120,7 @@ export function EditItemDialog({ open, onOpenChange, item, onSave }: EditItemDia
               <Text color="fg.muted" fontSize="sm">
                 {songRow
                   ? t('builder.editSongDescription', {
-                      defaultValue: 'Change the song or add remarks such as a version.'
+                      defaultValue: 'Change the song, its version or add remarks.'
                     })
                   : t('builder.editOtherDescription', { defaultValue: 'Change the title.' })}
               </Text>
@@ -264,15 +276,44 @@ export function EditItemDialog({ open, onOpenChange, item, onSave }: EditItemDia
               </Field>
             )}
 
+            {songId && hasVsVersion(songId) && (
+              <Field label={t('version.version', { defaultValue: 'Version' })}>
+                <HStack gap={2} flexWrap="wrap">
+                  {(
+                    [
+                      [false, t('version.sekai', { defaultValue: 'Sekai ver.' }), undefined],
+                      [
+                        true,
+                        t('version.virtualSinger', { defaultValue: 'VIRTUAL SINGER ver.' }),
+                        'virtual_singer'
+                      ]
+                    ] as const
+                  ).map(([value, label, version]) => (
+                    <Button
+                      key={label}
+                      data-version-option={version ?? 'sekai'}
+                      size="sm"
+                      variant={vs === value ? 'solid' : 'outline'}
+                      aria-pressed={vs === value}
+                      onClick={() => setVs(value)}
+                    >
+                      {label}
+                      <VocalistIcons id={songId} version={version} size={16} />
+                    </Button>
+                  ))}
+                </HStack>
+              </Field>
+            )}
+
             {songRow && (
-              <Field label={t('builder.remarks', { defaultValue: 'Version / remarks' })}>
+              <Field label={t('builder.remarks', { defaultValue: 'Remarks' })}>
                 <Input
                   value={remarks}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRemarks(e.target.value)}
                   placeholder={t('builder.remarksPlaceholder', {
-                    defaultValue: 'VIRTUAL SINGER Ver., Short Ver., notes…'
+                    defaultValue: 'Short Ver., notes…'
                   })}
-                  aria-label={t('builder.remarks', { defaultValue: 'Version / remarks' })}
+                  aria-label={t('builder.remarks', { defaultValue: 'Remarks' })}
                 />
                 <Wrap gap={1} mt={2}>
                   {REMARK_SUGGESTIONS.map((s) => (

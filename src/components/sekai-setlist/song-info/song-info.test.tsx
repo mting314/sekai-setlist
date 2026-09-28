@@ -86,3 +86,38 @@ describe('song-info dialog', () => {
     expect(onAddSong).not.toHaveBeenCalled();
   });
 });
+
+describe('song versions', () => {
+  it('shows the VIRTUAL SINGER ver. badge and its singers on a setlist row', async () => {
+    const p = newPrediction({
+      items: [
+        { id: 'a', type: 'song', songId: '178' },
+        { id: 'b', type: 'song', songId: '178', version: 'virtual_singer' }
+      ]
+    });
+    const [{ container }] = await render(<SetlistView prediction={p} />);
+    const [sekai, vs] = container.querySelectorAll<HTMLElement>('[data-view-item=song]');
+    expect(sekai.querySelector('[data-version-badge]')).toBeNull();
+    expect(sekai.querySelectorAll('img[alt]:not([alt=""])')).toHaveLength(5);
+    expect(within(vs).getByText('VS ver.')).toBeInTheDocument();
+    expect(within(sekai).getByAltText('Miku Hatsune')).toBeInTheDocument();
+    expect(within(vs).getByAltText('Rin Kagamine')).toBeInTheDocument();
+    expect(within(vs).queryByAltText('Miku Hatsune')).toBeNull();
+  });
+
+  it('marks VS performances on a live page and lists versions in the dialog', async () => {
+    const [{ container }, user] = await render(
+      <LivePage live={getSekaiLive('project-sekai-colorful-live-3rd-evolve')!} />
+    );
+    // セカイ was sung by the VIRTUAL SINGERs at both shows
+    expect(container.querySelectorAll('[data-version-badge]')).toHaveLength(2);
+
+    await user.click(screen.getAllByRole('button', { name: 'Song info: SEKAI' })[0]);
+    const dialog = await screen.findByRole('dialog');
+    const versions = await within(dialog).findByText('Versions');
+    const list = versions.parentElement!;
+    expect(list.querySelector('[data-version=sekai]')).toHaveTextContent('Sekai ver.');
+    expect(list.querySelectorAll('[data-version=virtual_singer]')).toHaveLength(2);
+    expect(dialog.querySelectorAll('[data-performance-row] [data-version-badge]')).toHaveLength(2);
+  });
+});

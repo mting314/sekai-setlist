@@ -1,7 +1,7 @@
 // Turns a pasted, one-song-per-line setlist into builder state, so a prediction can be marked
 // against a live that isn't in lives.json yet. Titles resolve against the JP title, EN title and
 // kana reading, ignoring case, width, spacing and punctuation.
-import { itemId } from './prediction';
+import { itemId, songItem } from './prediction';
 import type { SetlistState } from './share';
 import type { SekaiSong } from '~/types/sekai';
 import type { PredictionItem } from '~/types/sekai-prediction';
@@ -72,7 +72,8 @@ const INTERMISSION_LABEL = /^(?:intermission|幕間)$/i;
 
 /**
  * Builder rows from a pasted setlist, keeping what parseSetlistText drops: songs keep their
- * catalog ids (a trailing "(Short ver.)" becomes remarks), unmatched lines become custom songs,
+ * catalog ids (a trailing "(Short ver.)" becomes remarks, "(VIRTUAL SINGER ver.)" the version),
+ * unmatched lines become custom songs,
  * and MC / encore / intermission lines become their own rows. Reads exportText's output back.
  */
 export function parseSetlistItems(text: string, index: Map<string, string>): PredictionItem[] {
@@ -110,12 +111,17 @@ export function parseSetlistItems(text: string, index: Map<string, string>): Pre
     const note = TRAILING_NOTE.exec(title)?.[0];
     const bare = note ? title.slice(0, -note.length) : title;
     const remarks = note?.replace(/^\s*[(（[［]\s*|\s*[)）\]］]\s*$/g, '');
-    const r = remarks ? { remarks } : {};
     const whole = index.get(normalizeTitle(title)) ?? index.get(normalizeTitle(line));
     const songId = whole ?? index.get(normalizeTitle(bare));
     if (whole) items.push({ id: itemId(), type: 'song', songId: whole });
-    else if (songId) items.push({ id: itemId(), type: 'song', songId, ...r });
-    else items.push({ id: itemId(), type: 'custom', name: bare || title, ...r });
+    else if (songId) items.push(songItem(itemId(), songId, remarks));
+    else
+      items.push({
+        id: itemId(),
+        type: 'custom',
+        name: bare || title,
+        ...(remarks ? { remarks } : {})
+      });
   }
   return items;
 }

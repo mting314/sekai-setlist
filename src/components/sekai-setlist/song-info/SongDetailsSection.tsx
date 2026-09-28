@@ -1,20 +1,21 @@
 /**
  * The facts about a song shared by the song-info dialog and the song page: its event(s) with
- * nicknames, credits, release dates, and how often you heard it live.
+ * nicknames, credits, release dates, vocal versions, and how often you heard it live.
  */
 import { Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NicknameChip } from './NicknameChips';
 import { useSongDetails } from './useSongDetails';
 import { useHowLabel } from '../ShowAttendance';
-import { Grid, HStack, Stack } from 'styled-system/jsx';
+import { CharacterIcons } from '../SongMeta';
+import { Grid, HStack, Stack, Wrap } from 'styled-system/jsx';
 import { Text } from '~/components/ui/styled/text';
 import { useAttendance } from '~/hooks/useAttendance';
 import { ATTENDANCE_HOWS } from '~/utils/sekai-setlist/attendance';
 import { attendedShows, timesHeard } from '~/utils/sekai-setlist/attendance-stats';
 import { getSekaiSong } from '~/utils/sekai-setlist/catalog';
 import { sekaiLives } from '~/utils/sekai-setlist/live-data';
-import type { SekaiSongEvent } from '~/types/sekai';
+import type { SekaiSongEvent, SekaiSongVersion, SekaiVersionKind } from '~/types/sekai';
 
 // Game dates are Japan time: a JST-midnight release would otherwise show as the day before.
 const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
@@ -22,6 +23,63 @@ const isoDate = (ms: number) => new Date(ms + JST_OFFSET_MS).toISOString().slice
 
 const eventName = (e: SekaiSongEvent, lang: string) =>
   lang.startsWith('en') ? (e.nameEn ?? e.name) : e.name;
+
+const KIND_ORDER: SekaiVersionKind[] = ['sekai', 'virtual_singer', 'another_vocal'];
+
+/**
+ * A song's vocal versions with their singers: Sekai ver., VIRTUAL SINGER ver., unit and collab
+ * versions, then every Another Vocal on one line. Nothing for a song with a single version.
+ */
+export function SongVersions({ versions }: { versions?: SekaiSongVersion[] }) {
+  const { t } = useTranslation();
+  if (!versions || versions.length < 2) return null;
+  const label = (v: SekaiSongVersion) =>
+    v.caption ??
+    (v.kind === 'sekai'
+      ? t('version.sekai', { defaultValue: 'Sekai ver.' })
+      : t('version.virtualSinger', { defaultValue: 'VIRTUAL SINGER ver.' }));
+  const sorted = versions.toSorted(
+    (a, b) => KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind)
+  );
+  const main = sorted.filter((v) => v.kind !== 'another_vocal');
+  const another = sorted.filter((v) => v.kind === 'another_vocal');
+  return (
+    <Stack data-song-versions gap={1}>
+      <Text color="fg.muted" fontSize="xs">
+        {t('version.versions', { defaultValue: 'Versions' })}
+      </Text>
+      <Grid
+        columnGap={4}
+        rowGap={1}
+        alignItems="center"
+        gridTemplateColumns="auto 1fr"
+        fontSize="sm"
+      >
+        {main.map((v, i) => (
+          <Fragment key={i}>
+            <Text data-version={v.kind}>{label(v)}</Text>
+            <CharacterIcons characters={v.characters} max={12} />
+          </Fragment>
+        ))}
+        {another.length > 0 && (
+          <>
+            <Text data-version="another_vocal">
+              {t('version.anotherVocals', {
+                count: another.length,
+                defaultValue: `Another Vocal (${another.length})`
+              })}
+            </Text>
+            <Wrap columnGap={3} rowGap={1}>
+              {another.map((v, i) => (
+                <CharacterIcons key={i} characters={v.characters} />
+              ))}
+            </Wrap>
+          </>
+        )}
+      </Grid>
+    </Stack>
+  );
+}
 
 /** "You heard this live 3× (In person 1, Stream 2)", or nothing if you never did. */
 export function HeardLive({ songId }: { songId: string }) {
@@ -101,6 +159,7 @@ export function SongDetailsSection({ songId }: { songId: string }) {
           ))}
         </Grid>
       )}
+      <SongVersions versions={details?.versions} />
       <HeardLive songId={songId} />
     </Stack>
   );

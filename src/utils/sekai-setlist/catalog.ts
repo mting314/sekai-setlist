@@ -2,7 +2,7 @@
 import songsData from '../../../data/sekai/songs.json';
 import unitsData from '../../../data/sekai/units.json';
 import charactersData from '../../../data/sekai/characters.json';
-import type { SekaiCharacter, SekaiSong, SekaiUnitMeta } from '~/types/sekai';
+import type { SekaiCharacter, SekaiSong, SekaiUnitMeta, SongVersion } from '~/types/sekai';
 
 export const sekaiSongs = songsData as unknown as SekaiSong[];
 export const sekaiUnits = unitsData as unknown as SekaiUnitMeta[];
@@ -16,6 +16,15 @@ const OTHER_COLOR = '#8a8a8a';
 
 export const getSekaiSong = (id: string) => songById.get(id);
 export const getSekaiUnit = (id: string) => unitById.get(id);
+
+/** Whether a song has both a Sekai ver. and a VIRTUAL SINGER ver. to choose between. */
+export const hasVsVersion = (id: string) => !!songById.get(id)?.vsCharacters;
+
+/** Vocalist ids of a song's version (the Sekai ver. unless VS is asked for and exists). */
+export const songVocalists = (id: string, version?: SongVersion): number[] => {
+  const s = songById.get(id);
+  return (version === 'virtual_singer' && s?.vsCharacters) || s?.characters || [];
+};
 
 /** Display name: the EN title for English UI when known, otherwise the JP title. */
 export const sekaiSongName = (id: string, lang: string) => {

@@ -11,7 +11,8 @@
  *   musics.json         -> id, title, pronunciation, assetbundleName, publishedAt, commissioned,
  *                          and credits + releasedAt for song-details.json
  *   musicTags.json      -> song -> unit (tag names differ from unit ids)
- *   musicVocals.json    -> song -> game-character ids (vocalist icons)
+ *   musicVocals.json    -> song -> vocal versions and their game-character ids: the Sekai ver.
+ *                          drives the vocalist icons, the VS ver. the builder's version picker
  *   gameCharacters.json -> character names (JP + EN)
  *   music_titles.json   -> sekai.best community EN titles, used when the song isn't on EN
  *   events_index.json   -> sekai-story-indexer's events, each with its song and nickname
@@ -19,6 +20,7 @@
  */
 import fs from 'fs';
 import { credit, songEventsById, type IndexedEvent } from '../src/utils/sekai-setlist/song-events';
+import { songVocals, type MusicVocal } from '../src/utils/sekai-setlist/song-vocals';
 import type { SekaiSongDetails } from '../src/types/sekai';
 
 const MASTER = 'https://sekai-world.github.io/sekai-master-db-diff';
@@ -56,14 +58,6 @@ interface MasterEvent {
 interface MusicTag {
   musicId: number;
   musicTag: string;
-}
-interface VocalChar {
-  characterType: string;
-  characterId: number;
-}
-interface MusicVocal {
-  musicId: number;
-  characters?: VocalChar[];
 }
 interface GameCharacter {
   id: number;
@@ -119,14 +113,10 @@ for (const t of musicTags) {
   tagsBySong.set(t.musicId, set);
 }
 
-const charsBySong = new Map<number, Set<number>>();
-for (const v of musicVocals) {
-  const set = charsBySong.get(v.musicId) ?? new Set<number>();
-  for (const c of v.characters ?? []) {
-    if (c.characterType === 'game_character') set.add(c.characterId);
-  }
-  charsBySong.set(v.musicId, set);
-}
+const vocalsBySong = new Map<number, MusicVocal[]>();
+for (const v of musicVocals)
+  vocalsBySong.set(v.musicId, [...(vocalsBySong.get(v.musicId) ?? []), v]);
+const versionsById = new Map(musics.map((m) => [m.id, songVocals(vocalsBySong.get(m.id) ?? [])]));
 
 const songs = musics
   .map((m) => {
@@ -141,7 +131,8 @@ const songs = musics
       // originals like "Tell Your World" don't duplicate).
       englishName: en && en !== m.title ? en : undefined,
       units,
-      characters: [...(charsBySong.get(m.id) ?? [])].toSorted((a, b) => a - b),
+      characters: versionsById.get(m.id)!.characters,
+      vsCharacters: versionsById.get(m.id)!.vsCharacters,
       assetbundleName: m.assetbundleName ?? '',
       // isNewlyWrittenMusic: true = commissioned (written for Project Sekai); false = a cover
       // of an existing song. Defaults to cover when the flag is absent.
@@ -164,8 +155,10 @@ for (const m of musics) {
     composer: credit(m.composer),
     arranger: credit(m.arranger),
     releasedAt: m.releasedAt || undefined,
-    events: eventsBySong.get(String(m.id))
+    events: eventsBySong.get(String(m.id)),
+    versions: versionsById.get(m.id)!.versions
   };
+  if (!d.versions?.length) d.versions = undefined;
   if (Object.values(d).some((v) => v !== undefined)) details[m.id] = d;
 }
 
@@ -184,5 +177,5 @@ fs.writeFileSync(`${OUT_DIR}/songs.json`, JSON.stringify(songs));
 fs.writeFileSync(`${OUT_DIR}/song-details.json`, JSON.stringify(details));
 fs.writeFileSync(`${OUT_DIR}/characters.json`, JSON.stringify(chars, null, 2) + '\n');
 console.log(
-  `wrote ${OUT_DIR}/songs.json (${songs.length} songs, ${songs.filter((s) => s.nicknames).length} with nicknames), song-details.json, characters.json (${chars.length})`
+  `wrote ${OUT_DIR}/songs.json (${songs.length} songs, ${songs.filter((s) => s.nicknames).length} with nicknames, ${songs.filter((s) => s.vsCharacters).length} with a VS ver.), song-details.json, characters.json (${chars.length})`
 );

@@ -53,14 +53,60 @@ describe('EditItemDialog', () => {
       'data-staged-song',
       pick.dataset.replacement
     );
-    await user.click(screen.getByRole('button', { name: 'VIRTUAL SINGER Ver.' }));
+    await user.click(screen.getByRole('button', { name: 'Short Ver.' }));
     await user.click(screen.getByRole('button', { name: 'Save' }));
     expect(onSave).toHaveBeenCalledWith({
       id: 'a',
       type: 'song',
       songId: pick.dataset.replacement,
-      remarks: 'VIRTUAL SINGER Ver.'
+      remarks: 'Short Ver.'
     });
+  });
+
+  it('switches a song to its VIRTUAL SINGER ver. and back', async () => {
+    const onSave = vi.fn();
+    const [, user] = await render(
+      <EditItemDialog
+        open
+        onOpenChange={vi.fn()}
+        item={{ id: 'a', type: 'song', songId: '178' }}
+        onSave={onSave}
+      />
+    );
+    const sekai = await waitFor(() => {
+      const el = document.querySelector<HTMLElement>('[data-version-option="sekai"]');
+      expect(el).not.toBeNull();
+      return el!;
+    });
+    const vs = document.querySelector<HTMLElement>('[data-version-option="virtual_singer"]')!;
+    expect(sekai).toHaveAttribute('aria-pressed', 'true');
+    // Each option shows its own singers: WxS + Miku, or Rin + Len
+    expect(sekai.querySelectorAll('img')).toHaveLength(5);
+    expect([...vs.querySelectorAll('img')].map((i) => i.alt)).toEqual([
+      'Rin Kagamine',
+      'Len Kagamine'
+    ]);
+    await user.click(vs);
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+    expect(onSave).toHaveBeenLastCalledWith({
+      id: 'a',
+      type: 'song',
+      songId: '178',
+      version: 'virtual_singer'
+    });
+  });
+
+  it('has no version picker for a song with one version', async () => {
+    await render(
+      <EditItemDialog
+        open
+        onOpenChange={vi.fn()}
+        item={{ id: 'a', type: 'song', songId: '1' }}
+        onSave={vi.fn()}
+      />
+    );
+    await screen.findByRole('button', { name: 'Save' });
+    expect(document.querySelector('[data-version-option]')).toBeNull();
   });
 
   it('retitles an MC and renames or links a custom song', async () => {

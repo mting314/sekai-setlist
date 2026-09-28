@@ -1,8 +1,9 @@
 // A setlist prediction as the builder edits it: an ordered list of rows (songs, songs outside
 // the catalog, MCs and encore / intermission dividers) for a lives.json live or a custom event.
+// A song row's version is the Sekai ver. unless it's set to the VIRTUAL SINGER ver.
 
 export type PredictionItem =
-  | { id: string; type: 'song'; songId: string; remarks?: string }
+  | { id: string; type: 'song'; songId: string; remarks?: string; version?: 'virtual_singer' }
   | { id: string; type: 'custom'; name: string; remarks?: string } // a song not in the catalog
   | { id: string; type: 'mc'; title: string }
   | { id: string; type: 'encore' | 'intermission'; title?: string }; // divider rows

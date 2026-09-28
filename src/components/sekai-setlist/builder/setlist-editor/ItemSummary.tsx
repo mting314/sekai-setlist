@@ -5,7 +5,7 @@
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, HStack, Stack } from 'styled-system/jsx';
-import { VocalistIcons } from '../../SongMeta';
+import { VersionBadge, VocalistIcons } from '../../SongMeta';
 import { NicknameChips } from '../../song-info/NicknameChips';
 import { SongInfoButton } from '../../song-info/SongInfoButton';
 import { Text } from '~/components/ui/styled/text';
@@ -33,8 +33,8 @@ export function ItemColorBar({ item }: { item: PredictionItem }) {
 }
 
 /**
- * Title line (with event nickname chips and, when `info` is set, the song-info button) plus
- * remarks (or vocalists / "custom song"); dividers are a centred bold band.
+ * Title line (with event nickname chips, a "VS ver." badge and, when `info` is set, the song-info
+ * button) plus remarks (or vocalists / "custom song"); dividers are a centred bold band.
  */
 export function ItemSummary({
   item,
@@ -66,6 +66,7 @@ export function ItemSummary({
           {name}
         </Text>
         {item.type === 'song' && <NicknameChips songId={item.songId} />}
+        {item.type === 'song' && <VersionBadge version={item.version} />}
         {info && item.type === 'song' && <SongInfoButton songId={item.songId} />}
         {nameSuffix}
       </HStack>
@@ -74,7 +75,7 @@ export function ItemSummary({
           {remarks}
         </Text>
       ) : item.type === 'song' ? (
-        <VocalistIcons id={item.songId} size={iconSize} />
+        <VocalistIcons id={item.songId} version={item.version} size={iconSize} />
       ) : item.type === 'custom' ? (
         <Text color="fg.muted" fontSize="xs" lineHeight="1.3">
           {t('builder.customSong', { defaultValue: 'Custom song' })}

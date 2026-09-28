@@ -309,7 +309,7 @@
     "confirmDelete": "「{{name}}」を削除しますか？",
     "notPerformedYet": "まだ開催されていません",
     "editItemTitle": "項目を編集",
-    "editSongDescription": "曲の変更や、バージョンなどの備考を追加できます。",
+    "editSongDescription": "曲やバージョンの変更、備考の追加ができます。",
     "editOtherDescription": "タイトルを変更します。",
     "currentSong": "現在の曲",
     "customSongName": "カスタム曲名",
@@ -317,8 +317,8 @@
     "changeSong": "曲を変更",
     "searchReplacement": "差し替える曲を検索",
     "itemTitle": "タイトル",
-    "remarks": "バージョン・備考",
-    "remarksPlaceholder": "バーチャル・シンガーver.、ショートver.、メモ…",
+    "remarks": "備考",
+    "remarksPlaceholder": "ショートver.、メモ…",
     "remarksHint": "備考を入力すると、セットリストでは歌唱メンバーの代わりに表示されます。",
     "save": "保存",
     "byAuthor": "作成: {{name}}",
@@ -379,5 +379,14 @@
     "showAll": "すべて表示（{{count}}）",
     "showFewer": "折りたたむ",
     "openSongPage": "楽曲ページを開く"
+  },
+  "version": {
+    "version": "バージョン",
+    "versions": "バージョン",
+    "sekai": "セカイver.",
+    "virtualSinger": "バーチャル・シンガーver.",
+    "vsShort": "VS ver.",
+    "anotherVocal": "アナザーボーカルver.",
+    "anotherVocals": "アナザーボーカル（{{count}}）"
   }
 }

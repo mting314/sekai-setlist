@@ -80,6 +80,8 @@ describe('parseSetlistItems', () => {
       items: [
         { id: 'a', type: 'song', songId: '1', remarks: 'VIRTUAL SINGER Ver.' },
         { id: 'f', type: 'song', songId: '10' },
+        { id: 'g', type: 'song', songId: '76', version: 'virtual_singer' },
+        { id: 'h', type: 'song', songId: '178', remarks: 'Short ver.', version: 'virtual_singer' },
         { id: 'b', type: 'mc', title: 'MC' },
         { id: 'c', type: 'intermission', title: 'Day 2' },
         { id: 'd', type: 'encore' },
@@ -87,8 +89,24 @@ describe('parseSetlistItems', () => {
       ]
     });
     const catalog = buildTitleIndex(sekaiSongs);
-    expect(strip(parseSetlistItems(exportText(p, 'ja'), catalog))).toEqual(
-      p.items.map(({ id: _id, ...rest }) => rest)
-    );
+    for (const lang of ['ja', 'en'])
+      expect(strip(parseSetlistItems(exportText(p, lang), catalog))).toEqual(
+        p.items.map(({ id: _id, ...rest }) => rest)
+      );
+  });
+
+  it('reads a VIRTUAL SINGER ver. note as the version for songs that have one', () => {
+    const catalog = buildTitleIndex(sekaiSongs);
+    expect(
+      strip(
+        parseSetlistItems(
+          'セカイ (VIRTUAL SINGER Ver.)\nTell Your World (VIRTUAL SINGER Ver.)',
+          catalog
+        )
+      )
+    ).toEqual([
+      { type: 'song', songId: '76', version: 'virtual_singer' },
+      { type: 'song', songId: '1', remarks: 'VIRTUAL SINGER Ver.' }
+    ]);
   });
 });

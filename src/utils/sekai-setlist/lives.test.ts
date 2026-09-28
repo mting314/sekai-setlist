@@ -3,12 +3,13 @@ import {
   EMPTY_LIVE_FILTERS,
   filterLives,
   liveSongMatches,
+  liveSongVersion,
   performanceToItems,
   performanceToState,
   songHistory,
   songStats
 } from './lives';
-import type { SekaiLive, SekaiSong } from '~/types/sekai';
+import type { SekaiLive, SekaiLiveSong, SekaiSong } from '~/types/sekai';
 
 const song = (id: string, units: SekaiSong['units'], commissioned: boolean): SekaiSong => ({
   id,
@@ -164,6 +165,49 @@ describe('performanceToItems', () => {
       { type: 'encore' },
       { type: 'song', songId: '1' }
     ]);
+  });
+});
+
+const hasVs = (id: string) => id === '76';
+
+describe('liveSongVersion', () => {
+  const v = (s: Partial<SekaiLiveSong>) =>
+    liveSongVersion({ songId: '76', title: '', ...s }, hasVs);
+  it('reads the version from the performers', () => {
+    expect(v({ performers: ['VIRTUAL SINGER'] })).toBe('virtual_singer');
+    expect(v({ performers: ['Kagamine Rin', 'Kagamine Len', 'Instrumental'] })).toBe(
+      'virtual_singer'
+    );
+    expect(v({ performers: ['Leo/need', 'Hatsune Miku'] })).toBe('sekai');
+  });
+  it('reads the version from the note', () => {
+    expect(v({ note: '(VIRTUAL SINGER Ver.)' })).toBe('virtual_singer');
+    expect(v({ note: '(VIRTUAL SINGER; Game Ver.)' })).toBe('virtual_singer');
+    expect(v({ note: '(Rin & Len ver.)' })).toBe('virtual_singer');
+    expect(v({ note: '(by Hatsune Miku)' })).toBe('virtual_singer');
+    expect(v({ note: '(Short ver.)' })).toBeUndefined();
+  });
+  it('is undefined for songs with one version or no performers', () => {
+    expect(v({})).toBeUndefined();
+    expect(v({ songId: '1', performers: ['VIRTUAL SINGER'] })).toBeUndefined();
+    expect(v({ songId: undefined, performers: ['VIRTUAL SINGER'] })).toBeUndefined();
+  });
+  it('marks VS performances in past setlists', () => {
+    const perf = {
+      name: '',
+      markers: [],
+      songs: [
+        { songId: '76', title: '', performers: ['Leo/need'] },
+        { songId: '76', title: '', note: '(VIRTUAL SINGER; Game Ver.)' }
+      ]
+    };
+    expect(performanceToItems(perf).map(({ id: _, ...rest }) => rest)).toEqual([
+      { type: 'song', songId: '76' },
+      { type: 'song', songId: '76', remarks: 'Game Ver.', version: 'virtual_singer' }
+    ]);
+    const l = { ...live('x', 'colorful_live', '2022-01-01', []), performances: [perf] };
+    expect(performanceToState(l, perf).vs).toEqual([1]);
+    expect(songHistory('76', [l]).map((p) => p.version)).toEqual(['sekai', 'virtual_singer']);
   });
 });
 

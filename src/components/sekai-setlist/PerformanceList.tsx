@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { BiListPlus } from 'react-icons/bi';
 import { Box, HStack, Stack, styled } from 'styled-system/jsx';
 import { SongJacket } from './SongJacket';
-import { KindBadge } from './SongMeta';
+import { KindBadge, VersionBadge } from './SongMeta';
 import { NicknameChips } from './song-info/NicknameChips';
 import { SongInfoButton } from './song-info/SongInfoButton';
 import { Button } from '~/components/ui/styled/button';
@@ -18,6 +18,8 @@ import { getSekaiSong, sekaiSongName } from '~/utils/sekai-setlist/catalog';
 import {
   hasSongFilters,
   liveSongMatches,
+  liveSongVersion,
+  noteBesideVersion,
   performanceTitle,
   performanceToItems,
   type LiveFilters
@@ -152,7 +154,8 @@ export function PerformanceList({
                         {s.title}
                       </Text>
                     )}
-                    {s.note && (
+                    <VersionBadge version={liveSongVersion(s)} />
+                    {noteBesideVersion(s.note, liveSongVersion(s)) && (
                       <Text flexShrink={0} color="fg.muted" fontSize="xs">
                         {s.note}
                       </Text>

@@ -8,6 +8,7 @@ import {
   numberItems,
   parsePrediction,
   songCount,
+  splitVersionNote,
   toSetlistState
 } from './prediction';
 import { scorePrediction } from './scoring';
@@ -112,6 +113,32 @@ describe('parsePrediction', () => {
     expect(p.createdAt).toBe(p.updatedAt);
     expect(parsePrediction({ name: 'x' })).toBeUndefined();
   });
+
+  it('reads the version, migrating old VIRTUAL SINGER ver. remarks', () => {
+    const p = parsePrediction({
+      items: [
+        { type: 'song', songId: '76', version: 'virtual_singer' },
+        { type: 'song', songId: '178', remarks: 'VIRTUAL SINGER Ver.' },
+        { type: 'song', songId: '1', version: 'virtual_singer' },
+        { type: 'song', songId: '76', version: 'sekai' }
+      ]
+    })!;
+    expect(p.items.map(({ id: _, ...rest }) => rest)).toEqual([
+      { type: 'song', songId: '76', version: 'virtual_singer' },
+      { type: 'song', songId: '178', version: 'virtual_singer' },
+      { type: 'song', songId: '1' },
+      { type: 'song', songId: '76' }
+    ]);
+  });
+});
+
+describe('splitVersionNote', () => {
+  it('finds the VIRTUAL SINGER ver. and keeps the rest', () => {
+    expect(splitVersionNote('VIRTUAL SINGER Ver.')).toEqual({ vs: true, rest: undefined });
+    expect(splitVersionNote('VIRTUAL SINGER; Game Ver.')).toEqual({ vs: true, rest: 'Game Ver.' });
+    expect(splitVersionNote('バーチャル・シンガーver.')).toEqual({ vs: true, rest: undefined });
+    expect(splitVersionNote('Short ver.')).toEqual({ vs: false, rest: 'Short ver.' });
+  });
 });
 
 describe('exportText', () => {
@@ -128,5 +155,19 @@ describe('exportText', () => {
     expect(lines).toContain('━━ INTERMISSION ━━');
     expect(lines).toContain('━━ ENCORE ━━');
     expect(lines.at(-1)).toBe(`EN02 ${getSekaiSong('1')!.title}`);
+  });
+
+  it('prints the VIRTUAL SINGER ver. before any remarks', () => {
+    const p = newPrediction({
+      items: [
+        { id: 'a', type: 'song', songId: '76', version: 'virtual_singer' },
+        { id: 'b', type: 'song', songId: '178', remarks: 'Short ver.', version: 'virtual_singer' }
+      ]
+    });
+    expect(exportText(p, 'en').split('\n')).toEqual([
+      'M01 SEKAI (VIRTUAL SINGER ver.)',
+      `M02 ${getSekaiSong('178')!.englishName} (VIRTUAL SINGER ver.; Short ver.)`
+    ]);
+    expect(exportText(p, 'ja').split('\n')[0]).toBe('M01 セカイ (バーチャル・シンガーver.)');
   });
 });

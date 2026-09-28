@@ -53,7 +53,9 @@ describe('prediction share links (#p=)', () => {
       { id: 'c', type: 'custom', name: 'Collab song' },
       { id: 'd', type: 'intermission', title: 'Medley' },
       { id: 'e', type: 'encore' },
-      { id: 'f', type: 'song', songId: '74' }
+      { id: 'f', type: 'song', songId: '74' },
+      { id: 'g', type: 'song', songId: '76', version: 'virtual_singer' },
+      { id: 'h', type: 'song', songId: '178', remarks: 'Short ver.', version: 'virtual_singer' }
     ]
   });
   it('round-trips every row type with a fresh id', () => {
@@ -63,6 +65,22 @@ describe('prediction share links (#p=)', () => {
     expect(got?.ordered).toBe(true);
     expect(got?.prediction.id).not.toBe(P.id);
     expect(strip(got!.prediction)).toEqual(strip(P));
+  });
+
+  it('moves a VIRTUAL SINGER ver. remark from older links into the version', () => {
+    const p = newPrediction({
+      items: [
+        { id: 'a', type: 'song', songId: '76', remarks: 'VIRTUAL SINGER Ver.' },
+        { id: 'b', type: 'song', songId: '141', remarks: 'VIRTUAL SINGER; Game Ver.' },
+        { id: 'c', type: 'song', songId: '1', remarks: 'VIRTUAL SINGER Ver.' }
+      ]
+    });
+    expect(decodeShare(encodePrediction(p))!.prediction.items.map(({ id: _, ...r }) => r)).toEqual([
+      { type: 'song', songId: '76', version: 'virtual_singer' },
+      { type: 'song', songId: '141', remarks: 'Game Ver.', version: 'virtual_singer' },
+      // Tell Your World has no VS ver. to switch to, so the remark stays
+      { type: 'song', songId: '1', remarks: 'VIRTUAL SINGER Ver.' }
+    ]);
   });
 
   it('keeps a custom event', () => {

@@ -17,7 +17,8 @@ export interface SekaiSong {
   pronunciation?: string; // kana reading, used for search
   englishName?: string; // EN server title, when it differs from the JP title
   units: SekaiUnitId[]; // derived from musicTags; [] = no owning unit ("Other")
-  characters: number[]; // game-character ids from musicVocals (vocalist icons)
+  characters: number[]; // game-character ids of the default (Sekai) version: vocalist icons
+  vsCharacters?: number[]; // the VIRTUAL SINGER ver.'s, when the song has both versions
   assetbundleName: string; // drives the jacket image URL
   commissioned: boolean; // true = written for Project Sekai; false = a cover of an existing song
   publishedAt?: number; // epoch ms
@@ -41,6 +42,18 @@ export interface SekaiSongDetails {
   arranger?: string;
   releasedAt?: number; // original release, epoch ms (publishedAt is when it was added in-game)
   events?: SekaiSongEvent[];
+  versions?: SekaiSongVersion[];
+}
+
+// Which vocal version a setlist row or live performance is. Sekai ver. is the default.
+export type SongVersion = 'sekai' | 'virtual_singer';
+export type SekaiVersionKind = SongVersion | 'another_vocal';
+
+/** One of a song's vocal versions (musicVocals), in in-game order. */
+export interface SekaiSongVersion {
+  kind: SekaiVersionKind;
+  caption?: string; // only a non-standard caption, e.g. "Leo/need ver.", a collab version
+  characters: number[];
 }
 
 // A unit chip, plus the synthetic 'other' bucket.

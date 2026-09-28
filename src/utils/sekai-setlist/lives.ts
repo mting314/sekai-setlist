@@ -1,7 +1,8 @@
 // Past-live browsing for the Sekai setlist builder: filter lives by series and by the same
 // song filters as the song picker (search, unit, commissioned/cover), count how often songs were
 // performed, and turn a past setlist into builder state. Pure functions over data/sekai/lives.json.
-import { itemId } from './prediction';
+import { hasVsVersion } from './catalog';
+import { itemId, songItem, splitVersionNote } from './prediction';
 import { songMatchesFilters, type SongFilters } from './song-filter';
 import type { SetlistState } from './share';
 import type { PredictionItem } from '~/types/sekai-prediction';
@@ -10,7 +11,8 @@ import type {
   SekaiLivePerformance,
   SekaiLiveSeries,
   SekaiLiveSong,
-  SekaiSong
+  SekaiSong,
+  SongVersion
 } from '~/types/sekai';
 
 export const LIVE_SERIES: SekaiLiveSeries[] = [
@@ -103,6 +105,50 @@ export function songStats(lives: SekaiLive[], f: LiveFilters, getSong: GetSong):
   );
 }
 
+// Wiki performer names that are VIRTUAL SINGERs; anyone else (a unit, a character, a voice
+// actor) means the Sekai ver.
+const VS_PERFORMERS = new Set([
+  'VIRTUAL SINGER',
+  'Hatsune Miku',
+  'Kagamine Rin',
+  'Kagamine Len',
+  'Megurine Luka',
+  'MEIKO',
+  'KAITO'
+]);
+// Notes that name only VIRTUAL SINGERs: "(Rin & Len ver.)", "(by Hatsune Miku)".
+const VS_NAME =
+  '(?:hatsune\\s+)?miku|(?:kagamine\\s+)?(?:rin|len)|(?:megurine\\s+)?luka|meiko|kaito';
+const VS_SINGERS_NOTE = new RegExp(
+  `^[(（]?\\s*(?:by\\s+)?(?:${VS_NAME})(?:\\s*(?:&|and|,|、)\\s*(?:${VS_NAME}))*(?:\\s*ver\\.?)?\\s*[)）]?$`,
+  'i'
+);
+
+/**
+ * Which version a setlist entry was, from its note ("(VIRTUAL SINGER Ver.)", "(Rin & Len ver.)")
+ * or its performers (only VIRTUAL SINGERs → VS ver.). Undefined for songs with one version, or
+ * when the wiki doesn't say.
+ */
+export function liveSongVersion(
+  s: SekaiLiveSong,
+  hasVs: (id: string) => boolean = hasVsVersion
+): SongVersion | undefined {
+  if (!s.songId || !hasVs(s.songId)) return undefined;
+  if (s.note && (splitVersionNote(s.note).vs || VS_SINGERS_NOTE.test(s.note.trim())))
+    return 'virtual_singer';
+  const performers = (s.performers ?? []).filter((p) => p !== 'Instrumental');
+  if (!performers.length) return undefined;
+  return performers.every((p) => VS_PERFORMERS.has(p)) ? 'virtual_singer' : 'sekai';
+}
+
+const unwrapNote = (note: string) => note.replace(/^\s*[(（]\s*|\s*[)）]\s*$/g, '');
+
+/** A setlist note to show beside a version badge: dropped when it only repeats "VS ver.". */
+export const noteBesideVersion = (note: string | undefined, version?: SongVersion) =>
+  note && version === 'virtual_singer' && !splitVersionNote(unwrapNote(note)).rest
+    ? undefined
+    : note;
+
 /** Index of the first encore song, if the setlist has an "Encore" divider. */
 const encoreStart = (perf: SekaiLivePerformance): number | undefined =>
   perf.markers.find((m) => /encore/i.test(m.label))?.at;
@@ -112,23 +158,26 @@ export function performanceToState(live: SekaiLive, perf: SekaiLivePerformance):
   const start = encoreStart(perf);
   const songs: string[] = [];
   const encore: number[] = [];
+  const vs: number[] = [];
   perf.songs.forEach((s, i) => {
     if (!s.songId) return;
     if (start !== undefined && i >= start) encore.push(songs.length);
+    if (liveSongVersion(s) === 'virtual_singer') vs.push(songs.length);
     songs.push(s.songId);
   });
   return {
     title: performanceTitle(live, perf),
     songs,
     encore,
-    ordered: true
+    ordered: true,
+    ...(vs.length ? { vs } : {})
   };
 }
 
 /**
  * Builder rows for a past setlist, keeping what performanceToState drops: dividers
  * (Encore → encore row, anything else → a titled intermission row), songs outside the catalog
- * (as custom songs) and notes such as "(Short ver.)" (as remarks).
+ * (as custom songs) and notes such as "(Short ver.)" (as remarks), and the VIRTUAL SINGER ver.
  */
 export function performanceToItems(perf: SekaiLivePerformance): PredictionItem[] {
   const items: PredictionItem[] = [];
@@ -141,12 +190,11 @@ export function performanceToItems(perf: SekaiLivePerformance): PredictionItem[]
             ? { id: itemId(), type: 'intermission' }
             : { id: itemId(), type: 'intermission', title: m.label }
       );
-    const remarks = s.note?.replace(/^\s*[(（]\s*|\s*[)）]\s*$/g, '');
-    const r = remarks ? { remarks } : {};
+    const remarks = s.note && unwrapNote(s.note);
     items.push(
       s.songId
-        ? { id: itemId(), type: 'song', songId: s.songId, ...r }
-        : { id: itemId(), type: 'custom', name: s.title, ...r }
+        ? songItem(itemId(), s.songId, remarks, liveSongVersion(s) === 'virtual_singer')
+        : { id: itemId(), type: 'custom', name: s.title, ...(remarks ? { remarks } : {}) }
     );
   });
   return items;
@@ -161,6 +209,7 @@ export interface SongPerformance {
   position: number; // 1-based, counting every setlist entry
   note?: string;
   encore: boolean;
+  version?: SongVersion;
 }
 
 /** Every time a catalog song appears in a setlist, newest live first, setlist order within a live. */
@@ -178,7 +227,8 @@ export function songHistory(songId: string, lives: SekaiLive[]): SongPerformance
                   perf,
                   position: i + 1,
                   ...(s.note && { note: s.note }),
-                  encore: start !== undefined && i >= start
+                  encore: start !== undefined && i >= start,
+                  ...(liveSongVersion(s) && { version: liveSongVersion(s) })
                 }
               ]
             : []

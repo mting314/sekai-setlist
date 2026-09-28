@@ -8,7 +8,7 @@ import { NicknameChips } from './NicknameChips';
 import { SongDetailsSection } from './SongDetailsSection';
 import { Stat } from '../LiveSummaryCard';
 import { SongJacket } from '../SongJacket';
-import { KindBadge, UnitBadge, VocalistIcons } from '../SongMeta';
+import { KindBadge, UnitBadge, VersionBadge, VocalistIcons } from '../SongMeta';
 import { Box, Grid, HStack, Stack, Wrap } from 'styled-system/jsx';
 import { Link } from '~/components/ui/link';
 import { Badge } from '~/components/ui/styled/badge';
@@ -24,7 +24,7 @@ import {
 import { Text } from '~/components/ui/styled/text';
 import { getSekaiSong, sekaiSongName, sekaiSongSubName } from '~/utils/sekai-setlist/catalog';
 import { sekaiLiveName, sekaiLives } from '~/utils/sekai-setlist/live-data';
-import { songHistory } from '~/utils/sekai-setlist/lives';
+import { noteBesideVersion, songHistory } from '~/utils/sekai-setlist/lives';
 import { liveHref, songHref } from '~/utils/sekai-setlist/routes';
 
 const PREVIEW_ROWS = 8;
@@ -138,9 +138,12 @@ export function SongInfoDialog({ songId, open, onOpenChange }: SongInfoDialogPro
                             {sekaiLiveName(h.live, lang)}
                           </Link>
                           <Text color="fg.muted" fontSize="xs">
-                            {[h.perf.name, `#${h.position}`, h.note].filter(Boolean).join(' · ')}
+                            {[h.perf.name, `#${h.position}`, noteBesideVersion(h.note, h.version)]
+                              .filter(Boolean)
+                              .join(' · ')}
                           </Text>
                         </Stack>
+                        <VersionBadge version={h.version} />
                         {h.encore && (
                           <Badge variant="subtle" size="sm" flexShrink={0}>
                             {t('sekaiSetlist.lives.markerEncore', { defaultValue: 'Encore' })}

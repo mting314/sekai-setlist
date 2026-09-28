@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Grid, HStack, Stack, Wrap } from 'styled-system/jsx';
 import { Card, Stat } from './LiveSummaryCard';
 import { SongJacket } from './SongJacket';
-import { KindBadge, UnitBadge, VocalistIcons } from './SongMeta';
+import { KindBadge, UnitBadge, VersionBadge, VocalistIcons } from './SongMeta';
 import { NicknameChips } from './song-info/NicknameChips';
 import { SongDetailsSection } from './song-info/SongDetailsSection';
 import { Badge } from '~/components/ui/styled/badge';
@@ -15,7 +15,7 @@ import { Link } from '~/components/ui/link';
 import { Text } from '~/components/ui/styled/text';
 import { sekaiSongName, sekaiSongSubName } from '~/utils/sekai-setlist/catalog';
 import { sekaiLiveName, sekaiLives } from '~/utils/sekai-setlist/live-data';
-import { songHistory, type SongPerformance } from '~/utils/sekai-setlist/lives';
+import { noteBesideVersion, songHistory, type SongPerformance } from '~/utils/sekai-setlist/lives';
 import { liveHref, songsHref } from '~/utils/sekai-setlist/routes';
 import type { SekaiLive, SekaiSong } from '~/types/sekai';
 
@@ -122,7 +122,8 @@ export function SongPage({ song }: { song: SekaiSong }) {
                             {t('sekaiSetlist.lives.markerEncore', { defaultValue: 'Encore' })}
                           </Badge>
                         )}
-                        {e.note && <span>{e.note}</span>}
+                        <VersionBadge version={e.version} />
+                        {noteBesideVersion(e.note, e.version) && <span>{e.note}</span>}
                       </HStack>
                     ))}
                   </Wrap>

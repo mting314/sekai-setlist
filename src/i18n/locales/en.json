@@ -322,7 +322,7 @@
     "confirmDelete": "Delete \"{{name}}\"?",
     "notPerformedYet": "Not performed yet",
     "editItemTitle": "Edit item",
-    "editSongDescription": "Change the song or add remarks such as a version.",
+    "editSongDescription": "Change the song, its version or add remarks.",
     "editOtherDescription": "Change the title.",
     "currentSong": "Current song",
     "customSongName": "Custom song name",
@@ -330,8 +330,8 @@
     "changeSong": "Change song",
     "searchReplacement": "Search for a replacement song",
     "itemTitle": "Title",
-    "remarks": "Version / remarks",
-    "remarksPlaceholder": "VIRTUAL SINGER Ver., Short Ver., notes…",
+    "remarks": "Remarks",
+    "remarksPlaceholder": "Short Ver., notes…",
     "remarksHint": "Remarks replace the vocalist icons in the setlist.",
     "save": "Save",
     "byAuthor": "by {{name}}",
@@ -392,5 +392,14 @@
     "showAll": "Show all ({{count}})",
     "showFewer": "Show fewer",
     "openSongPage": "Open song page"
+  },
+  "version": {
+    "version": "Version",
+    "versions": "Versions",
+    "sekai": "Sekai ver.",
+    "virtualSinger": "VIRTUAL SINGER ver.",
+    "vsShort": "VS ver.",
+    "anotherVocal": "Another Vocal ver.",
+    "anotherVocals": "Another Vocal ({{count}})"
   }
 }

@@ -1,7 +1,7 @@
 // Shareable Sekai setlist URLs. A prediction is lz-string-compressed into the URL hash
 // (`#p=`, or the legacy `#s=` setlist), so it can be shared/bookmarked with no backend.
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
-import { fromSetlistState, itemId, newPrediction } from './prediction';
+import { fromSetlistState, itemId, newPrediction, songItem } from './prediction';
 import type { PredictionItem, SekaiPrediction } from '~/types/sekai-prediction';
 
 // The flat setlist that scoring and legacy `#s=` links use (see toSetlistState), plus a
@@ -13,6 +13,7 @@ export interface SetlistState {
   encore: number[];
   ordered: boolean;
   live?: string;
+  vs?: number[]; // song positions performed as the VIRTUAL SINGER ver. (past setlists, display only)
 }
 
 /** Encode state into a hash fragment string (no leading '#'). */
@@ -45,13 +46,14 @@ export function decodeHash(hash: string): SetlistState | undefined {
 // --- v2: whole predictions (#p=) ---
 
 // Compact wire rows: [type code, value, remarks]. Value is the song id, custom song name, MC
-// title or divider title.
+// title or divider title. 'v' is a song as the VIRTUAL SINGER ver.
 const CODES = { song: 's', custom: 'c', mc: 'm', encore: 'e', intermission: 'i' } as const;
-type Code = (typeof CODES)[keyof typeof CODES];
-const TYPES = Object.fromEntries(Object.entries(CODES).map(([t, c]) => [c, t])) as Record<
-  Code,
-  PredictionItem['type']
->;
+const VS_SONG = 'v';
+type Code = (typeof CODES)[keyof typeof CODES] | typeof VS_SONG;
+const TYPES = {
+  ...Object.fromEntries(Object.entries(CODES).map(([t, c]) => [c, t])),
+  [VS_SONG]: 'song'
+} as Record<Code, PredictionItem['type']>;
 type WireItem = [Code, string?, string?];
 interface WireV2 {
   v: 2;
@@ -65,7 +67,8 @@ interface WireV2 {
 export const MAX_SHARE_URL_LENGTH = 2000;
 
 function toWire(item: PredictionItem): WireItem {
-  const code = CODES[item.type];
+  const code =
+    item.type === 'song' && item.version === 'virtual_singer' ? VS_SONG : CODES[item.type];
   switch (item.type) {
     case 'song':
       return item.remarks ? [code, item.songId, item.remarks] : [code, item.songId];
@@ -83,11 +86,12 @@ function fromWire(w: unknown): PredictionItem | undefined {
   const [code, value, remarks] = w as unknown[];
   const type = TYPES[code as Code];
   const v = typeof value === 'string' && value ? value : undefined;
-  const r = typeof remarks === 'string' && remarks ? { remarks } : {};
+  const rs = typeof remarks === 'string' && remarks ? remarks : undefined;
+  const r = rs ? { remarks: rs } : {};
   const id = itemId();
   switch (type) {
     case 'song':
-      return v ? { id, type, songId: v, ...r } : undefined;
+      return v ? songItem(id, v, rs, code === VS_SONG) : undefined;
     case 'custom':
       return v ? { id, type, name: v, ...r } : undefined;
     case 'mc':
