@@ -40,11 +40,25 @@ const singers = (v: MusicVocal) =>
     .map((c) => c.characterId)
     .toSorted((a, b) => a - b);
 
+// Singers who aren't game characters (flower, GUMI…), by name; their ids index outsideCharacters.
+const outsiders = (v: MusicVocal, names: ReadonlyMap<number, string>) =>
+  (v.characters ?? []).flatMap((c) =>
+    c.characterType === 'outside_character' && names.has(c.characterId)
+      ? [names.get(c.characterId)!]
+      : []
+  );
+
 // The first by seq, preferring the in-game VS arrangement over the original upload.
 const rank = (v: MusicVocal) => (v.musicVocalType === 'original_song' ? 1e6 : 0) + v.seq;
 
-/** One song's vocals (every musicVocals row with its musicId). */
-export function songVocals(vocals: MusicVocal[]): SongVocals {
+/**
+ * One song's vocals (every musicVocals row with its musicId). `outsideNames` (outsideCharacters
+ * id -> name) lets a version list the singers that have no character icon.
+ */
+export function songVocals(
+  vocals: MusicVocal[],
+  outsideNames: ReadonlyMap<number, string> = new Map()
+): SongVocals {
   const listed = vocals.filter((v) => KIND[v.musicVocalType]).toSorted((a, b) => a.seq - b.seq);
   const sekai = listed.find((v) => v.musicVocalType === 'sekai');
   const vs = listed
@@ -54,10 +68,14 @@ export function songVocals(vocals: MusicVocal[]): SongVocals {
   return {
     characters: fallback ? singers(fallback) : [],
     ...(sekai && vs ? { vsCharacters: singers(vs) } : {}),
-    versions: listed.map((v) => ({
-      kind: KIND[v.musicVocalType],
-      ...(v.caption && !STANDARD_CAPTIONS.has(v.caption) ? { caption: v.caption } : {}),
-      characters: singers(v)
-    }))
+    versions: listed.map((v) => {
+      const others = outsiders(v, outsideNames);
+      return {
+        kind: KIND[v.musicVocalType],
+        ...(v.caption && !STANDARD_CAPTIONS.has(v.caption) ? { caption: v.caption } : {}),
+        characters: singers(v),
+        ...(others.length ? { others } : {})
+      };
+    })
   };
 }

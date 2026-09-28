@@ -138,6 +138,12 @@ describe('splitVersionNote', () => {
     expect(splitVersionNote('VIRTUAL SINGER; Game Ver.')).toEqual({ vs: true, rest: 'Game Ver.' });
     expect(splitVersionNote('バーチャル・シンガーver.')).toEqual({ vs: true, rest: undefined });
     expect(splitVersionNote('Short ver.')).toEqual({ vs: false, rest: 'Short ver.' });
+    expect(splitVersionNote('(VIRTUAL SINGER Ver.)')).toEqual({ vs: true, rest: undefined });
+  });
+
+  it('leaves remarks that only mention VIRTUAL SINGERs alone', () => {
+    for (const note of ['with virtual singers only', 'VIRTUAL SINGER Very Short'])
+      expect(splitVersionNote(note)).toEqual({ vs: false, rest: note });
   });
 });
 

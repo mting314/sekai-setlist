@@ -398,6 +398,46 @@ describe('ViewPrediction', () => {
 });
 
 describe('builder page editing', () => {
+  it('switches a row between the Sekai ver. and VIRTUAL SINGER ver. in place', async () => {
+    const p = savePrediction(
+      newPrediction({
+        name: 'Versions',
+        items: [
+          { id: 'a', type: 'song', songId: '178' },
+          { id: 'b', type: 'song', songId: '1' } // Tell Your World has one version
+        ]
+      })
+    );
+    window.location.search = `?prediction=${p.id}`;
+    const [{ container }, user] = await render(<BuilderPage />);
+    const row = await waitFor(() => {
+      const el = container.querySelector<HTMLElement>('[data-setlist-editor] [data-item-id=a]');
+      expect(el).not.toBeNull();
+      return el!;
+    });
+    expect(
+      container.querySelector('[data-setlist-editor] [data-item-id=b] [data-version-switch]')
+    ).toBeNull();
+    expect(row.querySelector('[data-version-switch]')).toHaveAttribute(
+      'data-version-switch',
+      'sekai'
+    );
+    await user.click(screen.getByRole('button', { name: 'VIRTUAL SINGER ver.' }));
+    await waitFor(() =>
+      expect(getPrediction(p.id)?.items[0]).toEqual({
+        id: 'a',
+        type: 'song',
+        songId: '178',
+        version: 'virtual_singer'
+      })
+    );
+    expect(
+      [...row.querySelectorAll<HTMLImageElement>('img[alt]:not([alt=""])')].map((i) => i.alt)
+    ).toEqual(['Rin Kagamine', 'Len Kagamine']);
+    // The switch shows the version, so the title has no badge
+    expect(row.querySelector('[data-version-badge]')).toBeNull();
+  });
+
   it('edits a row through the dialog and autosaves it', async () => {
     const p = savePrediction(
       newPrediction({ name: 'Edit me', items: [{ id: 'a', type: 'song', songId: '1' }] })

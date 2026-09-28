@@ -6,7 +6,7 @@ import type { SekaiCharacter, SekaiSong, SekaiUnitMeta, SongVersion } from '~/ty
 
 export const sekaiSongs = songsData as unknown as SekaiSong[];
 export const sekaiUnits = unitsData as unknown as SekaiUnitMeta[];
-const sekaiCharacters = charactersData as SekaiCharacter[];
+export const sekaiCharacters = charactersData as SekaiCharacter[];
 
 const songById = new Map<string, SekaiSong>(sekaiSongs.map((s) => [s.id, s]));
 const unitById = new Map<string, SekaiUnitMeta>(sekaiUnits.map((u) => [u.id, u]));

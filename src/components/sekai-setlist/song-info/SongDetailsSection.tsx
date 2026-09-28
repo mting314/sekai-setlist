@@ -8,7 +8,7 @@ import { NicknameChip } from './NicknameChips';
 import { useSongDetails } from './useSongDetails';
 import { useHowLabel } from '../ShowAttendance';
 import { CharacterIcons } from '../SongMeta';
-import { Grid, HStack, Stack, Wrap } from 'styled-system/jsx';
+import { Box, Grid, HStack, Stack, Wrap } from 'styled-system/jsx';
 import { Text } from '~/components/ui/styled/text';
 import { useAttendance } from '~/hooks/useAttendance';
 import { ATTENDANCE_HOWS } from '~/utils/sekai-setlist/attendance';
@@ -26,9 +26,24 @@ const eventName = (e: SekaiSongEvent, lang: string) =>
 
 const KIND_ORDER: SekaiVersionKind[] = ['sekai', 'virtual_singer', 'another_vocal'];
 
+/** A version's singers: character icons, then any singer without one (flower, GUMI…) by name. */
+function VersionSingers({ version }: { version: SekaiSongVersion }) {
+  return (
+    <HStack gap={1.5} minW={0}>
+      <CharacterIcons characters={version.characters} max={12} />
+      {version.others && (
+        <Text color="fg.muted" fontSize="xs">
+          {version.others.join(', ')}
+        </Text>
+      )}
+    </HStack>
+  );
+}
+
 /**
  * A song's vocal versions with their singers: Sekai ver., VIRTUAL SINGER ver., unit and collab
- * versions, then every Another Vocal on one line. Nothing for a song with a single version.
+ * versions, then every Another Vocal on one line, each outlined. Nothing for a song with a
+ * single version.
  */
 export function SongVersions({ versions }: { versions?: SekaiSongVersion[] }) {
   const { t } = useTranslation();
@@ -50,7 +65,7 @@ export function SongVersions({ versions }: { versions?: SekaiSongVersion[] }) {
       </Text>
       <Grid
         columnGap={4}
-        rowGap={1}
+        rowGap={1.5}
         alignItems="center"
         gridTemplateColumns="auto 1fr"
         fontSize="sm"
@@ -58,7 +73,7 @@ export function SongVersions({ versions }: { versions?: SekaiSongVersion[] }) {
         {main.map((v, i) => (
           <Fragment key={i}>
             <Text data-version={v.kind}>{label(v)}</Text>
-            <CharacterIcons characters={v.characters} max={12} />
+            <VersionSingers version={v} />
           </Fragment>
         ))}
         {another.length > 0 && (
@@ -69,9 +84,11 @@ export function SongVersions({ versions }: { versions?: SekaiSongVersion[] }) {
                 defaultValue: `Another Vocal (${another.length})`
               })}
             </Text>
-            <Wrap columnGap={3} rowGap={1}>
+            <Wrap gap={1.5}>
               {another.map((v, i) => (
-                <CharacterIcons key={i} characters={v.characters} />
+                <Box key={i} borderRadius="full" borderWidth="1px" py={0.5} px={1}>
+                  <VersionSingers version={v} />
+                </Box>
               ))}
             </Wrap>
           </>

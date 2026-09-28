@@ -2,131 +2,157 @@
   {
     "id": 1,
     "name": "Ichika Hoshino",
-    "nameJa": "星乃一歌"
+    "nameJa": "星乃一歌",
+    "unit": "leo_need"
   },
   {
     "id": 2,
     "name": "Saki Tenma",
-    "nameJa": "天馬咲希"
+    "nameJa": "天馬咲希",
+    "unit": "leo_need"
   },
   {
     "id": 3,
     "name": "Honami Mochizuki",
-    "nameJa": "望月穂波"
+    "nameJa": "望月穂波",
+    "unit": "leo_need"
   },
   {
     "id": 4,
     "name": "Shiho Hinomori",
-    "nameJa": "日野森志歩"
+    "nameJa": "日野森志歩",
+    "unit": "leo_need"
   },
   {
     "id": 5,
     "name": "Minori Hanasato",
-    "nameJa": "花里みのり"
+    "nameJa": "花里みのり",
+    "unit": "more_more_jump"
   },
   {
     "id": 6,
     "name": "Haruka Kiritani",
-    "nameJa": "桐谷遥"
+    "nameJa": "桐谷遥",
+    "unit": "more_more_jump"
   },
   {
     "id": 7,
     "name": "Airi Momoi",
-    "nameJa": "桃井愛莉"
+    "nameJa": "桃井愛莉",
+    "unit": "more_more_jump"
   },
   {
     "id": 8,
     "name": "Shizuku Hinomori",
-    "nameJa": "日野森雫"
+    "nameJa": "日野森雫",
+    "unit": "more_more_jump"
   },
   {
     "id": 9,
     "name": "Kohane Azusawa",
-    "nameJa": "小豆沢こはね"
+    "nameJa": "小豆沢こはね",
+    "unit": "vivid_bad_squad"
   },
   {
     "id": 10,
     "name": "An Shiraishi",
-    "nameJa": "白石杏"
+    "nameJa": "白石杏",
+    "unit": "vivid_bad_squad"
   },
   {
     "id": 11,
     "name": "Akito Shinonome",
-    "nameJa": "東雲彰人"
+    "nameJa": "東雲彰人",
+    "unit": "vivid_bad_squad"
   },
   {
     "id": 12,
     "name": "Toya Aoyagi",
-    "nameJa": "青柳冬弥"
+    "nameJa": "青柳冬弥",
+    "unit": "vivid_bad_squad"
   },
   {
     "id": 13,
     "name": "Tsukasa Tenma",
-    "nameJa": "天馬司"
+    "nameJa": "天馬司",
+    "unit": "wonderlands_showtime"
   },
   {
     "id": 14,
     "name": "Emu Otori",
-    "nameJa": "鳳えむ"
+    "nameJa": "鳳えむ",
+    "unit": "wonderlands_showtime"
   },
   {
     "id": 15,
     "name": "Nene Kusanagi",
-    "nameJa": "草薙寧々"
+    "nameJa": "草薙寧々",
+    "unit": "wonderlands_showtime"
   },
   {
     "id": 16,
     "name": "Rui Kamishiro",
-    "nameJa": "神代類"
+    "nameJa": "神代類",
+    "unit": "wonderlands_showtime"
   },
   {
     "id": 17,
     "name": "Kanade Yoisaki",
-    "nameJa": "宵崎奏"
+    "nameJa": "宵崎奏",
+    "unit": "nightcord"
   },
   {
     "id": 18,
     "name": "Mafuyu Asahina",
-    "nameJa": "朝比奈まふゆ"
+    "nameJa": "朝比奈まふゆ",
+    "unit": "nightcord"
   },
   {
     "id": 19,
     "name": "Ena Shinonome",
-    "nameJa": "東雲絵名"
+    "nameJa": "東雲絵名",
+    "unit": "nightcord"
   },
   {
     "id": 20,
     "name": "Mizuki Akiyama",
-    "nameJa": "暁山瑞希"
+    "nameJa": "暁山瑞希",
+    "unit": "nightcord"
   },
   {
     "id": 21,
     "name": "Miku Hatsune",
-    "nameJa": "初音ミク"
+    "nameJa": "初音ミク",
+    "unit": "virtual_singer"
   },
   {
     "id": 22,
     "name": "Rin Kagamine",
-    "nameJa": "鏡音リン"
+    "nameJa": "鏡音リン",
+    "unit": "virtual_singer"
   },
   {
     "id": 23,
     "name": "Len Kagamine",
-    "nameJa": "鏡音レン"
+    "nameJa": "鏡音レン",
+    "unit": "virtual_singer"
   },
   {
     "id": 24,
     "name": "Luka Megurine",
-    "nameJa": "巡音ルカ"
+    "nameJa": "巡音ルカ",
+    "unit": "virtual_singer"
   },
   {
     "id": 25,
     "name": "MEIKO",
-    "nameJa": "MEIKO"
+    "nameJa": "MEIKO",
+    "unit": "virtual_singer"
   },
   {
     "id": 26,
     "name": "KAITO",
-    "nameJa": "KAITO"
+    "nameJa": "KAITO",
+    "unit": "virtual_singer"
   }
 ]

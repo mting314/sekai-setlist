@@ -4,6 +4,7 @@ import {
   filterLives,
   liveSongMatches,
   liveSongVersion,
+  performerCharacters,
   performanceToItems,
   performanceToState,
   songHistory,
@@ -169,6 +170,34 @@ describe('performanceToItems', () => {
 });
 
 const hasVs = (id: string) => id === '76';
+
+const VS_76 = [21, 22, 23, 24, 25, 26]; // SEKAI's VIRTUAL SINGER ver.
+
+describe('performerCharacters', () => {
+  const performers = (songId: string, ...names: string[]) =>
+    performerCharacters({ title: '', songId, performers: names });
+
+  it('expands units into their members and matches names in either order', () => {
+    expect(performers('178', 'Hatsune Miku', 'Wonderlands x Showtime')).toEqual({
+      characters: [21, 13, 14, 15, 16],
+      others: []
+    });
+    expect(performers('1', 'MORE MORE JUMP!', '25-ji, Nightcord de.').characters).toEqual([
+      5, 6, 7, 8, 17, 18, 19, 20
+    ]);
+  });
+
+  it("reads VIRTUAL SINGER as the song's VIRTUAL SINGERs", () => {
+    expect(performers('76', 'VIRTUAL SINGER').characters).toEqual(VS_76);
+  });
+
+  it('keeps names without an icon and skips Instrumental', () => {
+    expect(performers('1', 'Instrumental', 'Hoshino Ichika', 'Sumi Tomomi Jiena')).toEqual({
+      characters: [1],
+      others: ['Sumi Tomomi Jiena']
+    });
+  });
+});
 
 describe('liveSongVersion', () => {
   const v = (s: Partial<SekaiLiveSong>) =>

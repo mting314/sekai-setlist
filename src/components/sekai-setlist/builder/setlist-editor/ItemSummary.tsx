@@ -34,18 +34,21 @@ export function ItemColorBar({ item }: { item: PredictionItem }) {
 
 /**
  * Title line (with event nickname chips, a "VS ver." badge and, when `info` is set, the song-info
- * button) plus remarks (or vocalists / "custom song"); dividers are a centred bold band.
+ * button) plus remarks (or vocalists / "custom song"); dividers are a centred bold band. Rows
+ * that show a version switch elsewhere pass `versionBadge={false}`.
  */
 export function ItemSummary({
   item,
   nameSuffix,
-  iconSize = 16,
-  info = false
+  iconSize = 20,
+  info = false,
+  versionBadge = true
 }: {
   item: PredictionItem;
   nameSuffix?: ReactNode;
   iconSize?: number;
   info?: boolean;
+  versionBadge?: boolean;
 }) {
   const { t, i18n } = useTranslation();
   const name = itemName(item, i18n.language);
@@ -66,7 +69,7 @@ export function ItemSummary({
           {name}
         </Text>
         {item.type === 'song' && <NicknameChips songId={item.songId} />}
-        {item.type === 'song' && <VersionBadge version={item.version} />}
+        {versionBadge && item.type === 'song' && <VersionBadge version={item.version} />}
         {info && item.type === 'song' && <SongInfoButton songId={item.songId} />}
         {nameSuffix}
       </HStack>

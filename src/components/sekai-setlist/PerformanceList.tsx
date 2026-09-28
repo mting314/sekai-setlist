@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { BiListPlus } from 'react-icons/bi';
 import { Box, HStack, Stack, styled } from 'styled-system/jsx';
 import { SongJacket } from './SongJacket';
-import { KindBadge, VersionBadge } from './SongMeta';
+import { CharacterIcons, KindBadge, VersionBadge } from './SongMeta';
 import { NicknameChips } from './song-info/NicknameChips';
 import { SongInfoButton } from './song-info/SongInfoButton';
 import { Button } from '~/components/ui/styled/button';
@@ -22,6 +22,7 @@ import {
   noteBesideVersion,
   performanceTitle,
   performanceToItems,
+  performerCharacters,
   type LiveFilters
 } from '~/utils/sekai-setlist/lives';
 import { newPrediction } from '~/utils/sekai-setlist/prediction';
@@ -90,6 +91,8 @@ export function PerformanceList({
       <Stack gap={0.5}>
         {perf.songs.map((s, i) => {
           const song = s.songId ? getSekaiSong(s.songId) : undefined;
+          const version = liveSongVersion(s);
+          const performers = performerCharacters(s);
           const dim =
             filters !== undefined &&
             hasSongFilters(filters) &&
@@ -154,23 +157,28 @@ export function PerformanceList({
                         {s.title}
                       </Text>
                     )}
-                    <VersionBadge version={liveSongVersion(s)} />
-                    {noteBesideVersion(s.note, liveSongVersion(s)) && (
+                    <VersionBadge version={version} />
+                    {noteBesideVersion(s.note, version) && (
                       <Text flexShrink={0} color="fg.muted" fontSize="xs">
                         {s.note}
                       </Text>
                     )}
                   </HStack>
-                  {s.performers && (
-                    <Text
-                      color="fg.subtle"
-                      fontSize="xs"
-                      textOverflow="ellipsis"
-                      overflow="hidden"
-                      whiteSpace="nowrap"
-                    >
-                      {s.performers.join(', ')}
-                    </Text>
+                  {(performers.characters.length > 0 || performers.others.length > 0) && (
+                    <HStack data-performers gap={1.5} minW={0} mt={0.5}>
+                      <CharacterIcons characters={performers.characters} max={12} />
+                      {performers.others.length > 0 && (
+                        <Text
+                          color="fg.subtle"
+                          fontSize="xs"
+                          textOverflow="ellipsis"
+                          overflow="hidden"
+                          whiteSpace="nowrap"
+                        >
+                          {performers.others.join(', ')}
+                        </Text>
+                      )}
+                    </HStack>
                   )}
                 </Stack>
                 {song && <KindBadge commissioned={song.commissioned} />}

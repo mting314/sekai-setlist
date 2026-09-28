@@ -1,7 +1,7 @@
 // Past-live browsing for the Sekai setlist builder: filter lives by series and by the same
 // song filters as the song picker (search, unit, commissioned/cover), count how often songs were
 // performed, and turn a past setlist into builder state. Pure functions over data/sekai/lives.json.
-import { hasVsVersion } from './catalog';
+import { hasVsVersion, sekaiCharacters, sekaiUnits, songVocalists } from './catalog';
 import { itemId, songItem, splitVersionNote } from './prediction';
 import { songMatchesFilters, type SongFilters } from './song-filter';
 import type { SetlistState } from './share';
@@ -139,6 +139,47 @@ export function liveSongVersion(
   const performers = (s.performers ?? []).filter((p) => p !== 'Instrumental');
   if (!performers.length) return undefined;
   return performers.every((p) => VS_PERFORMERS.has(p)) ? 'virtual_singer' : 'sekai';
+}
+
+// Performer names match characters and units whatever the word order ("Hatsune Miku" is
+// "Miku Hatsune"), case or punctuation ("Wonderlands x Showtime" is "Wonderlands×Showtime").
+const performerKey = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/×/g, ' x ')
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter(Boolean)
+    .toSorted()
+    .join(' ');
+
+const unitMembers = (unit: string) =>
+  sekaiCharacters.filter((c) => c.unit === unit).map((c) => c.id);
+
+const PERFORMER_CHARACTERS = new Map<string, number[]>([
+  ...sekaiUnits
+    .filter((u) => u.id !== 'virtual_singer' && u.id !== 'other')
+    .map((u): [string, number[]] => [performerKey(u.name), unitMembers(u.id)]),
+  ...sekaiCharacters.map((c): [string, number[]] => [performerKey(c.name), [c.id]])
+]);
+
+/**
+ * A setlist entry's performers as character ids (a unit is its members, "VIRTUAL SINGER" the
+ * song's VIRTUAL SINGERs) plus the names that have no icon: voice actors, collab units.
+ */
+export function performerCharacters(s: SekaiLiveSong): { characters: number[]; others: string[] } {
+  const characters = new Set<number>();
+  const others: string[] = [];
+  const vs = new Set(unitMembers('virtual_singer'));
+  for (const p of s.performers ?? []) {
+    if (p === 'Instrumental') continue;
+    const ids =
+      p === 'VIRTUAL SINGER' && s.songId
+        ? songVocalists(s.songId, 'virtual_singer').filter((c) => vs.has(c))
+        : (PERFORMER_CHARACTERS.get(performerKey(p)) ?? []);
+    if (ids.length) ids.forEach((c) => characters.add(c));
+    else others.push(p);
+  }
+  return { characters: [...characters], others };
 }
 
 const unwrapNote = (note: string) => note.replace(/^\s*[(（]\s*|\s*[)）]\s*$/g, '');

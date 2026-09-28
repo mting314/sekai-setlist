@@ -13,7 +13,8 @@
  *   musicTags.json      -> song -> unit (tag names differ from unit ids)
  *   musicVocals.json    -> song -> vocal versions and their game-character ids: the Sekai ver.
  *                          drives the vocalist icons, the VS ver. the builder's version picker
- *   gameCharacters.json -> character names (JP + EN)
+ *   gameCharacters.json -> character names (JP + EN) and units
+ *   outsideCharacters.json -> names of singers without a character icon (flower, GUMI…)
  *   music_titles.json   -> sekai.best community EN titles, used when the song isn't on EN
  *   events_index.json   -> sekai-story-indexer's events, each with its song and nickname
  *                          ("saki1", "wl3-4"); EN events.json adds English event names
@@ -63,7 +64,22 @@ interface GameCharacter {
   id: number;
   firstName?: string;
   givenName: string;
+  unit?: string;
 }
+interface OutsideCharacter {
+  id: number;
+  name: string;
+}
+
+// gameCharacters.unit -> our unit id.
+const CHARACTER_UNIT: Record<string, string> = {
+  light_sound: 'leo_need',
+  idol: 'more_more_jump',
+  street: 'vivid_bad_squad',
+  theme_park: 'wonderlands_showtime',
+  school_refusal: 'nightcord',
+  piapro: 'virtual_singer'
+};
 
 const getJson = async <T>(base: string, name: string): Promise<T> => {
   const res = await fetch(`${base}/${name}.json`);
@@ -80,6 +96,7 @@ const [
   musicTags,
   musicVocals,
   characters,
+  outsideCharacters,
   musicsEn,
   charactersEn,
   eventsEn,
@@ -90,6 +107,7 @@ const [
   getJson<MusicTag[]>(MASTER, 'musicTags'),
   getJson<MusicVocal[]>(MASTER, 'musicVocals'),
   getJson<GameCharacter[]>(MASTER, 'gameCharacters'),
+  getJsonOrEmpty<OutsideCharacter>(MASTER, 'outsideCharacters'),
   getJsonOrEmpty<Music>(MASTER_EN, 'musics'),
   getJsonOrEmpty<GameCharacter>(MASTER_EN, 'gameCharacters'),
   getJsonOrEmpty<MasterEvent>(MASTER_EN, 'events'),
@@ -116,7 +134,10 @@ for (const t of musicTags) {
 const vocalsBySong = new Map<number, MusicVocal[]>();
 for (const v of musicVocals)
   vocalsBySong.set(v.musicId, [...(vocalsBySong.get(v.musicId) ?? []), v]);
-const versionsById = new Map(musics.map((m) => [m.id, songVocals(vocalsBySong.get(m.id) ?? [])]));
+const outsideNames = new Map(outsideCharacters.map((c) => [c.id, c.name]));
+const versionsById = new Map(
+  musics.map((m) => [m.id, songVocals(vocalsBySong.get(m.id) ?? [], outsideNames)])
+);
 
 const songs = musics
   .map((m) => {
@@ -168,7 +189,8 @@ const chars = characters.map((c) => {
   return {
     id: c.id,
     name: [en.givenName, en.firstName].filter(Boolean).join(' '),
-    nameJa: `${c.firstName ?? ''}${c.givenName}`
+    nameJa: `${c.firstName ?? ''}${c.givenName}`,
+    unit: c.unit && CHARACTER_UNIT[c.unit]
   };
 });
 

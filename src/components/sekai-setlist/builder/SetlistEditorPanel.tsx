@@ -12,6 +12,7 @@ import { Box, HStack, Stack } from 'styled-system/jsx';
 import { Button } from '~/components/ui/styled/button';
 import { Text } from '~/components/ui/styled/text';
 import { numberItems } from '~/utils/sekai-setlist/prediction';
+import type { SongVersion } from '~/types/sekai';
 import type { PredictionItem } from '~/types/sekai-prediction';
 import { isSongRow } from '~/types/sekai-prediction';
 
@@ -30,6 +31,7 @@ export interface SetlistEditorPanelProps {
   onMoveUp: (index: number) => void;
   onMoveDown: (index: number) => void;
   onEdit?: (id: string) => void;
+  onVersionChange?: (id: string, version: SongVersion) => void;
   onOpenImport?: () => void;
   dropIndicator?: DropIndicator | null;
 }
@@ -40,6 +42,7 @@ export function SetlistEditorPanel({
   onMoveUp,
   onMoveDown,
   onEdit,
+  onVersionChange,
   onOpenImport,
   dropIndicator
 }: SetlistEditorPanelProps) {
@@ -109,6 +112,7 @@ export function SetlistEditorPanel({
                   onMoveUp={() => onMoveUp(index)}
                   onMoveDown={() => onMoveDown(index)}
                   onEdit={onEdit && (() => onEdit(item.id))}
+                  onVersionChange={onVersionChange && ((v) => onVersionChange(item.id, v))}
                   isFirst={index === 0}
                   isLast={index === items.length - 1}
                   dropIndicatorPosition={indicated?.position}

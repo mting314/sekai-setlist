@@ -53,19 +53,23 @@ describe('songVocals', () => {
     ]);
   });
 
-  it('uses the VS ver. for a VS-only song and ignores outside characters', () => {
-    const v = songVocals([
-      {
-        ...vocal('original_song', 1, [24]),
-        characters: [
-          { characterType: 'game_character', characterId: 24 },
-          { characterType: 'outside_character', characterId: 1 }
-        ]
-      },
-      vocal('another_vocal', 2, [21])
-    ]);
+  it('uses the VS ver. for a VS-only song and lists outside characters by name', () => {
+    const v = songVocals(
+      [
+        {
+          ...vocal('original_song', 1, [24]),
+          characters: [
+            { characterType: 'game_character', characterId: 24 },
+            { characterType: 'outside_character', characterId: 1 }
+          ]
+        },
+        vocal('another_vocal', 2, [21])
+      ],
+      new Map([[1, 'GUMI']])
+    );
     expect(v.characters).toEqual([24]);
     expect(v.vsCharacters).toBeUndefined();
+    expect(v.versions[0]).toEqual({ kind: 'virtual_singer', characters: [24], others: ['GUMI'] });
   });
 
   it('handles a song with no vocals', () => {

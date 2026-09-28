@@ -386,6 +386,8 @@
     "sekai": "セカイver.",
     "virtualSinger": "バーチャル・シンガーver.",
     "vsShort": "VS ver.",
+    "vsSwitch": "VS",
+    "sekaiShort": "セカイ",
     "anotherVocal": "アナザーボーカルver.",
     "anotherVocals": "アナザーボーカル（{{count}}）"
   }

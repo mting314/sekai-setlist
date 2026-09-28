@@ -105,6 +105,18 @@ describe('song versions', () => {
     expect(within(vs).queryByAltText('Miku Hatsune')).toBeNull();
   });
 
+  it('shows performers as character icons, with names that have none as text', async () => {
+    const [{ container }] = await render(
+      <LivePage live={getSekaiLive('project-sekai-colorful-live-3rd-evolve')!} />
+    );
+    const rows = [...container.querySelectorAll<HTMLElement>('[data-performers]')];
+    expect(rows.length).toBeGreaterThan(0);
+    const alts = rows.flatMap((r) => [...r.querySelectorAll('img')].map((i) => i.alt));
+    // Units expand into their members
+    expect(alts).toEqual(expect.arrayContaining(['Miku Hatsune', 'Ichika Hoshino', 'Emu Otori']));
+    expect(container).not.toHaveTextContent('Wonderlands x Showtime');
+  });
+
   it('marks VS performances on a live page and lists versions in the dialog', async () => {
     const [{ container }, user] = await render(
       <LivePage live={getSekaiLive('project-sekai-colorful-live-3rd-evolve')!} />

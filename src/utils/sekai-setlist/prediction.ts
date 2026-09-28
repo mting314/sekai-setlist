@@ -36,18 +36,20 @@ export const songCount = (p: SekaiPrediction) => p.items.filter(isSongRow).lengt
 
 // --- song versions ---
 
-const VS_LABEL = /virtual\s*singers?(?:\s*ver(?:sion|\.)?)?|バーチャル・?シンガー\s*ver\.?/i;
+// A whole note segment naming the VIRTUAL SINGER ver.: "VIRTUAL SINGER Ver.", "(Virtual Singers)",
+// "バーチャル・シンガーver.". Remarks that merely mention them ("with virtual singers only") don't count.
+const VS_SEGMENT =
+  /^[(（]?\s*(?:virtual\s*singers?(?:\s*ver(?:sion|\.)?)?|バーチャル・?シンガー\s*ver\.?)\s*[)）]?$/i;
+const SEGMENT_SEPARATOR = /\s*[;,、/]\s*/;
 
 /**
- * A note ("VIRTUAL SINGER Ver.", "VIRTUAL SINGER; Game Ver.") split into whether it names the
- * VIRTUAL SINGER ver. and whatever else it says.
+ * A note ("VIRTUAL SINGER Ver.", "VIRTUAL SINGER; Game Ver.") split into whether one of its
+ * segments names the VIRTUAL SINGER ver. and whatever else it says.
  */
 export function splitVersionNote(note: string): { vs: boolean; rest?: string } {
-  if (!VS_LABEL.test(note)) return { vs: false, rest: note || undefined };
-  const rest = note
-    .replace(VS_LABEL, '')
-    .replace(/^[\s;,、/・]+|[\s;,、/・]+$/g, '')
-    .trim();
+  const segments = note.split(SEGMENT_SEPARATOR).map((x) => x.trim());
+  if (!segments.some((x) => VS_SEGMENT.test(x))) return { vs: false, rest: note || undefined };
+  const rest = segments.filter((x) => x && !VS_SEGMENT.test(x)).join('; ');
   return { vs: true, rest: rest || undefined };
 }
 

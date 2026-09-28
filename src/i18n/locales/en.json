@@ -399,6 +399,8 @@
     "sekai": "Sekai ver.",
     "virtualSinger": "VIRTUAL SINGER ver.",
     "vsShort": "VS ver.",
+    "vsSwitch": "VS",
+    "sekaiShort": "Sekai",
     "anotherVocal": "Another Vocal ver.",
     "anotherVocals": "Another Vocal ({{count}})"
   }

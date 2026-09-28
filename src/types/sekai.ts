@@ -54,6 +54,7 @@ export interface SekaiSongVersion {
   kind: SekaiVersionKind;
   caption?: string; // only a non-standard caption, e.g. "Leo/need ver.", a collab version
   characters: number[];
+  others?: string[]; // singers without a character icon (flower, GUMI…), by name
 }
 
 // A unit chip, plus the synthetic 'other' bucket.
@@ -67,6 +68,7 @@ export interface SekaiCharacter {
   id: number;
   name: string; // EN, given name first
   nameJa: string;
+  unit?: string; // SekaiUnitMeta id
 }
 
 // Past real-life / connect lives (data/sekai/lives.json), baked by scripts/fetch-sekai-lives.ts

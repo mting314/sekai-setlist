@@ -42,8 +42,9 @@ import { IconButton } from '~/components/ui/styled/icon-button';
 import { Input } from '~/components/ui/styled/input';
 import { Text } from '~/components/ui/styled/text';
 import { getSekaiLive, performedSongIds } from '~/utils/sekai-setlist/live-data';
-import { itemId } from '~/utils/sekai-setlist/prediction';
+import { itemId, songItem } from '~/utils/sekai-setlist/prediction';
 import { markHref } from '~/utils/sekai-setlist/routes';
+import type { SongVersion } from '~/types/sekai';
 import type { PredictionItem, SekaiPrediction } from '~/types/sekai-prediction';
 import { isSongRow } from '~/types/sekai-prediction';
 
@@ -277,6 +278,14 @@ export function PredictionBuilder({ prediction, onChange, onSaveNow }: Predictio
   };
   const replaceItem = (item: PredictionItem) =>
     setItems((list) => list.map((i) => (i.id === item.id ? item : i)));
+  const setVersion = (id: string, version: SongVersion) =>
+    setItems((list) =>
+      list.map((i) =>
+        i.id === id && i.type === 'song'
+          ? songItem(i.id, i.songId, i.remarks, version === 'virtual_singer')
+          : i
+      )
+    );
 
   // Where a search result / quick-add row would land: above the row it's over, or after the
   // last row over the end zones. Reorders get their feedback from the sortable list itself.
@@ -476,6 +485,7 @@ export function PredictionBuilder({ prediction, onChange, onSaveNow }: Predictio
               onMoveUp={(i) => move(i, i - 1)}
               onMoveDown={(i) => move(i, i + 1)}
               onEdit={setEditingId}
+              onVersionChange={setVersion}
               onOpenImport={() => setImportOpen(true)}
               dropIndicator={dropIndicator}
             />

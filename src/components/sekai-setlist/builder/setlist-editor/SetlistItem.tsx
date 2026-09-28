@@ -1,6 +1,6 @@
 /**
  * One setlist row: drag handle, M01 / EN01 / MC① label, song (jacket, unit colour bar, event
- * nickname, song-info button), MC or divider band, and move / edit / delete actions.
+ * nickname, song-info button), MC or divider band, and version / move / edit / delete actions.
  */
 import { memo } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
@@ -9,13 +9,16 @@ import { useTranslation } from 'react-i18next';
 import { BiChevronDown, BiChevronUp, BiPencil, BiTrash } from 'react-icons/bi';
 import { MdDragIndicator } from 'react-icons/md';
 import { SongJacket } from '../../SongJacket';
+import { VersionSwitch } from '../../SongMeta';
 import { DropPreview } from './DropPreview';
 import { ItemColorBar, ItemSummary } from './ItemSummary';
 import { css } from 'styled-system/css';
 import { Box, HStack, Stack } from 'styled-system/jsx';
 import { IconButton } from '~/components/ui/styled/icon-button';
 import { Text } from '~/components/ui/styled/text';
+import { hasVsVersion } from '~/utils/sekai-setlist/catalog';
 import { itemName } from '~/utils/sekai-setlist/prediction';
+import type { SongVersion } from '~/types/sekai';
 import type { PredictionItem } from '~/types/sekai-prediction';
 import { isDividerRow } from '~/types/sekai-prediction';
 
@@ -27,6 +30,8 @@ export interface SetlistItemProps {
   onMoveUp: () => void;
   onMoveDown: () => void;
   onEdit?: () => void;
+  /** Pick the Sekai ver. or VIRTUAL SINGER ver. of a song that has both. */
+  onVersionChange?: (version: SongVersion) => void;
   isFirst: boolean;
   isLast: boolean;
   dropIndicatorPosition?: 'top' | 'bottom' | null;
@@ -45,6 +50,7 @@ export const SetlistItem = memo(function SetlistItem({
   onMoveUp,
   onMoveDown,
   onEdit,
+  onVersionChange,
   isFirst,
   isLast,
   dropIndicatorPosition,
@@ -52,6 +58,7 @@ export const SetlistItem = memo(function SetlistItem({
 }: SetlistItemProps) {
   const { t, i18n } = useTranslation();
   const name = itemName(item, i18n.language);
+  const versionSwitch = !!onVersionChange && item.type === 'song' && hasVsVersion(item.songId);
   const {
     attributes,
     listeners,
@@ -128,10 +135,13 @@ export const SetlistItem = memo(function SetlistItem({
               )}
               {item.type === 'song' && <SongJacket id={item.songId} size={32} />}
 
-              <ItemSummary item={item} info />
+              <ItemSummary item={item} info versionBadge={!versionSwitch} />
             </HStack>
 
             <HStack gap={1} flexShrink={0}>
+              {versionSwitch && item.type === 'song' && (
+                <VersionSwitch version={item.version} onChange={onVersionChange!} />
+              )}
               <Stack gap={0}>
                 <IconButton
                   size="xs"

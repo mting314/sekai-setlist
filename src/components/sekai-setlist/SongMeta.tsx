@@ -118,6 +118,73 @@ export function VersionBadge({ version }: { version?: SongVersion }) {
   );
 }
 
+const VersionOption = styled('button', {
+  base: {
+    cursor: 'pointer',
+    h: '6',
+    px: '1.5',
+    color: 'fg.muted',
+    fontSize: 'xs',
+    fontWeight: 'medium',
+    '&:not([aria-pressed=true]):hover': { color: 'fg.default', bgColor: 'bg.muted' },
+    '&[aria-pressed=true]': { cursor: 'default', color: 'bg.default', bgColor: 'fg.default' },
+    '&:not(:first-child)': { borderLeftWidth: '1px' }
+  }
+});
+
+/** A setlist row's Sekai ver. / VS ver. switch, for a song with both versions. */
+export function VersionSwitch({
+  version,
+  onChange
+}: {
+  version?: SongVersion;
+  onChange: (version: SongVersion) => void;
+}) {
+  const { t } = useTranslation();
+  const current = version ?? 'sekai';
+  const options: [SongVersion, string, string][] = [
+    [
+      'sekai',
+      t('version.sekaiShort', { defaultValue: 'Sekai' }),
+      t('version.sekai', { defaultValue: 'Sekai ver.' })
+    ],
+    [
+      'virtual_singer',
+      t('version.vsSwitch', { defaultValue: 'VS' }),
+      t('version.virtualSinger', { defaultValue: 'VIRTUAL SINGER ver.' })
+    ]
+  ];
+  return (
+    <HStack
+      role="group"
+      aria-label={t('version.version', { defaultValue: 'Version' })}
+      data-version-switch={current}
+      gap={0}
+      flexShrink={0}
+      borderRadius="sm"
+      borderWidth="1px"
+      overflow="hidden"
+    >
+      {options.map(([value, short, full]) => (
+        <VersionOption
+          key={value}
+          type="button"
+          data-version-option={value}
+          aria-pressed={current === value}
+          aria-label={full}
+          title={full}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (current !== value) onChange(value);
+          }}
+        >
+          {short}
+        </VersionOption>
+      ))}
+    </HStack>
+  );
+}
+
 /** A song's vocalist icons: its Sekai ver. unless `version` is the VIRTUAL SINGER ver. */
 export function VocalistIcons({
   id,
