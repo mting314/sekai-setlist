@@ -19,6 +19,8 @@ import { PerformanceList } from './PerformanceList';
 import { SongJacket } from './SongJacket';
 import { KindBadge } from './SongMeta';
 import { UnitFilterChips } from './UnitFilterChips';
+import { NicknameChips } from './song-info/NicknameChips';
+import { SongInfoButton } from './song-info/SongInfoButton';
 import { Badge } from '~/components/ui/styled/badge';
 import { useAttendance } from '~/hooks/useAttendance';
 import { Button } from '~/components/ui/styled/button';
@@ -377,7 +379,9 @@ function SongStatsList({ stats }: { stats: SongStat[] }) {
                 >
                   {sekaiSongName(st.songId, i18n.language)}
                 </Link>
+                <NicknameChips songId={st.songId} />
                 {song && <KindBadge commissioned={song.commissioned} />}
+                <SongInfoButton songId={st.songId} />
               </HStack>
               <Text
                 title={liveNames.join('\n')}

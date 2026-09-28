@@ -38,17 +38,29 @@ const searchable = (song: SekaiSong) => ({
   phoneticName: song.pronunciation
 });
 
-/** Title, kana reading (also typed as romaji) or EN name, via the-sorter's fuzzy search. */
+/**
+ * How a search matches the song's event nicknames: 2 = exactly ("saki1"), 1 = as a prefix of at
+ * least three characters ("wl3" for "wl3-4"), 0 = not at all.
+ */
+function nicknameMatch(song: SekaiSong, search: string): 0 | 1 | 2 {
+  const q = search.trim().toLowerCase();
+  if (!q || !song.nicknames) return 0;
+  if (song.nicknames.includes(q)) return 2;
+  return q.length >= 3 && song.nicknames.some((n) => n.startsWith(q)) ? 1 : 0;
+}
+
+/** Event nickname, title, kana reading (also typed as romaji) or EN name. */
 export const songMatchesSearch = (song: SekaiSong, search: string): boolean =>
-  fuzzySearch(searchable(song), search);
+  nicknameMatch(song, search) > 0 || fuzzySearch(searchable(song), search);
+
+// An exact nickname beats an exact title (100); a nickname prefix ranks below title matches.
+const NICKNAME_SCORE = [0, 70, 110] as const;
+const searchScore = (song: SekaiSong, search: string) =>
+  Math.max(NICKNAME_SCORE[nicknameMatch(song, search)], getSearchScore(searchable(song), search));
 
 /** Best search matches first, as in the-sorter's song search. */
 export const rankBySearch = (songs: SekaiSong[], search: string): SekaiSong[] =>
-  search.trim()
-    ? songs.toSorted(
-        (a, b) => getSearchScore(searchable(b), search) - getSearchScore(searchable(a), search)
-      )
-    : songs;
+  search.trim() ? songs.toSorted((a, b) => searchScore(b, search) - searchScore(a, search)) : songs;
 
 /** One song against the search / unit / kind / release-year filters. */
 export function songMatchesFilters(song: SekaiSong, filters: SongFilters): boolean {

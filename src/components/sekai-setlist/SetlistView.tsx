@@ -18,13 +18,16 @@ export interface SetlistViewProps {
   authorName?: string;
   showHeader?: boolean;
   compact?: boolean;
+  /** Song-info buttons on song rows; off for the image export. */
+  interactive?: boolean;
 }
 
 export function SetlistView({
   prediction,
   authorName,
   showHeader = true,
-  compact = false
+  compact = false,
+  interactive = true
 }: SetlistViewProps) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
@@ -106,7 +109,7 @@ export function SetlistView({
                 </Text>
               )}
               {item.type === 'song' && <SongJacket id={item.songId} size={compact ? 28 : 40} />}
-              <ItemSummary item={item} iconSize={compact ? 18 : 24} />
+              <ItemSummary item={item} iconSize={compact ? 18 : 24} info={interactive} />
             </HStack>
           </Box>
         ))}

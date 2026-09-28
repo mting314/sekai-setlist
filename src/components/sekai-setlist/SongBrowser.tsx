@@ -8,6 +8,8 @@ import { HStack, Stack } from 'styled-system/jsx';
 import { SongJacket } from './SongJacket';
 import { KindBadge, VocalistIcons } from './SongMeta';
 import { UnitFilterChips } from './UnitFilterChips';
+import { NicknameChips } from './song-info/NicknameChips';
+import { SongInfoButton } from './song-info/SongInfoButton';
 import { Button } from '~/components/ui/styled/button';
 import { Input } from '~/components/ui/styled/input';
 import { Link } from '~/components/ui/link';
@@ -171,7 +173,9 @@ export function SongBrowser() {
                     >
                       {sekaiSongName(song.id, i18n.language)}
                     </Link>
+                    <NicknameChips songId={song.id} />
                     <KindBadge commissioned={song.commissioned} />
+                    <SongInfoButton songId={song.id} />
                   </HStack>
                   <HStack gap={2} minW={0}>
                     <VocalistIcons id={song.id} size={16} />

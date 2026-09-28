@@ -3,20 +3,28 @@
  *
  *   bun scripts/fetch-sekai-songs.ts
  *
- * Writes data/sekai/songs.json and data/sekai/characters.json. data/sekai/units.json is
- * hand-maintained (names + colors). The daily update-data workflow never writes to data/sekai,
- * so re-run this by hand when new songs are added in-game.
+ * Writes data/sekai/songs.json, song-details.json and characters.json. data/sekai/units.json is
+ * hand-maintained (names + colors). Nothing runs this on a schedule, so re-run it by hand when
+ * new songs or events are added in-game.
  *
  * Joins:
- *   musics.json         -> id, title, pronunciation, assetbundleName, publishedAt, commissioned
+ *   musics.json         -> id, title, pronunciation, assetbundleName, publishedAt, commissioned,
+ *                          and credits + releasedAt for song-details.json
  *   musicTags.json      -> song -> unit (tag names differ from unit ids)
  *   musicVocals.json    -> song -> game-character ids (vocalist icons)
  *   gameCharacters.json -> character names (JP + EN)
+ *   music_titles.json   -> sekai.best community EN titles, used when the song isn't on EN
+ *   events_index.json   -> sekai-story-indexer's events, each with its song and nickname
+ *                          ("saki1", "wl3-4"); EN events.json adds English event names
  */
 import fs from 'fs';
+import { credit, songEventsById, type IndexedEvent } from '../src/utils/sekai-setlist/song-events';
+import type { SekaiSongDetails } from '../src/types/sekai';
 
 const MASTER = 'https://sekai-world.github.io/sekai-master-db-diff';
 const MASTER_EN = 'https://sekai-world.github.io/sekai-master-db-en-diff';
+const I18N_EN = 'https://i18n-json.sekai.best/en';
+const STORY_INDEXER = 'https://raw.githubusercontent.com/mting314/sekai-story-indexer/master';
 const OUT_DIR = 'data/sekai';
 
 // musicTag string -> our unit id. A song with only unmapped tags (e.g. "other") gets units: [].
@@ -37,6 +45,13 @@ interface Music {
   publishedAt?: number;
   releasedAt?: number;
   isNewlyWrittenMusic?: boolean;
+  lyricist?: string;
+  composer?: string;
+  arranger?: string;
+}
+interface MasterEvent {
+  id: number;
+  name: string;
 }
 interface MusicTag {
   musicId: number;
@@ -66,16 +81,35 @@ const getJson = async <T>(base: string, name: string): Promise<T> => {
 const getJsonOrEmpty = <T>(base: string, name: string): Promise<T[]> =>
   getJson<T[]>(base, name).catch(() => []);
 
-const [musics, musicTags, musicVocals, characters, musicsEn, charactersEn] = await Promise.all([
+const [
+  musics,
+  musicTags,
+  musicVocals,
+  characters,
+  musicsEn,
+  charactersEn,
+  eventsEn,
+  communityTitles,
+  indexedEvents
+] = await Promise.all([
   getJson<Music[]>(MASTER, 'musics'),
   getJson<MusicTag[]>(MASTER, 'musicTags'),
   getJson<MusicVocal[]>(MASTER, 'musicVocals'),
   getJson<GameCharacter[]>(MASTER, 'gameCharacters'),
   getJsonOrEmpty<Music>(MASTER_EN, 'musics'),
-  getJsonOrEmpty<GameCharacter>(MASTER_EN, 'gameCharacters')
+  getJsonOrEmpty<GameCharacter>(MASTER_EN, 'gameCharacters'),
+  getJsonOrEmpty<MasterEvent>(MASTER_EN, 'events'),
+  // Keyed by music id. Optional, like the EN tables.
+  getJson<Record<string, string>>(I18N_EN, 'music_titles').catch(() => ({})),
+  // Required: without it every nickname chip would silently disappear.
+  getJson<IndexedEvent[]>(STORY_INDEXER, 'events_index')
 ]);
 
+const eventsBySong = songEventsById(indexedEvents, new Map(eventsEn.map((e) => [e.id, e.name])));
+
+// Official EN title first, then the sekai.best community translation.
 const enTitleById = new Map<number, string>();
+for (const [id, title] of Object.entries(communityTitles)) if (title) enTitleById.set(+id, title);
 for (const m of musicsEn) if (m.title) enTitleById.set(m.id, m.title);
 
 const tagsBySong = new Map<number, Set<string>>();
@@ -112,10 +146,28 @@ const songs = musics
       // isNewlyWrittenMusic: true = commissioned (written for Project Sekai); false = a cover
       // of an existing song. Defaults to cover when the flag is absent.
       commissioned: m.isNewlyWrittenMusic === true,
-      publishedAt: m.publishedAt ?? m.releasedAt ?? 0
+      publishedAt: m.publishedAt ?? m.releasedAt ?? 0,
+      nicknames: eventsBySong
+        .get(String(m.id))
+        ?.flatMap((e) => (e.nickname ? [e.nickname] : []))
+        .filter((n, i, all) => all.indexOf(n) === i)
     };
   })
+  .map((s) => (s.nicknames?.length ? s : { ...s, nicknames: undefined }))
   .toSorted((a, b) => a.publishedAt - b.publishedAt);
+
+// Only the song-info dialog and song page read these, so they're a separate, lazily loaded file.
+const details: Record<string, SekaiSongDetails> = {};
+for (const m of musics) {
+  const d: SekaiSongDetails = {
+    lyricist: credit(m.lyricist),
+    composer: credit(m.composer),
+    arranger: credit(m.arranger),
+    releasedAt: m.releasedAt || undefined,
+    events: eventsBySong.get(String(m.id))
+  };
+  if (Object.values(d).some((v) => v !== undefined)) details[m.id] = d;
+}
 
 const enCharById = new Map(charactersEn.map((c) => [c.id, c]));
 const chars = characters.map((c) => {
@@ -129,7 +181,8 @@ const chars = characters.map((c) => {
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
 fs.writeFileSync(`${OUT_DIR}/songs.json`, JSON.stringify(songs));
+fs.writeFileSync(`${OUT_DIR}/song-details.json`, JSON.stringify(details));
 fs.writeFileSync(`${OUT_DIR}/characters.json`, JSON.stringify(chars, null, 2) + '\n');
 console.log(
-  `wrote ${OUT_DIR}/songs.json (${songs.length} songs), characters.json (${chars.length})`
+  `wrote ${OUT_DIR}/songs.json (${songs.length} songs, ${songs.filter((s) => s.nicknames).length} with nicknames), song-details.json, characters.json (${chars.length})`
 );

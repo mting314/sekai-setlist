@@ -136,7 +136,7 @@ export function useSetlistImage(prediction: SekaiPrediction, authorName = '') {
     // Rendered off-screen at a fixed width for the image export.
     <Box aria-hidden position="fixed" top="-10000px" left="-10000px" pointerEvents="none">
       <Box ref={imageRef} w="800px" p={8} bgColor="bg.default">
-        <SetlistView prediction={prediction} authorName={author || undefined} />
+        <SetlistView prediction={prediction} authorName={author || undefined} interactive={false} />
       </Box>
     </Box>
   );

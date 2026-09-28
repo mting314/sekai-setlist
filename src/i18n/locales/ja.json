@@ -166,7 +166,6 @@
     "title": "プロセカ 楽曲一覧",
     "description": "ゲーム内の全楽曲と、ライブでの披露回数。",
     "allSongs": "← 楽曲一覧",
-    "released": "ゲーム追加日 {{date}}",
     "neverPerformed": "まだライブで披露されていません。",
     "statLives": "公演数",
     "statSetlists": "セトリ数",
@@ -277,7 +276,6 @@
     "dropHere": "ここにドロップしてセトリに追加",
     "customSong": "カスタム曲",
     "dragToReorder": "{{name}}をドラッグして並べ替え",
-    "songPage": "{{name}}の曲ページを開く",
     "moveUp": "{{name}}を上へ",
     "moveDown": "{{name}}を下へ",
     "editItem": "{{name}}を編集",
@@ -365,5 +363,20 @@
     "saved": "自分の予想に保存しました",
     "savedButton": "保存済み",
     "edit": "ビルダーで編集"
+  },
+  "songInfo": {
+    "open": "楽曲情報：{{name}}",
+    "eventSong": "イベント楽曲",
+    "worldLinkSong": "ワールドリンクイベント楽曲",
+    "cheerfulCarnivalSong": "チアフルカーニバルイベント楽曲",
+    "lyricist": "作詞",
+    "composer": "作曲",
+    "arranger": "編曲",
+    "released": "発表日",
+    "addedToGame": "ゲーム追加日",
+    "performances": "ライブでの披露",
+    "showAll": "すべて表示（{{count}}）",
+    "showFewer": "折りたたむ",
+    "openSongPage": "楽曲ページを開く"
   }
 }

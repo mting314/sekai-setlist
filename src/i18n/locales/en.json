@@ -173,7 +173,6 @@
     "title": "Project Sekai Songs",
     "description": "Every song in the game and how many lives performed it.",
     "allSongs": "← All songs",
-    "released": "Added to the game {{date}}",
     "neverPerformed": "Not performed at a live yet.",
     "statLives": "Lives",
     "statSetlists": "Setlists",
@@ -290,7 +289,6 @@
     "dropHere": "Drop here to add to setlist",
     "customSong": "Custom song",
     "dragToReorder": "Drag {{name}} to reorder",
-    "songPage": "Open {{name}} song page",
     "moveUp": "Move {{name}} up",
     "moveDown": "Move {{name}} down",
     "editItem": "Edit {{name}}",
@@ -378,5 +376,20 @@
     "saved": "Saved to your predictions",
     "savedButton": "Saved",
     "edit": "Edit in the builder"
+  },
+  "songInfo": {
+    "open": "Song info: {{name}}",
+    "eventSong": "Event song",
+    "worldLinkSong": "World Link event song",
+    "cheerfulCarnivalSong": "Cheerful Carnival event song",
+    "lyricist": "Lyrics",
+    "composer": "Music",
+    "arranger": "Arrangement",
+    "released": "Released",
+    "addedToGame": "Added to the game",
+    "performances": "Live performances",
+    "showAll": "Show all ({{count}})",
+    "showFewer": "Show fewer",
+    "openSongPage": "Open song page"
   }
 }

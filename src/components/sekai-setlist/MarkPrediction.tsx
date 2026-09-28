@@ -9,6 +9,8 @@ import { BiEdit, BiFolderOpen } from 'react-icons/bi';
 import { Box, HStack, Stack, Wrap, styled } from 'styled-system/jsx';
 import { LiveSelect } from './LiveSelect';
 import { SongJacket } from './SongJacket';
+import { NicknameChips } from './song-info/NicknameChips';
+import { SongInfoButton } from './song-info/SongInfoButton';
 import { Badge } from '~/components/ui/styled/badge';
 import { Button } from '~/components/ui/styled/button';
 import { Input } from '~/components/ui/styled/input';
@@ -385,9 +387,13 @@ function ScoreCard({ result, actual }: { result: ScoreResult; actual: SetlistSta
                 {result.ordered ? i + 1 : '•'}
               </Text>
               <SongJacket id={s.songId} size={36} />
-              <Text flex={1} fontSize="sm" lineClamp={1}>
-                {sekaiSongName(s.songId, lang)}
-              </Text>
+              <HStack flex={1} gap={1.5} minW={0}>
+                <Text fontSize="sm" lineClamp={1}>
+                  {sekaiSongName(s.songId, lang)}
+                </Text>
+                <NicknameChips songId={s.songId} />
+                <SongInfoButton songId={s.songId} />
+              </HStack>
               {s.actualAt !== undefined && result.ordered && s.kind !== 'exact' && (
                 <Text flexShrink={0} color="fg.subtle" fontSize="xs">
                   {t('game.actualAt', {
@@ -429,6 +435,8 @@ function ScoreCard({ result, actual }: { result: ScoreResult; actual: SetlistSta
                   <Text color="fg.muted" fontSize="sm" lineClamp={1}>
                     {sekaiSongName(actual.songs[j], lang)}
                   </Text>
+                  <NicknameChips songId={actual.songs[j]} />
+                  <SongInfoButton songId={actual.songs[j]} />
                 </HStack>
               ))}
             </Stack>

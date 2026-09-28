@@ -1,23 +1,21 @@
 /**
- * One setlist row: drag handle, M01 / EN01 / MC① label, song (jacket, unit colour bar, link to
- * its page), MC or divider band, and move / edit / delete actions.
+ * One setlist row: drag handle, M01 / EN01 / MC① label, song (jacket, unit colour bar, event
+ * nickname, song-info button), MC or divider band, and move / edit / delete actions.
  */
 import { memo } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useTranslation } from 'react-i18next';
-import { BiChevronDown, BiChevronUp, BiLinkExternal, BiPencil, BiTrash } from 'react-icons/bi';
+import { BiChevronDown, BiChevronUp, BiPencil, BiTrash } from 'react-icons/bi';
 import { MdDragIndicator } from 'react-icons/md';
 import { SongJacket } from '../../SongJacket';
 import { DropPreview } from './DropPreview';
 import { ItemColorBar, ItemSummary } from './ItemSummary';
 import { css } from 'styled-system/css';
 import { Box, HStack, Stack } from 'styled-system/jsx';
-import { Link } from '~/components/ui/link';
 import { IconButton } from '~/components/ui/styled/icon-button';
 import { Text } from '~/components/ui/styled/text';
 import { itemName } from '~/utils/sekai-setlist/prediction';
-import { songHref } from '~/utils/sekai-setlist/routes';
 import type { PredictionItem } from '~/types/sekai-prediction';
 import { isDividerRow } from '~/types/sekai-prediction';
 
@@ -130,34 +128,7 @@ export const SetlistItem = memo(function SetlistItem({
               )}
               {item.type === 'song' && <SongJacket id={item.songId} size={32} />}
 
-              <ItemSummary
-                item={item}
-                nameSuffix={
-                  item.type === 'song' && (
-                    <Link
-                      href={songHref(item.songId)}
-                      target="_blank"
-                      rel="noopener"
-                      aria-label={t('builder.songPage', {
-                        name,
-                        defaultValue: `Open ${name} song page`
-                      })}
-                      onClick={(e: React.MouseEvent) => e.stopPropagation()}
-                      display="inline-flex"
-                      flexShrink={0}
-                      alignItems="center"
-                      borderRadius="sm"
-                      py={0.5}
-                      px={1.5}
-                      color="fg.muted"
-                      bgColor="bg.subtle"
-                      _hover={{ color: 'fg.default', bgColor: 'bg.emphasized' }}
-                    >
-                      <BiLinkExternal size={10} />
-                    </Link>
-                  )
-                }
-              />
+              <ItemSummary item={item} info />
             </HStack>
 
             <HStack gap={1} flexShrink={0}>

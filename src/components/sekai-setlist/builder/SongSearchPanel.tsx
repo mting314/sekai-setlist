@@ -11,6 +11,8 @@ import { SongJacket } from '../SongJacket';
 import { VocalistIcons } from '../SongMeta';
 import { UnitFilterChips } from '../UnitFilterChips';
 import { SongColorBar } from './setlist-editor/ItemSummary';
+import { NicknameChips } from '../song-info/NicknameChips';
+import { SongInfoButton } from '../song-info/SongInfoButton';
 import { css } from 'styled-system/css';
 import { Box, HStack, Stack } from 'styled-system/jsx';
 import { Button } from '~/components/ui/styled/button';
@@ -91,9 +93,12 @@ const DraggableSongItem = memo(function DraggableSongItem({
         </Box>
         <SongJacket id={id} size={32} />
         <Stack flex={1} gap={0.5} minW={0}>
-          <Text fontSize="sm" fontWeight="medium" lineHeight="1.3">
-            {name}
-          </Text>
+          <HStack gap={1.5} flexWrap="wrap">
+            <Text fontSize="sm" fontWeight="medium" lineHeight="1.3">
+              {name}
+            </Text>
+            <NicknameChips songId={id} />
+          </HStack>
           {sub && (
             <Text color="fg.muted" fontSize="xs" lineHeight="1.2">
               {sub}
@@ -101,6 +106,7 @@ const DraggableSongItem = memo(function DraggableSongItem({
           )}
           <VocalistIcons id={id} size={16} max={5} />
         </Stack>
+        <SongInfoButton songId={id} />
         <IconButton
           size="xs"
           variant="ghost"

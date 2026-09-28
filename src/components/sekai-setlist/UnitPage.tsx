@@ -8,6 +8,8 @@ import { Box, Grid, HStack, Stack, Wrap } from 'styled-system/jsx';
 import { LiveSummaryCard, Stat } from './LiveSummaryCard';
 import { SongJacket } from './SongJacket';
 import { UnitBadge } from './SongMeta';
+import { NicknameChips } from './song-info/NicknameChips';
+import { SongInfoButton } from './song-info/SongInfoButton';
 import { Badge } from '~/components/ui/styled/badge';
 import { Button } from '~/components/ui/styled/button';
 import { Link } from '~/components/ui/link';
@@ -115,17 +117,20 @@ export function UnitPage({ unit }: { unit: SekaiUnitMeta }) {
                   {i + 1}
                 </Text>
                 <SongJacket id={s.songId} size={32} />
-                <Link
-                  href={songHref(s.songId)}
-                  flex={1}
-                  minW={0}
-                  fontSize="sm"
-                  textOverflow="ellipsis"
-                  overflow="hidden"
-                  whiteSpace="nowrap"
-                >
-                  {sekaiSongName(s.songId, i18n.language)}
-                </Link>
+                <HStack flex={1} gap={1.5} minW={0}>
+                  <Link
+                    href={songHref(s.songId)}
+                    minW={0}
+                    fontSize="sm"
+                    textOverflow="ellipsis"
+                    overflow="hidden"
+                    whiteSpace="nowrap"
+                  >
+                    {sekaiSongName(s.songId, i18n.language)}
+                  </Link>
+                  <NicknameChips songId={s.songId} />
+                  <SongInfoButton songId={s.songId} />
+                </HStack>
                 <Text flexShrink={0} color="fg.muted" fontSize="xs">
                   {t('sekaiSetlist.lives.livesCount', {
                     count: s.lives.length,

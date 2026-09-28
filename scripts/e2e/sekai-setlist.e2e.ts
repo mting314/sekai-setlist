@@ -309,6 +309,16 @@ async function run(label: string, opts: BrowserContextOptions, browser: Browser)
     await p2.getByRole('button', { name: 'Save to my predictions' }).isVisible()
   );
   await p2.screenshot({ path: `${OUT}/${label}-07-view.png`, fullPage: true });
+
+  // --- the (i) next to a song opens its song-info dialog
+  await p2.locator('[data-view-item="song"] [data-song-info]').first().click();
+  const info = p2.locator('[data-song-info-dialog]');
+  await info.waitFor();
+  check('song info opens from /view', await info.isVisible());
+  check('song info lists performances', (await info.getByText('Live performances').count()) > 0);
+  await p2.screenshot({ path: `${OUT}/${label}-07b-song-info.png` });
+  await info.getByRole('button', { name: 'Close' }).click();
+  await info.waitFor({ state: 'detached' });
   await ctx2.close();
 
   // --- a second (custom event) prediction, then Load / Delete

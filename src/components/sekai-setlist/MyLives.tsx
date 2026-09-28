@@ -11,6 +11,8 @@ import { Card, Stat } from './LiveSummaryCard';
 import { HowFilter, useHowLabel } from './ShowAttendance';
 import { SongJacket } from './SongJacket';
 import { UnitBadge } from './SongMeta';
+import { NicknameChips } from './song-info/NicknameChips';
+import { SongInfoButton } from './song-info/SongInfoButton';
 import { Badge } from '~/components/ui/styled/badge';
 import { Button } from '~/components/ui/styled/button';
 import { Link } from '~/components/ui/link';
@@ -75,17 +77,20 @@ function SongRow({ id, right }: { id: string; right: React.ReactNode }) {
   return (
     <HStack gap={2.5} py={1}>
       <SongJacket id={id} size={32} />
-      <Link
-        href={songHref(id)}
-        flex={1}
-        minW={0}
-        fontSize="sm"
-        textOverflow="ellipsis"
-        overflow="hidden"
-        whiteSpace="nowrap"
-      >
-        {sekaiSongName(id, i18n.language)}
-      </Link>
+      <HStack flex={1} gap={1.5} minW={0}>
+        <Link
+          href={songHref(id)}
+          minW={0}
+          fontSize="sm"
+          textOverflow="ellipsis"
+          overflow="hidden"
+          whiteSpace="nowrap"
+        >
+          {sekaiSongName(id, i18n.language)}
+        </Link>
+        <NicknameChips songId={id} />
+        <SongInfoButton songId={id} />
+      </HStack>
       <Text flexShrink={0} color="fg.muted" fontSize="xs">
         {right}
       </Text>

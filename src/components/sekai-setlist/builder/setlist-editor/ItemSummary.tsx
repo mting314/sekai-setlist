@@ -6,6 +6,8 @@ import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, HStack, Stack } from 'styled-system/jsx';
 import { VocalistIcons } from '../../SongMeta';
+import { NicknameChips } from '../../song-info/NicknameChips';
+import { SongInfoButton } from '../../song-info/SongInfoButton';
 import { Text } from '~/components/ui/styled/text';
 import { colorBarBackground, sekaiSongColors } from '~/utils/sekai-setlist/catalog';
 import { itemName } from '~/utils/sekai-setlist/prediction';
@@ -30,15 +32,20 @@ export function ItemColorBar({ item }: { item: PredictionItem }) {
   return item.type === 'song' ? <SongColorBar songId={item.songId} /> : null;
 }
 
-/** Title line plus remarks (or vocalists / "custom song"); dividers are a centred bold band. */
+/**
+ * Title line (with event nickname chips and, when `info` is set, the song-info button) plus
+ * remarks (or vocalists / "custom song"); dividers are a centred bold band.
+ */
 export function ItemSummary({
   item,
   nameSuffix,
-  iconSize = 16
+  iconSize = 16,
+  info = false
 }: {
   item: PredictionItem;
   nameSuffix?: ReactNode;
   iconSize?: number;
+  info?: boolean;
 }) {
   const { t, i18n } = useTranslation();
   const name = itemName(item, i18n.language);
@@ -54,10 +61,12 @@ export function ItemSummary({
   const remarks = item.type === 'song' || item.type === 'custom' ? item.remarks : undefined;
   return (
     <Stack flex={1} gap={0.5} minW={0}>
-      <HStack gap={2} alignItems="center" minW={0}>
+      <HStack gap={1.5} alignItems="center" minW={0} flexWrap="wrap">
         <Text fontSize="sm" fontWeight="medium" lineHeight="1.4">
           {name}
         </Text>
+        {item.type === 'song' && <NicknameChips songId={item.songId} />}
+        {info && item.type === 'song' && <SongInfoButton songId={item.songId} />}
         {nameSuffix}
       </HStack>
       {remarks ? (

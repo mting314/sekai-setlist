@@ -111,3 +111,18 @@ describe('romaji search (the-sorter fuzzySearch)', () => {
     expect(search('yoru ni kakeru')[0]).toBe('夜に駆ける');
   });
 });
+
+describe('event nickname search', () => {
+  const search = (q: string) =>
+    rankBySearch(filterSongs(sekaiSongs, { ...EMPTY_SONG_FILTERS, search: q }), q);
+  it('ranks the event song first for an exact nickname', () => {
+    expect(search('saki1')[0]?.id).toBe('64');
+    expect(search('KASA7')[0]?.title).toBe('オールイン・ワン');
+  });
+  it('matches a nickname prefix', () => {
+    const titles = search('wl3').map((s) => s.title);
+    expect(titles.slice(0, 5).toSorted()).toEqual(
+      ['アンチサイノウ', 'ドリーマーズビート', 'レム', '世界の歩き方', '旅に帰る'].toSorted()
+    );
+  });
+});

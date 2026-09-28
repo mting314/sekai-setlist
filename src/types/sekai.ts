@@ -21,6 +21,26 @@ export interface SekaiSong {
   assetbundleName: string; // drives the jacket image URL
   commissioned: boolean; // true = written for Project Sekai; false = a cover of an existing song
   publishedAt?: number; // epoch ms
+  nicknames?: string[]; // event nicknames from sekai-story-indexer, e.g. "saki1", "wl3-4"
+}
+
+/** An in-game event whose song this is (from sekai-story-indexer's events_index.json). */
+export interface SekaiSongEvent {
+  id: number;
+  name: string; // JP event name
+  nameEn?: string; // EN server event name, when released there
+  nickname?: string; // "saki1", or the World Link alias "wl3-4"
+  type: string; // marathon / cheerful_carnival / world_bloom
+  startedAt: number; // epoch ms
+}
+
+/** Details only the song-info dialog and song page need (data/sekai/song-details.json). */
+export interface SekaiSongDetails {
+  lyricist?: string;
+  composer?: string;
+  arranger?: string;
+  releasedAt?: number; // original release, epoch ms (publishedAt is when it was added in-game)
+  events?: SekaiSongEvent[];
 }
 
 // A unit chip, plus the synthetic 'other' bucket.

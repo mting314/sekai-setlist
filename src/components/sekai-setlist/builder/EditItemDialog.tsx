@@ -6,6 +6,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SongJacket } from '../SongJacket';
+import { NicknameChips } from '../song-info/NicknameChips';
 import { Box, HStack, Stack, Wrap, styled } from 'styled-system/jsx';
 import { Button } from '~/components/ui/styled/button';
 import {
@@ -160,9 +161,12 @@ export function EditItemDialog({ open, onOpenChange, item, onSave }: EditItemDia
                     <HStack gap={3} justifyContent="space-between">
                       <SongJacket id={songId} size={40} />
                       <Stack flex={1} gap={0.5} minW={0}>
-                        <Text fontSize="sm" fontWeight="bold">
-                          {sekaiSongName(songId, lang)}
-                        </Text>
+                        <HStack gap={1.5} flexWrap="wrap">
+                          <Text fontSize="sm" fontWeight="bold">
+                            {sekaiSongName(songId, lang)}
+                          </Text>
+                          <NicknameChips songId={songId} />
+                        </HStack>
                         {sekaiSongSubName(songId, lang) && (
                           <Text color="fg.muted" fontSize="xs">
                             {sekaiSongSubName(songId, lang)}
@@ -227,9 +231,12 @@ export function EditItemDialog({ open, onOpenChange, item, onSave }: EditItemDia
                             >
                               <SongJacket id={s.id} size={28} />
                               <Stack gap={0} minW={0}>
-                                <Text fontSize="sm" fontWeight="medium">
-                                  {sekaiSongName(s.id, lang)}
-                                </Text>
+                                <HStack gap={1.5} flexWrap="wrap">
+                                  <Text fontSize="sm" fontWeight="medium">
+                                    {sekaiSongName(s.id, lang)}
+                                  </Text>
+                                  <NicknameChips songId={s.id} />
+                                </HStack>
                                 {sekaiSongSubName(s.id, lang) && (
                                   <Text color="fg.muted" fontSize="xs">
                                     {sekaiSongSubName(s.id, lang)}

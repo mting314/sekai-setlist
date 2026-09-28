@@ -9,6 +9,8 @@ import { BiListPlus } from 'react-icons/bi';
 import { Box, HStack, Stack, styled } from 'styled-system/jsx';
 import { SongJacket } from './SongJacket';
 import { KindBadge } from './SongMeta';
+import { NicknameChips } from './song-info/NicknameChips';
+import { SongInfoButton } from './song-info/SongInfoButton';
 import { Button } from '~/components/ui/styled/button';
 import { Link } from '~/components/ui/link';
 import { Text } from '~/components/ui/styled/text';
@@ -127,15 +129,19 @@ export function PerformanceList({
                 <Stack flex={1} gap={0} minW={0}>
                   <HStack gap={1.5} minW={0}>
                     {song ? (
-                      <Link
-                        href={songHref(song.id)}
-                        fontSize="sm"
-                        textOverflow="ellipsis"
-                        overflow="hidden"
-                        whiteSpace="nowrap"
-                      >
-                        {sekaiSongName(song.id, i18n.language)}
-                      </Link>
+                      <>
+                        <Link
+                          href={songHref(song.id)}
+                          fontSize="sm"
+                          textOverflow="ellipsis"
+                          overflow="hidden"
+                          whiteSpace="nowrap"
+                        >
+                          {sekaiSongName(song.id, i18n.language)}
+                        </Link>
+                        <NicknameChips songId={song.id} />
+                        <SongInfoButton songId={song.id} />
+                      </>
                     ) : (
                       <Text
                         fontSize="sm"
