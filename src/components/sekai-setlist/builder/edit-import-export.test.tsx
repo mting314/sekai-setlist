@@ -155,6 +155,14 @@ describe('ImportDialog', () => {
   });
 });
 
+// jsdom's Blob has no text().
+const blobText = (blob: Blob) =>
+  new Promise<string>((resolve) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => resolve(reader.result as string));
+    reader.readAsText(blob);
+  });
+
 describe('ExportShareTools', () => {
   const prediction = newPrediction({
     name: 'My CL3 guess',
@@ -209,22 +217,23 @@ describe('ExportShareTools', () => {
     expect(exportFileName(newPrediction({ name: '6周年 予想' }), 'ja')).toBe('6周年-予想');
   });
 
-  it('shares the text, link and image together', async () => {
+  it('shares to X with the name, author and link, never the share sheet', async () => {
+    const open = vi.spyOn(window, 'open').mockReturnValue(null);
     const share = vi.fn(() => Promise.resolve());
     vi.stubGlobal('navigator', { ...navigator, canShare: () => true, share });
     const [, user] = await render(<ExportShareTools prediction={prediction} />);
     await user.type(screen.getByRole('textbox', { name: 'Your name (optional)' }), 'Mizuki');
-    await user.click(screen.getByRole('button', { name: 'Share text + image' }));
-    await waitFor(() => expect(share).toHaveBeenCalled());
-    const data = (share.mock.calls[0] as unknown as [{ text: string; files: File[] }])[0];
-    expect(data.text).toContain(exportText(prediction, 'en'));
-    expect(data.text).toContain('— Mizuki');
-    expect(data.text).toMatch(/\/view#p=/);
-    expect(data.files[0].name).toBe('my-cl3-guess.png');
-    expect(data.files[0].type).toBe('image/png');
+    await user.click(screen.getByRole('button', { name: 'Share on X' }));
+    const url = new URL(open.mock.calls[0][0] as string);
+    expect(url.origin + url.pathname).toBe('https://twitter.com/intent/tweet');
+    const text = url.searchParams.get('text')!;
+    expect(text).toContain('My CL3 guess');
+    expect(text).toContain('— Mizuki');
+    expect(text).toMatch(/\/view#p=/);
+    expect(share).not.toHaveBeenCalled();
   });
 
-  it('copies text and image when the share sheet is unavailable', async () => {
+  it('copies the text, link and image to the clipboard', async () => {
     class FakeClipboardItem {
       constructor(public items: Record<string, Blob>) {}
     }
@@ -232,10 +241,39 @@ describe('ExportShareTools', () => {
     const [, user] = await render(<ExportShareTools prediction={prediction} />);
     // user-event installs its clipboard on render, so spy on it afterwards.
     const write = vi.spyOn(navigator.clipboard, 'write').mockResolvedValue();
-    await user.click(screen.getByRole('button', { name: 'Share text + image' }));
+    await user.click(screen.getByRole('button', { name: 'Copy text + image' }));
     expect(await screen.findByText('Text and image copied')).toBeInTheDocument();
     const item = write.mock.calls[0][0][0] as unknown as FakeClipboardItem;
     expect(Object.keys(item.items).toSorted()).toEqual(['image/png', 'text/plain']);
+    const text = await blobText(item.items['text/plain']);
+    expect(text).toContain(exportText(prediction, 'en'));
+    expect(text).toMatch(/\/view#p=/);
+  });
+
+  it('says it is creating the image until the copy lands', async () => {
+    class FakeClipboardItem {
+      constructor(public items: Record<string, Blob | Promise<Blob>>) {}
+    }
+    vi.stubGlobal('ClipboardItem', FakeClipboardItem);
+    const { domToBlob } = await import('modern-screenshot');
+    let finishRendering: ((image: Blob) => void) | undefined;
+    const rendering = new Promise<Blob>((resolve) => {
+      finishRendering = resolve;
+    });
+    vi.mocked(domToBlob).mockImplementationOnce(() => rendering);
+    const [, user] = await render(<ExportShareTools prediction={prediction} />);
+    // Like a browser, the write waits for the image.
+    vi.spyOn(navigator.clipboard, 'write').mockImplementation(async (items) => {
+      await (items[0] as unknown as FakeClipboardItem).items['image/png'];
+    });
+    await user.click(screen.getByRole('button', { name: 'Copy text + image' }));
+    // The toast, and the button's own label
+    expect(await screen.findAllByText('Creating image…')).toHaveLength(2);
+    expect(screen.getByRole('button', { name: 'Creating image…' })).toBeDisabled();
+    finishRendering?.(new Blob(['png'], { type: 'image/png' }));
+    expect(await screen.findByText('Text and image copied')).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText('Creating image…')).not.toBeInTheDocument());
+    expect(screen.getByRole('button', { name: 'Copy text + image' })).toBeEnabled();
   });
 });
 
@@ -263,20 +301,27 @@ describe('ViewPrediction', () => {
     );
   });
 
-  it('shares a shared prediction as text + image', async () => {
-    const share = vi.fn(() => Promise.resolve());
-    vi.stubGlobal('navigator', { ...navigator, canShare: () => true, share });
+  it('shares a shared prediction to X or the clipboard', async () => {
+    class FakeClipboardItem {
+      constructor(public items: Record<string, Blob>) {}
+    }
+    vi.stubGlobal('ClipboardItem', FakeClipboardItem);
+    const open = vi.spyOn(window, 'open').mockReturnValue(null);
     const shared = newPrediction({
       name: 'Shared guess',
       items: [{ id: 'a', type: 'song', songId: '1' }]
     });
     window.location.hash = encodePrediction(shared);
     const [, user] = await render(<ViewPrediction />);
-    await user.click(await screen.findByRole('button', { name: 'Share text + image' }));
-    await waitFor(() => expect(share).toHaveBeenCalled());
-    const data = (share.mock.calls[0] as unknown as [{ text: string; files: File[] }])[0];
-    expect(data.text).toContain('Tell Your World');
-    expect(data.files[0].name).toBe('shared-guess.png');
+    await user.click(await screen.findByRole('button', { name: 'Share on X' }));
+    expect(new URL(open.mock.calls[0][0] as string).searchParams.get('text')).toContain(
+      'Shared guess'
+    );
+    const write = vi.spyOn(navigator.clipboard, 'write').mockResolvedValue();
+    await user.click(screen.getByRole('button', { name: 'Copy text + image' }));
+    expect(await screen.findByText('Text and image copied')).toBeInTheDocument();
+    const item = write.mock.calls[0][0][0] as unknown as FakeClipboardItem;
+    expect(await blobText(item.items['text/plain'])).toContain('Tell Your World');
   });
 
   it('explains a link without a prediction', async () => {

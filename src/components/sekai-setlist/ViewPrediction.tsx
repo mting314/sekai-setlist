@@ -5,7 +5,8 @@
  */
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BiCheckDouble, BiDownload, BiEdit, BiSave, BiShareAlt } from 'react-icons/bi';
+import { BiCheckDouble, BiCopy, BiDownload, BiEdit, BiSave } from 'react-icons/bi';
+import { FaXTwitter } from 'react-icons/fa6';
 import { SetlistView } from './SetlistView';
 import { useSetlistImage } from './builder/ExportShareTools';
 import { Box, HStack, Stack } from 'styled-system/jsx';
@@ -67,7 +68,8 @@ function SharedPrediction({
 }) {
   const { t } = useTranslation();
   const { toast } = useToaster();
-  const { share, downloadImage, exporting, canvas } = useSetlistImage(prediction);
+  const { copyImage, shareToX, downloadImage, exporting, busy, canvas } =
+    useSetlistImage(prediction);
   const save = () => {
     if (savedId) return savedId;
     const saved = savePrediction(prediction);
@@ -101,11 +103,20 @@ function SharedPrediction({
         >
           <BiEdit /> {t('view.edit', { defaultValue: 'Edit in the builder' })}
         </Button>
-        <Button variant="outline" disabled={exporting} onClick={() => void share()}>
-          <BiShareAlt /> {t('builder.shareTextImage', { defaultValue: 'Share text + image' })}
+        <Button variant="outline" onClick={shareToX}>
+          <FaXTwitter /> {t('builder.shareX', { defaultValue: 'Share on X' })}
+        </Button>
+        <Button variant="outline" disabled={exporting} onClick={() => void copyImage()}>
+          <BiCopy />{' '}
+          {busy === 'copy'
+            ? t('builder.exportingImage', { defaultValue: 'Creating image…' })
+            : t('builder.copyTextImage', { defaultValue: 'Copy text + image' })}
         </Button>
         <Button variant="outline" disabled={exporting} onClick={() => void downloadImage()}>
-          <BiDownload /> {t('builder.downloadImage', { defaultValue: 'Download image' })}
+          <BiDownload />{' '}
+          {busy === 'download'
+            ? t('builder.exportingImage', { defaultValue: 'Creating image…' })
+            : t('builder.downloadImage', { defaultValue: 'Download image' })}
         </Button>
         {markable && (
           <Button asChild variant="outline">

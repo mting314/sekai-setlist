@@ -11,7 +11,7 @@ type ToastContent = ReactNode | RenderFn;
 interface ToastOptions {
   title?: ToastContent;
   description?: ToastContent;
-  type?: 'info' | 'success' | 'warning' | 'error';
+  type?: 'info' | 'success' | 'warning' | 'error' | 'loading'; // loading stays until dismissed
   duration?: number;
   placement?: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end';
   meta?: {
@@ -21,8 +21,12 @@ interface ToastOptions {
 
 const isRenderFn = (value: unknown): value is RenderFn => typeof value === 'function';
 
-const ToasterContext = createContext<{ toast: (options: ToastOptions) => void }>({
-  toast: () => {}
+const ToasterContext = createContext<{
+  toast: (options: ToastOptions) => string | undefined;
+  dismiss: (id: string) => void;
+}>({
+  toast: () => undefined,
+  dismiss: () => {}
 });
 
 const toaster = createToaster({
@@ -35,13 +39,13 @@ export function ToasterProvider({ children }: { children: ReactNode }) {
   return (
     <ToasterContext.Provider
       value={{
-        toast: (options) => {
+        toast: (options) =>
           toaster.create({
             type: 'info',
             ...options,
             placement: options.placement ?? 'bottom-end'
-          } as Parameters<typeof toaster.create>[0]);
-        }
+          } as Parameters<typeof toaster.create>[0]),
+        dismiss: (id) => toaster.dismiss(id)
       }}
     >
       {children}

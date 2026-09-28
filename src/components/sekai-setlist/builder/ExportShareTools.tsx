@@ -1,11 +1,12 @@
 /**
  * Share and export a prediction: a /view link (the whole prediction in the hash), plain text,
- * a JSON file and a PNG of an off-screen SetlistView. "Share" sends the text and image together
- * through the Web Share API, falling back to the clipboard like the-sorter's results share.
+ * a JSON file and a PNG of an off-screen SetlistView. Sharing works like the-sorter's results: a
+ * "Share on X" post and a clipboard copy of the text + image, never the system share sheet.
  */
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { domToBlob } from 'modern-screenshot';
+import { FaXTwitter } from 'react-icons/fa6';
 import { SetlistView } from '../SetlistView';
 import { Box, Stack } from 'styled-system/jsx';
 import { Button } from '~/components/ui/styled/button';
@@ -31,8 +32,11 @@ export function exportFileName(p: SekaiPrediction, lang: string): string {
   return slug || 'setlist-prediction';
 }
 
-/** Copies text and image as one clipboard item, or just the image where that isn't supported. */
-async function copyTextAndImage(text: string, image: Blob) {
+/**
+ * Copies text and image as one clipboard item, or just the image where that isn't supported.
+ * The write has to start in the tap (Safari), so the image may still be rendering.
+ */
+async function copyTextAndImage(text: string, image: Promise<Blob>) {
   const textBlob = new Blob([text], { type: 'text/plain' });
   try {
     await navigator.clipboard.write([
@@ -51,14 +55,14 @@ function download(href: string, filename: string) {
 }
 
 /**
- * Image export for a prediction: `share` sends text + PNG through the share sheet (clipboard
- * fallback), `downloadImage` saves the PNG. Render `canvas` somewhere; it's the off-screen
+ * Sharing a prediction: `copyImage` copies text + PNG, `shareToX` opens an X post with the link,
+ * `downloadImage` saves the PNG. Render `canvas` somewhere; it's the off-screen
  * SetlistView the image is taken from.
  */
 export function useSetlistImage(prediction: SekaiPrediction, authorName = '') {
   const { t, i18n } = useTranslation();
-  const { toast } = useToaster();
-  const [exporting, setExporting] = useState(false);
+  const { toast, dismiss } = useToaster();
+  const [busy, setBusy] = useState<'copy' | 'download'>();
   const imageRef = useRef<HTMLDivElement>(null);
   const author = authorName.trim();
   const filename = exportFileName(prediction, i18n.language);
@@ -77,52 +81,85 @@ export function useSetlistImage(prediction: SekaiPrediction, authorName = '') {
 
   const renderImage = async () => {
     if (!imageRef.current) return;
+    // Jackets and icons are lazy, and this off-screen copy never scrolls into view, so they'd
+    // never load and modern-screenshot would wait out its timeout for every one of them.
+    for (const img of imageRef.current.querySelectorAll('img')) img.loading = 'eager';
     return domToBlob(imageRef.current, {
       type: 'image/png',
       scale: 2,
+      timeout: 10_000,
       backgroundColor: window.getComputedStyle(imageRef.current).backgroundColor,
       // Jackets come from sekai.best, which allows CORS but 403s a third-party Referer.
       fetch: { requestInit: { mode: 'cors', referrerPolicy: 'no-referrer' } }
     });
   };
 
-  const withImage = async (use: (image: Blob) => Promise<void>) => {
-    setExporting(true);
+  // Rendering takes a few seconds (every jacket is fetched first), so say so straight away.
+  const working = async (kind: 'copy' | 'download', run: () => Promise<void>) => {
+    setBusy(kind);
+    const id = toast({
+      title: t('builder.exportingImage', { defaultValue: 'Creating image…' }),
+      type: 'loading'
+    });
     try {
-      const image = await renderImage();
-      if (image) await use(image);
-    } catch {
-      failed(t('builder.imageFailed', { defaultValue: 'Could not create the image' }));
+      await run();
     } finally {
-      setExporting(false);
+      if (id) dismiss(id);
+      setBusy(undefined);
     }
   };
 
-  const share = () =>
-    withImage(async (image) => {
-      const text = shareText();
-      const data = { text, files: [new File([image], `${filename}.png`, { type: 'image/png' })] };
-      if (navigator.canShare?.(data)) {
-        try {
-          await navigator.share(data);
-          return;
-        } catch (e) {
-          if (e instanceof DOMException && e.name === 'AbortError') return;
-        }
-      }
+  const withImage = (use: (image: Blob) => void) =>
+    working('download', async () => {
       try {
-        await copyTextAndImage(text, image);
+        const image = await renderImage();
+        if (!image) throw new Error('No image to render');
+        use(image);
+      } catch {
+        failed(t('builder.imageFailed', { defaultValue: 'Could not create the image' }));
+      }
+    });
+
+  // Straight to the clipboard, no share sheet. Safari only allows the write in the tap itself,
+  // so it starts at once with the image still rendering.
+  const copyImage = () =>
+    working('copy', async () => {
+      const image = renderImage().then((blob) => blob ?? Promise.reject(new Error('No image')));
+      try {
+        await copyTextAndImage(shareText(), image);
         toast({
           title: t('builder.shareCopied', { defaultValue: 'Text and image copied' }),
           type: 'success'
         });
       } catch {
-        failed(t('builder.copyFailed', { defaultValue: 'Could not copy to the clipboard' }));
+        failed(
+          (await image.then(() => false).catch(() => true))
+            ? t('builder.imageFailed', { defaultValue: 'Could not create the image' })
+            : t('builder.copyFailed', { defaultValue: 'Could not copy to the clipboard' })
+        );
       }
     });
 
+  // Like the-sorter's "Share on X": a post with the prediction's name and link, not the whole
+  // setlist, which wouldn't fit.
+  const shareToX = () => {
+    const url = shareLink(prediction);
+    const text = [
+      prediction.name || predictionEventName(prediction, i18n.language),
+      author && `— ${author}`,
+      url.length < MAX_SHARE_URL_LENGTH && url
+    ]
+      .filter(Boolean)
+      .join('\n');
+    window.open(
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,
+      '_blank',
+      'noopener'
+    );
+  };
+
   const downloadImage = () =>
-    withImage(async (image) => {
+    withImage((image) => {
       const url = URL.createObjectURL(image);
       download(url, `${filename}.png`);
       URL.revokeObjectURL(url);
@@ -141,14 +178,17 @@ export function useSetlistImage(prediction: SekaiPrediction, authorName = '') {
     </Box>
   );
 
-  return { share, downloadImage, exporting, canvas };
+  return { copyImage, shareToX, downloadImage, exporting: !!busy, busy, canvas };
 }
 
 export function ExportShareTools({ prediction }: ExportShareToolsProps) {
   const { t, i18n } = useTranslation();
   const { toast } = useToaster();
   const [authorName, setAuthorName] = useState('');
-  const { share, downloadImage, exporting, canvas } = useSetlistImage(prediction, authorName);
+  const { copyImage, shareToX, downloadImage, exporting, busy, canvas } = useSetlistImage(
+    prediction,
+    authorName
+  );
   const filename = exportFileName(prediction, i18n.language);
   const failed = (title: string) => toast({ title, type: 'error' });
 
@@ -215,8 +255,13 @@ export function ExportShareTools({ prediction }: ExportShareToolsProps) {
           aria-label={t('builder.authorName', { defaultValue: 'Your name (optional)' })}
         />
       </Box>
-      <Button size="sm" onClick={() => void share()} disabled={exporting}>
-        {t('builder.shareTextImage', { defaultValue: 'Share text + image' })}
+      <Button size="sm" onClick={shareToX}>
+        <FaXTwitter /> {t('builder.shareX', { defaultValue: 'Share on X' })}
+      </Button>
+      <Button size="sm" variant="outline" onClick={() => void copyImage()} disabled={exporting}>
+        {busy === 'copy'
+          ? t('builder.exportingImage', { defaultValue: 'Creating image…' })
+          : t('builder.copyTextImage', { defaultValue: 'Copy text + image' })}
       </Button>
       <Button size="sm" variant="outline" onClick={() => void copyLink()}>
         {t('builder.copyLink', { defaultValue: 'Copy share link' })}
@@ -228,7 +273,7 @@ export function ExportShareTools({ prediction }: ExportShareToolsProps) {
         {t('builder.downloadJson', { defaultValue: 'Download JSON' })}
       </Button>
       <Button size="sm" variant="outline" onClick={() => void downloadImage()} disabled={exporting}>
-        {exporting
+        {busy === 'download'
           ? t('builder.exportingImage', { defaultValue: 'Creating image…' })
           : t('builder.downloadImage', { defaultValue: 'Download image' })}
       </Button>
