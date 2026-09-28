@@ -33,25 +33,26 @@ export function exportFileName(p: SekaiPrediction, lang: string): string {
 }
 
 /**
- * Copies text and image as one clipboard item, or just the image where that isn't supported.
- * The write has to start in the tap (Safari), so the image may still be rendering.
+ * Copies text and image as one clipboard item. The write has to start in the tap (Safari), so
+ * the image may still be rendering; there's no retry, which would be outside the tap.
  */
 async function copyTextAndImage(text: string, image: Promise<Blob>) {
   const textBlob = new Blob([text], { type: 'text/plain' });
-  try {
-    await navigator.clipboard.write([
-      new ClipboardItem({ 'image/png': image, 'text/plain': textBlob })
-    ]);
-  } catch {
-    await navigator.clipboard.write([new ClipboardItem({ 'image/png': image })]);
-  }
+  await navigator.clipboard.write([
+    new ClipboardItem({ 'image/png': image, 'text/plain': textBlob })
+  ]);
 }
 
-function download(href: string, filename: string) {
+/** Saves a blob. Safari starts the download after click() returns, so the URL outlives it. */
+function download(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.download = filename;
-  link.href = href;
+  link.href = url;
+  document.body.append(link);
   link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 60_000);
 }
 
 /**
@@ -160,9 +161,7 @@ export function useSetlistImage(prediction: SekaiPrediction, authorName = '') {
 
   const downloadImage = () =>
     withImage((image) => {
-      const url = URL.createObjectURL(image);
-      download(url, `${filename}.png`);
-      URL.revokeObjectURL(url);
+      download(image, `${filename}.png`);
       toast({
         title: t('builder.imageDownloaded', { defaultValue: 'Image downloaded' }),
         type: 'success'
@@ -231,9 +230,7 @@ export function ExportShareTools({ prediction }: ExportShareToolsProps) {
 
   const downloadJson = () => {
     const blob = new Blob([JSON.stringify(prediction, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    download(url, `${filename}.json`);
-    URL.revokeObjectURL(url);
+    download(blob, `${filename}.json`);
   };
 
   return (

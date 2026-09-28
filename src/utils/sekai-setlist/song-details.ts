@@ -8,5 +8,9 @@ let loading: Promise<SongDetailsById> | undefined;
 
 export const loadSongDetails = (): Promise<SongDetailsById> =>
   (loading ??= import('../../../data/sekai/song-details.json').then(
-    (m) => m.default as SongDetailsById
+    (m) => m.default as SongDetailsById,
+    (error: unknown) => {
+      loading = undefined; // let the next open try again
+      throw error;
+    }
   ));

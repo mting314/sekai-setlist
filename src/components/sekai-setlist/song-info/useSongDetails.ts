@@ -7,7 +7,11 @@ export function useSongDetails(songId: string): SekaiSongDetails | undefined {
   const [all, setAll] = useState<SongDetailsById>();
   useEffect(() => {
     let active = true;
-    void loadSongDetails().then((d) => active && setAll(d));
+    // On failure the details stay out; the rest of the dialog still works.
+    loadSongDetails().then(
+      (d) => active && setAll(d),
+      () => {}
+    );
     return () => {
       active = false;
     };

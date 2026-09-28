@@ -130,7 +130,11 @@ export function SongInfoDialog({ songId, open, onOpenChange }: SongInfoDialogPro
                           {h.live.date}
                         </Text>
                         <Stack flex={1} gap={0} minW={0}>
-                          <Link href={liveHref(h.live.id)} fontWeight="medium">
+                          <Link
+                            href={liveHref(h.live.id)}
+                            onClick={() => onOpenChange(false)}
+                            fontWeight="medium"
+                          >
                             {sekaiLiveName(h.live, lang)}
                           </Link>
                           <Text color="fg.muted" fontSize="xs">
@@ -166,7 +170,7 @@ export function SongInfoDialog({ songId, open, onOpenChange }: SongInfoDialogPro
 
             <HStack gap={2} justifyContent="flex-end">
               <Button asChild variant="outline">
-                <a href={songHref(songId)}>
+                <a href={songHref(songId)} onClick={() => onOpenChange(false)}>
                   {t('songInfo.openSongPage', { defaultValue: 'Open song page' })}
                 </a>
               </Button>

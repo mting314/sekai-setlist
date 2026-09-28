@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { LivePage } from '../LivePage';
 import { SetlistView } from '../SetlistView';
 import { SongSearchPanel } from '../builder/SongSearchPanel';
-import { render, screen, within } from '~/__test__/utils';
+import { render, screen, waitFor, within } from '~/__test__/utils';
 import { getSekaiLive } from '~/utils/sekai-setlist/live-data';
 import { newPrediction } from '~/utils/sekai-setlist/prediction';
 import { songHref } from '~/utils/sekai-setlist/routes';
@@ -62,6 +62,16 @@ describe('song-info dialog', () => {
     const event = await within(dialog).findByText('First Star After the Rain');
     expect(event.closest('[data-song-event]')).toHaveTextContent('saki1');
     expect(within(dialog).getAllByText('じん')).toHaveLength(2); // lyrics + music
+  });
+
+  it('closes when its song page link is followed', async () => {
+    const [, user] = await render(<SetlistView prediction={prediction} />);
+    await user.click(screen.getByRole('button', { name: 'Song info: Stella' }));
+    const dialog = await screen.findByRole('dialog');
+    const link = within(dialog).getByRole('link', { name: 'Open song page' });
+    link.addEventListener('click', (e) => e.preventDefault()); // jsdom can't navigate
+    await user.click(link);
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
   });
 
   it('opens from the builder search without adding the song', async () => {

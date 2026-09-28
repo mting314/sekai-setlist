@@ -214,13 +214,13 @@ describe('ExportShareTools', () => {
     const link = click.mock.contexts[0] as HTMLAnchorElement;
     expect(link.download).toBe('my-cl3-guess.png');
     expect(link.href).toBe('blob:image');
+    // Revoked later: Safari starts the download after click() returns
+    expect(URL.revokeObjectURL).not.toHaveBeenCalled();
     expect(exportFileName(newPrediction({ name: '6周年 予想' }), 'ja')).toBe('6周年-予想');
   });
 
-  it('shares to X with the name, author and link, never the share sheet', async () => {
+  it('shares to X with the name, author and link', async () => {
     const open = vi.spyOn(window, 'open').mockReturnValue(null);
-    const share = vi.fn(() => Promise.resolve());
-    vi.stubGlobal('navigator', { ...navigator, canShare: () => true, share });
     const [, user] = await render(<ExportShareTools prediction={prediction} />);
     await user.type(screen.getByRole('textbox', { name: 'Your name (optional)' }), 'Mizuki');
     await user.click(screen.getByRole('button', { name: 'Share on X' }));
@@ -230,7 +230,6 @@ describe('ExportShareTools', () => {
     expect(text).toContain('My CL3 guess');
     expect(text).toContain('— Mizuki');
     expect(text).toMatch(/\/view#p=/);
-    expect(share).not.toHaveBeenCalled();
   });
 
   it('copies the text, link and image to the clipboard', async () => {
@@ -272,6 +271,28 @@ describe('ExportShareTools', () => {
     expect(screen.getByRole('button', { name: 'Creating image…' })).toBeDisabled();
     finishRendering?.(new Blob(['png'], { type: 'image/png' }));
     expect(await screen.findByText('Text and image copied')).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText('Creating image…')).not.toBeInTheDocument());
+    expect(screen.getByRole('button', { name: 'Copy text + image' })).toBeEnabled();
+  });
+
+  it.each([
+    ['the image fails', 'Could not create the image'],
+    ['the clipboard refuses', 'Could not copy to the clipboard']
+  ])('says so when %s, and stops saying it is creating the image', async (failure, message) => {
+    class FakeClipboardItem {
+      constructor(public items: Record<string, Blob | Promise<Blob>>) {}
+    }
+    vi.stubGlobal('ClipboardItem', FakeClipboardItem);
+    const { domToBlob } = await import('modern-screenshot');
+    if (failure === 'the image fails')
+      vi.mocked(domToBlob).mockImplementationOnce(() => Promise.reject(new Error('CORS')));
+    const [, user] = await render(<ExportShareTools prediction={prediction} />);
+    vi.spyOn(navigator.clipboard, 'write').mockImplementation(async (items) => {
+      await (items[0] as unknown as FakeClipboardItem).items['image/png'];
+      throw new DOMException('Denied', 'NotAllowedError');
+    });
+    await user.click(screen.getByRole('button', { name: 'Copy text + image' }));
+    expect(await screen.findByText(message)).toBeInTheDocument();
     await waitFor(() => expect(screen.queryByText('Creating image…')).not.toBeInTheDocument());
     expect(screen.getByRole('button', { name: 'Copy text + image' })).toBeEnabled();
   });
