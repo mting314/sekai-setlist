@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Box, HStack, Stack } from 'styled-system/jsx';
 import { VersionBadge, VocalistIcons } from '../../SongMeta';
 import { NicknameChips } from '../../song-info/NicknameChips';
+import { SongPlayButton } from '../../audio/SongPlayButton';
 import { SongInfoButton } from '../../song-info/SongInfoButton';
 import { Text } from '~/components/ui/styled/text';
 import { colorBarBackground, sekaiSongColors } from '~/utils/sekai-setlist/catalog';
@@ -70,7 +71,12 @@ export function ItemSummary({
         </Text>
         {item.type === 'song' && <NicknameChips songId={item.songId} />}
         {versionBadge && item.type === 'song' && <VersionBadge version={item.version} />}
-        {info && item.type === 'song' && <SongInfoButton songId={item.songId} />}
+        {info && item.type === 'song' && (
+          <>
+            <SongPlayButton songId={item.songId} version={item.version} />
+            <SongInfoButton songId={item.songId} />
+          </>
+        )}
         {nameSuffix}
       </HStack>
       {remarks ? (

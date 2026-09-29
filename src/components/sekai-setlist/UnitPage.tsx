@@ -9,6 +9,7 @@ import { LiveSummaryCard, Stat } from './LiveSummaryCard';
 import { SongJacket } from './SongJacket';
 import { UnitBadge } from './SongMeta';
 import { NicknameChips } from './song-info/NicknameChips';
+import { SongPlayButton } from './audio/SongPlayButton';
 import { SongInfoButton } from './song-info/SongInfoButton';
 import { Badge } from '~/components/ui/styled/badge';
 import { Button } from '~/components/ui/styled/button';
@@ -129,6 +130,7 @@ export function UnitPage({ unit }: { unit: SekaiUnitMeta }) {
                     {sekaiSongName(s.songId, i18n.language)}
                   </Link>
                   <NicknameChips songId={s.songId} />
+                  <SongPlayButton songId={s.songId} />
                   <SongInfoButton songId={s.songId} />
                 </HStack>
                 <Text flexShrink={0} color="fg.muted" fontSize="xs">

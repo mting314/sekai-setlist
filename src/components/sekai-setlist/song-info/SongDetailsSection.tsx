@@ -5,6 +5,7 @@
 import { Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NicknameChip } from './NicknameChips';
+import { SongPlayButton } from '../audio/SongPlayButton';
 import { useSongDetails } from './useSongDetails';
 import { useHowLabel } from '../ShowAttendance';
 import { CharacterIcons } from '../SongMeta';
@@ -15,7 +16,7 @@ import { ATTENDANCE_HOWS } from '~/utils/sekai-setlist/attendance';
 import { attendedShows, timesHeard } from '~/utils/sekai-setlist/attendance-stats';
 import { getSekaiSong } from '~/utils/sekai-setlist/catalog';
 import { sekaiLives } from '~/utils/sekai-setlist/live-data';
-import type { SekaiSongEvent, SekaiSongVersion, SekaiVersionKind } from '~/types/sekai';
+import type { AudioKind, SekaiSongEvent, SekaiSongVersion, SekaiVersionKind } from '~/types/sekai';
 
 // Game dates are Japan time: a JST-midnight release would otherwise show as the day before.
 const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
@@ -40,12 +41,20 @@ function VersionSingers({ version }: { version: SekaiSongVersion }) {
   );
 }
 
+const PLAYABLE = new Set<SekaiVersionKind>(['sekai', 'virtual_singer', 'original']);
+
 /**
  * A song's vocal versions with their singers: Sekai ver., VIRTUAL SINGER ver., unit and collab
- * versions, then every Another Vocal on one line, each outlined. Nothing for a song with a
- * single version.
+ * versions, then every Another Vocal on one line, each outlined. The first version of each kind
+ * with a recording has a play button. Nothing for a song with a single version.
  */
-export function SongVersions({ versions }: { versions?: SekaiSongVersion[] }) {
+export function SongVersions({
+  songId,
+  versions
+}: {
+  songId: string;
+  versions?: SekaiSongVersion[];
+}) {
   const { t } = useTranslation();
   if (!versions || versions.length < 2) return null;
   const label = (v: SekaiSongVersion) =>
@@ -60,6 +69,8 @@ export function SongVersions({ versions }: { versions?: SekaiSongVersion[] }) {
   );
   const main = sorted.filter((v) => v.kind !== 'another_vocal');
   const another = sorted.filter((v) => v.kind === 'another_vocal');
+  const playable = (v: SekaiSongVersion, i: number) =>
+    PLAYABLE.has(v.kind) && main.findIndex((w) => w.kind === v.kind) === i;
   return (
     <Stack data-song-versions gap={1}>
       <Text color="fg.muted" fontSize="xs">
@@ -74,7 +85,10 @@ export function SongVersions({ versions }: { versions?: SekaiSongVersion[] }) {
       >
         {main.map((v, i) => (
           <Fragment key={i}>
-            <Text data-version={v.kind}>{label(v)}</Text>
+            <HStack gap={1}>
+              <Text data-version={v.kind}>{label(v)}</Text>
+              {playable(v, i) && <SongPlayButton songId={songId} version={v.kind as AudioKind} />}
+            </HStack>
             <VersionSingers version={v} />
           </Fragment>
         ))}
@@ -178,7 +192,7 @@ export function SongDetailsSection({ songId }: { songId: string }) {
           ))}
         </Grid>
       )}
-      <SongVersions versions={details?.versions} />
+      <SongVersions songId={songId} versions={details?.versions} />
       <HeardLive songId={songId} />
     </Stack>
   );

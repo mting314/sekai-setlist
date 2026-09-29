@@ -12,6 +12,7 @@ import { HowFilter, useHowLabel } from './ShowAttendance';
 import { SongJacket } from './SongJacket';
 import { UnitBadge } from './SongMeta';
 import { NicknameChips } from './song-info/NicknameChips';
+import { SongPlayButton } from './audio/SongPlayButton';
 import { SongInfoButton } from './song-info/SongInfoButton';
 import { Badge } from '~/components/ui/styled/badge';
 import { Button } from '~/components/ui/styled/button';
@@ -89,6 +90,7 @@ function SongRow({ id, right }: { id: string; right: React.ReactNode }) {
           {sekaiSongName(id, i18n.language)}
         </Link>
         <NicknameChips songId={id} />
+        <SongPlayButton songId={id} />
         <SongInfoButton songId={id} />
       </HStack>
       <Text flexShrink={0} color="fg.muted" fontSize="xs">

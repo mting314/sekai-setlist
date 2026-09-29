@@ -20,6 +20,7 @@ import { SongJacket } from './SongJacket';
 import { KindBadge } from './SongMeta';
 import { UnitFilterChips } from './UnitFilterChips';
 import { NicknameChips } from './song-info/NicknameChips';
+import { SongPlayButton } from './audio/SongPlayButton';
 import { SongInfoButton } from './song-info/SongInfoButton';
 import { Badge } from '~/components/ui/styled/badge';
 import { useAttendance } from '~/hooks/useAttendance';
@@ -381,6 +382,7 @@ function SongStatsList({ stats }: { stats: SongStat[] }) {
                 </Link>
                 <NicknameChips songId={st.songId} />
                 {song && <KindBadge commissioned={song.commissioned} />}
+                <SongPlayButton songId={st.songId} />
                 <SongInfoButton songId={st.songId} />
               </HStack>
               <Text

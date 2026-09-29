@@ -12,6 +12,7 @@ import { VocalistIcons } from '../SongMeta';
 import { UnitFilterChips } from '../UnitFilterChips';
 import { SongColorBar } from './setlist-editor/ItemSummary';
 import { NicknameChips } from '../song-info/NicknameChips';
+import { SongPlayButton } from '../audio/SongPlayButton';
 import { SongInfoButton } from '../song-info/SongInfoButton';
 import { css } from 'styled-system/css';
 import { Box, HStack, Stack } from 'styled-system/jsx';
@@ -106,6 +107,7 @@ const DraggableSongItem = memo(function DraggableSongItem({
           )}
           <VocalistIcons id={id} size={16} max={5} />
         </Stack>
+        <SongPlayButton songId={id} />
         <SongInfoButton songId={id} />
         <IconButton
           size="xs"

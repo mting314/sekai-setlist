@@ -9,6 +9,7 @@ import { SongJacket } from './SongJacket';
 import { KindBadge, VocalistIcons } from './SongMeta';
 import { UnitFilterChips } from './UnitFilterChips';
 import { NicknameChips } from './song-info/NicknameChips';
+import { SongPlayButton } from './audio/SongPlayButton';
 import { SongInfoButton } from './song-info/SongInfoButton';
 import { Button } from '~/components/ui/styled/button';
 import { Input } from '~/components/ui/styled/input';
@@ -175,6 +176,7 @@ export function SongBrowser() {
                     </Link>
                     <NicknameChips songId={song.id} />
                     <KindBadge commissioned={song.commissioned} />
+                    <SongPlayButton songId={song.id} />
                     <SongInfoButton songId={song.id} />
                   </HStack>
                   <HStack gap={2} minW={0}>

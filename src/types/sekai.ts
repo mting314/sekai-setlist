@@ -50,6 +50,11 @@ export type SongVersion = 'sekai' | 'virtual_singer';
 // 'original' is the original upload, listed apart only when there's also an in-game VS ver.
 export type SekaiVersionKind = SongVersion | 'original' | 'another_vocal';
 
+// The versions a song's audio is kept for, and each one's game-size file on the fandom wiki as its
+// "8/87/<file>.ogg" path under the wiki's images (see utils/sekai-setlist/song-audio.ts).
+export type AudioKind = SongVersion | 'original';
+export type SongAudio = Partial<Record<AudioKind, string>>;
+
 /** One of a song's vocal versions (musicVocals), in in-game order. */
 export interface SekaiSongVersion {
   kind: SekaiVersionKind;

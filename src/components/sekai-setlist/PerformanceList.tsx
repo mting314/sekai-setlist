@@ -10,6 +10,7 @@ import { Box, HStack, Stack, styled } from 'styled-system/jsx';
 import { SongJacket } from './SongJacket';
 import { CharacterIcons, KindBadge, VersionBadge } from './SongMeta';
 import { NicknameChips } from './song-info/NicknameChips';
+import { SongPlayButton } from './audio/SongPlayButton';
 import { SongInfoButton } from './song-info/SongInfoButton';
 import { Button } from '~/components/ui/styled/button';
 import { Link } from '~/components/ui/link';
@@ -145,6 +146,7 @@ export function PerformanceList({
                           {sekaiSongName(song.id, i18n.language)}
                         </Link>
                         <NicknameChips songId={song.id} />
+                        <SongPlayButton songId={song.id} version={version} />
                         <SongInfoButton songId={song.id} />
                       </>
                     ) : (

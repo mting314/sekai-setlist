@@ -404,5 +404,12 @@
     "sekaiShort": "Sekai",
     "original": "Original ver.",
     "anotherVocals": "Another Vocal ({{count}})"
+  },
+  "audio": {
+    "play": "Play: {{name}}",
+    "pause": "Pause: {{name}}",
+    "noAudio": "No audio for this song",
+    "failed": "Could not play audio",
+    "unsupported": "Your browser can't play this audio"
   }
 }

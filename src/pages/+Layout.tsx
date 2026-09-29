@@ -5,6 +5,7 @@ import { BiMenu, BiX } from 'react-icons/bi';
 import { Box, Container, HStack, Stack } from 'styled-system/jsx';
 import { ColorModeToggle } from '~/components/layout/ColorModeToggle';
 import { Footer } from '~/components/layout/Footer';
+import { SongAudioProvider } from '~/components/sekai-setlist/audio/SongAudioProvider';
 import { SongInfoProvider } from '~/components/sekai-setlist/song-info/SongInfoProvider';
 import { LanguageToggle } from '~/components/layout/LanguageToggle';
 import { Drawer } from '~/components/ui/drawer';
@@ -84,7 +85,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <ColorModeToggle />
             </HStack>
           </HStack>
-          <SongInfoProvider>{children}</SongInfoProvider>
+          <SongAudioProvider>
+            <SongInfoProvider>{children}</SongInfoProvider>
+          </SongAudioProvider>
         </Stack>
       </Container>
       <Footer />

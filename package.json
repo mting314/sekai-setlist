@@ -26,7 +26,8 @@
     "install-hooks": "chmod +x .git/hooks/commit-msg && chmod +x scripts/check-version.ts",
     "check-version": "bun scripts/check-version.ts",
     "fetch:songs": "bun scripts/fetch-sekai-songs.ts",
-    "fetch:lives": "bun scripts/fetch-sekai-lives.ts"
+    "fetch:lives": "bun scripts/fetch-sekai-lives.ts",
+    "fetch:audio": "bun scripts/fetch-sekai-audio.ts"
   },
   "dependencies": {
     "@ark-ui/react": "^4.8.1",

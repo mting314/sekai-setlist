@@ -11,6 +11,7 @@ import { LiveSelect } from './LiveSelect';
 import { SongJacket } from './SongJacket';
 import { VersionBadge } from './SongMeta';
 import { NicknameChips } from './song-info/NicknameChips';
+import { SongPlayButton } from './audio/SongPlayButton';
 import { SongInfoButton } from './song-info/SongInfoButton';
 import { Badge } from '~/components/ui/styled/badge';
 import { Button } from '~/components/ui/styled/button';
@@ -396,6 +397,14 @@ function ScoreCard({ result, actual }: { result: ScoreResult; actual: SetlistSta
                 {s.actualAt !== undefined && actual.vs?.includes(s.actualAt) && (
                   <VersionBadge version="virtual_singer" />
                 )}
+                <SongPlayButton
+                  songId={s.songId}
+                  version={
+                    s.actualAt !== undefined && actual.vs?.includes(s.actualAt)
+                      ? 'virtual_singer'
+                      : undefined
+                  }
+                />
                 <SongInfoButton songId={s.songId} />
               </HStack>
               {s.actualAt !== undefined && result.ordered && s.kind !== 'exact' && (
@@ -441,6 +450,10 @@ function ScoreCard({ result, actual }: { result: ScoreResult; actual: SetlistSta
                   </Text>
                   <NicknameChips songId={actual.songs[j]} />
                   {actual.vs?.includes(j) && <VersionBadge version="virtual_singer" />}
+                  <SongPlayButton
+                    songId={actual.songs[j]}
+                    version={actual.vs?.includes(j) ? 'virtual_singer' : undefined}
+                  />
                   <SongInfoButton songId={actual.songs[j]} />
                 </HStack>
               ))}

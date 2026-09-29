@@ -391,5 +391,12 @@
     "sekaiShort": "セカイ",
     "original": "オリジナルver.",
     "anotherVocals": "アナザーボーカル（{{count}}）"
+  },
+  "audio": {
+    "play": "再生：{{name}}",
+    "pause": "一時停止：{{name}}",
+    "noAudio": "この曲の音源はありません",
+    "failed": "音源を再生できませんでした",
+    "unsupported": "このブラウザでは再生できません"
   }
 }
