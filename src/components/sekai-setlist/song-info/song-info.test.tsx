@@ -19,7 +19,10 @@ describe('event nickname chips', () => {
   it('shows the nickname on event songs and the (i) button on every song', async () => {
     const [{ container }] = await render(<SetlistView prediction={prediction} />);
     const [stella, tyw] = container.querySelectorAll<HTMLElement>('[data-view-item=song]');
-    expect(within(stella).getByText('saki1')).toHaveAttribute('data-nickname', 'saki1');
+    const chip = within(stella).getByText('saki1');
+    expect(chip).toHaveAttribute('data-nickname', 'saki1');
+    expect(chip).toHaveAttribute('href', 'https://sekai.best/event/1');
+    expect(chip).toHaveAttribute('target', '_blank');
     expect(tyw.querySelector('[data-nickname]')).toBeNull();
     expect(screen.getByRole('button', { name: 'Song info: Stella' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Song info: Tell Your World' })).toBeInTheDocument();
@@ -55,12 +58,24 @@ describe('song-info dialog', () => {
     );
   });
 
-  it('shows the event and its nickname for event songs', async () => {
+  it('shows the event banner, metadata and sekai.best links for event songs', async () => {
     const [, user] = await render(<SetlistView prediction={prediction} />);
     await user.click(screen.getByRole('button', { name: 'Song info: Stella' }));
     const dialog = await screen.findByRole('dialog');
     const event = await within(dialog).findByText('First Star After the Rain');
-    expect(event.closest('[data-song-event]')).toHaveTextContent('saki1');
+    const card = event.closest<HTMLElement>('[data-song-event]')!;
+    expect(card).toHaveTextContent('saki1');
+    expect(within(card).getByRole('link', { name: 'saki1' })).toHaveAttribute(
+      'href',
+      'https://sekai.best/event/1'
+    );
+    expect(within(card).getByRole('link', { name: /sekai\.best/ })).toHaveAttribute(
+      'href',
+      'https://sekai.best/event/1'
+    );
+    const bannerImg = card.querySelector('img[alt="First Star After the Rain"]');
+    expect(bannerImg).toBeInTheDocument();
+    expect(bannerImg).toHaveAttribute('referrerPolicy', 'no-referrer');
     expect(within(dialog).getAllByText('じん')).toHaveLength(2); // lyrics + music
   });
 

@@ -378,7 +378,12 @@
     "performances": "ライブでの披露",
     "showAll": "すべて表示（{{count}}）",
     "showFewer": "折りたたむ",
-    "openSongPage": "楽曲ページを開く"
+    "openSongPage": "楽曲ページを開く",
+    "viewOnSekaiBest": "sekai.bestで見る",
+    "viewEventOnSekaiBest": "イベント {{nickname}} をsekai.bestで見る",
+    "eventPeriod": "開催期間",
+    "focus": "フォーカス",
+    "marathonSong": "マラソンイベント楽曲"
   },
   "version": {
     "version": "バージョン",

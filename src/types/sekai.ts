@@ -23,6 +23,7 @@ export interface SekaiSong {
   commissioned: boolean; // true = written for Project Sekai; false = a cover of an existing song
   publishedAt?: number; // epoch ms
   nicknames?: string[]; // event nicknames from sekai-story-indexer, e.g. "saki1", "wl3-4"
+  eventIds?: number[]; // corresponding event ids for linking to sekai.best
 }
 
 /** An in-game event whose song this is (from sekai-story-indexer's events_index.json). */
@@ -33,6 +34,12 @@ export interface SekaiSongEvent {
   nickname?: string; // "saki1", or the World Link alias "wl3-4"
   type: string; // marathon / cheerful_carnival / world_bloom
   startedAt: number; // epoch ms
+  endedAt?: number; // epoch ms
+  unit?: SekaiUnitId;
+  focusCharacter?: string;
+  focusCharacterId?: number;
+  bannerUrl?: string;
+  logoUrl?: string;
 }
 
 /** Details only the song-info dialog and song page need (data/sekai/song-details.json). */

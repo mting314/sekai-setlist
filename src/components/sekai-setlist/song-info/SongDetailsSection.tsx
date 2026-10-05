@@ -4,8 +4,8 @@
  */
 import { Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { NicknameChip } from './NicknameChips';
 import { SongPlayButton } from '../audio/SongPlayButton';
+import { SongEventCard } from './SongEventCard';
 import { useSongDetails } from './useSongDetails';
 import { useHowLabel } from '../ShowAttendance';
 import { CharacterIcons } from '../SongMeta';
@@ -16,14 +16,11 @@ import { ATTENDANCE_HOWS } from '~/utils/sekai-setlist/attendance';
 import { attendedShows, timesHeard } from '~/utils/sekai-setlist/attendance-stats';
 import { getSekaiSong } from '~/utils/sekai-setlist/catalog';
 import { sekaiLives } from '~/utils/sekai-setlist/live-data';
-import type { AudioKind, SekaiSongEvent, SekaiSongVersion, SekaiVersionKind } from '~/types/sekai';
+import type { AudioKind, SekaiSongVersion, SekaiVersionKind } from '~/types/sekai';
 
 // Game dates are Japan time: a JST-midnight release would otherwise show as the day before.
 const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
 const isoDate = (ms: number) => new Date(ms + JST_OFFSET_MS).toISOString().slice(0, 10);
-
-const eventName = (e: SekaiSongEvent, lang: string) =>
-  lang.startsWith('en') ? (e.nameEn ?? e.name) : e.name;
 
 const KIND_ORDER: SekaiVersionKind[] = ['sekai', 'virtual_singer', 'original', 'another_vocal'];
 
@@ -140,7 +137,7 @@ export function HeardLive({ songId }: { songId: string }) {
 }
 
 export function SongDetailsSection({ songId }: { songId: string }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const details = useSongDetails(songId);
   const publishedAt = getSekaiSong(songId)?.publishedAt;
 
@@ -161,26 +158,7 @@ export function SongDetailsSection({ songId }: { songId: string }) {
   return (
     <Stack data-song-details gap={3}>
       {details?.events?.map((e) => (
-        <Stack key={e.id} data-song-event={e.id} gap={0.5}>
-          <Text color="fg.muted" fontSize="xs">
-            {e.type === 'world_bloom'
-              ? t('songInfo.worldLinkSong', { defaultValue: 'World Link event song' })
-              : e.type === 'cheerful_carnival'
-                ? t('songInfo.cheerfulCarnivalSong', {
-                    defaultValue: 'Cheerful Carnival event song'
-                  })
-                : t('songInfo.eventSong', { defaultValue: 'Event song' })}
-          </Text>
-          <HStack gap={2} flexWrap="wrap">
-            {e.nickname && <NicknameChip nickname={e.nickname} songId={songId} />}
-            <Text fontSize="sm" fontWeight="medium">
-              {eventName(e, i18n.language)}
-            </Text>
-            <Text color="fg.muted" fontSize="xs">
-              {isoDate(e.startedAt)}
-            </Text>
-          </HStack>
-        </Stack>
+        <SongEventCard key={e.id} event={e} songId={songId} />
       ))}
       {rows.length > 0 && (
         <Grid columnGap={4} rowGap={1} gridTemplateColumns="auto 1fr" fontSize="sm">

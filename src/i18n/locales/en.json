@@ -391,7 +391,12 @@
     "performances": "Live performances",
     "showAll": "Show all ({{count}})",
     "showFewer": "Show fewer",
-    "openSongPage": "Open song page"
+    "openSongPage": "Open song page",
+    "viewOnSekaiBest": "View on sekai.best",
+    "viewEventOnSekaiBest": "View event {{nickname}} on sekai.best",
+    "eventPeriod": "Event period",
+    "focus": "Focus",
+    "marathonSong": "Marathon event song"
   },
   "version": {
     "version": "Version",

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { credit, songEventsById } from './song-events';
+import { credit, sekaiBestEventUrl, songEventsById } from './song-events';
 
 const ev = (over: Partial<Parameters<typeof songEventsById>[0][number]>) => ({
   event_id: 1,
@@ -51,6 +51,36 @@ describe('songEventsById', () => {
     expect(byId.get('739')?.[0].nickname).toBe('wl3-1');
     expect(byId.get('90')?.[0]).not.toHaveProperty('nickname');
     expect(byId.size).toBe(2);
+  });
+
+  it('maps banner, unit, focus character and endedAt when present', () => {
+    const byId = songEventsById([
+      ev({
+        event_id: 69,
+        song_id: 236,
+        ended_at: 2000,
+        unit: 'leo_need',
+        focus_character: '日野森志歩',
+        focus_character_id: 4,
+        banner_url: 'https://storage.sekai.best/banner.webp'
+      })
+    ]);
+    const event = byId.get('236')?.[0];
+    expect(event).toMatchObject({
+      id: 69,
+      endedAt: 2000,
+      unit: 'leo_need',
+      focusCharacter: '日野森志歩',
+      focusCharacterId: 4,
+      bannerUrl: 'https://storage.sekai.best/banner.webp'
+    });
+  });
+});
+
+describe('sekaiBestEventUrl', () => {
+  it('generates the canonical event URL on sekai.best', () => {
+    expect(sekaiBestEventUrl(1)).toBe('https://sekai.best/event/1');
+    expect(sekaiBestEventUrl(69)).toBe('https://sekai.best/event/69');
   });
 });
 

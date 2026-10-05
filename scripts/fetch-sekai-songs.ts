@@ -114,7 +114,13 @@ const [
   // Keyed by music id. Optional, like the EN tables.
   getJson<Record<string, string>>(I18N_EN, 'music_titles').catch(() => ({})),
   // Required: without it every nickname chip would silently disappear.
-  getJson<IndexedEvent[]>(STORY_INDEXER, 'events_index')
+  (fs.existsSync('../sekai-story-indexer/events_index.json')
+    ? Promise.resolve(
+        JSON.parse(
+          fs.readFileSync('../sekai-story-indexer/events_index.json', 'utf8')
+        ) as IndexedEvent[]
+      )
+    : getJson<IndexedEvent[]>(STORY_INDEXER, 'events_index'))
 ]);
 
 const eventsBySong = songEventsById(indexedEvents, new Map(eventsEn.map((e) => [e.id, e.name])));
@@ -144,6 +150,13 @@ const songs = musics
     const tags = [...(tagsBySong.get(m.id) ?? [])];
     const units = [...new Set(tags.map((t) => TAG_TO_UNIT[t]).filter(Boolean))];
     const en = enTitleById.get(m.id);
+    const songEvs = eventsBySong.get(String(m.id));
+    const nicknames = songEvs
+      ?.flatMap((e) => (e.nickname ? [e.nickname] : []))
+      .filter((n, i, all) => all.indexOf(n) === i);
+    const eventIds = songEvs
+      ?.flatMap((e) => (e.nickname ? [e.id] : []))
+      .filter((id, i, all) => all.indexOf(id) === i);
     return {
       id: String(m.id),
       title: m.title,
@@ -159,13 +172,10 @@ const songs = musics
       // of an existing song. Defaults to cover when the flag is absent.
       commissioned: m.isNewlyWrittenMusic === true,
       publishedAt: m.publishedAt ?? m.releasedAt ?? 0,
-      nicknames: eventsBySong
-        .get(String(m.id))
-        ?.flatMap((e) => (e.nickname ? [e.nickname] : []))
-        .filter((n, i, all) => all.indexOf(n) === i)
+      nicknames: nicknames?.length ? nicknames : undefined,
+      eventIds: eventIds?.length ? eventIds : undefined
     };
   })
-  .map((s) => (s.nicknames?.length ? s : { ...s, nicknames: undefined }))
   .toSorted((a, b) => a.publishedAt - b.publishedAt);
 
 // Only the song-info dialog and song page read these, so they're a separate, lazily loaded file.
