@@ -7,6 +7,7 @@
     "home": "ホーム",
     "lives": "ライブ",
     "songs": "楽曲",
+    "stats": "統計",
     "me": "参戦記録",
     "predict": "セトリ予想"
   },
@@ -403,5 +404,99 @@
     "noAudio": "この曲の音源はありません",
     "failed": "音源を再生できませんでした",
     "unsupported": "このブラウザでは再生できません"
+  },
+  "stats": {
+    "title": "ライブ統計・インフォグラフィック",
+    "description": "プロセカのライブ披露データを可視化：2Dスクリーン vs 3Dキャスト、実装から初披露までの日数、キャラ別バナー曲の披露状況、未披露曲一覧など。",
+    "days": "日",
+    "months": "ヶ月",
+    "years": "年",
+    "songs": "曲",
+    "sort": "並び替え：",
+    "preRelease": "事前披露",
+    "kpi": {
+      "lives": "記録ライブ数",
+      "setlists": "{{count}} セットリスト",
+      "performances": "総楽曲披露回数",
+      "acrossLives": "全ライブ累計",
+      "performedSongs": "披露済み楽曲",
+      "ofCatalog": "全曲中",
+      "unperformedSongs": "未披露楽曲",
+      "awaitingDebut": "ステージ初披露待ち",
+      "cast3d": "3Dキャスト披露",
+      "cast3dSub": "感謝祭・ファンミ等",
+      "screen2d": "2Dスクリーン披露",
+      "screen2dSub": "セカイライブ (COLORFUL LIVE)"
+    },
+    "format": {
+      "title": "2Dスクリーン vs 3Dキャスト 披露比較",
+      "subtitle": "バーチャルキャラクターの3DCG透過スクリーン投影（セカイライブ）と、声優キャスト陣によるリアルステージ歌唱（感謝祭・ファンミ等）を比較。",
+      "screen2dShort": "2Dスクリーン",
+      "cast3dShort": "3Dキャスト",
+      "connectLiveShort": "コネクト",
+      "symphonyShort": "シンフォニー",
+      "ofTotalPlays": "全披露中",
+      "byUnitTitle": "ユニット別・フォーマット別 披露回数"
+    },
+    "overlap": {
+      "title": "2D／3D 披露楽曲の重複状況",
+      "subtitle": "披露済み{{total}}曲が2Dスクリーンと3Dキャストのどちらで歌われたかの内訳。",
+      "both": "2D・3D両方で披露",
+      "bothDesc": "3DCGキャラクターと声優キャストの両方によってステージ披露された楽曲",
+      "screen2dOnly": "2Dスクリーンのみ",
+      "screen2dDesc": "セカイライブで披露されたが、声優キャストのステージでは未披露の楽曲",
+      "cast3dOnly": "3Dキャストのみ",
+      "cast3dDesc": "感謝祭やファンミーティングでキャスト歌唱されたが、セカイライブでは未披露の楽曲",
+      "otherOnly": "コネクト／シンフォニーのみ",
+      "otherDesc": "コネクトライブまたはオーケストラコンサートのみで披露された楽曲"
+    },
+    "delay": {
+      "title": "ゲーム実装からライブ初披露までの所要日数",
+      "subtitle": "ゲーム内追加日（publishedAt）からライブ初日（startDate）までの経過日数。マイナス日数はゲーム実装前にライブで先行初披露された楽曲です！",
+      "avgWait": "平均所要日数",
+      "medianWait": "中央値",
+      "preReleaseCount": "先行初披露曲",
+      "playedBeforeDrop": "ゲーム追加前にライブで初披露",
+      "maxWait": "最長待機日数",
+      "distTitle": "初披露までの日数分布",
+      "clickBucket": "バーをクリックして該当曲を表示",
+      "expressTitle": "⚡ 最速初披露・先行公開曲",
+      "expressSub": "周年感謝祭やシンフォニーでゲーム実装前に先行初披露された楽曲など",
+      "longestTitle": "⏳ 熟成待機曲（最長初披露）",
+      "longestSub": "初期実装からライブステージ初披露まで数年の年月を要した楽曲"
+    },
+    "focus": {
+      "title": "キャラクター別 バナー曲ライブ披露マトリクス",
+      "subtitle": "メイン20キャラのイベント書き下ろし曲（Focus 1〜7）およびワールドリンク曲のライブ披露状況。セルをクリックすると楽曲詳細が開きます。",
+      "debutProgress": "フォーカス別 披露進捗",
+      "legendPerformed": "披露済み (>0回)",
+      "legendUnperformed": "初披露待ち (0回)",
+      "legendNotReleased": "未実装",
+      "character": "キャラクター",
+      "ratio": "披露率",
+      "playedTimes": "ライブで{{count}}回披露",
+      "firstLive": "初披露：{{live}}",
+      "unperformed": "ライブ初披露待ち"
+    },
+    "version": {
+      "title": "楽曲の演奏尺：フルサイズ vs ショート／ゲームサイズ",
+      "subtitle": "プロセカのライブは原則としてフルコーラス（2番・Cメロ・ギターソロ完奏）が基本であり、ショート尺やゲーム尺はシンフォニーのメドレーや一部演出に限られます。",
+      "fullTitle": "フルサイズ演奏",
+      "shortTitle": "ショート／ゲームサイズ／メドレー",
+      "playsOf": "全{{count}}回中",
+      "fullNote": "セカイライブ・感謝祭の標準披露フォーマット。",
+      "shortNote": "セカイシンフォニー2026のメドレーや第5回感謝祭のゲーム尺などに限定。",
+      "allShortList": "記録されている全{{count}}回のショート／ゲーム尺披露"
+    },
+    "unperformed": {
+      "title": "ライブ初披露待ちの楽曲一覧",
+      "subtitle": "プロセカ収録楽曲のうち{{total}}曲がまだ一度もライブで披露されていません。未披露の書き下ろし曲や定番カバー曲をチェックできます。",
+      "commissionedTab": "書き下ろし楽曲（{{count}}曲）",
+      "coversTab": "カバー・その他（{{count}}曲）",
+      "oldestFirst": "待機最長順（古い順）",
+      "newestFirst": "新着順",
+      "rankedOverdue": "★ ゲーム実装からの待機日数が長い順",
+      "added": "実装"
+    }
   }
 }

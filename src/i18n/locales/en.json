@@ -7,6 +7,7 @@
     "home": "Home",
     "lives": "Lives",
     "songs": "Songs",
+    "stats": "Stats",
     "me": "My Lives",
     "predict": "Predict"
   },
@@ -416,5 +417,99 @@
     "noAudio": "No audio for this song",
     "failed": "Could not play audio",
     "unsupported": "Your browser can't play this audio"
+  },
+  "stats": {
+    "title": "Live Statistics & Infographics",
+    "description": "Interactive analytics on Project Sekai lives: comparing 2D screen vs 3D cast formats, song release delays, character focus songs, and songs awaiting their stage debut.",
+    "days": "days",
+    "months": "months",
+    "years": "years",
+    "songs": "songs",
+    "sort": "Sort:",
+    "preRelease": "Pre-release",
+    "kpi": {
+      "lives": "Recorded Lives",
+      "setlists": "{{count}} setlists",
+      "performances": "Song Appearances",
+      "acrossLives": "Across all lives",
+      "performedSongs": "Songs Performed",
+      "ofCatalog": "of catalog",
+      "unperformedSongs": "Unperformed Songs",
+      "awaitingDebut": "awaiting stage debut",
+      "cast3d": "3D Cast Plays",
+      "cast3dSub": "Thanks Fes & Fan Meetings",
+      "screen2d": "2D Screen Plays",
+      "screen2dSub": "COLORFUL LIVE"
+    },
+    "format": {
+      "title": "2D Screen vs 3D Cast Performances",
+      "subtitle": "Comparing virtual character screen projections (COLORFUL LIVE) against real-life voice cast stage performances (Thanks Festival & Fan Meetings).",
+      "screen2dShort": "2D Screen",
+      "cast3dShort": "3D Cast",
+      "connectLiveShort": "Connect",
+      "symphonyShort": "Symphony",
+      "ofTotalPlays": "of all song plays",
+      "byUnitTitle": "Performances by Unit & Format"
+    },
+    "overlap": {
+      "title": "Song Catalog Overlap Matrix",
+      "subtitle": "How the {{total}} performed songs divide between 2D and 3D formats.",
+      "both": "Both 2D Screen & 3D Cast",
+      "bothDesc": "Performed by both the 3DCG virtual characters and the real voice cast",
+      "screen2dOnly": "2D Screen Only",
+      "screen2dDesc": "Performed at COLORFUL LIVE, but not yet by the real voice cast on stage",
+      "cast3dOnly": "3D Cast Only",
+      "cast3dDesc": "Performed by voice actors at Thanks Fes or Fan Meetings, never at COLORFUL LIVE",
+      "otherOnly": "Connect / Symphony Only",
+      "otherDesc": "Performed exclusively in Connect Live or Sekai Symphony orchestra"
+    },
+    "delay": {
+      "title": "Time Between Song Release & Stage Debut",
+      "subtitle": "Days elapsed from in-game debut (publishedAt) to first live performance (startDate). Negative numbers denote songs that premiered live before releasing in the game!",
+      "avgWait": "Average Wait",
+      "medianWait": "Median Wait",
+      "preReleaseCount": "Pre-Release Debuts",
+      "playedBeforeDrop": "Played before in-game release",
+      "maxWait": "Longest Wait",
+      "distTitle": "Debut Delay Distribution",
+      "clickBucket": "Click a bar to view songs in bucket",
+      "expressTitle": "⚡ Express Lane: Fastest to the Stage",
+      "expressSub": "Includes pre-release debuts at Anniversary Thanks Festivals & Symphony",
+      "longestTitle": "⏳ Veteran Arrivals: Longest Wait to Stage",
+      "longestSub": "Songs that waited years from launch before their first live performance"
+    },
+    "focus": {
+      "title": "Character Focus Songs Live Debut Matrix",
+      "subtitle": "Tracking event-commissioned focus songs for the 20 main characters across Focus Cycles 1–7 and World Link. Click any cell to view song credits and setlists.",
+      "debutProgress": "Debut Progress by Focus Cycle",
+      "legendPerformed": "Performed (>0x)",
+      "legendUnperformed": "Awaiting Debut (0x)",
+      "legendNotReleased": "Not Released Yet",
+      "character": "Character",
+      "ratio": "Done",
+      "playedTimes": "Played {{count}} times live",
+      "firstLive": "First: {{live}}",
+      "unperformed": "Awaiting first live performance"
+    },
+    "version": {
+      "title": "Performance Version Length: Full vs Short Size",
+      "subtitle": "Project SEKAI live concerts overwhelmingly feature full-length versions with complete second verses and extended guitar solos, while short and game-size cuts are reserved for select medley slots.",
+      "fullTitle": "Full Length Versions",
+      "shortTitle": "Short / Game Size / Medleys",
+      "playsOf": "plays out of {{count}} total",
+      "fullNote": "Standard live performance format for all COLORFUL LIVE and Thanks Festival sets.",
+      "shortNote": "Appeared in Sekai Symphony 2026 medleys and select 5th Thanks Fes slots.",
+      "allShortList": "All {{count}} Short & Game Version Performances Recorded"
+    },
+    "unperformed": {
+      "title": "Songs Awaiting Live Debut",
+      "subtitle": "{{total}} songs in Project SEKAI have never been performed live. Explore the most overdue commissioned originals and classic covers awaiting the stage.",
+      "commissionedTab": "Commissioned Songs ({{count}})",
+      "coversTab": "Covers & Outside ({{count}})",
+      "oldestFirst": "Most Overdue (Oldest)",
+      "newestFirst": "Newest First",
+      "rankedOverdue": "Ranked by longest time in game without live debut",
+      "added": "Added"
+    }
   }
 }
