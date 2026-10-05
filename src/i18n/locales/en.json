@@ -489,7 +489,19 @@
       "ratio": "Done",
       "playedTimes": "Played {{count}} times live",
       "firstLive": "First: {{live}}",
-      "unperformed": "Awaiting first live performance"
+      "unperformed": "Awaiting first live performance",
+      "heatmap": "Heatmap:",
+      "palette": "Palette:",
+      "paletteEmerald": "Emerald",
+      "paletteSunset": "Sunset",
+      "paletteNeon": "Neon",
+      "clearFilter": "Show All",
+      "heatLevel_0": "0x (Awaiting)",
+      "heatLevel_1": "1x",
+      "heatLevel_2": "2x",
+      "heatLevel_3": "3–4x",
+      "heatLevel_4": "5–6x",
+      "heatLevel_5": "7+x"
     },
     "version": {
       "title": "Performance Version Length: Full vs Short Size",

@@ -476,7 +476,19 @@
       "ratio": "披露率",
       "playedTimes": "ライブで{{count}}回披露",
       "firstLive": "初披露：{{live}}",
-      "unperformed": "ライブ初披露待ち"
+      "unperformed": "ライブ初披露待ち",
+      "heatmap": "ヒートマップ：",
+      "palette": "配色：",
+      "paletteEmerald": "エメラルド",
+      "paletteSunset": "サンセット",
+      "paletteNeon": "ネオン",
+      "clearFilter": "全表示",
+      "heatLevel_0": "0回（初披露待ち）",
+      "heatLevel_1": "1回",
+      "heatLevel_2": "2回",
+      "heatLevel_3": "3〜4回",
+      "heatLevel_4": "5〜6回",
+      "heatLevel_5": "7回以上"
     },
     "version": {
       "title": "楽曲の演奏尺：フルサイズ vs ショート／ゲームサイズ",

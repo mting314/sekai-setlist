@@ -79,4 +79,28 @@ describe('Stats & Infographics Page', () => {
     await user.type(searchInput, '炉心融解'); // Meltdown
     expect(screen.queryByText(/No songs match/i)).toBeNull();
   });
+
+  it('renders heatmap legend and allows palette switching and filtering', async () => {
+    const [, user] = await render(<Page />);
+
+    // Verify heatmap swatches exist
+    expect(screen.getByText(/Heatmap:/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /7\+x/i })).toBeInTheDocument();
+
+    // Click Sunset palette button
+    const sunsetBtn = screen.getByRole('button', { name: /Sunset/i });
+    expect(sunsetBtn).toBeInTheDocument();
+    await user.click(sunsetBtn);
+
+    // Filter by 7+x heat level
+    const level5Btn = screen.getByRole('button', { name: /7\+x/i });
+    await user.click(level5Btn);
+
+    // Show All button appears when filtered
+    const clearBtn = screen.getByRole('button', { name: /Show All/i });
+    expect(clearBtn).toBeInTheDocument();
+    await user.click(clearBtn);
+
+    expect(screen.queryByRole('button', { name: /Show All/i })).toBeNull();
+  });
 });

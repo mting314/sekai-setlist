@@ -227,6 +227,14 @@ export interface SekaiStatsData {
 const byRelease = (a: UnperformedSongItem, b: UnperformedSongItem) =>
   (a.publishedAt ?? 0) - (b.publishedAt ?? 0) || Number(a.songId) - Number(b.songId);
 
+const UNIT_WL_NICKNAME: Record<string, string> = {
+  leo_need: 'wl3-1',
+  more_more_jump: 'wl3-2',
+  vivid_bad_squad: 'wl3-3',
+  wonderlands_showtime: 'wl3-4',
+  nightcord: 'wl3-5'
+};
+
 export function computeSekaiStats(): SekaiStatsData {
   const songs = songsData as unknown as SekaiSong[];
   const units = unitsData as unknown as SekaiUnitMeta[];
@@ -569,9 +577,8 @@ export function computeSekaiStats(): SekaiStatsData {
             }
           }
         } else if (
-          (ev.type === 'world_bloom' || ev.nickname?.startsWith('wl')) &&
           char.unit &&
-          s?.units.includes(char.unit as any)
+          ev.nickname === UNIT_WL_NICKNAME[char.unit]
         ) {
           // World link event for this unit
           const tr = songTracker.get(sId);

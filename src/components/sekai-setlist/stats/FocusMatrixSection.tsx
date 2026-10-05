@@ -1,6 +1,8 @@
+import { useMemo, useState, type CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Flex, HStack, Stack, Wrap } from 'styled-system/jsx';
 import { StatsPanel } from './StatsPanel';
+import { Button } from '~/components/ui/styled/button';
 import { Text } from '~/components/ui/styled/text';
 import { useSongInfo } from '~/components/sekai-setlist/song-info/song-info-context';
 import { characterIconUrl } from '~/utils/sekai-setlist/assets';
@@ -11,12 +13,147 @@ import type {
   FocusMatrixStats
 } from '~/utils/sekai-setlist/stats';
 
+export type HeatmapPalette = 'emerald' | 'sunset' | 'neon';
+
+export function getHeatLevel(count: number): number {
+  if (count <= 0) return 0;
+  if (count === 1) return 1;
+  if (count === 2) return 2;
+  if (count <= 4) return 3;
+  if (count <= 6) return 4;
+  return 5;
+}
+
+export function getHeatStyle(level: number, palette: HeatmapPalette): CSSProperties {
+  if (level === 0) {
+    return {
+      backgroundColor: 'var(--colors-bg-subtle)',
+      borderColor: 'var(--colors-border-subtle)',
+      color: 'var(--colors-fg-muted)'
+    };
+  }
+
+  if (palette === 'emerald') {
+    switch (level) {
+      case 1:
+        return {
+          backgroundColor: 'color-mix(in srgb, #14b8a6 20%, transparent)',
+          borderColor: 'color-mix(in srgb, #14b8a6 45%, transparent)',
+          color: 'var(--colors-accent-default)'
+        };
+      case 2:
+        return {
+          backgroundColor: 'color-mix(in srgb, #14b8a6 40%, transparent)',
+          borderColor: 'color-mix(in srgb, #14b8a6 70%, transparent)',
+          color: 'var(--colors-accent-default)'
+        };
+      case 3:
+        return {
+          backgroundColor: 'color-mix(in srgb, #0d9488 65%, transparent)',
+          borderColor: '#0d9488',
+          color: '#ffffff'
+        };
+      case 4:
+        return {
+          backgroundColor: '#0d9488',
+          borderColor: '#0f766e',
+          color: '#ffffff'
+        };
+      case 5:
+      default:
+        return {
+          backgroundColor: '#047857',
+          borderColor: '#34d399',
+          color: '#ffffff',
+          boxShadow: '0 0 7px rgba(52, 211, 153, 0.45)'
+        };
+    }
+  }
+
+  if (palette === 'sunset') {
+    switch (level) {
+      case 1:
+        return {
+          backgroundColor: 'color-mix(in srgb, #eab308 24%, transparent)',
+          borderColor: 'color-mix(in srgb, #eab308 50%, transparent)',
+          color: '#ca8a04'
+        };
+      case 2:
+        return {
+          backgroundColor: 'color-mix(in srgb, #f59e0b 42%, transparent)',
+          borderColor: 'color-mix(in srgb, #f59e0b 70%, transparent)',
+          color: '#d97706'
+        };
+      case 3:
+        return {
+          backgroundColor: 'color-mix(in srgb, #f97316 68%, transparent)',
+          borderColor: '#f97316',
+          color: '#ffffff'
+        };
+      case 4:
+        return {
+          backgroundColor: '#ea580c',
+          borderColor: '#c2410c',
+          color: '#ffffff'
+        };
+      case 5:
+      default:
+        return {
+          backgroundColor: '#dc2626',
+          borderColor: '#fca5a5',
+          color: '#ffffff',
+          boxShadow: '0 0 7px rgba(239, 68, 68, 0.45)'
+        };
+    }
+  }
+
+  // Neon (Purple / Magenta / Pink)
+  switch (level) {
+    case 1:
+      return {
+        backgroundColor: 'color-mix(in srgb, #8b5cf6 22%, transparent)',
+        borderColor: 'color-mix(in srgb, #8b5cf6 45%, transparent)',
+        color: '#7c3aed'
+      };
+    case 2:
+      return {
+        backgroundColor: 'color-mix(in srgb, #a855f7 42%, transparent)',
+        borderColor: 'color-mix(in srgb, #a855f7 70%, transparent)',
+        color: '#9333ea'
+      };
+    case 3:
+      return {
+        backgroundColor: 'color-mix(in srgb, #c026d3 65%, transparent)',
+        borderColor: '#c026d3',
+        color: '#ffffff'
+      };
+    case 4:
+      return {
+        backgroundColor: '#c026d3',
+        borderColor: '#a21caf',
+        color: '#ffffff'
+      };
+    case 5:
+    default:
+      return {
+        backgroundColor: '#be185d',
+        borderColor: '#f472b6',
+        color: '#ffffff',
+        boxShadow: '0 0 7px rgba(244, 114, 182, 0.45)'
+      };
+  }
+}
+
 function FocusCellPill({
   cell,
-  lang
+  lang,
+  palette,
+  selectedHeatLevel
 }: {
   cell: CharacterFocusCell | null;
   lang: string;
+  palette: HeatmapPalette;
+  selectedHeatLevel: number | null;
 }) {
   const { t } = useTranslation();
   const openSong = useSongInfo();
@@ -39,6 +176,11 @@ function FocusCellPill({
 
   const name = cell.title ? sekaiSongName(cell.songId, lang) : cell.songId;
   const isPerformed = cell.isPerformed;
+  const heatLevel = getHeatLevel(cell.performanceCount);
+  const heatStyle = getHeatStyle(heatLevel, palette);
+
+  const isDimmed = selectedHeatLevel !== null && selectedHeatLevel !== heatLevel;
+  const isHighlighted = selectedHeatLevel === heatLevel;
 
   const tooltip = isPerformed
     ? `${name} (${cell.nickname ?? ''})\n${t('stats.focus.playedTimes', {
@@ -52,49 +194,84 @@ function FocusCellPill({
         defaultValue: 'Awaiting first live performance'
       })}`;
 
+  const label = cell.isWorldLink
+    ? `WL ${cell.performanceCount > 0 ? `${cell.performanceCount}x` : '0x'}`
+    : `${cell.performanceCount}x`;
+
   return (
     <Box
       as="button"
       onClick={() => cell.songId && openSong(cell.songId)}
       title={tooltip}
+      style={heatStyle}
       w="full"
       h="7"
       borderRadius="sm"
       borderWidth="1px"
-      borderColor={isPerformed ? 'accent.muted' : 'border.subtle'}
-      bg={isPerformed ? 'accent.subtle' : 'bg.subtle'}
-      color={isPerformed ? 'accent.default' : 'fg.muted'}
       display="flex"
       alignItems="center"
       justifyContent="center"
       fontSize="2xs"
       fontWeight="bold"
       cursor="pointer"
+      opacity={isDimmed ? 0.25 : 1}
+      transform={isHighlighted ? 'scale(1.08)' : 'none'}
+      outline={isHighlighted ? '2px solid currentColor' : 'none'}
       transition="all 0.15s ease"
       _hover={{
-        borderColor: isPerformed ? 'accent.default' : 'fg.muted',
-        transform: 'scale(1.05)',
-        zIndex: 1
+        transform: 'scale(1.1)',
+        zIndex: 2,
+        boxShadow: 'md'
       }}
     >
-      <HStack gap="1" justify="center">
-        <span>{cell.isWorldLink ? 'WL' : isPerformed ? `${cell.performanceCount}x` : '0x'}</span>
-      </HStack>
+      <span>{label}</span>
     </Box>
   );
 }
 
 export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
   const { t, i18n } = useTranslation();
+  const [palette, setPalette] = useState<HeatmapPalette>('emerald');
+  const [selectedHeatLevel, setSelectedHeatLevel] = useState<number | null>(null);
   const isJa = i18n.language.startsWith('ja');
 
   // Group characters by unit
-  const unitsMap = new Map<string, CharacterFocusRow[]>();
-  for (const char of stats.characters) {
-    const list = unitsMap.get(char.unitId) ?? [];
-    list.push(char);
-    unitsMap.set(char.unitId, list);
-  }
+  const unitsMap = useMemo(() => {
+    const map = new Map<string, CharacterFocusRow[]>();
+    for (const char of stats.characters) {
+      const list = map.get(char.unitId) ?? [];
+      list.push(char);
+      map.set(char.unitId, list);
+    }
+    return map;
+  }, [stats.characters]);
+
+  // Compute counts for each heat level
+  const heatCounts = useMemo(() => {
+    const counts: Record<number, number> = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    for (const char of stats.characters) {
+      for (const c of char.cycles) {
+        if (c) {
+          const lvl = getHeatLevel(c.performanceCount);
+          counts[lvl] = (counts[lvl] || 0) + 1;
+        }
+      }
+      if (char.worldLink) {
+        const lvl = getHeatLevel(char.worldLink.performanceCount);
+        counts[lvl] = (counts[lvl] || 0) + 1;
+      }
+    }
+    return counts;
+  }, [stats.characters]);
+
+  const heatLevelDefs = [
+    { level: 0, key: 'heatLevel_0', fallback: '0x (Awaiting)' },
+    { level: 1, key: 'heatLevel_1', fallback: '1x' },
+    { level: 2, key: 'heatLevel_2', fallback: '2x' },
+    { level: 3, key: 'heatLevel_3', fallback: '3–4x' },
+    { level: 4, key: 'heatLevel_4', fallback: '5–6x' },
+    { level: 5, key: 'heatLevel_5', fallback: '7+x' }
+  ];
 
   return (
     <StatsPanel
@@ -149,27 +326,109 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
           </Wrap>
         </Box>
 
-        {/* Legend */}
-        <HStack gap="4" justify="flex-end" px="1">
-          <HStack gap="1.5">
-            <Box w="3" h="3" borderRadius="xs" bg="accent.subtle" borderWidth="1px" borderColor="accent.muted" />
-            <Text fontSize="2xs" color="fg.muted">
-              {t('stats.focus.legendPerformed', { defaultValue: 'Performed (>0x)' })}
+        {/* Heatmap Controls: Legend & Palette Switcher */}
+        <Flex
+          justify="space-between"
+          align={{ base: 'flex-start', sm: 'center' }}
+          flexWrap="wrap"
+          gap="2.5"
+          p="2.5"
+          bg="bg.subtle"
+          borderRadius="l2"
+          borderColor="border.subtle"
+          borderWidth="1px"
+        >
+          {/* Heatmap Legend Swatches */}
+          <HStack gap="1.5" flexWrap="wrap" alignItems="center">
+            <Text fontSize="2xs" fontWeight="bold" color="fg.muted">
+              {t('stats.focus.heatmap', { defaultValue: 'Heatmap:' })}
             </Text>
+            {heatLevelDefs.map((def) => {
+              const isSelected = selectedHeatLevel === def.level;
+              const count = heatCounts[def.level] ?? 0;
+              const style = getHeatStyle(def.level, palette);
+              const label = t(`stats.focus.${def.key}`, { defaultValue: def.fallback });
+
+              return (
+                <Box
+                  key={def.level}
+                  as="button"
+                  onClick={() =>
+                    setSelectedHeatLevel((prev) => (prev === def.level ? null : def.level))
+                  }
+                  title={`Click to filter: ${label} (${count} songs)`}
+                  style={style}
+                  px="2"
+                  py="0.75"
+                  borderRadius="xs"
+                  borderWidth="1px"
+                  fontSize="2xs"
+                  fontWeight="bold"
+                  cursor="pointer"
+                  opacity={selectedHeatLevel !== null && !isSelected ? 0.35 : 1}
+                  transform={isSelected ? 'scale(1.08)' : 'none'}
+                  outline={isSelected ? '2px solid currentColor' : 'none'}
+                  transition="all 0.15s ease"
+                >
+                  {label} ({count})
+                </Box>
+              );
+            })}
+            {selectedHeatLevel !== null && (
+              <Button
+                size="xs"
+                variant="ghost"
+                onClick={() => setSelectedHeatLevel(null)}
+                px="2"
+                py="0.5"
+                h="auto"
+                fontSize="2xs"
+              >
+                {t('stats.focus.clearFilter', { defaultValue: 'Show All' })}
+              </Button>
+            )}
           </HStack>
-          <HStack gap="1.5">
-            <Box w="3" h="3" borderRadius="xs" bg="bg.subtle" borderWidth="1px" borderColor="border.subtle" />
+
+          {/* Palette Selector */}
+          <HStack gap="1" alignItems="center">
             <Text fontSize="2xs" color="fg.muted">
-              {t('stats.focus.legendUnperformed', { defaultValue: 'Awaiting Debut (0x)' })}
+              {t('stats.focus.palette', { defaultValue: 'Palette:' })}
             </Text>
+            <Button
+              size="xs"
+              variant={palette === 'emerald' ? 'solid' : 'subtle'}
+              onClick={() => setPalette('emerald')}
+              px="2"
+              py="0.5"
+              h="auto"
+              fontSize="2xs"
+            >
+              {t('stats.focus.paletteEmerald', { defaultValue: 'Emerald' })}
+            </Button>
+            <Button
+              size="xs"
+              variant={palette === 'sunset' ? 'solid' : 'subtle'}
+              onClick={() => setPalette('sunset')}
+              px="2"
+              py="0.5"
+              h="auto"
+              fontSize="2xs"
+            >
+              {t('stats.focus.paletteSunset', { defaultValue: 'Sunset' })}
+            </Button>
+            <Button
+              size="xs"
+              variant={palette === 'neon' ? 'solid' : 'subtle'}
+              onClick={() => setPalette('neon')}
+              px="2"
+              py="0.5"
+              h="auto"
+              fontSize="2xs"
+            >
+              {t('stats.focus.paletteNeon', { defaultValue: 'Neon' })}
+            </Button>
           </HStack>
-          <HStack gap="1.5">
-            <Text fontSize="2xs" color="fg.subtle">—</Text>
-            <Text fontSize="2xs" color="fg.muted">
-              {t('stats.focus.legendNotReleased', { defaultValue: 'Not Released Yet' })}
-            </Text>
-          </HStack>
-        </HStack>
+        </Flex>
 
         {/* Matrix Grid */}
         <Box
@@ -247,13 +506,23 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
                     {/* Focus 1 to 7 */}
                     {char.cycles.map((cell, cIdx) => (
                       <Box key={cIdx} flex="1" px="1">
-                        <FocusCellPill cell={cell} lang={i18n.language} />
+                        <FocusCellPill
+                          cell={cell}
+                          lang={i18n.language}
+                          palette={palette}
+                          selectedHeatLevel={selectedHeatLevel}
+                        />
                       </Box>
                     ))}
 
                     {/* World Link */}
                     <Box flex="1" px="1">
-                      <FocusCellPill cell={char.worldLink} lang={i18n.language} />
+                      <FocusCellPill
+                        cell={char.worldLink}
+                        lang={i18n.language}
+                        palette={palette}
+                        selectedHeatLevel={selectedHeatLevel}
+                      />
                     </Box>
 
                     {/* Done count */}
