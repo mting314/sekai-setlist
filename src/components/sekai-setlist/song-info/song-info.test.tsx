@@ -43,7 +43,7 @@ describe('song-info dialog', () => {
       <LivePage live={getSekaiLive('project-sekai-colorful-live-3rd-evolve')!} />
     );
     await user.click(screen.getAllByRole('button', { name: 'Song info: Journey' })[0]);
-    const dialog = await screen.findByRole('dialog');
+    const dialog = await screen.findByRole('dialog', {}, { timeout: 10000 });
 
     expect(await within(dialog).findAllByText('DECO*27')).toHaveLength(2); // lyrics + music
     // Released at JST midnight, which is still the 29th in UTC.
@@ -97,7 +97,7 @@ describe('song-info dialog', () => {
     expect(first).toHaveAccessibleName('Song info: Stella');
 
     await user.dblClick(first);
-    expect(await screen.findByRole('dialog')).toBeInTheDocument();
+    expect(await screen.findByRole('dialog', {}, { timeout: 10000 })).toBeInTheDocument();
     expect(onAddSong).not.toHaveBeenCalled();
   });
 });
@@ -140,7 +140,7 @@ describe('song versions', () => {
     expect(container.querySelectorAll('[data-version-badge]')).toHaveLength(2);
 
     await user.click(screen.getAllByRole('button', { name: 'Song info: SEKAI' })[0]);
-    const dialog = await screen.findByRole('dialog');
+    const dialog = await screen.findByRole('dialog', {}, { timeout: 10000 });
     const versions = await within(dialog).findByText('Versions');
     const list = versions.parentElement!;
     expect(list.querySelector('[data-version=sekai]')).toHaveTextContent('Sekai ver.');

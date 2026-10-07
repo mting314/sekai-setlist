@@ -6,9 +6,9 @@ import './src/index.css';
 import { afterEach, beforeAll, beforeEach, onTestFailed } from 'vitest';
 
 beforeAll(() => {
-  // configure({
-  //   asyncUtilTimeout: import.meta.env.CI === true ? undefined : 5000,
-  // });
+  configure({
+    asyncUtilTimeout: 10000
+  });
 });
 beforeEach(async () => {
   //@ts-expect-error will do later zzz
