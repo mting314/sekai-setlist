@@ -19,33 +19,23 @@ describe('Stats & Infographics Page', () => {
     expect(screen.getByText(/2D Screen Plays/i)).toBeInTheDocument();
 
     // Section 1: 2D Screen vs 3D Cast
-    expect(
-      screen.getByText(/2D Screen vs 3D Cast Performances/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/2D Screen vs 3D Cast Performances/i)).toBeInTheDocument();
 
     // Section 2: Release to Stage Debut
-    expect(
-      screen.getByText(/Time Between Song Release & Stage Debut/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Time Between Song Release & Stage Debut/i)).toBeInTheDocument();
     expect(screen.getByText(/Express Lane/i)).toBeInTheDocument();
     expect(screen.getByText(/Veteran Arrivals/i)).toBeInTheDocument();
 
     // Section 3: Focus Matrix
-    expect(
-      screen.getByText(/Character Focus Songs Live Debut Matrix/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Character Focus Songs Live Debut Matrix/i)).toBeInTheDocument();
     // Verify a character is present
     expect(screen.getByText('Ichika Hoshino')).toBeInTheDocument();
 
     // Section 4: Version Length
-    expect(
-      screen.getByText(/Performance Version Length: Full vs Short Size/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Performance Version Length: Full vs Short Size/i)).toBeInTheDocument();
 
     // Section 5: Unperformed Songs
-    expect(
-      screen.getByText(/Songs Awaiting Live Debut/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Songs Awaiting Live Debut/i)).toBeInTheDocument();
   });
 
   it('allows switching overlap tabs in 2D vs 3D section', async () => {
@@ -56,9 +46,7 @@ describe('Stats & Infographics Page', () => {
     expect(cast3dBtn).toBeInTheDocument();
 
     await user.click(cast3dBtn);
-    expect(
-      screen.getByText(/never at COLORFUL LIVE/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/never at COLORFUL LIVE/i)).toBeInTheDocument();
   });
 
   it('allows toggling commissioned vs covers and searching unperformed songs', async () => {

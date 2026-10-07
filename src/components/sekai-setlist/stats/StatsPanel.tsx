@@ -25,11 +25,11 @@ export function StatsPanel({
       shadow="xs"
     >
       <Flex
+        gap="2.5"
         justify="space-between"
         align={{ base: 'flex-start', sm: 'center' }}
         mb="4"
         flexWrap="wrap"
-        gap="2.5"
       >
         <Box>
           <HStack gap="2" flexWrap="wrap">
@@ -39,7 +39,7 @@ export function StatsPanel({
             {badge}
           </HStack>
           {description && (
-            <Text fontSize="xs" color="fg.muted" mt="1">
+            <Text mt="1" color="fg.muted" fontSize="xs">
               {description}
             </Text>
           )}

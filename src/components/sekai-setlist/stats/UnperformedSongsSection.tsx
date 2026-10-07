@@ -43,9 +43,7 @@ export function UnperformedSongsSection({
   }, [pool]);
 
   const toggleUnit = (u: UnitFilter) => {
-    setSelectedUnits((prev) =>
-      prev.includes(u) ? prev.filter((x) => x !== u) : [...prev, u]
-    );
+    setSelectedUnits((prev) => (prev.includes(u) ? prev.filter((x) => x !== u) : [...prev, u]));
   };
 
   const filteredSongs = useMemo(() => {
@@ -96,7 +94,7 @@ export function UnperformedSongsSection({
     >
       <Stack gap="4">
         {/* Mode Toggle Buttons */}
-        <Flex justify="space-between" align="center" flexWrap="wrap" gap="2.5">
+        <Flex gap="2.5" justify="space-between" align="center" flexWrap="wrap">
           <HStack gap="2">
             <Button
               size="sm"
@@ -128,7 +126,7 @@ export function UnperformedSongsSection({
 
           {/* Sort order toggle */}
           <HStack gap="1.5">
-            <Text fontSize="2xs" color="fg.muted">
+            <Text color="fg.muted" fontSize="2xs">
               {t('stats.sort', { defaultValue: 'Sort:' })}
             </Text>
             <Button
@@ -159,24 +157,23 @@ export function UnperformedSongsSection({
             size="sm"
           />
 
-          <UnitFilterChips
-            selected={selectedUnits}
-            counts={unitCounts}
-            onToggle={toggleUnit}
-          />
+          <UnitFilterChips selected={selectedUnits} counts={unitCounts} onToggle={toggleUnit} />
         </Stack>
 
         {/* Results Counter */}
         <Flex justify="space-between" align="center">
-          <Text fontSize="xs" color="fg.muted">
+          <Text color="fg.muted" fontSize="xs">
             {t('sekaiSetlist.resultCount', {
               count: filteredSongs.length,
               defaultValue: '{{count}} songs'
             })}
           </Text>
           {mode === 'commissioned' && sortOrder === 'oldest' && (
-            <Text fontSize="2xs" color="accent.default" fontWeight="bold">
-              ★ {t('stats.unperformed.rankedOverdue', { defaultValue: 'Ranked by longest time in game without live debut' })}
+            <Text color="accent.default" fontSize="2xs" fontWeight="bold">
+              ★{' '}
+              {t('stats.unperformed.rankedOverdue', {
+                defaultValue: 'Ranked by longest time in game without live debut'
+              })}
             </Text>
           )}
         </Flex>
@@ -189,16 +186,10 @@ export function UnperformedSongsSection({
           bg="bg.default"
           overflow="hidden"
         >
-          <Stack
-            gap="0"
-            divideY="1px"
-            divideColor="border.subtle"
-            maxH="480px"
-            overflowY="auto"
-          >
+          <Stack gap="0" divideY="1px" divideColor="border.subtle" maxH="480px" overflowY="auto">
             {filteredSongs.length === 0 ? (
               <Box p="6" textAlign="center">
-                <Text fontSize="sm" color="fg.muted">
+                <Text color="fg.muted" fontSize="sm">
                   {t('sekaiSetlist.noResults', { defaultValue: 'No songs match.' })}
                 </Text>
               </Box>
@@ -210,51 +201,49 @@ export function UnperformedSongsSection({
                 return (
                   <Flex
                     key={song.songId}
-                    p="2.5"
-                    align="center"
-                    justify="space-between"
                     gap="2.5"
+                    justify="space-between"
+                    align="center"
+                    p="2.5"
                     _hover={{ bg: 'bg.subtle' }}
                   >
-                    <HStack gap="2.5" minW="0" flex="1">
+                    <HStack flex="1" gap="2.5" minW="0">
                       <Text
+                        flexShrink={0}
+                        w="5"
+                        color="fg.muted"
                         fontSize="xs"
                         fontWeight="bold"
-                        color="fg.muted"
-                        w="5"
                         textAlign="center"
-                        flexShrink={0}
                       >
                         #{idx + 1}
                       </Text>
-                      <SongJacket
-                        id={song.songId}
-                        size={40}
-                      />
-                      <Stack gap="0.5" minW="0" flex="1">
+                      <SongJacket id={song.songId} size={40} />
+                      <Stack flex="1" gap="0.5" minW="0">
                         <HStack gap="1.5" flexWrap="wrap">
-                          <Text fontSize="xs" fontWeight="bold" truncate title={name}>
+                          <Text title={name} fontSize="xs" fontWeight="bold" truncate>
                             {name}
                           </Text>
                           <Box
+                            flexShrink={0}
+                            borderRadius="full"
                             w="1.5"
                             h="1.5"
-                            borderRadius="full"
                             bg={song.unitColor}
-                            flexShrink={0}
                           />
                           <NicknameChips songId={song.songId} />
                         </HStack>
-                        <HStack gap="2" fontSize="2xs" color="fg.muted">
+                        <HStack gap="2" color="fg.muted" fontSize="2xs">
                           <span>{song.unitName}</span>
                           <span>•</span>
                           <span>
-                            {t('stats.unperformed.added', { defaultValue: 'Added' })}: {formatDate(song.publishedAt)}
+                            {t('stats.unperformed.added', { defaultValue: 'Added' })}:{' '}
+                            {formatDate(song.publishedAt)}
                           </span>
                           {sub && (
                             <>
                               <span>•</span>
-                              <Text truncate maxW="140px">
+                              <Text maxW="140px" truncate>
                                 {sub}
                               </Text>
                             </>

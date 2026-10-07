@@ -6,10 +6,7 @@ import { StatsPanel } from './StatsPanel';
 import { Button } from '~/components/ui/styled/button';
 import { Text } from '~/components/ui/styled/text';
 import { useSongInfo } from '~/components/sekai-setlist/song-info/song-info-context';
-import {
-  sekaiSongColors,
-  sekaiSongName
-} from '~/utils/sekai-setlist/catalog';
+import { sekaiSongColors, sekaiSongName } from '~/utils/sekai-setlist/catalog';
 import {
   FORMAT_COLORS,
   FORMAT_NAMES,
@@ -80,7 +77,8 @@ export function FormatComparisonSection({
       count: overlap.cast3dOnly.length,
       color: FORMAT_COLORS.cast_3d,
       description: t('stats.overlap.cast3dDesc', {
-        defaultValue: 'Performed by voice actors at Thanks Fes or Fan Meetings, never at COLORFUL LIVE'
+        defaultValue:
+          'Performed by voice actors at Thanks Fes or Fan Meetings, never at COLORFUL LIVE'
       }),
       songIds: overlap.cast3dOnly
     },
@@ -131,25 +129,25 @@ export function FormatComparisonSection({
               <Box
                 key={f.key}
                 borderColor="border.subtle"
+                borderTopWidth="3px"
+                borderTopColor={color}
                 borderRadius="l2"
                 borderWidth="1px"
                 p="3"
                 bg="bg.subtle"
-                borderTopWidth="3px"
-                borderTopColor={color}
               >
                 <Flex justify="space-between" align="baseline">
-                  <Text fontSize="xs" fontWeight="bold" color="fg.default">
+                  <Text color="fg.default" fontSize="xs" fontWeight="bold">
                     {isJa ? meta.ja : meta.en}
                   </Text>
-                  <Text fontSize="lg" fontWeight="extrabold" color={color}>
+                  <Text color={color} fontSize="lg" fontWeight="extrabold">
                     {f.total}
                   </Text>
                 </Flex>
-                <Text fontSize="2xs" color="fg.muted" mt="1" lineHeight="normal">
+                <Text mt="1" color="fg.muted" fontSize="2xs" lineHeight="normal">
                   {isJa ? meta.descJa : meta.descEn}
                 </Text>
-                <Text fontSize="2xs" color="fg.subtle" mt="1.5">
+                <Text mt="1.5" color="fg.subtle" fontSize="2xs">
                   {pct}% {t('stats.format.ofTotalPlays', { defaultValue: 'of all song plays' })}
                 </Text>
               </Box>
@@ -165,7 +163,7 @@ export function FormatComparisonSection({
           p="3.5"
           bg="bg.default"
         >
-          <Text fontSize="sm" fontWeight="bold" mb="2">
+          <Text mb="2" fontSize="sm" fontWeight="bold">
             {t('stats.format.byUnitTitle', { defaultValue: 'Performances by Unit & Format' })}
           </Text>
           <FormatStackedBarChart data={byUnit} />
@@ -180,19 +178,20 @@ export function FormatComparisonSection({
           bg="bg.default"
         >
           <Flex
+            gap="2"
             justify="space-between"
             align={{ base: 'flex-start', sm: 'center' }}
             mb="3"
             flexWrap="wrap"
-            gap="2"
           >
             <Box>
               <Text fontSize="sm" fontWeight="bold">
                 {t('stats.overlap.title', { defaultValue: 'Song Catalog Overlap Matrix' })}
               </Text>
-              <Text fontSize="xs" color="fg.muted">
+              <Text color="fg.muted" fontSize="xs">
                 {t('stats.overlap.subtitle', {
-                  defaultValue: 'How the {{total}} performed songs divide between 2D and 3D formats.',
+                  defaultValue:
+                    'How the {{total}} performed songs divide between 2D and 3D formats.',
                   total: totalCatalogPerformed
                 })}
               </Text>
@@ -210,25 +209,19 @@ export function FormatComparisonSection({
                   size="xs"
                   variant={isActive ? 'solid' : 'outline'}
                   onClick={() => setActiveTab(tab.key)}
-                  px="3"
                   py="1.5"
+                  px="3"
                 >
                   <HStack gap="1.5">
                     <Box
+                      flexShrink={0}
+                      borderRadius="full"
                       w="2"
                       h="2"
-                      borderRadius="full"
                       bg={tab.color ?? 'currentColor'}
-                      flexShrink={0}
                     />
                     <span>{tab.label}</span>
-                    <Text
-                      as="span"
-                      opacity={0.8}
-                      fontWeight="bold"
-                      fontSize="2xs"
-                      ml="0.5"
-                    >
+                    <Text as="span" ml="0.5" fontSize="2xs" fontWeight="bold" opacity={0.8}>
                       ({tab.count} · {pct}%)
                     </Text>
                   </HStack>
@@ -237,12 +230,13 @@ export function FormatComparisonSection({
             })}
           </Wrap>
 
-          <Text fontSize="2xs" color="fg.muted" mb="2.5" fontStyle="italic">
-            {currentTab.description} ({currentTab.count} {t('stats.songs', { defaultValue: 'songs' })}):
+          <Text mb="2.5" color="fg.muted" fontSize="2xs" fontStyle="italic">
+            {currentTab.description} ({currentTab.count}{' '}
+            {t('stats.songs', { defaultValue: 'songs' })}):
           </Text>
 
           {/* Song Pills */}
-          <Wrap gap="1.5" maxH="280px" overflowY="auto" p="1">
+          <Wrap gap="1.5" maxH="280px" p="1" overflowY="auto">
             {currentTab.songIds.map((songId) => {
               const title = sekaiSongName(songId, i18n.language);
               const colors = sekaiSongColors(songId);
@@ -250,37 +244,31 @@ export function FormatComparisonSection({
 
               return (
                 <Box
-                  key={songId}
                   as="button"
+                  key={songId}
                   onClick={() => openSong(songId)}
+                  title={`${title} (Click for song details)`}
+                  cursor="pointer"
+                  display="inline-flex"
+                  gap="1.5"
+                  alignItems="center"
                   borderColor="border.subtle"
                   borderRadius="full"
                   borderWidth="1px"
-                  px="2.5"
                   py="1"
-                  bg="bg.subtle"
+                  px="2.5"
                   fontSize="xs"
                   fontWeight="medium"
-                  cursor="pointer"
+                  bg="bg.subtle"
                   transition="all 0.15s ease"
                   _hover={{
                     borderColor: mainColor,
                     bg: 'bg.muted',
                     transform: 'translateY(-1px)'
                   }}
-                  display="inline-flex"
-                  alignItems="center"
-                  gap="1.5"
-                  title={`${title} (Click for song details)`}
                 >
-                  <Box
-                    w="2"
-                    h="2"
-                    borderRadius="full"
-                    bg={mainColor}
-                    flexShrink={0}
-                  />
-                  <Text fontSize="xs" maxW="180px" truncate>
+                  <Box flexShrink={0} borderRadius="full" w="2" h="2" bg={mainColor} />
+                  <Text maxW="180px" fontSize="xs" truncate>
                     {title}
                   </Text>
                 </Box>

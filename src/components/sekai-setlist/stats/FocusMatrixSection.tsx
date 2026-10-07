@@ -161,11 +161,11 @@ function FocusCellPill({
   if (!cell || !cell.songId) {
     return (
       <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
         w="full"
         h="7"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
         color="fg.subtle"
         fontSize="xs"
       >
@@ -204,19 +204,19 @@ function FocusCellPill({
       onClick={() => cell.songId && openSong(cell.songId)}
       title={tooltip}
       style={heatStyle}
-      w="full"
-      h="7"
+      cursor="pointer"
+      display="flex"
+      transform={isHighlighted ? 'scale(1.08)' : 'none'}
+      justifyContent="center"
+      alignItems="center"
+      outline={isHighlighted ? '2px solid currentColor' : 'none'}
       borderRadius="sm"
       borderWidth="1px"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
+      w="full"
+      h="7"
       fontSize="2xs"
       fontWeight="bold"
-      cursor="pointer"
       opacity={isDimmed ? 0.25 : 1}
-      transform={isHighlighted ? 'scale(1.08)' : 'none'}
-      outline={isHighlighted ? '2px solid currentColor' : 'none'}
       transition="all 0.15s ease"
       _hover={{
         transform: 'scale(1.1)',
@@ -283,18 +283,12 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
     >
       <Stack gap="4">
         {/* Progress Overview Bar */}
-        <Box
-          borderColor="border.subtle"
-          borderRadius="l2"
-          borderWidth="1px"
-          p="3"
-          bg="bg.subtle"
-        >
-          <Flex justify="space-between" align="center" mb="2" flexWrap="wrap" gap="2">
+        <Box borderColor="border.subtle" borderRadius="l2" borderWidth="1px" p="3" bg="bg.subtle">
+          <Flex gap="2" justify="space-between" align="center" mb="2" flexWrap="wrap">
             <Text fontSize="xs" fontWeight="bold">
               {t('stats.focus.debutProgress', { defaultValue: 'Debut Progress by Focus Cycle' })}
             </Text>
-            <Text fontSize="xs" fontWeight="bold" color="accent.default">
+            <Text color="accent.default" fontSize="xs" fontWeight="bold">
               {stats.performedFocusSongs} / {stats.totalFocusSongs} ({stats.completionRate}%)
             </Text>
           </Flex>
@@ -305,16 +299,16 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
               return (
                 <Box
                   key={c.cycle}
-                  px="2.5"
-                  py="1"
+                  display="inline-flex"
+                  gap="1.5"
+                  alignItems="center"
+                  borderColor={allDone ? 'accent.muted' : 'border.subtle'}
                   borderRadius="sm"
                   borderWidth="1px"
-                  borderColor={allDone ? 'accent.muted' : 'border.subtle'}
-                  bg={allDone ? 'accent.subtle' : 'bg.default'}
+                  py="1"
+                  px="2.5"
                   fontSize="2xs"
-                  display="inline-flex"
-                  alignItems="center"
-                  gap="1.5"
+                  bg={allDone ? 'accent.subtle' : 'bg.default'}
                 >
                   <Text fontWeight="bold">Focus {c.cycle}:</Text>
                   <Text color={allDone ? 'accent.default' : 'fg.muted'}>
@@ -328,19 +322,19 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
 
         {/* Heatmap Controls: Legend & Palette Switcher */}
         <Flex
+          gap="2.5"
           justify="space-between"
           align={{ base: 'flex-start', sm: 'center' }}
-          flexWrap="wrap"
-          gap="2.5"
+          borderColor="border.subtle"
+          borderRadius="l2"
+          borderWidth="1px"
           p="2.5"
           bg="bg.subtle"
-          borderRadius="l2"
-          borderColor="border.subtle"
-          borderWidth="1px"
+          flexWrap="wrap"
         >
           {/* Heatmap Legend Swatches */}
-          <HStack gap="1.5" flexWrap="wrap" alignItems="center">
-            <Text fontSize="2xs" fontWeight="bold" color="fg.muted">
+          <HStack gap="1.5" alignItems="center" flexWrap="wrap">
+            <Text color="fg.muted" fontSize="2xs" fontWeight="bold">
               {t('stats.focus.heatmap', { defaultValue: 'Heatmap:' })}
             </Text>
             {heatLevelDefs.map((def) => {
@@ -351,23 +345,23 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
 
               return (
                 <Box
-                  key={def.level}
                   as="button"
+                  key={def.level}
                   onClick={() =>
                     setSelectedHeatLevel((prev) => (prev === def.level ? null : def.level))
                   }
                   title={`Click to filter: ${label} (${count} songs)`}
                   style={style}
-                  px="2"
-                  py="0.75"
-                  borderRadius="xs"
-                  borderWidth="1px"
-                  fontSize="2xs"
-                  fontWeight="bold"
                   cursor="pointer"
-                  opacity={selectedHeatLevel !== null && !isSelected ? 0.35 : 1}
                   transform={isSelected ? 'scale(1.08)' : 'none'}
                   outline={isSelected ? '2px solid currentColor' : 'none'}
+                  borderRadius="xs"
+                  borderWidth="1px"
+                  py="0.75"
+                  px="2"
+                  fontSize="2xs"
+                  fontWeight="bold"
+                  opacity={selectedHeatLevel !== null && !isSelected ? 0.35 : 1}
                   transition="all 0.15s ease"
                 >
                   {label} ({count})
@@ -379,9 +373,9 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
                 size="xs"
                 variant="ghost"
                 onClick={() => setSelectedHeatLevel(null)}
-                px="2"
-                py="0.5"
                 h="auto"
+                py="0.5"
+                px="2"
                 fontSize="2xs"
               >
                 {t('stats.focus.clearFilter', { defaultValue: 'Show All' })}
@@ -391,16 +385,16 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
 
           {/* Palette Selector */}
           <HStack gap="1" alignItems="center">
-            <Text fontSize="2xs" color="fg.muted">
+            <Text color="fg.muted" fontSize="2xs">
               {t('stats.focus.palette', { defaultValue: 'Palette:' })}
             </Text>
             <Button
               size="xs"
               variant={palette === 'emerald' ? 'solid' : 'subtle'}
               onClick={() => setPalette('emerald')}
-              px="2"
-              py="0.5"
               h="auto"
+              py="0.5"
+              px="2"
               fontSize="2xs"
             >
               {t('stats.focus.paletteEmerald', { defaultValue: 'Emerald' })}
@@ -409,9 +403,9 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
               size="xs"
               variant={palette === 'sunset' ? 'solid' : 'subtle'}
               onClick={() => setPalette('sunset')}
-              px="2"
-              py="0.5"
               h="auto"
+              py="0.5"
+              px="2"
               fontSize="2xs"
             >
               {t('stats.focus.paletteSunset', { defaultValue: 'Sunset' })}
@@ -420,9 +414,9 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
               size="xs"
               variant={palette === 'neon' ? 'solid' : 'subtle'}
               onClick={() => setPalette('neon')}
-              px="2"
-              py="0.5"
               h="auto"
+              py="0.5"
+              px="2"
               fontSize="2xs"
             >
               {t('stats.focus.paletteNeon', { defaultValue: 'Neon' })}
@@ -435,22 +429,22 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
           borderColor="border.subtle"
           borderRadius="l2"
           borderWidth="1px"
-          overflowX="auto"
           bg="bg.default"
+          overflowX="auto"
         >
           <Box minW="680px">
             {/* Header row */}
             <Flex
-              bg="bg.subtle"
-              borderBottomWidth="1px"
+              align="center"
               borderColor="border.subtle"
+              borderBottomWidth="1px"
               p="2"
+              color="fg.muted"
               fontSize="2xs"
               fontWeight="bold"
-              color="fg.muted"
-              align="center"
+              bg="bg.subtle"
             >
-              <Box w="180px" flexShrink={0} pl="2">
+              <Box flexShrink={0} w="180px" pl="2">
                 {t('stats.focus.character', { defaultValue: 'Character' })}
               </Box>
               {[1, 2, 3, 4, 5, 6, 7].map((num) => (
@@ -461,7 +455,7 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
               <Box flex="1" textAlign="center">
                 WL
               </Box>
-              <Box w="60px" textAlign="right" pr="2">
+              <Box w="60px" pr="2" textAlign="right">
                 {t('stats.focus.ratio', { defaultValue: 'Done' })}
               </Box>
             </Flex>
@@ -476,21 +470,15 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
                 {chars.map((char) => (
                   <Flex
                     key={char.characterId}
-                    p="1.5"
                     align="center"
                     borderBottomWidth="1px"
                     borderBottomColor="border.subtle"
+                    p="1.5"
                     _hover={{ bg: 'bg.subtle' }}
                   >
                     {/* Character Identity */}
-                    <HStack w="180px" flexShrink={0} gap="2" pl="1">
-                      <Box
-                        w="1"
-                        h="5"
-                        borderRadius="full"
-                        bg={char.unitColor}
-                        flexShrink={0}
-                      />
+                    <HStack gap="2" flexShrink={0} w="180px" pl="1">
+                      <Box flexShrink={0} borderRadius="full" w="1" h="5" bg={char.unitColor} />
                       <img
                         src={characterIconUrl(char.characterId)}
                         alt={char.name}
@@ -526,8 +514,8 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
                     </Box>
 
                     {/* Done count */}
-                    <Box w="60px" textAlign="right" pr="2">
-                      <Text fontSize="2xs" fontWeight="bold" color="fg.muted">
+                    <Box w="60px" pr="2" textAlign="right">
+                      <Text color="fg.muted" fontSize="2xs" fontWeight="bold">
                         {char.performedSongs}/{char.totalSongs}
                       </Text>
                     </Box>

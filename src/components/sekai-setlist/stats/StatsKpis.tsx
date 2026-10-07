@@ -6,9 +6,7 @@ import type { StatsOverviewKPIs } from '~/utils/sekai-setlist/stats';
 export function StatsKpis({ kpis }: { kpis: StatsOverviewKPIs }) {
   const { t } = useTranslation();
 
-  const performedPct = Math.round(
-    (kpis.performedCatalogSongs / kpis.totalCatalogSongs) * 100
-  );
+  const performedPct = Math.round((kpis.performedCatalogSongs / kpis.totalCatalogSongs) * 100);
   const unperformedPct = 100 - performedPct;
 
   const cards = [
@@ -70,17 +68,17 @@ export function StatsKpis({ kpis }: { kpis: StatsOverviewKPIs }) {
           shadow="xs"
         >
           <Text
+            color={card.color ?? (card.highlight ? 'accent.default' : 'fg.default')}
             fontSize={{ base: 'xl', md: '2xl' }}
             fontWeight="bold"
             lineHeight="tight"
-            color={card.color ?? (card.highlight ? 'accent.default' : 'fg.default')}
           >
             {card.value}
           </Text>
-          <Text fontSize="xs" fontWeight="medium" color="fg.default" mt="1">
+          <Text mt="1" color="fg.default" fontSize="xs" fontWeight="medium">
             {card.label}
           </Text>
-          <Text fontSize="2xs" color="fg.muted" mt="0.5">
+          <Text mt="0.5" color="fg.muted" fontSize="2xs">
             {card.sub}
           </Text>
         </Box>

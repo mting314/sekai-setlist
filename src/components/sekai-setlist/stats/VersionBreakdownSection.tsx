@@ -5,7 +5,11 @@ import { Text } from '~/components/ui/styled/text';
 import { SongInfoButton } from '~/components/sekai-setlist/song-info/SongInfoButton';
 import { SongPlayButton } from '~/components/sekai-setlist/audio/SongPlayButton';
 import { sekaiSongName } from '~/utils/sekai-setlist/catalog';
-import { FORMAT_COLORS, getLiveFormat, type VersionBreakdownStats } from '~/utils/sekai-setlist/stats';
+import {
+  FORMAT_COLORS,
+  getLiveFormat,
+  type VersionBreakdownStats
+} from '~/utils/sekai-setlist/stats';
 
 export function VersionBreakdownSection({ stats }: { stats: VersionBreakdownStats }) {
   const { t, i18n } = useTranslation();
@@ -15,7 +19,9 @@ export function VersionBreakdownSection({ stats }: { stats: VersionBreakdownStat
 
   return (
     <StatsPanel
-      title={t('stats.version.title', { defaultValue: 'Performance Version Length: Full vs Short Size' })}
+      title={t('stats.version.title', {
+        defaultValue: 'Performance Version Length: Full vs Short Size'
+      })}
       description={t('stats.version.subtitle', {
         defaultValue:
           'Project SEKAI live concerts overwhelmingly feature full-length versions with complete second verses and extended guitar solos, while short and game-size cuts are reserved for select medley slots.'
@@ -32,54 +38,64 @@ export function VersionBreakdownSection({ stats }: { stats: VersionBreakdownStat
         >
           <Box
             borderColor="border.subtle"
+            borderLeftWidth="4px"
+            borderLeftColor="accent.default"
             borderRadius="l2"
             borderWidth="1px"
             p="3.5"
             bg="bg.subtle"
-            borderLeftWidth="4px"
-            borderLeftColor="accent.default"
           >
             <Flex justify="space-between" align="baseline">
               <Text fontSize="sm" fontWeight="bold">
                 {t('stats.version.fullTitle', { defaultValue: 'Full Length Versions' })}
               </Text>
-              <Text fontSize="xl" fontWeight="extrabold" color="accent.default">
+              <Text color="accent.default" fontSize="xl" fontWeight="extrabold">
                 {fullPct}%
               </Text>
             </Flex>
-            <Text fontSize="xs" color="fg.muted" mt="1">
-              {stats.fullVersionCount} {t('stats.version.playsOf', { count: stats.totalPerformances, defaultValue: 'plays out of {{count}} total' })}
+            <Text mt="1" color="fg.muted" fontSize="xs">
+              {stats.fullVersionCount}{' '}
+              {t('stats.version.playsOf', {
+                count: stats.totalPerformances,
+                defaultValue: 'plays out of {{count}} total'
+              })}
             </Text>
-            <Text fontSize="2xs" color="fg.subtle" mt="1.5">
+            <Text mt="1.5" color="fg.subtle" fontSize="2xs">
               {t('stats.version.fullNote', {
-                defaultValue: 'Standard live performance format for all COLORFUL LIVE and Thanks Festival sets.'
+                defaultValue:
+                  'Standard live performance format for all COLORFUL LIVE and Thanks Festival sets.'
               })}
             </Text>
           </Box>
 
           <Box
             borderColor="border.subtle"
+            borderLeftWidth="4px"
+            borderLeftColor="#f59e0b"
             borderRadius="l2"
             borderWidth="1px"
             p="3.5"
             bg="bg.subtle"
-            borderLeftWidth="4px"
-            borderLeftColor="#f59e0b"
           >
             <Flex justify="space-between" align="baseline">
               <Text fontSize="sm" fontWeight="bold">
                 {t('stats.version.shortTitle', { defaultValue: 'Short / Game Size / Medleys' })}
               </Text>
-              <Text fontSize="xl" fontWeight="extrabold" color="#f59e0b">
+              <Text color="#f59e0b" fontSize="xl" fontWeight="extrabold">
                 {shortPct}%
               </Text>
             </Flex>
-            <Text fontSize="xs" color="fg.muted" mt="1">
-              {stats.shortOrGameCount} {t('stats.version.playsOf', { count: stats.totalPerformances, defaultValue: 'plays out of {{count}} total' })}
+            <Text mt="1" color="fg.muted" fontSize="xs">
+              {stats.shortOrGameCount}{' '}
+              {t('stats.version.playsOf', {
+                count: stats.totalPerformances,
+                defaultValue: 'plays out of {{count}} total'
+              })}
             </Text>
-            <Text fontSize="2xs" color="fg.subtle" mt="1.5">
+            <Text mt="1.5" color="fg.subtle" fontSize="2xs">
               {t('stats.version.shortNote', {
-                defaultValue: 'Appeared in Sekai Symphony 2026 medleys and select 5th Thanks Fes slots.'
+                defaultValue:
+                  'Appeared in Sekai Symphony 2026 medleys and select 5th Thanks Fes slots.'
               })}
             </Text>
           </Box>
@@ -87,9 +103,9 @@ export function VersionBreakdownSection({ stats }: { stats: VersionBreakdownStat
 
         {/* Proportion Visual Bar */}
         <Box>
-          <Flex h="3" borderRadius="full" overflow="hidden" bg="border.subtle">
-            <Box w={`${fullPct}%`} bg="accent.default" title={`Full version: ${fullPct}%`} />
-            <Box w={`${shortPct}%`} bg="#f59e0b" title={`Short/Game version: ${shortPct}%`} />
+          <Flex borderRadius="full" h="3" bg="border.subtle" overflow="hidden">
+            <Box title={`Full version: ${fullPct}%`} w={`${fullPct}%`} bg="accent.default" />
+            <Box title={`Short/Game version: ${shortPct}%`} w={`${shortPct}%`} bg="#f59e0b" />
           </Flex>
         </Box>
 
@@ -101,7 +117,7 @@ export function VersionBreakdownSection({ stats }: { stats: VersionBreakdownStat
           bg="bg.default"
           overflow="hidden"
         >
-          <Box p="3" bg="bg.subtle" borderBottomWidth="1px" borderColor="border.subtle">
+          <Box borderColor="border.subtle" borderBottomWidth="1px" p="3" bg="bg.subtle">
             <Text fontSize="xs" fontWeight="bold">
               {t('stats.version.allShortList', {
                 defaultValue: 'All {{count}} Short & Game Version Performances Recorded',
@@ -112,47 +128,39 @@ export function VersionBreakdownSection({ stats }: { stats: VersionBreakdownStat
 
           <Stack gap="0" divideY="1px" divideColor="border.subtle">
             {stats.shortVersionItems.map((item, idx) => {
-              const name = item.songId
-                ? sekaiSongName(item.songId, i18n.language)
-                : item.title;
+              const name = item.songId ? sekaiSongName(item.songId, i18n.language) : item.title;
               const fmt = getLiveFormat(item.liveSeries);
               const fmtColor = FORMAT_COLORS[fmt];
 
               return (
                 <Flex
                   key={`${item.liveId}-${idx}`}
-                  p="2.5"
-                  align="center"
-                  justify="space-between"
                   gap="2.5"
+                  justify="space-between"
+                  align="center"
+                  p="2.5"
                   _hover={{ bg: 'bg.subtle' }}
                 >
-                  <Stack gap="0.5" minW="0" flex="1">
+                  <Stack flex="1" gap="0.5" minW="0">
                     <HStack gap="2">
                       <Text fontSize="xs" fontWeight="bold" truncate>
                         {name}
                       </Text>
                       <Box
-                        px="1.5"
-                        py="0.25"
                         borderRadius="xs"
-                        bg="#f59e0b22"
+                        py="0.25"
+                        px="1.5"
                         color="#f59e0b"
                         fontSize="2xs"
                         fontWeight="bold"
+                        bg="#f59e0b22"
                       >
                         {item.note}
                       </Box>
                     </HStack>
                     <HStack gap="2">
-                      <Box
-                        w="1.5"
-                        h="1.5"
-                        borderRadius="full"
-                        bg={fmtColor}
-                        flexShrink={0}
-                      />
-                      <Text fontSize="2xs" color="fg.muted" truncate>
+                      <Box flexShrink={0} borderRadius="full" w="1.5" h="1.5" bg={fmtColor} />
+                      <Text color="fg.muted" fontSize="2xs" truncate>
                         {item.liveName} ({item.liveDate})
                       </Text>
                     </HStack>

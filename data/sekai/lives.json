@@ -4838,7 +4838,392 @@
     "venue": "Tokyo Metropolitan Gymnasium, Tokyo, Japan",
     "notes": [],
     "source": "https://projectsekai.fandom.com/wiki/Project_SEKAI_6th_Anniversary_Thanks_Festival",
-    "performances": []
+    "performances": [
+      {
+        "name": "Day 1",
+        "markers": [
+          {
+            "at": 4,
+            "label": "Leo/need Medley"
+          },
+          {
+            "at": 9,
+            "label": "25-ji, Nightcord de. Medley"
+          },
+          {
+            "at": 15,
+            "label": "Wonderlands x Showtime Medley"
+          },
+          {
+            "at": 20,
+            "label": "Vivid BAD SQUAD Medley"
+          },
+          {
+            "at": 25,
+            "label": "VIRTUAL SINGER Medley"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "551",
+            "title": "ロストアンブレラ"
+          },
+          {
+            "songId": "477",
+            "title": "モザイクロール (Reloaded)"
+          },
+          {
+            "songId": "670",
+            "title": "い〜やい〜やい〜や"
+          },
+          {
+            "songId": "586",
+            "title": "ヤンキーボーイ・ヤンキーガール"
+          },
+          {
+            "songId": "64",
+            "title": "ステラ",
+            "note": "(Medley Ver.)",
+            "performers": ["Isobe Karin"]
+          },
+          {
+            "songId": "524",
+            "title": "それでも僕らは歌うことをやめない",
+            "note": "(Medley Ver.)",
+            "performers": ["Noguchi Ruriko"]
+          },
+          {
+            "songId": "642",
+            "title": "このまんまでいこう",
+            "note": "(Medley Ver.)",
+            "performers": ["Nakashima Yuki"]
+          },
+          {
+            "songId": "546",
+            "title": "その音が鳴るなら"
+          },
+          {
+            "songId": "63",
+            "title": "needLe"
+          },
+          {
+            "songId": "62",
+            "title": "ジャックポットサッドガール",
+            "note": "(Medley Ver.)",
+            "performers": ["Tanabe Rui"]
+          },
+          {
+            "songId": "90",
+            "title": "限りなく灰色へ",
+            "note": "(Medley Ver.)",
+            "performers": ["Suzuki Minori"]
+          },
+          {
+            "songId": "187",
+            "title": "ロウワー",
+            "note": "(Medley Ver.)",
+            "performers": ["Satou Hinata"]
+          },
+          {
+            "songId": "630",
+            "title": "幸福刑",
+            "note": "(Medley Ver.)",
+            "performers": ["Kusunoki Tomori"]
+          },
+          {
+            "songId": "540",
+            "title": "虚無さん"
+          },
+          {
+            "songId": "60",
+            "title": "悔やむと書いてミライ"
+          },
+          {
+            "songId": "52",
+            "title": "potatoになっていく",
+            "note": "(Medley Ver.)",
+            "performers": ["Toki Shunichi"]
+          },
+          {
+            "songId": "548",
+            "title": "ぼくのかみさま",
+            "note": "(Medley Ver.)",
+            "performers": ["Machico"]
+          },
+          {
+            "songId": "649",
+            "title": "サヨナラ天国また来て地獄",
+            "note": "(Medley Ver.)",
+            "performers": ["Hirose Daisuke"]
+          },
+          {
+            "songId": "560",
+            "title": "アイリッド"
+          },
+          {
+            "songId": "51",
+            "title": "セカイはまだ始まってすらいない"
+          },
+          {
+            "songId": "126",
+            "title": "シネマ",
+            "note": "(Medley Ver.)",
+            "performers": ["Imai Fumiya"]
+          },
+          {
+            "songId": "156",
+            "title": "Beat Eater",
+            "note": "(Medley Ver.)",
+            "performers": ["Akina"]
+          },
+          {
+            "songId": "679",
+            "title": "CRASH THE PARTY",
+            "note": "(Medley Ver.)",
+            "performers": ["Sumi Tomomi Jiena"]
+          },
+          {
+            "songId": "634",
+            "title": "光線歌"
+          },
+          {
+            "songId": "54",
+            "title": "Ready Steady"
+          },
+          {
+            "songId": "282",
+            "title": "星空オーケストラ",
+            "note": "(Medley Ver.)",
+            "performers": ["Hatsune Miku"]
+          },
+          {
+            "songId": "500",
+            "title": "余花にみとれて",
+            "note": "(Medley Ver.)",
+            "performers": ["MEIKO"]
+          },
+          {
+            "songId": "635",
+            "title": "ありのままのストーリーを",
+            "note": "(Medley Ver.)",
+            "performers": ["KAITO"]
+          },
+          {
+            "songId": "370",
+            "title": "人生"
+          },
+          {
+            "songId": "765",
+            "title": "レム"
+          },
+          {
+            "songId": "743",
+            "title": "ドリーマーズビート"
+          },
+          {
+            "songId": "730",
+            "title": "エメラルド"
+          }
+        ]
+      },
+      {
+        "name": "Day 2",
+        "markers": [
+          {
+            "at": 4,
+            "label": "MORE MORE JUMP! Medley"
+          },
+          {
+            "at": 10,
+            "label": "Vivid BAD SQUAD Medley"
+          },
+          {
+            "at": 15,
+            "label": "25-ji, Nightcord de. Medley"
+          },
+          {
+            "at": 21,
+            "label": "Leo/need Medley"
+          },
+          {
+            "at": 26,
+            "label": "VIRTUAL SINGER Medley"
+          }
+        ],
+        "songs": [
+          {
+            "songId": "601",
+            "title": "ルマ"
+          },
+          {
+            "songId": "723",
+            "title": "ラヴィ"
+          },
+          {
+            "songId": "665",
+            "title": "ロケットサイダー"
+          },
+          {
+            "songId": "632",
+            "title": "Surges"
+          },
+          {
+            "songId": "193",
+            "title": "ワールドワイドワンダー",
+            "note": "(Medley Ver.)",
+            "performers": ["Ogura Yui"]
+          },
+          {
+            "songId": "287",
+            "title": "私は、私達は",
+            "note": "(Medley Ver.)",
+            "performers": ["Honnizumi Rina"]
+          },
+          {
+            "songId": "308",
+            "title": "ももいろの鍵",
+            "note": "(Medley Ver.)",
+            "performers": ["Furihata Ai"]
+          },
+          {
+            "songId": "457",
+            "title": "Supernova",
+            "note": "(Medley Ver.)",
+            "performers": ["Yoshioka Mayu"]
+          },
+          {
+            "songId": "756",
+            "title": "ギミモア"
+          },
+          {
+            "songId": "57",
+            "title": "アイドル新鋭隊"
+          },
+          {
+            "songId": "126",
+            "title": "シネマ",
+            "note": "(Medley Ver.)",
+            "performers": ["Imai Fumiya"]
+          },
+          {
+            "songId": "156",
+            "title": "Beat Eater",
+            "note": "(Medley Ver.)",
+            "performers": ["Akina"]
+          },
+          {
+            "songId": "679",
+            "title": "CRASH THE PARTY",
+            "note": "(Medley Ver.)",
+            "performers": ["Sumi Tomomi Jiena"]
+          },
+          {
+            "songId": "804",
+            "title": "正解"
+          },
+          {
+            "songId": "54",
+            "title": "Ready Steady"
+          },
+          {
+            "songId": "62",
+            "title": "ジャックポットサッドガール",
+            "note": "(Medley Ver.)",
+            "performers": ["Tanabe Rui"]
+          },
+          {
+            "songId": "90",
+            "title": "限りなく灰色へ",
+            "note": "(Medley Ver.)",
+            "performers": ["Suzuki Minori"]
+          },
+          {
+            "songId": "187",
+            "title": "ロウワー",
+            "note": "(Medley Ver.)",
+            "performers": ["Satou Hinata"]
+          },
+          {
+            "songId": "630",
+            "title": "幸福刑",
+            "note": "(Medley Ver.)",
+            "performers": ["Kusunoki Tomori"]
+          },
+          {
+            "songId": "300",
+            "title": "ザムザ"
+          },
+          {
+            "songId": "60",
+            "title": "悔やむと書いてミライ"
+          },
+          {
+            "songId": "64",
+            "title": "ステラ",
+            "note": "(Medley Ver.)",
+            "performers": ["Isobe Karin"]
+          },
+          {
+            "songId": "524",
+            "title": "それでも僕らは歌うことをやめない",
+            "note": "(Medley Ver.)",
+            "performers": ["Noguchi Ruriko"]
+          },
+          {
+            "songId": "642",
+            "title": "このまんまでいこう",
+            "note": "(Medley Ver.)",
+            "performers": ["Nakashima Yuki"]
+          },
+          {
+            "songId": "570",
+            "title": "スター"
+          },
+          {
+            "songId": "63",
+            "title": "needLe"
+          },
+          {
+            "songId": "695",
+            "title": "花結び",
+            "note": "(Medley Ver.)",
+            "performers": ["Megurine Luka"]
+          },
+          {
+            "songId": "209",
+            "title": "メタモリボン",
+            "note": "(Medley Ver.)",
+            "performers": ["Kagamine Rin"]
+          },
+          {
+            "songId": "684",
+            "title": "ファイター",
+            "note": "(Medley Ver.)",
+            "performers": ["Kagamine Len"]
+          },
+          {
+            "songId": "370",
+            "title": "人生"
+          },
+          {
+            "songId": "739",
+            "title": "世界の歩き方"
+          },
+          {
+            "songId": "742",
+            "title": "旅に帰る"
+          },
+          {
+            "songId": "788",
+            "title": "アンチサイノウ"
+          },
+          {
+            "songId": "730",
+            "title": "エメラルド"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "go-hoppin-parade",

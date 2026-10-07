@@ -66,7 +66,7 @@ export function Page() {
         />
 
         {/* Footer Credit */}
-        <Text color="fg.subtle" fontSize="xs" textAlign="center" pt="2">
+        <Text pt="2" color="fg.subtle" fontSize="xs" textAlign="center">
           {t('sekaiSetlist.credit', {
             defaultValue: 'Song data and jackets from sekai.best / Sekai master DB.'
           })}

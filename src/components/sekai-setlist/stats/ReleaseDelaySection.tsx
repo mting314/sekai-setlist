@@ -33,11 +33,11 @@ function DelayTable({
       bg="bg.default"
       overflow="hidden"
     >
-      <Box p="3" bg="bg.subtle" borderBottomWidth="1px" borderColor="border.subtle">
+      <Box borderColor="border.subtle" borderBottomWidth="1px" p="3" bg="bg.subtle">
         <Text fontSize="sm" fontWeight="bold">
           {title}
         </Text>
-        <Text fontSize="2xs" color="fg.muted">
+        <Text color="fg.muted" fontSize="2xs">
           {sub}
         </Text>
       </Box>
@@ -50,55 +50,38 @@ function DelayTable({
             ? `${song.daysToDebut}d (${t('stats.preRelease', { defaultValue: 'Pre-release' })})`
             : `${song.daysToDebut}d`;
 
-          const badgeBg = isPreRelease
-            ? '#ec489922'
-            : isExpress
-              ? 'accent.subtle'
-              : '#f59e0b22';
-          const badgeColor = isPreRelease
-            ? '#ec4899'
-            : isExpress
-              ? 'accent.default'
-              : '#f59e0b';
+          const badgeBg = isPreRelease ? '#ec489922' : isExpress ? 'accent.subtle' : '#f59e0b22';
+          const badgeColor = isPreRelease ? '#ec4899' : isExpress ? 'accent.default' : '#f59e0b';
 
           return (
             <Flex
               key={song.songId}
-              p="2.5"
-              align="center"
-              justify="space-between"
               gap="2.5"
+              justify="space-between"
+              align="center"
+              p="2.5"
               _hover={{ bg: 'bg.subtle' }}
             >
-              <HStack gap="2.5" minW="0" flex="1">
+              <HStack flex="1" gap="2.5" minW="0">
                 <Text
+                  flexShrink={0}
+                  w="4"
+                  color="fg.muted"
                   fontSize="xs"
                   fontWeight="bold"
-                  color="fg.muted"
-                  w="4"
                   textAlign="center"
-                  flexShrink={0}
                 >
                   #{idx + 1}
                 </Text>
-                <SongJacket
-                  id={song.songId}
-                  size={36}
-                />
-                <Stack gap="0.5" minW="0" flex="1">
+                <SongJacket id={song.songId} size={36} />
+                <Stack flex="1" gap="0.5" minW="0">
                   <HStack gap="1.5">
-                    <Text fontSize="xs" fontWeight="bold" truncate title={name}>
+                    <Text title={name} fontSize="xs" fontWeight="bold" truncate>
                       {name}
                     </Text>
-                    <Box
-                      w="1.5"
-                      h="1.5"
-                      borderRadius="full"
-                      bg={song.unitColor}
-                      flexShrink={0}
-                    />
+                    <Box flexShrink={0} borderRadius="full" w="1.5" h="1.5" bg={song.unitColor} />
                   </HStack>
-                  <Text fontSize="2xs" color="fg.muted" truncate title={song.firstLiveName}>
+                  <Text title={song.firstLiveName} color="fg.muted" fontSize="2xs" truncate>
                     {song.firstLiveName}
                   </Text>
                 </Stack>
@@ -106,13 +89,13 @@ function DelayTable({
 
               <HStack gap="2" flexShrink={0}>
                 <Box
-                  px="2"
-                  py="0.5"
                   borderRadius="full"
-                  bg={badgeBg}
+                  py="0.5"
+                  px="2"
                   color={badgeColor}
                   fontSize="2xs"
                   fontWeight="bold"
+                  bg={badgeBg}
                   whiteSpace="nowrap"
                 >
                   {daysText}
@@ -151,78 +134,68 @@ export function ReleaseDelaySection({ stats }: { stats: ReleaseDelayStats }) {
             md: 'repeat(4, 1fr)'
           }}
         >
-          <Box
-            borderColor="border.subtle"
-            borderRadius="l2"
-            borderWidth="1px"
-            p="3"
-            bg="bg.subtle"
-          >
-            <Text fontSize="2xs" color="fg.muted">
+          <Box borderColor="border.subtle" borderRadius="l2" borderWidth="1px" p="3" bg="bg.subtle">
+            <Text color="fg.muted" fontSize="2xs">
               {t('stats.delay.avgWait', { defaultValue: 'Average Wait' })}
             </Text>
-            <Text fontSize="xl" fontWeight="bold" color="fg.default" mt="0.5">
+            <Text mt="0.5" color="fg.default" fontSize="xl" fontWeight="bold">
               {stats.averageDays} {t('stats.days', { defaultValue: 'days' })}
             </Text>
-            <Text fontSize="2xs" color="fg.subtle">
-              ~{(stats.averageDays / 30.4).toFixed(1)} {t('stats.months', { defaultValue: 'months' })}
+            <Text color="fg.subtle" fontSize="2xs">
+              ~{(stats.averageDays / 30.4).toFixed(1)}{' '}
+              {t('stats.months', { defaultValue: 'months' })}
             </Text>
           </Box>
 
-          <Box
-            borderColor="border.subtle"
-            borderRadius="l2"
-            borderWidth="1px"
-            p="3"
-            bg="bg.subtle"
-          >
-            <Text fontSize="2xs" color="fg.muted">
+          <Box borderColor="border.subtle" borderRadius="l2" borderWidth="1px" p="3" bg="bg.subtle">
+            <Text color="fg.muted" fontSize="2xs">
               {t('stats.delay.medianWait', { defaultValue: 'Median Wait' })}
             </Text>
-            <Text fontSize="xl" fontWeight="bold" color="fg.default" mt="0.5">
+            <Text mt="0.5" color="fg.default" fontSize="xl" fontWeight="bold">
               {stats.medianDays} {t('stats.days', { defaultValue: 'days' })}
             </Text>
-            <Text fontSize="2xs" color="fg.subtle">
-              ~{(stats.medianDays / 30.4).toFixed(1)} {t('stats.months', { defaultValue: 'months' })}
+            <Text color="fg.subtle" fontSize="2xs">
+              ~{(stats.medianDays / 30.4).toFixed(1)}{' '}
+              {t('stats.months', { defaultValue: 'months' })}
             </Text>
           </Box>
 
           <Box
             borderColor="border.subtle"
+            borderLeftWidth="3px"
+            borderLeftColor="#ec4899"
             borderRadius="l2"
             borderWidth="1px"
             p="3"
             bg="bg.subtle"
-            borderLeftWidth="3px"
-            borderLeftColor="#ec4899"
           >
-            <Text fontSize="2xs" color="fg.muted">
+            <Text color="fg.muted" fontSize="2xs">
               {t('stats.delay.preReleaseCount', { defaultValue: 'Pre-Release Debuts' })}
             </Text>
-            <Text fontSize="xl" fontWeight="bold" color="#ec4899" mt="0.5">
+            <Text mt="0.5" color="#ec4899" fontSize="xl" fontWeight="bold">
               {stats.buckets[0]?.count ?? 0} {t('stats.songs', { defaultValue: 'songs' })}
             </Text>
-            <Text fontSize="2xs" color="fg.subtle">
+            <Text color="fg.subtle" fontSize="2xs">
               {t('stats.delay.playedBeforeDrop', { defaultValue: 'Played before in-game release' })}
             </Text>
           </Box>
 
           <Box
             borderColor="border.subtle"
+            borderLeftWidth="3px"
+            borderLeftColor="#f59e0b"
             borderRadius="l2"
             borderWidth="1px"
             p="3"
             bg="bg.subtle"
-            borderLeftWidth="3px"
-            borderLeftColor="#f59e0b"
           >
-            <Text fontSize="2xs" color="fg.muted">
+            <Text color="fg.muted" fontSize="2xs">
               {t('stats.delay.maxWait', { defaultValue: 'Longest Wait' })}
             </Text>
-            <Text fontSize="xl" fontWeight="bold" color="#f59e0b" mt="0.5">
+            <Text mt="0.5" color="#f59e0b" fontSize="xl" fontWeight="bold">
               {stats.maxDays} {t('stats.days', { defaultValue: 'days' })}
             </Text>
-            <Text fontSize="2xs" color="fg.subtle">
+            <Text color="fg.subtle" fontSize="2xs">
               ~{(stats.maxDays / 365).toFixed(1)} {t('stats.years', { defaultValue: 'years' })}
             </Text>
           </Box>
@@ -236,12 +209,14 @@ export function ReleaseDelaySection({ stats }: { stats: ReleaseDelayStats }) {
           p="3.5"
           bg="bg.default"
         >
-          <Flex justify="space-between" align="center" mb="2" flexWrap="wrap" gap="2">
+          <Flex gap="2" justify="space-between" align="center" mb="2" flexWrap="wrap">
             <Text fontSize="sm" fontWeight="bold">
               {t('stats.delay.distTitle', { defaultValue: 'Debut Delay Distribution' })}
             </Text>
-            <Text fontSize="xs" color="fg.muted">
-              {t('stats.delay.clickBucket', { defaultValue: 'Click a bar to view songs in bucket' })}
+            <Text color="fg.muted" fontSize="xs">
+              {t('stats.delay.clickBucket', {
+                defaultValue: 'Click a bar to view songs in bucket'
+              })}
             </Text>
           </Flex>
 
@@ -257,14 +232,14 @@ export function ReleaseDelaySection({ stats }: { stats: ReleaseDelayStats }) {
           {/* If a bucket is selected, show list of songs in this bucket */}
           {selectedBucket && (
             <Box
+              borderColor="border.subtle"
+              borderRadius="l2"
+              borderWidth="1px"
               mt="3"
               p="3"
               bg="bg.subtle"
-              borderRadius="l2"
-              borderColor="border.subtle"
-              borderWidth="1px"
             >
-              <Text fontSize="xs" fontWeight="bold" mb="2">
+              <Text mb="2" fontSize="xs" fontWeight="bold">
                 {selectedBucket.labelEn} ({selectedBucket.songs.length}{' '}
                 {t('stats.songs', { defaultValue: 'songs' })}):
               </Text>
@@ -274,22 +249,22 @@ export function ReleaseDelaySection({ stats }: { stats: ReleaseDelayStats }) {
                   return (
                     <Box
                       key={s.songId}
+                      display="inline-flex"
+                      gap="1.5"
+                      alignItems="center"
                       borderColor="border.subtle"
                       borderRadius="full"
                       borderWidth="1px"
-                      px="2.5"
                       py="1"
-                      bg="bg.default"
+                      px="2.5"
                       fontSize="xs"
-                      display="inline-flex"
-                      alignItems="center"
-                      gap="1.5"
+                      bg="bg.default"
                     >
-                      <Box w="2" h="2" borderRadius="full" bg={s.unitColor} flexShrink={0} />
-                      <Text truncate maxW="160px">
+                      <Box flexShrink={0} borderRadius="full" w="2" h="2" bg={s.unitColor} />
+                      <Text maxW="160px" truncate>
                         {title}
                       </Text>
-                      <Text fontSize="2xs" color="fg.muted" fontWeight="bold">
+                      <Text color="fg.muted" fontSize="2xs" fontWeight="bold">
                         ({s.daysToDebut}d)
                       </Text>
                     </Box>
@@ -310,7 +285,9 @@ export function ReleaseDelaySection({ stats }: { stats: ReleaseDelayStats }) {
         >
           <DelayTable
             songs={stats.fastestDebuts}
-            title={t('stats.delay.expressTitle', { defaultValue: '⚡ Express Lane: Fastest to the Stage' })}
+            title={t('stats.delay.expressTitle', {
+              defaultValue: '⚡ Express Lane: Fastest to the Stage'
+            })}
             sub={t('stats.delay.expressSub', {
               defaultValue: 'Includes pre-release debuts at Anniversary Thanks Festivals & Symphony'
             })}
@@ -320,9 +297,12 @@ export function ReleaseDelaySection({ stats }: { stats: ReleaseDelayStats }) {
 
           <DelayTable
             songs={stats.longestWaits}
-            title={t('stats.delay.longestTitle', { defaultValue: '⏳ Veteran Arrivals: Longest Wait to Stage' })}
+            title={t('stats.delay.longestTitle', {
+              defaultValue: '⏳ Veteran Arrivals: Longest Wait to Stage'
+            })}
             sub={t('stats.delay.longestSub', {
-              defaultValue: 'Songs that waited years from launch before their first live performance'
+              defaultValue:
+                'Songs that waited years from launch before their first live performance'
             })}
             lang={i18n.language}
           />

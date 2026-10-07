@@ -14,8 +14,8 @@ describe('computeSekaiStats', () => {
     const stats = computeSekaiStats();
     expect(stats.kpis.totalLives).toBeGreaterThan(30);
     expect(stats.kpis.totalLiveAppearances).toBeGreaterThan(700);
-    expect(stats.kpis.performedCatalogSongs).toBe(265);
-    expect(stats.kpis.unperformedCatalogSongs).toBe(stats.kpis.totalCatalogSongs - 265);
+    expect(stats.kpis.performedCatalogSongs).toBe(287);
+    expect(stats.kpis.unperformedCatalogSongs).toBe(stats.kpis.totalCatalogSongs - 287);
     expect(stats.kpis.cast3dPerformances).toBeGreaterThan(100);
     expect(stats.kpis.screen2dPerformances).toBeGreaterThan(150);
   });
@@ -69,8 +69,8 @@ describe('computeSekaiStats', () => {
     const stats = computeSekaiStats();
     const { unperformed } = stats;
     expect(unperformed.total).toBe(stats.kpis.unperformedCatalogSongs);
-    expect(unperformed.commissioned.length).toBe(55);
-    expect(unperformed.coversAndOther.length).toBe(stats.kpis.unperformedCatalogSongs - 55);
+    expect(unperformed.commissioned.length).toBe(40);
+    expect(unperformed.coversAndOther.length).toBe(stats.kpis.unperformedCatalogSongs - 40);
     // Verify each commissioned item is marked commissioned
     for (const song of unperformed.commissioned) {
       expect(song.commissioned).toBe(true);

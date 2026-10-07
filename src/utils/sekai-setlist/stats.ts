@@ -21,7 +21,10 @@ export const FORMAT_COLORS: Record<LiveFormat, string> = {
   symphony: '#ec4899' // Pink (Sekai Symphony)
 };
 
-export const FORMAT_NAMES: Record<LiveFormat, { en: string; ja: string; descEn: string; descJa: string }> = {
+export const FORMAT_NAMES: Record<
+  LiveFormat,
+  { en: string; ja: string; descEn: string; descJa: string }
+> = {
   screen_2d: {
     en: '2D Screen (COLORFUL LIVE)',
     ja: '2Dスクリーン (セカイライブ)',
@@ -289,8 +292,7 @@ export function computeSekaiStats(): SekaiStatsData {
 
         // Check version note
         const note = (songEntry.note ?? '').toLowerCase();
-        const isShortOrGame =
-          note.includes('short') || note.includes('game ver');
+        const isShortOrGame = note.includes('short') || note.includes('game ver');
 
         if (isShortOrGame) {
           shortOrGameCount++;
@@ -425,9 +427,7 @@ export function computeSekaiStats(): SekaiStatsData {
   const daysValues = sortedDelaySongs.map((s) => s.daysToDebut);
   const totalDaysSum = daysValues.reduce((acc, v) => acc + v, 0);
   const averageDays = daysValues.length ? Math.round(totalDaysSum / daysValues.length) : 0;
-  const medianDays = daysValues.length
-    ? daysValues[Math.floor(daysValues.length / 2)]!
-    : 0;
+  const medianDays = daysValues.length ? daysValues[Math.floor(daysValues.length / 2)]! : 0;
   const minDays = daysValues.length ? daysValues[0]! : 0;
   const maxDays = daysValues.length ? daysValues[daysValues.length - 1]! : 0;
 
@@ -576,10 +576,7 @@ export function computeSekaiStats(): SekaiStatsData {
               cycleStats[cycleNum - 1]!.performed++;
             }
           }
-        } else if (
-          char.unit &&
-          ev.nickname === UNIT_WL_NICKNAME[char.unit]
-        ) {
+        } else if (char.unit && ev.nickname === UNIT_WL_NICKNAME[char.unit]) {
           // World link event for this unit
           const tr = songTracker.get(sId);
           const isPerf = !!tr && tr.totalAppearances > 0;

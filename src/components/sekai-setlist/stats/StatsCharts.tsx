@@ -13,8 +13,8 @@ import {
 export function ChartLegendItem({ color, label }: { color: string; label: string }) {
   return (
     <HStack gap="1.5" alignItems="center">
-      <Box w="2.5" h="2.5" borderRadius="full" bg={color} flexShrink={0} />
-      <Text fontSize="xs" color="fg.muted">
+      <Box flexShrink={0} borderRadius="full" w="2.5" h="2.5" bg={color} />
+      <Text color="fg.muted" fontSize="xs">
         {label}
       </Text>
     </HStack>
@@ -22,11 +22,7 @@ export function ChartLegendItem({ color, label }: { color: string; label: string
 }
 
 /** Stacked horizontal bar chart showing live formats per unit */
-export function FormatStackedBarChart({
-  data
-}: {
-  data: UnitFormatBreakdown[];
-}) {
+export function FormatStackedBarChart({ data }: { data: UnitFormatBreakdown[] }) {
   const { t } = useTranslation();
   const [hoveredSegment, setHoveredSegment] = useState<string | null>(null);
 
@@ -69,7 +65,7 @@ export function FormatStackedBarChart({
     <Stack gap="3" w="full">
       <Wrap gap="4" justify="flex-end" px="2">
         {formats.map((f) => (
-          <ChartLegendItem key={f.key} color={f.color} label={f.label} />
+          <ChartLegendItem key={f.key} label={f.label} color={f.color} />
         ))}
       </Wrap>
       <Box w="full" overflowX="auto">

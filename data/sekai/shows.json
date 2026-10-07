@@ -377,12 +377,14 @@
     {
       "id": "d1",
       "label": "Day 1",
-      "date": "2026-10-03"
+      "date": "2026-10-03",
+      "performance": "Day 1"
     },
     {
       "id": "d2",
       "label": "Day 2",
-      "date": "2026-10-04"
+      "date": "2026-10-04",
+      "performance": "Day 2"
     }
   ],
   "sekai-symphony-2024": [
