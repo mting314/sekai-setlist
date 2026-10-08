@@ -17,6 +17,7 @@ import {
 import { Box, HStack, Stack, Wrap, styled } from 'styled-system/jsx';
 import { PerformanceList } from './PerformanceList';
 import { SongJacket } from './SongJacket';
+import { LiveVisual } from './LiveVisual';
 import { KindBadge } from './SongMeta';
 import { UnitFilterChips } from './UnitFilterChips';
 import { NicknameChips } from './song-info/NicknameChips';
@@ -241,6 +242,7 @@ function LiveCard({
         <Box flexShrink={0} color="fg.muted">
           {open ? <BiChevronDown size={20} /> : <BiChevronRight size={20} />}
         </Box>
+        <LiveVisual live={live} size="thumb" />
         <Stack flex={1} gap={1} minW={0}>
           <HStack gap={2} flexWrap="wrap">
             <Badge variant="outline" size="sm">

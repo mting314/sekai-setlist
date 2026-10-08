@@ -4,8 +4,9 @@
  */
 import { useTranslation } from 'react-i18next';
 import { BiCheckDouble, BiEdit, BiLinkExternal } from 'react-icons/bi';
-import { HStack, Stack, Wrap } from 'styled-system/jsx';
+import { Box, HStack, Stack, Wrap } from 'styled-system/jsx';
 import { Card } from './LiveSummaryCard';
+import { LiveVisual } from './LiveVisual';
 import { PerformanceList } from './PerformanceList';
 import { ShowAttendance, useHowLabel } from './ShowAttendance';
 import { Badge } from '~/components/ui/styled/badge';
@@ -50,50 +51,67 @@ export function LivePage({ live }: { live: SekaiLive }) {
 
   return (
     <Stack gap={6}>
-      <Stack gap={2}>
+      <Stack gap={3}>
         <Link href={livesHref()} fontSize="sm">
           {t('live.allLives', { defaultValue: '← All lives' })}
         </Link>
-        <Wrap gap={1.5}>
-          <Badge variant="outline" size="sm">
-            {t(`sekaiSetlist.lives.series.${live.series}`, { defaultValue: live.series })}
-          </Badge>
-          {noSetlist && (
-            <Badge variant="subtle" size="sm">
-              {t('sekaiSetlist.lives.noSetlist', { defaultValue: 'No setlist yet' })}
-            </Badge>
-          )}
-        </Wrap>
-        <Stack gap={0.5}>
-          <Text as="h1" fontSize={{ base: '2xl', md: '3xl' }} fontWeight="bold" lineHeight="tight">
-            {name}
-          </Text>
-          {altName && altName !== name && <Text color="fg.muted">{altName}</Text>}
-        </Stack>
-        <Stack gap={0.5} color="fg.muted" fontSize="sm">
-          <Text>{live.date}</Text>
-          {live.venue && <Text>{live.venue}</Text>}
-        </Stack>
-        {live.notes.map((n) => (
-          <Text key={n} color="fg.muted" fontSize="xs">
-            {n}
-          </Text>
-        ))}
-        <Wrap gap={2} pt={1}>
-          {noSetlist ? (
-            <Button asChild size="sm">
-              <a href={builderHref({ live: live.id })}>
-                <BiEdit /> {t('game.predictLive', { defaultValue: 'Predict this setlist' })}
-              </a>
-            </Button>
-          ) : (
-            <Button asChild size="sm" variant="outline">
-              <a href={markHref({ live: live.id })}>
-                <BiCheckDouble /> {t('game.markLive', { defaultValue: 'Mark a prediction' })}
-              </a>
-            </Button>
-          )}
-        </Wrap>
+        <Box
+          display="flex"
+          gap={{ base: 4, md: 6 }}
+          flexDirection={{ base: 'column', md: 'row' }}
+          alignItems={{ base: 'stretch', md: 'flex-start' }}
+        >
+          <Box flexShrink={0} maxW={{ base: 'full', md: '320px' }}>
+            <LiveVisual live={live} size="poster" linkable />
+          </Box>
+          <Stack flex={1} gap={2} minW={0}>
+            <Wrap gap={1.5}>
+              <Badge variant="outline" size="sm">
+                {t(`sekaiSetlist.lives.series.${live.series}`, { defaultValue: live.series })}
+              </Badge>
+              {noSetlist && (
+                <Badge variant="subtle" size="sm">
+                  {t('sekaiSetlist.lives.noSetlist', { defaultValue: 'No setlist yet' })}
+                </Badge>
+              )}
+            </Wrap>
+            <Stack gap={0.5}>
+              <Text
+                as="h1"
+                fontSize={{ base: '2xl', md: '3xl' }}
+                fontWeight="bold"
+                lineHeight="tight"
+              >
+                {name}
+              </Text>
+              {altName && altName !== name && <Text color="fg.muted">{altName}</Text>}
+            </Stack>
+            <Stack gap={0.5} color="fg.muted" fontSize="sm">
+              <Text>{live.date}</Text>
+              {live.venue && <Text>{live.venue}</Text>}
+            </Stack>
+            {live.notes.map((n) => (
+              <Text key={n} color="fg.muted" fontSize="xs">
+                {n}
+              </Text>
+            ))}
+            <Wrap gap={2} pt={1}>
+              {noSetlist ? (
+                <Button asChild size="sm">
+                  <a href={builderHref({ live: live.id })}>
+                    <BiEdit /> {t('game.predictLive', { defaultValue: 'Predict this setlist' })}
+                  </a>
+                </Button>
+              ) : (
+                <Button asChild size="sm" variant="outline">
+                  <a href={markHref({ live: live.id })}>
+                    <BiCheckDouble /> {t('game.markLive', { defaultValue: 'Mark a prediction' })}
+                  </a>
+                </Button>
+              )}
+            </Wrap>
+          </Stack>
+        </Box>
       </Stack>
 
       {predictions.length > 0 && (

@@ -124,6 +124,7 @@ export interface SekaiLive {
   venue?: string;
   notes: string[]; // e.g. "The setlist was the same on all three days."
   source: string; // wiki page URL
+  image?: string; // key visual / poster image URL
   performances: SekaiLivePerformance[]; // [] = setlist not published yet
 }
 

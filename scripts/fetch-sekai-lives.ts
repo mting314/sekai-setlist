@@ -19,6 +19,7 @@ import { parseLivePage, parseStartDate } from '../src/utils/sekai-setlist/live-w
 import type { SekaiLive, SekaiLiveSeries, SekaiLiveSong } from '../src/types/sekai';
 const OUT = 'data/sekai/lives.json';
 const MANUAL = 'data/sekai/lives-manual.json';
+const IMAGES = 'data/sekai/live-images.json';
 
 const EVENTS: { series: SekaiLiveSeries; pages: string[] }[] = [
   {
@@ -145,6 +146,13 @@ for (const m of manual) {
 }
 
 lives.sort((a, b) => (a.startDate ?? '9999').localeCompare(b.startDate ?? '9999'));
+
+if (fs.existsSync(IMAGES)) {
+  const images = JSON.parse(fs.readFileSync(IMAGES, 'utf8')) as Record<string, string>;
+  for (const l of lives) {
+    if (images[l.id]) l.image = images[l.id];
+  }
+}
 
 fs.writeFileSync(OUT, JSON.stringify(lives, null, 2) + '\n');
 const songCount = lives.reduce(

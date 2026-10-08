@@ -7,6 +7,7 @@ import { Box, HStack, Stack, Wrap, styled } from 'styled-system/jsx';
 import { Badge } from '~/components/ui/styled/badge';
 import { Link } from '~/components/ui/link';
 import { Text } from '~/components/ui/styled/text';
+import { LiveVisual } from './LiveVisual';
 import { sekaiLiveName } from '~/utils/sekai-setlist/live-data';
 import { liveHref } from '~/utils/sekai-setlist/routes';
 import type { SekaiLive } from '~/types/sekai';
@@ -49,20 +50,23 @@ export function LiveSummaryCard({
   return (
     <Card>
       <HStack gap={3} justifyContent="space-between" alignItems="center">
-        <Stack gap={0.5} minW={0}>
-          <Wrap gap={1.5}>
-            <Badge variant="outline" size="sm">
-              {t(`sekaiSetlist.lives.series.${live.series}`, { defaultValue: live.series })}
-            </Badge>
-            {badges}
-          </Wrap>
-          <Link href={liveHref(live.id)} fontWeight="semibold">
-            {sekaiLiveName(live, i18n.language)}
-          </Link>
-          <Text color="fg.muted" fontSize="xs">
-            {[live.date, live.venue].filter(Boolean).join(' · ')}
-          </Text>
-        </Stack>
+        <HStack flex={1} gap={3} alignItems="center" minW={0}>
+          <LiveVisual live={live} size="compact" />
+          <Stack gap={0.5} minW={0}>
+            <Wrap gap={1.5}>
+              <Badge variant="outline" size="sm">
+                {t(`sekaiSetlist.lives.series.${live.series}`, { defaultValue: live.series })}
+              </Badge>
+              {badges}
+            </Wrap>
+            <Link href={liveHref(live.id)} fontWeight="semibold">
+              {sekaiLiveName(live, i18n.language)}
+            </Link>
+            <Text color="fg.muted" fontSize="xs">
+              {[live.date, live.venue].filter(Boolean).join(' · ')}
+            </Text>
+          </Stack>
+        </HStack>
         {action}
       </HStack>
     </Card>

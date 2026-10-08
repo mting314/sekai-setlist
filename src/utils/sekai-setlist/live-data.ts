@@ -1,12 +1,26 @@
 // Past and upcoming lives (data/sekai/lives.json). Kept out of catalog.ts so pages that only
 // need songs don't bundle every setlist.
 import livesData from '../../../data/sekai/lives.json';
+import liveImagesData from '../../../data/sekai/live-images.json';
 import type { SekaiLive } from '~/types/sekai';
 
-export const sekaiLives = livesData as unknown as SekaiLive[];
+const liveImages = liveImagesData as Record<string, string>;
+
+export const sekaiLives = (livesData as unknown as SekaiLive[]).map((l) => ({
+  ...l,
+  image: l.image ?? liveImages[l.id]
+}));
 const liveById = new Map(sekaiLives.map((l) => [l.id, l]));
 
 export const getSekaiLive = (id: string | undefined) => (id ? liveById.get(id) : undefined);
+
+export const getLiveImage = (liveOrId: SekaiLive | string | undefined): string | undefined => {
+  if (!liveOrId) return undefined;
+  if (typeof liveOrId === 'string') {
+    return liveImages[liveOrId] ?? liveById.get(liveOrId)?.image;
+  }
+  return liveOrId.image ?? liveImages[liveOrId.id];
+};
 
 export const sekaiLiveName = (live: SekaiLive, lang: string) =>
   lang.startsWith('ja') && live.nameJa ? live.nameJa : live.name;
