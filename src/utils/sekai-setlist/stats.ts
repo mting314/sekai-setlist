@@ -202,6 +202,15 @@ export interface UnperformedSongItem {
   assetbundleName: string;
   nicknames?: string[];
   eventIds?: number[];
+  screen2dCount: number;
+  cast3dCount: number;
+  connectLiveCount: number;
+  symphonyCount: number;
+  totalAppearances: number;
+  first2dLiveName?: string;
+  first2dLiveDate?: string;
+  first3dLiveName?: string;
+  first3dLiveDate?: string;
 }
 
 export interface SekaiStatsData {
@@ -224,6 +233,10 @@ export interface SekaiStatsData {
     total: number;
     commissioned: UnperformedSongItem[];
     coversAndOther: UnperformedSongItem[];
+    allAwaiting: {
+      commissioned: UnperformedSongItem[];
+      coversAndOther: UnperformedSongItem[];
+    };
   };
 }
 
@@ -269,6 +282,8 @@ export function computeSekaiStats(): SekaiStatsData {
     connectLiveCount: number;
     symphonyCount: number;
     firstLive?: SekaiLive;
+    first2dLive?: SekaiLive;
+    first3dLive?: SekaiLive;
     lives: Set<string>;
   }
 
@@ -320,16 +335,25 @@ export function computeSekaiStats(): SekaiStatsData {
               connectLiveCount: 0,
               symphonyCount: 0,
               firstLive: live,
+              first2dLive: undefined,
+              first3dLive: undefined,
               lives: new Set()
             };
             songTracker.set(songEntry.songId, tr);
           }
           tr.totalAppearances++;
           tr.lives.add(live.id);
-          if (fmt === 'screen_2d') tr.screen2dCount++;
-          else if (fmt === 'cast_3d') tr.cast3dCount++;
-          else if (fmt === 'connect_live') tr.connectLiveCount++;
-          else if (fmt === 'symphony') tr.symphonyCount++;
+          if (fmt === 'screen_2d') {
+            tr.screen2dCount++;
+            if (!tr.first2dLive) tr.first2dLive = live;
+          } else if (fmt === 'cast_3d') {
+            tr.cast3dCount++;
+            if (!tr.first3dLive) tr.first3dLive = live;
+          } else if (fmt === 'connect_live') {
+            tr.connectLiveCount++;
+          } else if (fmt === 'symphony') {
+            tr.symphonyCount++;
+          }
         }
       }
     }
@@ -623,35 +647,65 @@ export function computeSekaiStats(): SekaiStatsData {
   // 5. Unperformed songs
   const unperformedCommissioned: UnperformedSongItem[] = [];
   const unperformedCovers: UnperformedSongItem[] = [];
+  const allAwaitingCommissioned: UnperformedSongItem[] = [];
+  const allAwaitingCovers: UnperformedSongItem[] = [];
 
   for (const song of songs) {
-    if (!songTracker.has(song.id)) {
-      const primaryUnit = song.units[0] ?? 'other';
-      const uMeta = unitMap.get(primaryUnit);
-      const item: UnperformedSongItem = {
-        songId: song.id,
-        title: song.title,
-        englishName: song.englishName,
-        units: song.units,
-        unitName: uMeta?.name ?? 'Other',
-        unitColor: uMeta?.color ?? '#8a8a8a',
-        commissioned: song.commissioned,
-        publishedAt: song.publishedAt,
-        assetbundleName: song.assetbundleName,
-        nicknames: song.nicknames,
-        eventIds: song.eventIds
-      };
+    const tr = songTracker.get(song.id);
+    const screen2dCount = tr?.screen2dCount ?? 0;
+    const cast3dCount = tr?.cast3dCount ?? 0;
+    const connectLiveCount = tr?.connectLiveCount ?? 0;
+    const symphonyCount = tr?.symphonyCount ?? 0;
+    const totalAppearances = tr?.totalAppearances ?? 0;
 
+    const primaryUnit = song.units[0] ?? 'other';
+    const uMeta = unitMap.get(primaryUnit);
+    const item: UnperformedSongItem = {
+      songId: song.id,
+      title: song.title,
+      englishName: song.englishName,
+      units: song.units,
+      unitName: uMeta?.name ?? 'Other',
+      unitColor: uMeta?.color ?? '#8a8a8a',
+      commissioned: song.commissioned,
+      publishedAt: song.publishedAt,
+      assetbundleName: song.assetbundleName,
+      nicknames: song.nicknames,
+      eventIds: song.eventIds,
+      screen2dCount,
+      cast3dCount,
+      connectLiveCount,
+      symphonyCount,
+      totalAppearances,
+      first2dLiveName: tr?.first2dLive?.name,
+      first2dLiveDate: tr?.first2dLive?.startDate,
+      first3dLiveName: tr?.first3dLive?.name,
+      first3dLiveDate: tr?.first3dLive?.startDate
+    };
+
+    // 0 appearances anywhere
+    if (totalAppearances === 0) {
       if (song.commissioned) {
         unperformedCommissioned.push(item);
       } else {
         unperformedCovers.push(item);
       }
     }
+
+    // Awaiting 2D or 3D debut (i.e. has not performed in both formats)
+    if (screen2dCount === 0 || cast3dCount === 0) {
+      if (song.commissioned) {
+        allAwaitingCommissioned.push(item);
+      } else {
+        allAwaitingCovers.push(item);
+      }
+    }
   }
 
   const sortedCommissioned = unperformedCommissioned.toSorted(byRelease);
   const sortedCovers = unperformedCovers.toSorted(byRelease);
+  const sortedAllAwaitingCommissioned = allAwaitingCommissioned.toSorted(byRelease);
+  const sortedAllAwaitingCovers = allAwaitingCovers.toSorted(byRelease);
 
   return {
     kpis: {
@@ -709,7 +763,11 @@ export function computeSekaiStats(): SekaiStatsData {
     unperformed: {
       total: sortedCommissioned.length + sortedCovers.length,
       commissioned: sortedCommissioned,
-      coversAndOther: sortedCovers
+      coversAndOther: sortedCovers,
+      allAwaiting: {
+        commissioned: sortedAllAwaitingCommissioned,
+        coversAndOther: sortedAllAwaitingCovers
+      }
     }
   };
 }

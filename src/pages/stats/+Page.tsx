@@ -63,6 +63,7 @@ export function Page() {
         <UnperformedSongsSection
           commissioned={stats.unperformed.commissioned}
           coversAndOther={stats.unperformed.coversAndOther}
+          allAwaiting={stats.unperformed.allAwaiting}
         />
 
         {/* Footer Credit */}

@@ -76,4 +76,42 @@ describe('computeSekaiStats', () => {
       expect(song.commissioned).toBe(true);
     }
   });
+
+  it('computes songs awaiting 2D or 3D live debut with appearance trackers', () => {
+    const stats = computeSekaiStats();
+    const { allAwaiting } = stats.unperformed;
+
+    // All awaiting commissioned songs (awaiting 2D or 3D)
+    expect(allAwaiting.commissioned.length).toBe(153);
+    expect(allAwaiting.coversAndOther.length).toBe(522);
+
+    // Verify all items are awaiting at least one format
+    for (const song of allAwaiting.commissioned) {
+      expect(song.screen2dCount === 0 || song.cast3dCount === 0).toBe(true);
+    }
+
+    // Awaiting 2D debut
+    const awaiting2d = allAwaiting.commissioned.filter((s) => s.screen2dCount === 0);
+    expect(awaiting2d.length).toBe(129);
+
+    // Some songs awaiting 2D have already debuted in 3D Cast
+    const awaiting2dWith3dDebut = awaiting2d.filter((s) => s.cast3dCount > 0);
+    expect(awaiting2dWith3dDebut.length).toBe(64);
+    expect(awaiting2dWith3dDebut[0].first3dLiveName).toBeDefined();
+
+    // Awaiting 3D debut
+    const awaiting3d = allAwaiting.commissioned.filter((s) => s.cast3dCount === 0);
+    expect(awaiting3d.length).toBe(89);
+
+    // Some songs awaiting 3D have already debuted in 2D Screen
+    const awaiting3dWith2dDebut = awaiting3d.filter((s) => s.screen2dCount > 0);
+    expect(awaiting3dWith2dDebut.length).toBe(24);
+    expect(awaiting3dWith2dDebut[0].first2dLiveName).toBeDefined();
+
+    // Awaiting both 2D and 3D
+    const awaitingBoth = allAwaiting.commissioned.filter(
+      (s) => s.screen2dCount === 0 && s.cast3dCount === 0
+    );
+    expect(awaitingBoth.length).toBe(65);
+  });
 });
