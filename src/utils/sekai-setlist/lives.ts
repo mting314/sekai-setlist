@@ -155,16 +155,134 @@ const performerKey = (name: string) =>
 const unitMembers = (unit: string) =>
   sekaiCharacters.filter((c) => c.unit === unit).map((c) => c.id);
 
+// Voice actor (seiyuu) names mapped to their character id, in English (either word order
+// is handled by performerKey) and Japanese kanji/kana (both compact and spaced).
+const SEIYUU_PERFORMERS: [string, number[]][] = [
+  // Leo/need
+  ['Noguchi Ruriko', [1]],
+  ['野口瑠璃子', [1]],
+  ['野口 瑠璃子', [1]],
+  ['Isobe Karin', [2]],
+  ['礒部花凜', [2]],
+  ['礒部 花凜', [2]],
+  ['Ueda Reina', [3]],
+  ['上田麗奈', [3]],
+  ['上田 麗奈', [3]],
+  ['Nakashima Yuki', [4]],
+  ['中島由貴', [4]],
+  ['中島 由貴', [4]],
+
+  // MORE MORE JUMP!
+  ['Ogura Yui', [5]],
+  ['小倉唯', [5]],
+  ['小倉 唯', [5]],
+  ['Yoshioka Mayu', [6]],
+  ['吉岡茉祐', [6]],
+  ['吉岡 茉祐', [6]],
+  ['Furihata Ai', [7]],
+  ['降幡愛', [7]],
+  ['降幡 愛', [7]],
+  ['Honnizumi Rina', [8]],
+  ['本泉莉奈', [8]],
+  ['本泉 莉奈', [8]],
+
+  // Vivid BAD SQUAD
+  ['Akina', [9]],
+  ['秋奈', [9]],
+  ['Sumi Tomomi Jiena', [10]],
+  ['Jiena Sumi', [10]],
+  ['Jiena Tomomi Sumi', [10]],
+  ['鷲見友美ジェナ', [10]],
+  ['鷲見 友美ジェナ', [10]],
+  ['鷲見友美 ジェナ', [10]],
+  ['Imai Fumiya', [11]],
+  ['今井文也', [11]],
+  ['今井 文也', [11]],
+  ['Itou Kent', [12]],
+  ['Ito Kent', [12]],
+  ['Ito Kento', [12]],
+  ['Kent Itou', [12]],
+  ['Kento Ito', [12]],
+  ['伊東健人', [12]],
+  ['伊東 健人', [12]],
+
+  // Wonderlands×Showtime
+  ['Hirose Daisuke', [13]],
+  ['廣瀬大介', [13]],
+  ['廣瀬 大介', [13]],
+  ['Kino Hina', [14]],
+  ['木野日菜', [14]],
+  ['木野 日菜', [14]],
+  ['Machico', [15]],
+  ['Toki Shunichi', [16]],
+  ['土岐隼一', [16]],
+  ['土岐 隼一', [16]],
+
+  // 25-ji, Nightcord de.
+  ['Kusunoki Tomori', [17]],
+  ['楠木ともり', [17]],
+  ['楠木 ともり', [17]],
+  ['Tanabe Rui', [18]],
+  ['田辺留依', [18]],
+  ['田辺 留依', [18]],
+  ['Suzuki Minori', [19]],
+  ['鈴木みのり', [19]],
+  ['鈴木 みのり', [19]],
+  ['Satou Hinata', [20]],
+  ['Sato Hinata', [20]],
+  ['Satoh Hinata', [20]],
+  ['佐藤日向', [20]],
+  ['佐藤 日向', [20]],
+
+  // VIRTUAL SINGER cast (for live appearances / symphony guest credits)
+  ['Fujita Saki', [21]],
+  ['藤田咲', [21]],
+  ['藤田 咲', [21]],
+  ['Shimoda Asami', [22, 23]],
+  ['下田麻美', [22, 23]],
+  ['下田 麻美', [22, 23]],
+  ['Asakawa Yuu', [24]],
+  ['浅川悠', [24]],
+  ['浅川 悠', [24]],
+  ['Haigou Meiko', [25]],
+  ['拝郷メイコ', [25]],
+  ['拝郷 メイコ', [25]],
+  ['Fuuga Naoto', [26]],
+  ['風雅なおと', [26]],
+  ['風雅 なおと', [26]]
+];
+
+const JAPANESE_UNIT_PERFORMERS: [string, number[]][] = [
+  ['ワンダーランズ×ショウタイム', unitMembers('wonderlands_showtime')],
+  ['ワンダーランズ x ショウタイム', unitMembers('wonderlands_showtime')],
+  ['ワンダショ', unitMembers('wonderlands_showtime')],
+  ['25時、ナイトコードで。', unitMembers('nightcord')],
+  ['25時 ナイトコードで', unitMembers('nightcord')],
+  ['ニーゴ', unitMembers('nightcord')],
+  ['モアモアジャンプ', unitMembers('more_more_jump')],
+  ['モアジャン', unitMembers('more_more_jump')],
+  ['レオニード', unitMembers('leo_need')],
+  ['レオニ', unitMembers('leo_need')],
+  ['ビビッドバッドスクワッド', unitMembers('vivid_bad_squad')],
+  ['ビビバス', unitMembers('vivid_bad_squad')]
+];
+
 const PERFORMER_CHARACTERS = new Map<string, number[]>([
   ...sekaiUnits
     .filter((u) => u.id !== 'virtual_singer' && u.id !== 'other')
     .map((u): [string, number[]] => [performerKey(u.name), unitMembers(u.id)]),
-  ...sekaiCharacters.map((c): [string, number[]] => [performerKey(c.name), [c.id]])
+  ...sekaiCharacters.flatMap((c): [string, number[]][] => [
+    [performerKey(c.name), [c.id]],
+    [performerKey(c.nameJa), [c.id]]
+  ]),
+  ...SEIYUU_PERFORMERS.map(([name, ids]): [string, number[]] => [performerKey(name), ids]),
+  ...JAPANESE_UNIT_PERFORMERS.map(([name, ids]): [string, number[]] => [performerKey(name), ids])
 ]);
 
 /**
  * A setlist entry's performers as character ids (a unit is its members, "VIRTUAL SINGER" the
- * song's VIRTUAL SINGERs) plus the names that have no icon: voice actors, collab units.
+ * song's VIRTUAL SINGERs, voice actors are their characters) plus names without an icon:
+ * collab units, guest artists.
  */
 export function performerCharacters(s: SekaiLiveSong): { characters: number[]; others: string[] } {
   const characters = new Set<number>();

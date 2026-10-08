@@ -191,10 +191,23 @@ describe('performerCharacters', () => {
     expect(performers('76', 'VIRTUAL SINGER').characters).toEqual(VS_76);
   });
 
+  it('maps voice actors to their characters in English or Japanese', () => {
+    expect(performers('64', 'Isobe Karin')).toEqual({
+      characters: [2],
+      others: []
+    });
+    expect(
+      performers('1', '野口瑠璃子', 'Nakashima Yuki', 'Tanabe Rui', 'Sumi Tomomi Jiena')
+    ).toEqual({
+      characters: [1, 4, 18, 10],
+      others: []
+    });
+  });
+
   it('keeps names without an icon and skips Instrumental', () => {
-    expect(performers('1', 'Instrumental', 'Hoshino Ichika', 'Sumi Tomomi Jiena')).toEqual({
+    expect(performers('1', 'Instrumental', 'Hoshino Ichika', 'Special Guest Band')).toEqual({
       characters: [1],
-      others: ['Sumi Tomomi Jiena']
+      others: ['Special Guest Band']
     });
   });
 });
