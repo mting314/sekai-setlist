@@ -459,7 +459,7 @@ export function UnperformedSongsSection({
           bg="bg.default"
           overflow="hidden"
         >
-          <Stack gap="0" divideY="1px" divideColor="border.subtle" maxH="480px" overflowY="auto">
+          <Stack gap="0" divideY="1px" divideColor="border.subtle" maxH="580px" overflowY="auto">
             {filteredSongs.length === 0 ? (
               <Box p="6" textAlign="center">
                 <Text color="fg.muted" fontSize="sm">
@@ -474,40 +474,44 @@ export function UnperformedSongsSection({
                 return (
                   <Flex
                     key={song.songId}
-                    gap="2.5"
+                    gap={{ base: '3', md: '3.5' }}
                     justify="space-between"
                     align="center"
-                    p="2.5"
+                    py="3"
+                    px={{ base: '3', md: '3.5' }}
+                    transition="background-color 0.15s ease"
                     _hover={{ bg: 'bg.subtle' }}
                   >
-                    <HStack flex="1" gap="2.5" minW="0">
+                    <HStack flex="1" gap={{ base: '2.5', md: '3' }} minW="0">
                       <Text
                         flexShrink={0}
-                        w="5"
+                        w="7"
                         color="fg.muted"
-                        fontSize="xs"
+                        fontSize="sm"
                         fontWeight="bold"
                         textAlign="center"
                       >
                         #{idx + 1}
                       </Text>
-                      <SongJacket id={song.songId} size={40} />
-                      <Stack flex="1" gap="0.5" minW="0">
-                        <HStack gap="1.5" flexWrap="wrap">
-                          <Text title={name} fontSize="xs" fontWeight="bold" truncate>
+                      <SongJacket id={song.songId} size={56} />
+                      <Stack flex="1" gap="1" minW="0">
+                        <HStack gap="2" alignItems="center" flexWrap="wrap">
+                          <Text
+                            title={name}
+                            fontSize={{ base: 'sm', md: 'md' }}
+                            fontWeight="bold"
+                            lineHeight="short"
+                            truncate
+                          >
                             {name}
                           </Text>
-                          <Box
-                            flexShrink={0}
-                            borderRadius="full"
-                            w="1.5"
-                            h="1.5"
-                            bg={song.unitColor}
-                          />
+                          <Box flexShrink={0} borderRadius="full" w="2" h="2" bg={song.unitColor} />
                           <NicknameChips songId={song.songId} />
                         </HStack>
-                        <HStack gap="2" color="fg.muted" fontSize="2xs" flexWrap="wrap">
-                          <span>{song.unitName}</span>
+                        <HStack gap="2" color="fg.muted" fontSize="xs" flexWrap="wrap">
+                          <Text as="span" fontWeight="medium">
+                            {song.unitName}
+                          </Text>
                           <span>•</span>
                           <span>
                             {t('stats.unperformed.added', { defaultValue: 'Added' })}:{' '}
@@ -516,7 +520,7 @@ export function UnperformedSongsSection({
                           {sub && (
                             <>
                               <span>•</span>
-                              <Text maxW="140px" truncate>
+                              <Text maxW={{ base: '180px', md: '320px' }} truncate>
                                 {sub}
                               </Text>
                             </>
@@ -542,9 +546,10 @@ export function UnperformedSongsSection({
                                     })
                                   : undefined
                               }
-                              py="0"
-                              px="1.5"
-                              fontSize="2xs"
+                              borderRadius="md"
+                              py="0.5"
+                              px="2"
+                              fontSize="xs"
                             >
                               {t('stats.unperformed.badge2d', {
                                 count: song.screen2dCount,
@@ -559,10 +564,11 @@ export function UnperformedSongsSection({
                                 defaultValue: 'Never performed at COLORFUL LIVE (2D Screen)'
                               })}
                               borderColor="border.subtle"
-                              py="0"
-                              px="1.5"
+                              borderRadius="md"
+                              py="0.5"
+                              px="2"
                               color="fg.muted"
-                              fontSize="2xs"
+                              fontSize="xs"
                             >
                               {t('stats.unperformed.badgeAwaiting2d', {
                                 defaultValue: 'Awaiting 2D'
@@ -588,9 +594,10 @@ export function UnperformedSongsSection({
                                     })
                                   : undefined
                               }
-                              py="0"
-                              px="1.5"
-                              fontSize="2xs"
+                              borderRadius="md"
+                              py="0.5"
+                              px="2"
+                              fontSize="xs"
                             >
                               {t('stats.unperformed.badge3d', {
                                 count: song.cast3dCount,
@@ -606,10 +613,11 @@ export function UnperformedSongsSection({
                                   'Never performed at Thanks Festival / Fan Meeting (3D Cast)'
                               })}
                               borderColor="border.subtle"
-                              py="0"
-                              px="1.5"
+                              borderRadius="md"
+                              py="0.5"
+                              px="2"
                               color="fg.muted"
-                              fontSize="2xs"
+                              fontSize="xs"
                             >
                               {t('stats.unperformed.badgeAwaiting3d', {
                                 defaultValue: 'Awaiting 3D'
@@ -626,9 +634,10 @@ export function UnperformedSongsSection({
                                 backgroundColor: 'rgba(139, 92, 246, 0.12)',
                                 borderColor: 'rgba(139, 92, 246, 0.25)'
                               }}
-                              py="0"
-                              px="1.5"
-                              fontSize="2xs"
+                              borderRadius="md"
+                              py="0.5"
+                              px="2"
+                              fontSize="xs"
                             >
                               {t('stats.unperformed.badgeConnectLive', {
                                 count: song.connectLiveCount,
@@ -646,9 +655,10 @@ export function UnperformedSongsSection({
                                 backgroundColor: 'rgba(236, 72, 153, 0.12)',
                                 borderColor: 'rgba(236, 72, 153, 0.25)'
                               }}
-                              py="0"
-                              px="1.5"
-                              fontSize="2xs"
+                              borderRadius="md"
+                              py="0.5"
+                              px="2"
+                              fontSize="xs"
                             >
                               {t('stats.unperformed.badgeSymphony', {
                                 count: song.symphonyCount,
@@ -660,7 +670,7 @@ export function UnperformedSongsSection({
                       </Stack>
                     </HStack>
 
-                    <HStack gap="1.5" flexShrink={0}>
+                    <HStack gap="2" flexShrink={0}>
                       <SongPlayButton songId={song.songId} />
                       <SongInfoButton songId={song.songId} />
                     </HStack>
