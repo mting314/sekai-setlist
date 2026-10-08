@@ -26,26 +26,29 @@ export type DebutFilter =
 export type SubFilter = 'all' | 'has_other' | 'no_other';
 
 function matchesDebut(s: UnperformedSongItem, filter: DebutFilter, sub: SubFilter): boolean {
+  const has2d = s.total2dCount > 0;
+  const has3d = s.cast3dCount > 0;
+
   if (filter === 'never') {
     return s.totalAppearances === 0;
   }
   if (filter === 'awaiting_2d') {
-    if (s.screen2dCount !== 0) return false;
-    if (sub === 'has_other') return s.cast3dCount > 0;
-    if (sub === 'no_other') return s.totalAppearances === 0;
+    if (has2d) return false;
+    if (sub === 'has_other') return has3d;
+    if (sub === 'no_other') return !has3d;
     return true;
   }
   if (filter === 'awaiting_3d') {
-    if (s.cast3dCount !== 0) return false;
-    if (sub === 'has_other') return s.screen2dCount > 0;
-    if (sub === 'no_other') return s.totalAppearances === 0;
+    if (has3d) return false;
+    if (sub === 'has_other') return has2d;
+    if (sub === 'no_other') return !has2d;
     return true;
   }
   if (filter === 'awaiting_both') {
-    return s.screen2dCount === 0 && s.cast3dCount === 0;
+    return !has2d && !has3d;
   }
   if (filter === 'awaiting_either') {
-    return s.screen2dCount === 0 || s.cast3dCount === 0;
+    return !has2d || !has3d;
   }
   return true;
 }
@@ -84,11 +87,13 @@ export function UnperformedSongsSection({
     let awaitingEither = 0;
 
     for (const s of modeSource) {
+      const has2d = s.total2dCount > 0;
+      const has3d = s.cast3dCount > 0;
       if (s.totalAppearances === 0) never++;
-      if (s.screen2dCount === 0) awaiting2d++;
-      if (s.cast3dCount === 0) awaiting3d++;
-      if (s.screen2dCount === 0 && s.cast3dCount === 0) awaitingBoth++;
-      if (s.screen2dCount === 0 || s.cast3dCount === 0) awaitingEither++;
+      if (!has2d) awaiting2d++;
+      if (!has3d) awaiting3d++;
+      if (!has2d && !has3d) awaitingBoth++;
+      if (!has2d || !has3d) awaitingEither++;
     }
 
     return { never, awaiting2d, awaiting3d, awaitingBoth, awaitingEither };
@@ -101,7 +106,7 @@ export function UnperformedSongsSection({
       let has3d = 0;
       let no3d = 0;
       for (const s of modeSource) {
-        if (s.screen2dCount === 0) {
+        if (s.total2dCount === 0) {
           all++;
           if (s.cast3dCount > 0) has3d++;
           else no3d++;
@@ -116,7 +121,7 @@ export function UnperformedSongsSection({
       for (const s of modeSource) {
         if (s.cast3dCount === 0) {
           all++;
-          if (s.screen2dCount > 0) has2d++;
+          if (s.total2dCount > 0) has2d++;
           else no2d++;
         }
       }
@@ -211,7 +216,7 @@ export function UnperformedSongsSection({
     if (debutFilter === 'awaiting_2d') {
       return t('stats.unperformed.subtitle2d', {
         defaultValue:
-          '{{total}} songs have never appeared at COLORFUL LIVE (2D screen projection). Explore songs awaiting their 3DCG stage debut.',
+          '{{total}} songs have never appeared in 2D virtual character lives (COLORFUL LIVE or Connect Live). Explore songs awaiting their virtual character stage debut.',
         total
       });
     }
@@ -224,13 +229,14 @@ export function UnperformedSongsSection({
     }
     if (debutFilter === 'awaiting_both') {
       return t('stats.unperformed.subtitleBoth', {
-        defaultValue: '{{total}} songs have never appeared in either 2D screen or 3D cast format.',
+        defaultValue:
+          '{{total}} songs have never appeared in either 2D (virtual) or 3D (cast) format.',
         total
       });
     }
     return t('stats.unperformed.subtitleEither', {
       defaultValue:
-        '{{total}} songs are awaiting their live debut in at least one format (2D screen or 3D cast).',
+        '{{total}} songs are awaiting their live debut in at least one format (2D virtual or 3D cast).',
       total
     });
   }, [debutFilter, modeCounts, t]);
@@ -319,7 +325,7 @@ export function UnperformedSongsSection({
                 variant={debutFilter === 'awaiting_2d' ? 'solid' : 'outline'}
                 onClick={() => handleDebutFilterChange('awaiting_2d')}
                 title={t('stats.unperformed.filter2dDesc', {
-                  defaultValue: 'Never performed at COLORFUL LIVE (2D Screen)'
+                  defaultValue: 'Never performed in 2D (COLORFUL LIVE or Connect Live)'
                 })}
               >
                 {t('stats.unperformed.filter2d', { defaultValue: 'Awaiting 2D Debut' })}{' '}
@@ -345,7 +351,7 @@ export function UnperformedSongsSection({
                 variant={debutFilter === 'awaiting_both' ? 'solid' : 'outline'}
                 onClick={() => handleDebutFilterChange('awaiting_both')}
                 title={t('stats.unperformed.filterBothDesc', {
-                  defaultValue: 'Never performed in either 2D Screen or 3D Cast'
+                  defaultValue: 'Never performed in either 2D (virtual) or 3D (cast)'
                 })}
               >
                 {t('stats.unperformed.filterBoth', { defaultValue: 'Awaiting Both' })}{' '}
@@ -400,7 +406,7 @@ export function UnperformedSongsSection({
                   {debutFilter === 'awaiting_2d'
                     ? t('stats.unperformed.subFilterHas3d', { defaultValue: 'Has 3D Cast Debut' })
                     : t('stats.unperformed.subFilterHas2d', {
-                        defaultValue: 'Has 2D Screen Debut'
+                        defaultValue: 'Has 2D Live Debut'
                       })}{' '}
                   ({subCounts.hasOther})
                 </Button>
@@ -409,9 +415,11 @@ export function UnperformedSongsSection({
                   variant={subFilter === 'no_other' ? 'subtle' : 'ghost'}
                   onClick={() => setSubFilter('no_other')}
                 >
-                  {t('stats.unperformed.subFilterNever', {
-                    defaultValue: 'Never Live Anywhere'
-                  })}{' '}
+                  {debutFilter === 'awaiting_2d'
+                    ? t('stats.unperformed.subFilterNo3d', { defaultValue: 'No 3D Cast Debut' })
+                    : t('stats.unperformed.subFilterNo2d', {
+                        defaultValue: 'No 2D Live Debut'
+                      })}{' '}
                   ({subCounts.noOther})
                 </Button>
               </Wrap>
@@ -528,7 +536,7 @@ export function UnperformedSongsSection({
                         </HStack>
                         {/* Format Debut Status Badges */}
                         <HStack gap="1.5" pt="0.5" flexWrap="wrap">
-                          {song.screen2dCount > 0 ? (
+                          {song.total2dCount > 0 ? (
                             <Badge
                               size="sm"
                               variant="subtle"
@@ -540,9 +548,9 @@ export function UnperformedSongsSection({
                               title={
                                 song.first2dLiveName
                                   ? t('stats.unperformed.tooltip2dDebut', {
-                                      count: song.screen2dCount,
+                                      count: song.total2dCount,
                                       first: song.first2dLiveName,
-                                      defaultValue: `COLORFUL LIVE: ${song.screen2dCount}x (First: ${song.first2dLiveName})`
+                                      defaultValue: `2D Live: ${song.total2dCount}x (First: ${song.first2dLiveName})`
                                     })
                                   : undefined
                               }
@@ -552,8 +560,8 @@ export function UnperformedSongsSection({
                               fontSize="xs"
                             >
                               {t('stats.unperformed.badge2d', {
-                                count: song.screen2dCount,
-                                defaultValue: `2D: ${song.screen2dCount}x`
+                                count: song.total2dCount,
+                                defaultValue: `2D: ${song.total2dCount}x`
                               })}
                             </Badge>
                           ) : (
@@ -561,7 +569,8 @@ export function UnperformedSongsSection({
                               size="sm"
                               variant="outline"
                               title={t('stats.unperformed.tooltipAwaiting2d', {
-                                defaultValue: 'Never performed at COLORFUL LIVE (2D Screen)'
+                                defaultValue:
+                                  'Never performed in 2D (COLORFUL LIVE or Connect Live)'
                               })}
                               borderColor="border.subtle"
                               borderRadius="md"
@@ -634,6 +643,10 @@ export function UnperformedSongsSection({
                                 backgroundColor: 'rgba(139, 92, 246, 0.12)',
                                 borderColor: 'rgba(139, 92, 246, 0.25)'
                               }}
+                              title={t('stats.unperformed.tooltipConnectLive', {
+                                count: song.connectLiveCount,
+                                defaultValue: `Connect Live (2D): ${song.connectLiveCount}x`
+                              })}
                               borderRadius="md"
                               py="0.5"
                               px="2"

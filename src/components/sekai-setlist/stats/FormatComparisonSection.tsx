@@ -53,21 +53,23 @@ export function FormatComparisonSection({
   }[] = [
     {
       key: 'both',
-      label: t('stats.overlap.both', { defaultValue: 'Both 2D Screen & 3D Cast' }),
+      label: t('stats.overlap.both', { defaultValue: 'Both 2D & 3D Cast' }),
       count: overlap.both2dAnd3d.length,
       color: '#10b981', // Emerald
       description: t('stats.overlap.bothDesc', {
-        defaultValue: 'Performed by both the 3DCG virtual characters and the real voice cast'
+        defaultValue:
+          'Performed by both virtual characters (COLORFUL LIVE / Connect Live) and the real voice cast'
       }),
       songIds: overlap.both2dAnd3d
     },
     {
       key: 'screen2d',
-      label: t('stats.overlap.screen2dOnly', { defaultValue: '2D Screen Only' }),
+      label: t('stats.overlap.screen2dOnly', { defaultValue: '2D Characters Only' }),
       count: overlap.screen2dOnly.length,
       color: FORMAT_COLORS.screen_2d,
       description: t('stats.overlap.screen2dDesc', {
-        defaultValue: 'Performed at COLORFUL LIVE, but not yet by the real voice cast on stage'
+        defaultValue:
+          'Performed by virtual characters (COLORFUL LIVE or Connect Live), but not yet by the real voice cast on stage'
       }),
       songIds: overlap.screen2dOnly
     },
@@ -78,17 +80,17 @@ export function FormatComparisonSection({
       color: FORMAT_COLORS.cast_3d,
       description: t('stats.overlap.cast3dDesc', {
         defaultValue:
-          'Performed by voice actors at Thanks Fes or Fan Meetings, never at COLORFUL LIVE'
+          'Performed by voice actors at Thanks Fes or Fan Meetings, never at COLORFUL LIVE or Connect Live'
       }),
       songIds: overlap.cast3dOnly
     },
     {
       key: 'other',
-      label: t('stats.overlap.otherOnly', { defaultValue: 'Connect / Symphony Only' }),
+      label: t('stats.overlap.otherOnly', { defaultValue: 'Symphony Only' }),
       count: overlap.otherFormatOnly.length,
-      color: '#8b5cf6',
+      color: FORMAT_COLORS.symphony,
       description: t('stats.overlap.otherDesc', {
-        defaultValue: 'Performed exclusively in Connect Live or Sekai Symphony orchestra'
+        defaultValue: 'Performed exclusively in Sekai Symphony orchestra'
       }),
       songIds: overlap.otherFormatOnly
     }
@@ -108,7 +110,7 @@ export function FormatComparisonSection({
       title={t('stats.format.title', { defaultValue: '2D Screen vs 3D Cast Performances' })}
       description={t('stats.format.subtitle', {
         defaultValue:
-          'Comparing virtual character screen projections (COLORFUL LIVE) against real-life voice cast stage performances (Thanks Festival & Fan Meetings).'
+          'Comparing virtual character performances (COLORFUL LIVE screen projections & in-game Connect Lives) against real-life voice cast stage performances (Thanks Festival & Fan Meetings).'
       })}
     >
       <Stack gap="5">

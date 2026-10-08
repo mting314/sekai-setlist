@@ -38,10 +38,10 @@ export const FORMAT_NAMES: Record<
     descJa: '声優キャストによるリアルステージ歌唱・パフォーマンス'
   },
   connect_live: {
-    en: 'Connect Live',
-    ja: 'コネクトライブ',
-    descEn: 'Real-time interactive virtual live within the game engine',
-    descJa: 'ゲーム内リアルタイム参加型バーチャルライブ'
+    en: 'Connect Live (2D Virtual)',
+    ja: 'コネクトライブ (2Dバーチャル)',
+    descEn: 'Real-time interactive virtual live with 3DCG character models',
+    descJa: '3DCGキャラクターによるゲーム内リアルタイム参加型バーチャルライブ'
   },
   symphony: {
     en: 'Sekai Symphony',
@@ -147,8 +147,10 @@ export interface CharacterFocusCell {
   publishedAt?: number;
   isPerformed: boolean;
   performanceCount: number;
+  total2dCount?: number;
   screen2dCount: number;
   cast3dCount: number;
+  connectLiveCount?: number;
   firstLiveName?: string;
   firstLiveDate?: string;
 }
@@ -202,6 +204,7 @@ export interface UnperformedSongItem {
   assetbundleName: string;
   nicknames?: string[];
   eventIds?: number[];
+  total2dCount: number; // screen2dCount + connectLiveCount (all virtual character performances)
   screen2dCount: number;
   cast3dCount: number;
   connectLiveCount: number;
@@ -351,6 +354,8 @@ export function computeSekaiStats(): SekaiStatsData {
             if (!tr.first3dLive) tr.first3dLive = live;
           } else if (fmt === 'connect_live') {
             tr.connectLiveCount++;
+            // Connect Live is a virtual character performance (2D)
+            if (!tr.first2dLive) tr.first2dLive = live;
           } else if (fmt === 'symphony') {
             tr.symphonyCount++;
           }
@@ -363,14 +368,15 @@ export function computeSekaiStats(): SekaiStatsData {
   const totalCatalogSongs = songs.length;
   const unperformedCatalogSongs = totalCatalogSongs - performedCatalogSongsCount;
 
-  // 2. Format Overlap (2D Screen vs 3D Cast)
+  // 2. Format Overlap (2D Character vs 3D Cast)
   const both2dAnd3d: string[] = [];
   const screen2dOnly: string[] = [];
   const cast3dOnly: string[] = [];
   const otherFormatOnly: string[] = [];
 
   for (const [songId, tr] of songTracker.entries()) {
-    const has2D = tr.screen2dCount > 0;
+    // 2D includes both COLORFUL LIVE screen projection and in-game Connect Live
+    const has2D = tr.screen2dCount > 0 || tr.connectLiveCount > 0;
     const has3D = tr.cast3dCount > 0;
     if (has2D && has3D) {
       both2dAnd3d.push(songId);
@@ -571,6 +577,10 @@ export function computeSekaiStats(): SekaiStatsData {
             const tr = songTracker.get(sId);
             const isPerf = !!tr && tr.totalAppearances > 0;
 
+            const s2d = tr?.screen2dCount ?? 0;
+            const cl = tr?.connectLiveCount ?? 0;
+            const c3d = tr?.cast3dCount ?? 0;
+
             const cell: CharacterFocusCell = {
               cycle: cycleNum,
               songId: sId,
@@ -583,8 +593,10 @@ export function computeSekaiStats(): SekaiStatsData {
               publishedAt: s?.publishedAt,
               isPerformed: isPerf,
               performanceCount: tr?.totalAppearances ?? 0,
-              screen2dCount: tr?.screen2dCount ?? 0,
-              cast3dCount: tr?.cast3dCount ?? 0,
+              total2dCount: s2d + cl,
+              screen2dCount: s2d,
+              cast3dCount: c3d,
+              connectLiveCount: cl,
               firstLiveName: tr?.firstLive?.name,
               firstLiveDate: tr?.firstLive?.startDate
             };
@@ -604,6 +616,10 @@ export function computeSekaiStats(): SekaiStatsData {
           // World link event for this unit
           const tr = songTracker.get(sId);
           const isPerf = !!tr && tr.totalAppearances > 0;
+          const s2d = tr?.screen2dCount ?? 0;
+          const cl = tr?.connectLiveCount ?? 0;
+          const c3d = tr?.cast3dCount ?? 0;
+
           worldLinkCell = {
             cycle: 0,
             isWorldLink: true,
@@ -617,8 +633,10 @@ export function computeSekaiStats(): SekaiStatsData {
             publishedAt: s?.publishedAt,
             isPerformed: isPerf,
             performanceCount: tr?.totalAppearances ?? 0,
-            screen2dCount: tr?.screen2dCount ?? 0,
-            cast3dCount: tr?.cast3dCount ?? 0,
+            total2dCount: s2d + cl,
+            screen2dCount: s2d,
+            cast3dCount: c3d,
+            connectLiveCount: cl,
             firstLiveName: tr?.firstLive?.name,
             firstLiveDate: tr?.firstLive?.startDate
           };
@@ -657,6 +675,7 @@ export function computeSekaiStats(): SekaiStatsData {
     const connectLiveCount = tr?.connectLiveCount ?? 0;
     const symphonyCount = tr?.symphonyCount ?? 0;
     const totalAppearances = tr?.totalAppearances ?? 0;
+    const total2dCount = screen2dCount + connectLiveCount;
 
     const primaryUnit = song.units[0] ?? 'other';
     const uMeta = unitMap.get(primaryUnit);
@@ -672,6 +691,7 @@ export function computeSekaiStats(): SekaiStatsData {
       assetbundleName: song.assetbundleName,
       nicknames: song.nicknames,
       eventIds: song.eventIds,
+      total2dCount,
       screen2dCount,
       cast3dCount,
       connectLiveCount,
@@ -693,7 +713,7 @@ export function computeSekaiStats(): SekaiStatsData {
     }
 
     // Awaiting 2D or 3D debut (i.e. has not performed in both formats)
-    if (screen2dCount === 0 || cast3dCount === 0) {
+    if (total2dCount === 0 || cast3dCount === 0) {
       if (song.commissioned) {
         allAwaitingCommissioned.push(item);
       } else {
