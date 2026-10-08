@@ -24,7 +24,6 @@ import { NicknameChips } from './song-info/NicknameChips';
 import { SongPlayButton } from './audio/SongPlayButton';
 import { SongInfoButton } from './song-info/SongInfoButton';
 import { Badge } from '~/components/ui/styled/badge';
-import { useAttendance } from '~/hooks/useAttendance';
 import { Button } from '~/components/ui/styled/button';
 import { Input } from '~/components/ui/styled/input';
 import { Link } from '~/components/ui/link';
@@ -79,7 +78,6 @@ export function PastSetlists() {
   const { t } = useTranslation();
   const [filters, setFilters] = useState<LiveFilters>(EMPTY_LIVE_FILTERS);
   const [view, setView] = useState<View>('lives');
-  const { attendance } = useAttendance();
 
   const lives = useMemo(() => filterLives(sekaiLives, filters, getSekaiSong), [filters]);
   const stats = useMemo(() => songStats(sekaiLives, filters, getSekaiSong), [filters]);
@@ -192,13 +190,7 @@ export function PastSetlists() {
               })}
             </Text>
             {lives.map(({ live, matches }) => (
-              <LiveCard
-                key={live.id}
-                live={live}
-                matches={matches}
-                filters={filters}
-                attended={Object.keys(attendance.shows[live.id] ?? {}).length}
-              />
+              <LiveCard key={live.id} live={live} matches={matches} filters={filters} />
             ))}
           </Stack>
         )
@@ -212,13 +204,11 @@ export function PastSetlists() {
 function LiveCard({
   live,
   matches,
-  filters,
-  attended
+  filters
 }: {
   live: SekaiLive;
   matches: number;
   filters: LiveFilters;
-  attended: number; // shows you logged
 }) {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
@@ -251,14 +241,6 @@ function LiveCard({
             {noSetlist && (
               <Badge variant="subtle" size="sm">
                 {t('sekaiSetlist.lives.noSetlist', { defaultValue: 'No setlist yet' })}
-              </Badge>
-            )}
-            {attended > 0 && (
-              <Badge variant="solid" size="sm">
-                {t('attendance.attendedShows', {
-                  count: attended,
-                  defaultValue: attended === 1 ? 'Attended' : `Attended ${attended} shows`
-                })}
               </Badge>
             )}
             {filtered && (

@@ -19,7 +19,6 @@ const NAV: { path: string; key: string; exact: boolean; also?: string[] }[] = [
   { path: '/lives', key: 'lives', exact: false },
   { path: '/songs', key: 'songs', exact: false },
   { path: '/stats', key: 'stats', exact: false },
-  { path: '/me', key: 'me', exact: false },
   { path: '/predict', key: 'predict', exact: false, also: ['/builder', '/mark'] }
 ];
 

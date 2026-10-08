@@ -127,14 +127,3 @@ export interface SekaiLive {
   image?: string; // key visual / poster image URL
   performances: SekaiLivePerformance[]; // [] = setlist not published yet
 }
-
-// One show (a date, or a day/night slot on a date) of a live — what attendance is logged
-// against. Derived from the performances by default, curated in data/sekai/shows.json.
-export interface SekaiLiveShow {
-  id: string; // unique within the live, e.g. 'tokyo-d1-day'; 'main' for a single show
-  label: string; // e.g. 'Tokyo Day 1 · Daytime'
-  date?: string; // YYYY-MM-DD
-  performance?: string; // SekaiLivePerformance.name of the setlist played; absent = not recorded
-}
-
-export type AttendanceHow = 'in_person' | 'viewing' | 'stream';

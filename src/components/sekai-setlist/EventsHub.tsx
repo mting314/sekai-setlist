@@ -2,29 +2,24 @@
  * Home: a repository of Project Sekai lives. Lives still waiting on a setlist (predict them),
  * the latest setlists, and links into the live and song archives.
  */
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiEdit, BiRightArrowAlt } from 'react-icons/bi';
-import { HStack, Stack, Wrap } from 'styled-system/jsx';
-import { Card, LiveSummaryCard } from './LiveSummaryCard';
+import { Stack, Wrap } from 'styled-system/jsx';
+import { LiveSummaryCard } from './LiveSummaryCard';
 import { Badge } from '~/components/ui/styled/badge';
 import { Button } from '~/components/ui/styled/button';
 import { Link } from '~/components/ui/link';
 import { Text } from '~/components/ui/styled/text';
-import { useAttendance } from '~/hooks/useAttendance';
 import { useToday } from '~/hooks/useToday';
-import { ATTENDANCE_HOWS } from '~/utils/sekai-setlist/attendance';
-import { attendanceStats, attendedShows } from '~/utils/sekai-setlist/attendance-stats';
 import { awaitingLives, livesWithSetlists, sekaiLives } from '~/utils/sekai-setlist/live-data';
 import {
   builderHref,
   liveHref,
   livesHref,
-  meHref,
   predictHref,
   songsHref
 } from '~/utils/sekai-setlist/routes';
-import { getSekaiSong, sekaiSongs } from '~/utils/sekai-setlist/catalog';
+import { sekaiSongs } from '~/utils/sekai-setlist/catalog';
 
 const RECENT_LIVES = 5;
 
@@ -39,11 +34,6 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 export function EventsHub() {
   const { t } = useTranslation();
   const today = useToday();
-  const { attendance } = useAttendance();
-  const mine = useMemo(
-    () => attendanceStats(attendedShows(attendance, sekaiLives), ATTENDANCE_HOWS, getSekaiSong),
-    [attendance]
-  );
 
   return (
     <Stack gap={8}>
@@ -76,24 +66,6 @@ export function EventsHub() {
           </Button>
         </Wrap>
       </Stack>
-
-      {mine.shows.length > 0 && (
-        <Card>
-          <HStack gap={4} justifyContent="space-between" flexWrap="wrap">
-            <Text fontSize="sm">
-              {t('hub.yourStats', {
-                lives: mine.lives,
-                shows: mine.shows.length,
-                songs: mine.songsHeard.size,
-                defaultValue: `You've been to ${mine.lives} lives (${mine.shows.length} shows) and heard ${mine.songsHeard.size} songs live.`
-              })}
-            </Text>
-            <Link href={meHref()} fontSize="sm">
-              {t('attendance.toMyLives', { defaultValue: 'My Lives →' })}
-            </Link>
-          </HStack>
-        </Card>
-      )}
 
       <Stack gap={3}>
         <SectionTitle>

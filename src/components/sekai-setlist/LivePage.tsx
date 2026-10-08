@@ -8,17 +8,14 @@ import { Box, HStack, Stack, Wrap } from 'styled-system/jsx';
 import { Card } from './LiveSummaryCard';
 import { LiveVisual } from './LiveVisual';
 import { PerformanceList } from './PerformanceList';
-import { ShowAttendance, useHowLabel } from './ShowAttendance';
 import { Badge } from '~/components/ui/styled/badge';
 import { Button } from '~/components/ui/styled/button';
 import { Link } from '~/components/ui/link';
 import { Text } from '~/components/ui/styled/text';
-import { useAttendance } from '~/hooks/useAttendance';
 import { usePredictions } from '~/hooks/usePredictions';
 import { sekaiLiveName } from '~/utils/sekai-setlist/live-data';
 import { songCount } from '~/utils/sekai-setlist/prediction';
-import { builderHref, livesHref, markHref, meHref } from '~/utils/sekai-setlist/routes';
-import { liveShows } from '~/utils/sekai-setlist/shows';
+import { builderHref, livesHref, markHref } from '~/utils/sekai-setlist/routes';
 import type { SekaiLive } from '~/types/sekai';
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
@@ -32,18 +29,6 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 export function LivePage({ live }: { live: SekaiLive }) {
   const { t, i18n } = useTranslation();
   const { predictions } = usePredictions(live.id);
-  const { attendance, setShow } = useAttendance();
-  const howLabel = useHowLabel();
-  const logged = attendance.shows[live.id] ?? {};
-  // Shows you attended, by the setlist they used.
-  const attendedByPerf = new Map<string, string[]>();
-  for (const show of liveShows(live)) {
-    const how = logged[show.id]?.how;
-    if (!how || show.performance === undefined) continue;
-    const list = attendedByPerf.get(show.performance) ?? [];
-    list.push(`${show.label} · ${howLabel(how)}`);
-    attendedByPerf.set(show.performance, list);
-  }
 
   const noSetlist = live.performances.length === 0;
   const name = sekaiLiveName(live, i18n.language);
@@ -153,24 +138,6 @@ export function LivePage({ live }: { live: SekaiLive }) {
         </Stack>
       )}
 
-      <Stack gap={2}>
-        <HStack gap={2} justifyContent="space-between" flexWrap="wrap">
-          <SectionTitle>
-            {t('attendance.wereYouThere', { defaultValue: 'Were you there?' })}
-          </SectionTitle>
-          <Link href={meHref()} fontSize="sm">
-            {t('attendance.toMyLives', { defaultValue: 'My Lives →' })}
-          </Link>
-        </HStack>
-        <Card>
-          <ShowAttendance
-            live={live}
-            attendance={attendance}
-            onChange={(showId, how) => setShow(live.id, showId, how ? { how } : undefined)}
-          />
-        </Card>
-      </Stack>
-
       <Stack gap={3}>
         <SectionTitle>{t('live.setlists', { defaultValue: 'Setlists' })}</SectionTitle>
         {noSetlist ? (
@@ -182,21 +149,7 @@ export function LivePage({ live }: { live: SekaiLive }) {
         ) : (
           live.performances.map((perf, i) => (
             <Card key={i}>
-              <PerformanceList
-                live={live}
-                perf={perf}
-                badges={
-                  attendedByPerf.has(perf.name) && (
-                    <Badge
-                      variant="solid"
-                      size="sm"
-                      title={attendedByPerf.get(perf.name)!.join('\n')}
-                    >
-                      {t('attendance.youWereHere', { defaultValue: 'You were here' })}
-                    </Badge>
-                  )
-                }
-              />
+              <PerformanceList live={live} perf={perf} />
             </Card>
           ))
         )}

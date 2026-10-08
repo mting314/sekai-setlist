@@ -15,10 +15,7 @@ import { Badge } from '~/components/ui/styled/badge';
 import { Button } from '~/components/ui/styled/button';
 import { Link } from '~/components/ui/link';
 import { Text } from '~/components/ui/styled/text';
-import { useAttendance } from '~/hooks/useAttendance';
 import { unitIconUrl } from '~/utils/sekai-setlist/assets';
-import { ATTENDANCE_HOWS } from '~/utils/sekai-setlist/attendance';
-import { attendanceStats, attendedShows } from '~/utils/sekai-setlist/attendance-stats';
 import { getSekaiSong, sekaiSongName, sekaiSongs, sekaiUnits } from '~/utils/sekai-setlist/catalog';
 import { sekaiLives } from '~/utils/sekai-setlist/live-data';
 import { EMPTY_LIVE_FILTERS, filterLives, songStats } from '~/utils/sekai-setlist/lives';
@@ -39,7 +36,6 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 export function UnitPage({ unit }: { unit: SekaiUnitMeta }) {
   const { t, i18n } = useTranslation();
   const [showAll, setShowAll] = useState(false);
-  const { attendance } = useAttendance();
 
   const { songCount, performed, lives } = useMemo(() => {
     const filters = { ...EMPTY_LIVE_FILTERS, units: [unit.id] };
@@ -49,13 +45,6 @@ export function UnitPage({ unit }: { unit: SekaiUnitMeta }) {
       lives: filterLives(sekaiLives, filters, getSekaiSong)
     };
   }, [unit.id]);
-  const heard = useMemo(
-    () =>
-      attendanceStats(attendedShows(attendance, sekaiLives), ATTENDANCE_HOWS, getSekaiSong).byUnit[
-        unit.id
-      ] ?? 0,
-    [attendance, unit.id]
-  );
   const name = t(`sekaiSetlist.units.${unit.id}`, { defaultValue: unit.name });
 
   return (
@@ -84,17 +73,13 @@ export function UnitPage({ unit }: { unit: SekaiUnitMeta }) {
         </Stack>
       </HStack>
 
-      <Grid gap={2} gridTemplateColumns={{ base: '1fr 1fr', md: 'repeat(4, 1fr)' }}>
+      <Grid gap={2} gridTemplateColumns={{ base: '1fr', sm: 'repeat(3, 1fr)' }}>
         <Stat label={t('unit.statSongs', { defaultValue: 'Songs' })} value={songCount} />
         <Stat
           label={t('unit.statPerformed', { defaultValue: 'Performed live' })}
           value={performed.length}
         />
         <Stat label={t('unit.statLives', { defaultValue: 'Lives' })} value={lives.length} />
-        <Stat
-          label={t('unit.statHeard', { defaultValue: 'You heard' })}
-          value={`${heard} / ${performed.length}`}
-        />
       </Grid>
 
       <Stack gap={2}>

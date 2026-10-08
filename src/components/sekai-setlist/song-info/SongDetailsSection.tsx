@@ -1,21 +1,16 @@
 /**
  * The facts about a song shared by the song-info dialog and the song page: its event(s) with
- * nicknames, credits, release dates, vocal versions, and how often you heard it live.
+ * nicknames, credits, release dates, and vocal versions.
  */
-import { Fragment, useMemo } from 'react';
+import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SongPlayButton } from '../audio/SongPlayButton';
 import { SongEventCard } from './SongEventCard';
 import { useSongDetails } from './useSongDetails';
-import { useHowLabel } from '../ShowAttendance';
 import { CharacterIcons } from '../SongMeta';
 import { Box, Grid, HStack, Stack, Wrap } from 'styled-system/jsx';
 import { Text } from '~/components/ui/styled/text';
-import { useAttendance } from '~/hooks/useAttendance';
-import { ATTENDANCE_HOWS } from '~/utils/sekai-setlist/attendance';
-import { attendedShows, timesHeard } from '~/utils/sekai-setlist/attendance-stats';
 import { getSekaiSong } from '~/utils/sekai-setlist/catalog';
-import { sekaiLives } from '~/utils/sekai-setlist/live-data';
 import type { AudioKind, SekaiSongVersion, SekaiVersionKind } from '~/types/sekai';
 
 // Game dates are Japan time: a JST-midnight release would otherwise show as the day before.
@@ -111,31 +106,6 @@ export function SongVersions({
   );
 }
 
-/** "You heard this live 3× (In person 1, Stream 2)", or nothing if you never did. */
-export function HeardLive({ songId }: { songId: string }) {
-  const { t } = useTranslation();
-  const { attendance } = useAttendance();
-  const howLabel = useHowLabel();
-  const heard = useMemo(
-    () => timesHeard(attendedShows(attendance, sekaiLives), songId),
-    [attendance, songId]
-  );
-  const total = heard.in_person + heard.viewing + heard.stream;
-  if (total === 0) return null;
-  return (
-    <Text fontSize="sm" fontWeight="semibold">
-      {t('attendance.youHeard', { count: total, defaultValue: `You heard this live ${total}×` })}{' '}
-      <Text as="span" color="fg.muted" fontWeight="normal">
-        (
-        {ATTENDANCE_HOWS.filter((h) => heard[h] > 0)
-          .map((h) => `${howLabel(h)} ${heard[h]}`)
-          .join(', ')}
-        )
-      </Text>
-    </Text>
-  );
-}
-
 export function SongDetailsSection({ songId }: { songId: string }) {
   const { t } = useTranslation();
   const details = useSongDetails(songId);
@@ -171,7 +141,6 @@ export function SongDetailsSection({ songId }: { songId: string }) {
         </Grid>
       )}
       <SongVersions songId={songId} versions={details?.versions} />
-      <HeardLive songId={songId} />
     </Stack>
   );
 }

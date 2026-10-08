@@ -26,7 +26,6 @@ export const liveHref = (id: string) => page(`/lives/${encodeURIComponent(id)}`)
 export const songsHref = () => page('/songs');
 export const songHref = (id: string) => page(`/songs/${encodeURIComponent(id)}`);
 export const unitHref = (id: string) => page(`/units/${encodeURIComponent(id)}`);
-export const meHref = () => page('/me');
 export const predictHref = () => page('/predict');
 /** The builder: a saved prediction, a shared one to import, or a new one for a live. */
 export const builderHref = (target?: PredictionTarget) => predictionPage('/builder', target);
