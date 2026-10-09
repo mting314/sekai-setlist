@@ -175,11 +175,8 @@ export function SongBrowser() {
                       {sekaiSongName(song.id, i18n.language)}
                     </Link>
                     <NicknameChips songId={song.id} />
-                    <KindBadge commissioned={song.commissioned} />
-                    <SongPlayButton songId={song.id} />
-                    <SongInfoButton songId={song.id} />
                   </HStack>
-                  <HStack gap={2} minW={0}>
+                  <HStack gap={2} alignItems="center" minW={0}>
                     <VocalistIcons id={song.id} size={16} />
                     {sub && (
                       <Text
@@ -192,16 +189,21 @@ export function SongBrowser() {
                         {sub}
                       </Text>
                     )}
+                    <KindBadge commissioned={song.commissioned} />
                   </HStack>
                 </Stack>
-                <Text flexShrink={0} color={st ? 'fg.default' : 'fg.subtle'} fontSize="xs">
-                  {st
-                    ? t('sekaiSetlist.lives.livesCount', {
-                        count: st.lives.length,
-                        defaultValue: `${st.lives.length} lives`
-                      })
-                    : t('song.notPerformed', { defaultValue: 'Not performed' })}
-                </Text>
+                <HStack gap={2} flexShrink={0} alignItems="center">
+                  <Text color={st ? 'fg.default' : 'fg.subtle'} fontSize="xs" textAlign="right">
+                    {st
+                      ? t('sekaiSetlist.lives.livesCount', {
+                          count: st.lives.length,
+                          defaultValue: `${st.lives.length} lives`
+                        })
+                      : t('song.notPerformed', { defaultValue: 'Not performed' })}
+                  </Text>
+                  <SongPlayButton songId={song.id} />
+                  <SongInfoButton songId={song.id} />
+                </HStack>
               </HStack>
             );
           })}

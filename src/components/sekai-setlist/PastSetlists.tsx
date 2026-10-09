@@ -366,8 +366,6 @@ function SongStatsList({ stats }: { stats: SongStat[] }) {
                 </Link>
                 <NicknameChips songId={st.songId} />
                 {song && <KindBadge commissioned={song.commissioned} />}
-                <SongPlayButton songId={st.songId} />
-                <SongInfoButton songId={st.songId} />
               </HStack>
               <Text
                 title={liveNames.join('\n')}
@@ -380,20 +378,24 @@ function SongStatsList({ stats }: { stats: SongStat[] }) {
                 {liveNames.join(' / ')}
               </Text>
             </Stack>
-            <Stack gap={0} flexShrink={0} textAlign="right">
-              <Text fontSize="sm" fontWeight="semibold">
-                {t('sekaiSetlist.lives.livesCount', {
-                  count: st.lives.length,
-                  defaultValue: `${st.lives.length} lives`
-                })}
-              </Text>
-              <Text color="fg.subtle" fontSize="xs">
-                {t('sekaiSetlist.lives.showsCount', {
-                  count: st.performances,
-                  defaultValue: `${st.performances} setlists`
-                })}
-              </Text>
-            </Stack>
+            <HStack gap={2} flexShrink={0} alignItems="center">
+              <Stack gap={0} textAlign="right">
+                <Text fontSize="sm" fontWeight="semibold">
+                  {t('sekaiSetlist.lives.livesCount', {
+                    count: st.lives.length,
+                    defaultValue: `${st.lives.length} lives`
+                  })}
+                </Text>
+                <Text color="fg.subtle" fontSize="xs">
+                  {t('sekaiSetlist.lives.showsCount', {
+                    count: st.performances,
+                    defaultValue: `${st.performances} setlists`
+                  })}
+                </Text>
+              </Stack>
+              <SongPlayButton songId={st.songId} />
+              <SongInfoButton songId={st.songId} />
+            </HStack>
           </HStack>
         );
       })}

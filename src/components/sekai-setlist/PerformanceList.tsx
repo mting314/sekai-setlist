@@ -146,8 +146,6 @@ export function PerformanceList({
                           {sekaiSongName(song.id, i18n.language)}
                         </Link>
                         <NicknameChips songId={song.id} />
-                        <SongPlayButton songId={song.id} version={version} />
-                        <SongInfoButton songId={song.id} />
                       </>
                     ) : (
                       <Text
@@ -183,7 +181,11 @@ export function PerformanceList({
                     </HStack>
                   )}
                 </Stack>
-                {song && <KindBadge commissioned={song.commissioned} />}
+                <HStack gap={1.5} flexShrink={0} alignItems="center">
+                  {song && <KindBadge commissioned={song.commissioned} />}
+                  {song && <SongPlayButton songId={song.id} version={version} />}
+                  {song && <SongInfoButton songId={song.id} />}
+                </HStack>
               </SetlistRow>
             </Fragment>
           );

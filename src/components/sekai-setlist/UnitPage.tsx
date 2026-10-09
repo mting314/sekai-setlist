@@ -115,15 +115,17 @@ export function UnitPage({ unit }: { unit: SekaiUnitMeta }) {
                     {sekaiSongName(s.songId, i18n.language)}
                   </Link>
                   <NicknameChips songId={s.songId} />
+                </HStack>
+                <HStack gap={2} flexShrink={0} alignItems="center">
+                  <Text color="fg.muted" fontSize="xs" textAlign="right">
+                    {t('sekaiSetlist.lives.livesCount', {
+                      count: s.lives.length,
+                      defaultValue: `${s.lives.length} lives`
+                    })}
+                  </Text>
                   <SongPlayButton songId={s.songId} />
                   <SongInfoButton songId={s.songId} />
                 </HStack>
-                <Text flexShrink={0} color="fg.muted" fontSize="xs">
-                  {t('sekaiSetlist.lives.livesCount', {
-                    count: s.lives.length,
-                    defaultValue: `${s.lives.length} lives`
-                  })}
-                </Text>
               </HStack>
             ))}
             {performed.length > SONGS_SHOWN && (
