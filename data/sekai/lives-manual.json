@@ -8,7 +8,47 @@
     "venue": "名取市文化会館 大ホール (Miyagi)",
     "notes": ["Two shows: 14:00 and 18:30."],
     "source": "https://www.livefans.jp/events/1929681",
-    "performances": []
+    "performances": [
+      {
+        "name": "Short Live",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "99",
+            "title": "モア！ジャンプ！モア！",
+            "note": "(Short ver.)",
+            "performers": [
+              "Ogura Yui",
+              "Yoshioka Mayu",
+              "Furihata Ai",
+              "Honnizumi Rina"
+            ]
+          },
+          {
+            "songId": "582",
+            "title": "アンチユー",
+            "note": "(Short ver.)",
+            "performers": [
+              "Ogura Yui",
+              "Yoshioka Mayu",
+              "Furihata Ai",
+              "Honnizumi Rina"
+            ]
+          },
+          {
+            "songId": "112",
+            "title": "天使のクローバー",
+            "note": "(Short ver.)",
+            "performers": [
+              "Ogura Yui",
+              "Yoshioka Mayu",
+              "Furihata Ai",
+              "Honnizumi Rina"
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "unit-fan-meeting-vivid-bad-squad-in-hyogo",
@@ -19,7 +59,47 @@
     "venue": "神戸国際会館こくさいホール (Hyogo)",
     "notes": ["Two shows: 14:00 and 18:30."],
     "source": "https://www.livefans.jp/events/1918965",
-    "performances": []
+    "performances": [
+      {
+        "name": "Short Live",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "497",
+            "title": "烈火",
+            "note": "(Short ver.)",
+            "performers": [
+              "Akina",
+              "Sumi Tomomi Jiena",
+              "Imai Fumiya",
+              "Ito Kento"
+            ]
+          },
+          {
+            "songId": "478",
+            "title": "フューエル",
+            "note": "(Short ver.)",
+            "performers": [
+              "Akina",
+              "Sumi Tomomi Jiena",
+              "Imai Fumiya",
+              "Ito Kento"
+            ]
+          },
+          {
+            "songId": "471",
+            "title": "ULTRA C",
+            "note": "(Short ver.)",
+            "performers": [
+              "Akina",
+              "Sumi Tomomi Jiena",
+              "Imai Fumiya",
+              "Ito Kento"
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "unit-fan-meeting-leo-need-in-tokyo",
@@ -30,7 +110,44 @@
     "venue": "LINE CUBE SHIBUYA (Tokyo)",
     "notes": ["Two shows: 14:00 and 18:30."],
     "source": "https://www.livefans.jp/events/1952258",
-    "performances": []
+    "performances": [
+      {
+        "name": "Short Live",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "257",
+            "title": "てらてら",
+            "note": "(Short ver.)",
+            "performers": [
+              "Noguchi Ruriko",
+              "Isobe Karin",
+              "Nakashima Yuki"
+            ]
+          },
+          {
+            "songId": "173",
+            "title": "流星のパルス",
+            "note": "(Short ver.)",
+            "performers": [
+              "Noguchi Ruriko",
+              "Isobe Karin",
+              "Nakashima Yuki"
+            ]
+          },
+          {
+            "songId": "207",
+            "title": "Peaky Peaky",
+            "note": "(Short ver.)",
+            "performers": [
+              "Noguchi Ruriko",
+              "Isobe Karin",
+              "Nakashima Yuki"
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "unit-fan-meeting-wonderlands-x-showtime-in-aichi",
@@ -41,7 +158,44 @@
     "venue": "Home & nicoホール 大ホール (Aichi)",
     "notes": ["Two shows: 14:00 and 18:30."],
     "source": "https://www.livefans.jp/events/1952260",
-    "performances": []
+    "performances": [
+      {
+        "name": "Short Live",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "333",
+            "title": "Mr. Showtime",
+            "note": "(Short ver.)",
+            "performers": [
+              "Hirose Daisuke",
+              "Machico",
+              "Toki Shunichi"
+            ]
+          },
+          {
+            "songId": "160",
+            "title": "ショウタイム・ルーラー",
+            "note": "(Short ver.)",
+            "performers": [
+              "Hirose Daisuke",
+              "Machico",
+              "Toki Shunichi"
+            ]
+          },
+          {
+            "songId": "166",
+            "title": "Glory Steady Go!",
+            "note": "(Short ver.)",
+            "performers": [
+              "Hirose Daisuke",
+              "Machico",
+              "Toki Shunichi"
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "unit-fan-meeting-25-ji-nightcord-de-in-oita",
@@ -52,6 +206,43 @@
     "venue": "iichiko総合文化センター グランシアタ (Oita)",
     "notes": ["Two shows: 14:00 and 18:30."],
     "source": "https://www.livefans.jp/events/1974097",
-    "performances": []
+    "performances": [
+      {
+        "name": "Short Live",
+        "markers": [],
+        "songs": [
+          {
+            "songId": "500",
+            "title": "余花にみとれて",
+            "note": "(Short ver.)",
+            "performers": [
+              "Tanabe Rui",
+              "Suzuki Minori",
+              "Satou Hinata"
+            ]
+          },
+          {
+            "songId": "248",
+            "title": "バグ",
+            "note": "(Short ver.)",
+            "performers": [
+              "Tanabe Rui",
+              "Suzuki Minori",
+              "Satou Hinata"
+            ]
+          },
+          {
+            "songId": "353",
+            "title": "キティ",
+            "note": "(Short ver.)",
+            "performers": [
+              "Tanabe Rui",
+              "Suzuki Minori",
+              "Satou Hinata"
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

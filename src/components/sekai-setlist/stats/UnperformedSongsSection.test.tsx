@@ -71,16 +71,16 @@ describe('UnperformedSongsSection', () => {
     // Switch to Awaiting 3D Debut
     fireEvent.click(screen.getByText(/Awaiting 3D Debut/i));
 
-    // Commissioned count updates to 89
-    expect(screen.getByText(/Commissioned Songs \(89\)/i)).toBeInTheDocument();
+    // Commissioned count updates to 87
+    expect(screen.getByText(/Commissioned Songs \(87\)/i)).toBeInTheDocument();
 
     // Sub-filters appear
-    expect(screen.getByText(/Has 2D Live Debut \(42\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Has 2D Live Debut \(40\)/i)).toBeInTheDocument();
     expect(screen.getByText(/No 2D Live Debut \(47\)/i)).toBeInTheDocument();
 
     // Click "Has 2D Live Debut"
-    fireEvent.click(screen.getByText(/Has 2D Live Debut \(42\)/i));
-    expect(screen.getByText('42 songs')).toBeInTheDocument();
+    fireEvent.click(screen.getByText(/Has 2D Live Debut \(40\)/i));
+    expect(screen.getByText('40 songs')).toBeInTheDocument();
 
     // Badges appear
     expect(screen.getAllByText(/Awaiting 3D/i).length).toBeGreaterThan(0);
@@ -103,7 +103,7 @@ describe('UnperformedSongsSection', () => {
 
     // Switch to Awaiting Either
     fireEvent.click(screen.getByText(/Awaiting Either/i));
-    expect(screen.getByText(/Commissioned Songs \(119\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Commissioned Songs \(117\)/i)).toBeInTheDocument();
     expect(screen.getByText(/Covers & Outside \(513\)/i)).toBeInTheDocument();
 
     // Switch to Covers & Outside tab

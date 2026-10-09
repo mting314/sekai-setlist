@@ -58,8 +58,8 @@ describe('computeSekaiStats', () => {
   it('computes version breakdown with short/game version counts', () => {
     const stats = computeSekaiStats();
     const { versionBreakdown } = stats;
-    expect(versionBreakdown.shortOrGameCount).toBe(11);
-    expect(versionBreakdown.shortVersionItems.length).toBe(11);
+    expect(versionBreakdown.shortOrGameCount).toBe(26);
+    expect(versionBreakdown.shortVersionItems.length).toBe(26);
     expect(versionBreakdown.fullVersionCount).toBe(
       versionBreakdown.totalPerformances - versionBreakdown.shortOrGameCount
     );
@@ -82,7 +82,7 @@ describe('computeSekaiStats', () => {
     const { allAwaiting } = stats.unperformed;
 
     // All awaiting commissioned songs (awaiting 2D or 3D)
-    expect(allAwaiting.commissioned.length).toBe(119);
+    expect(allAwaiting.commissioned.length).toBe(117);
     expect(allAwaiting.coversAndOther.length).toBe(513);
 
     // Verify all items are awaiting at least one format
@@ -101,11 +101,11 @@ describe('computeSekaiStats', () => {
 
     // Awaiting 3D debut
     const awaiting3d = allAwaiting.commissioned.filter((s) => s.cast3dCount === 0);
-    expect(awaiting3d.length).toBe(89);
+    expect(awaiting3d.length).toBe(87);
 
     // Some songs awaiting 3D have already debuted in 2D (COLORFUL LIVE or Connect Live)
     const awaiting3dWith2dDebut = awaiting3d.filter((s) => s.total2dCount > 0);
-    expect(awaiting3dWith2dDebut.length).toBe(42);
+    expect(awaiting3dWith2dDebut.length).toBe(40);
     expect(awaiting3dWith2dDebut[0].first2dLiveName).toBeDefined();
 
     // Awaiting both 2D and 3D

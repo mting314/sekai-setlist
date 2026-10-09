@@ -183,6 +183,7 @@ const SEIYUU_PERFORMERS: [string, number[]][] = [
   ['降幡愛', [7]],
   ['降幡 愛', [7]],
   ['Honnizumi Rina', [8]],
+  ['Motoizumi Rina', [8]],
   ['本泉莉奈', [8]],
   ['本泉 莉奈', [8]],
 
