@@ -444,7 +444,21 @@
       "heatLevel_2": "2回",
       "heatLevel_3": "3〜4回",
       "heatLevel_4": "5〜6回",
-      "heatLevel_5": "7回以上"
+      "heatLevel_5": "7回以上",
+      "hoverFocusCycle": "バナーイベント 第{{cycle}}弾",
+      "hoverWorldLink": "ワールドリンクイベント",
+      "hoverEvent": "イベント",
+      "hoverAdded": "ゲーム内実装：{{date}}",
+      "hoverPlays": "ライブ通算披露：{{count}}回",
+      "hoverPerformances": "ライブ披露",
+      "hoverNeverPlayed": "ライブ未披露",
+      "hoverStageDebut": "ステージ初披露",
+      "hoverLatestLive": "直近の披露",
+      "hoverFormatScreen": "2Dスクリーン: {{count}}回",
+      "hoverFormatCast": "3Dキャスト: {{count}}回",
+      "hoverFormatConnect": "コネクトライブ: {{count}}回",
+      "hoverFormatSymphony": "シンフォニー: {{count}}回",
+      "hoverClickToOpen": "クリックで楽曲詳細・セットリストを表示"
     },
     "version": {
       "title": "楽曲の演奏尺：フルサイズ vs ショート／ゲームサイズ",

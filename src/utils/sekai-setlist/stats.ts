@@ -151,8 +151,11 @@ export interface CharacterFocusCell {
   screen2dCount: number;
   cast3dCount: number;
   connectLiveCount?: number;
+  symphonyCount?: number;
   firstLiveName?: string;
   firstLiveDate?: string;
+  latestLiveName?: string;
+  latestLiveDate?: string;
 }
 
 export interface CharacterFocusRow {
@@ -285,6 +288,7 @@ export function computeSekaiStats(): SekaiStatsData {
     connectLiveCount: number;
     symphonyCount: number;
     firstLive?: SekaiLive;
+    latestLive?: SekaiLive;
     first2dLive?: SekaiLive;
     first3dLive?: SekaiLive;
     lives: Set<string>;
@@ -338,6 +342,7 @@ export function computeSekaiStats(): SekaiStatsData {
               connectLiveCount: 0,
               symphonyCount: 0,
               firstLive: live,
+              latestLive: live,
               first2dLive: undefined,
               first3dLive: undefined,
               lives: new Set()
@@ -345,6 +350,7 @@ export function computeSekaiStats(): SekaiStatsData {
             songTracker.set(songEntry.songId, tr);
           }
           tr.totalAppearances++;
+          tr.latestLive = live;
           tr.lives.add(live.id);
           if (fmt === 'screen_2d') {
             tr.screen2dCount++;
@@ -580,6 +586,7 @@ export function computeSekaiStats(): SekaiStatsData {
             const s2d = tr?.screen2dCount ?? 0;
             const cl = tr?.connectLiveCount ?? 0;
             const c3d = tr?.cast3dCount ?? 0;
+            const sym = tr?.symphonyCount ?? 0;
 
             const cell: CharacterFocusCell = {
               cycle: cycleNum,
@@ -597,8 +604,11 @@ export function computeSekaiStats(): SekaiStatsData {
               screen2dCount: s2d,
               cast3dCount: c3d,
               connectLiveCount: cl,
+              symphonyCount: sym,
               firstLiveName: tr?.firstLive?.name,
-              firstLiveDate: tr?.firstLive?.startDate
+              firstLiveDate: tr?.firstLive?.startDate,
+              latestLiveName: tr?.latestLive?.name,
+              latestLiveDate: tr?.latestLive?.startDate
             };
 
             cycles[cycleNum - 1] = cell;
@@ -619,6 +629,7 @@ export function computeSekaiStats(): SekaiStatsData {
           const s2d = tr?.screen2dCount ?? 0;
           const cl = tr?.connectLiveCount ?? 0;
           const c3d = tr?.cast3dCount ?? 0;
+          const sym = tr?.symphonyCount ?? 0;
 
           worldLinkCell = {
             cycle: 0,
@@ -637,8 +648,11 @@ export function computeSekaiStats(): SekaiStatsData {
             screen2dCount: s2d,
             cast3dCount: c3d,
             connectLiveCount: cl,
+            symphonyCount: sym,
             firstLiveName: tr?.firstLive?.name,
-            firstLiveDate: tr?.firstLive?.startDate
+            firstLiveDate: tr?.firstLive?.startDate,
+            latestLiveName: tr?.latestLive?.name,
+            latestLiveDate: tr?.latestLive?.startDate
           };
         }
       }

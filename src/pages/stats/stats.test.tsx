@@ -91,4 +91,22 @@ describe('Stats & Infographics Page', () => {
 
     expect(screen.queryByRole('button', { name: /Show All/i })).toBeNull();
   });
+
+  it('renders hoverable focus matrix cells with rich song and performance details', async () => {
+    const [, user] = await render(<Page />);
+
+    // Find focus cell buttons
+    const cellButtons = document.querySelectorAll('button[data-focus-cell]');
+    expect(cellButtons.length).toBeGreaterThan(0);
+
+    const firstCell = cellButtons[0] as HTMLElement;
+    expect(firstCell).toBeInTheDocument();
+
+    // Hover over the cell
+    await user.hover(firstCell);
+
+    // Verify hover card content appears with focus info or performance count
+    const hoverCards = document.querySelectorAll('[data-focus-hover-card]');
+    expect(hoverCards.length).toBeGreaterThan(0);
+  });
 });

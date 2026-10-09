@@ -1,17 +1,41 @@
-import { useMemo, useState, type CSSProperties } from 'react';
+import { useMemo, useState, type CSSProperties, type MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Flex, HStack, Stack, Wrap } from 'styled-system/jsx';
+import { Portal } from '@ark-ui/react';
+import { BiLinkExternal } from 'react-icons/bi';
+import { Box, Flex, HStack, Stack, Wrap, styled } from 'styled-system/jsx';
 import { StatsPanel } from './StatsPanel';
+import { SongJacket } from '~/components/sekai-setlist/SongJacket';
+import { NicknameChip } from '~/components/sekai-setlist/song-info/NicknameChips';
+import { useSongInfo } from '~/components/sekai-setlist/song-info/song-info-context';
+import { HoverCard } from '~/components/ui/hover-card';
+import { Badge } from '~/components/ui/styled/badge';
 import { Button } from '~/components/ui/styled/button';
 import { Text } from '~/components/ui/styled/text';
-import { useSongInfo } from '~/components/sekai-setlist/song-info/song-info-context';
 import { characterIconUrl } from '~/utils/sekai-setlist/assets';
 import { sekaiSongName } from '~/utils/sekai-setlist/catalog';
+import { sekaiBestEventUrl } from '~/utils/sekai-setlist/song-events';
 import type {
   CharacterFocusCell,
   CharacterFocusRow,
   FocusMatrixStats
 } from '~/utils/sekai-setlist/stats';
+
+const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
+const isoDate = (ms: number) => new Date(ms + JST_OFFSET_MS).toISOString().slice(0, 10);
+
+const EventLink = styled('a', {
+  base: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '1',
+    color: 'accent.default',
+    fontSize: 'xs',
+    fontWeight: 'medium',
+    textDecoration: 'none',
+    lineClamp: 1,
+    _hover: { textDecoration: 'underline' }
+  }
+});
 
 export type HeatmapPalette = 'emerald' | 'sunset' | 'neon';
 
@@ -199,33 +223,310 @@ function FocusCellPill({
     : `${cell.performanceCount}x`;
 
   return (
-    <Box
-      as="button"
-      onClick={() => cell.songId && openSong(cell.songId)}
-      title={tooltip}
-      style={heatStyle}
-      cursor="pointer"
-      display="flex"
-      transform={isHighlighted ? 'scale(1.08)' : 'none'}
-      justifyContent="center"
-      alignItems="center"
-      outline={isHighlighted ? '2px solid currentColor' : 'none'}
-      borderRadius="sm"
-      borderWidth="1px"
-      w="full"
-      h="7"
-      fontSize="2xs"
-      fontWeight="bold"
-      opacity={isDimmed ? 0.25 : 1}
-      transition="all 0.15s ease"
-      _hover={{
-        transform: 'scale(1.1)',
-        zIndex: 2,
-        boxShadow: 'md'
-      }}
-    >
-      <span>{label}</span>
-    </Box>
+    <HoverCard.Root openDelay={120} closeDelay={150} positioning={{ placement: 'top', gutter: 8 }}>
+      <HoverCard.Trigger asChild>
+        <Box
+          as="button"
+          onClick={() => cell.songId && openSong(cell.songId)}
+          title={tooltip}
+          data-focus-cell={cell.songId}
+          style={heatStyle}
+          cursor="pointer"
+          display="flex"
+          transform={isHighlighted ? 'scale(1.08)' : 'none'}
+          justifyContent="center"
+          alignItems="center"
+          outline={isHighlighted ? '2px solid currentColor' : 'none'}
+          borderRadius="sm"
+          borderWidth="1px"
+          w="full"
+          h="7"
+          fontSize="2xs"
+          fontWeight="bold"
+          opacity={isDimmed ? 0.25 : 1}
+          transition="all 0.15s ease"
+          _hover={{
+            transform: 'scale(1.1)',
+            zIndex: 2,
+            boxShadow: 'md'
+          }}
+        >
+          <span>{label}</span>
+        </Box>
+      </HoverCard.Trigger>
+      <Portal>
+        <HoverCard.Positioner style={{ zIndex: 100 }}>
+          <HoverCard.Content
+            data-focus-hover-card={cell.songId}
+            bg="bg.default"
+            borderColor="border.default"
+            borderRadius="md"
+            borderWidth="1px"
+            boxShadow="xl"
+            p="3"
+            w="310px"
+            maxW="90vw"
+            fontSize="xs"
+            lineHeight="normal"
+            textAlign="left"
+            pointerEvents="auto"
+          >
+            <Stack gap="2.5">
+              {/* Header: Jacket + Song Title + Cycle & Nickname */}
+              <HStack gap="2.5" alignItems="flex-start">
+                <SongJacket id={cell.songId} size={48} />
+                <Stack gap="1" flex="1" minW="0">
+                  <HStack gap="1.5" flexWrap="wrap" alignItems="center">
+                    {cell.nickname && (
+                      <NicknameChip
+                        nickname={cell.nickname}
+                        songId={cell.songId}
+                        eventId={cell.eventId}
+                      />
+                    )}
+                    <Badge size="sm" variant="subtle">
+                      {cell.isWorldLink
+                        ? t('stats.focus.hoverWorldLink', { defaultValue: 'World Link' })
+                        : t('stats.focus.hoverFocusCycle', {
+                            cycle: cell.cycle,
+                            defaultValue: `Focus ${cell.cycle}`
+                          })}
+                    </Badge>
+                  </HStack>
+                  <Text fontWeight="bold" fontSize="sm" lineClamp={2} title={name}>
+                    {name}
+                  </Text>
+                  {cell.englishName && cell.englishName !== name && (
+                    <Text color="fg.muted" fontSize="2xs" lineClamp={1}>
+                      {cell.englishName}
+                    </Text>
+                  )}
+                </Stack>
+              </HStack>
+
+              {/* Event info */}
+              {cell.eventName && (
+                <Box
+                  bg="bg.subtle"
+                  borderColor="border.subtle"
+                  borderRadius="sm"
+                  borderWidth="1px"
+                  p="2"
+                >
+                  <Flex justify="space-between" align="center" gap="1" mb="0.5">
+                    <Text color="fg.muted" fontSize="2xs" fontWeight="bold">
+                      {t('stats.focus.hoverEvent', { defaultValue: 'Event' })}
+                    </Text>
+                    {cell.publishedAt && (
+                      <Text color="fg.muted" fontSize="2xs">
+                        {isoDate(cell.publishedAt)}
+                      </Text>
+                    )}
+                  </Flex>
+                  {cell.eventId ? (
+                    <EventLink
+                      href={sekaiBestEventUrl(cell.eventId)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e: MouseEvent) => e.stopPropagation()}
+                    >
+                      <span
+                        style={{
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
+                        {cell.eventName}
+                      </span>
+                      <BiLinkExternal size={11} style={{ flexShrink: 0 }} />
+                    </EventLink>
+                  ) : (
+                    <Text fontSize="xs" fontWeight="medium" lineClamp={1}>
+                      {cell.eventName}
+                    </Text>
+                  )}
+                </Box>
+              )}
+
+              {/* Performances Section */}
+              <Stack gap="1.5">
+                <Flex justify="space-between" align="center">
+                  <Text color="fg.muted" fontSize="2xs" fontWeight="bold">
+                    {t('stats.focus.hoverPerformances', { defaultValue: 'Live Performances' })}
+                  </Text>
+                  <Text
+                    fontWeight="bold"
+                    fontSize="xs"
+                    color={isPerformed ? 'accent.default' : 'fg.muted'}
+                  >
+                    {isPerformed
+                      ? t('stats.focus.playedTimes', {
+                          count: cell.performanceCount,
+                          defaultValue: '{{count}}x'
+                        })
+                      : t('stats.focus.hoverNeverPlayed', { defaultValue: 'Never Live' })}
+                  </Text>
+                </Flex>
+
+                {isPerformed ? (
+                  <>
+                    {/* Format breakdown pills */}
+                    <Wrap gap="1">
+                      {cell.screen2dCount > 0 && (
+                        <Box
+                          display="inline-flex"
+                          alignItems="center"
+                          gap="1"
+                          px="1.5"
+                          py="0.5"
+                          borderRadius="sm"
+                          borderWidth="1px"
+                          fontSize="2xs"
+                          fontWeight="medium"
+                          style={{
+                            backgroundColor: 'color-mix(in srgb, #06b6d4 15%, transparent)',
+                            borderColor: '#06b6d4',
+                            color: '#06b6d4'
+                          }}
+                        >
+                          <span>2D: {cell.screen2dCount}x</span>
+                        </Box>
+                      )}
+                      {cell.cast3dCount > 0 && (
+                        <Box
+                          display="inline-flex"
+                          alignItems="center"
+                          gap="1"
+                          px="1.5"
+                          py="0.5"
+                          borderRadius="sm"
+                          borderWidth="1px"
+                          fontSize="2xs"
+                          fontWeight="medium"
+                          style={{
+                            backgroundColor: 'color-mix(in srgb, #f97316 15%, transparent)',
+                            borderColor: '#f97316',
+                            color: '#f97316'
+                          }}
+                        >
+                          <span>3D Cast: {cell.cast3dCount}x</span>
+                        </Box>
+                      )}
+                      {(cell.connectLiveCount ?? 0) > 0 && (
+                        <Box
+                          display="inline-flex"
+                          alignItems="center"
+                          gap="1"
+                          px="1.5"
+                          py="0.5"
+                          borderRadius="sm"
+                          borderWidth="1px"
+                          fontSize="2xs"
+                          fontWeight="medium"
+                          style={{
+                            backgroundColor: 'color-mix(in srgb, #8b5cf6 15%, transparent)',
+                            borderColor: '#8b5cf6',
+                            color: '#8b5cf6'
+                          }}
+                        >
+                          <span>Connect: {cell.connectLiveCount}x</span>
+                        </Box>
+                      )}
+                      {(cell.symphonyCount ?? 0) > 0 && (
+                        <Box
+                          display="inline-flex"
+                          alignItems="center"
+                          gap="1"
+                          px="1.5"
+                          py="0.5"
+                          borderRadius="sm"
+                          borderWidth="1px"
+                          fontSize="2xs"
+                          fontWeight="medium"
+                          style={{
+                            backgroundColor: 'color-mix(in srgb, #ec4899 15%, transparent)',
+                            borderColor: '#ec4899',
+                            color: '#ec4899'
+                          }}
+                        >
+                          <span>Symphony: {cell.symphonyCount}x</span>
+                        </Box>
+                      )}
+                    </Wrap>
+
+                    {/* Debut & Latest Live */}
+                    <Stack gap="1" pt="1" fontSize="2xs">
+                      {cell.firstLiveName && (
+                        <Flex gap="1.5" align="baseline">
+                          <Text color="fg.muted" flexShrink={0}>
+                            {t('stats.focus.hoverStageDebut', { defaultValue: 'Debut:' })}
+                          </Text>
+                          <Text fontWeight="medium" lineClamp={1}>
+                            {cell.firstLiveName}
+                            {cell.firstLiveDate && (
+                              <Text as="span" color="fg.muted" ml="1">
+                                ({cell.firstLiveDate})
+                              </Text>
+                            )}
+                          </Text>
+                        </Flex>
+                      )}
+                      {cell.performanceCount > 1 &&
+                        cell.latestLiveName &&
+                        cell.latestLiveName !== cell.firstLiveName && (
+                          <Flex gap="1.5" align="baseline">
+                            <Text color="fg.muted" flexShrink={0}>
+                              {t('stats.focus.hoverLatestLive', { defaultValue: 'Latest:' })}
+                            </Text>
+                            <Text fontWeight="medium" lineClamp={1}>
+                              {cell.latestLiveName}
+                              {cell.latestLiveDate && (
+                                <Text as="span" color="fg.muted" ml="1">
+                                  ({cell.latestLiveDate})
+                                </Text>
+                              )}
+                            </Text>
+                          </Flex>
+                        )}
+                    </Stack>
+                  </>
+                ) : (
+                  <Box
+                    bg="bg.subtle"
+                    borderColor="border.subtle"
+                    borderRadius="sm"
+                    borderWidth="1px"
+                    p="2"
+                    textAlign="center"
+                  >
+                    <Text color="fg.muted" fontSize="2xs">
+                      {t('stats.focus.unperformed', {
+                        defaultValue: 'Awaiting first live performance'
+                      })}
+                    </Text>
+                  </Box>
+                )}
+              </Stack>
+
+              {/* Footer Hint */}
+              <Box
+                pt="2"
+                borderTopWidth="1px"
+                borderColor="border.subtle"
+                color="fg.subtle"
+                fontSize="2xs"
+                textAlign="center"
+              >
+                {t('stats.focus.hoverClickToOpen', {
+                  defaultValue: 'Click cell to view song info & setlists'
+                })}
+              </Box>
+            </Stack>
+          </HoverCard.Content>
+        </HoverCard.Positioner>
+      </Portal>
+    </HoverCard.Root>
   );
 }
 

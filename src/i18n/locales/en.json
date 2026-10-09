@@ -452,7 +452,21 @@
       "heatLevel_2": "2x",
       "heatLevel_3": "3–4x",
       "heatLevel_4": "5–6x",
-      "heatLevel_5": "7+x"
+      "heatLevel_5": "7+x",
+      "hoverFocusCycle": "Focus Cycle {{cycle}}",
+      "hoverWorldLink": "World Link Event",
+      "hoverEvent": "Event",
+      "hoverAdded": "Added: {{date}}",
+      "hoverPlays": "Total Live Plays: {{count}}",
+      "hoverPerformances": "Live Performances",
+      "hoverNeverPlayed": "Never Performed Live",
+      "hoverStageDebut": "Stage Debut",
+      "hoverLatestLive": "Latest Live",
+      "hoverFormatScreen": "2D Screen: {{count}}x",
+      "hoverFormatCast": "3D Cast: {{count}}x",
+      "hoverFormatConnect": "Connect Live: {{count}}x",
+      "hoverFormatSymphony": "Symphony: {{count}}x",
+      "hoverClickToOpen": "Click cell to view song info & setlists"
     },
     "version": {
       "title": "Performance Version Length: Full vs Short Size",
