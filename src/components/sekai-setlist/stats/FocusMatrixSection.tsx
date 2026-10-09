@@ -26,12 +26,12 @@ const isoDate = (ms: number) => new Date(ms + JST_OFFSET_MS).toISOString().slice
 const EventLink = styled('a', {
   base: {
     display: 'inline-flex',
-    alignItems: 'center',
     gap: '1',
+    alignItems: 'center',
     color: 'accent.default',
+    textDecoration: 'none',
     fontSize: 'xs',
     fontWeight: 'medium',
-    textDecoration: 'none',
     lineClamp: 1,
     _hover: { textDecoration: 'underline' }
   }
@@ -258,25 +258,25 @@ function FocusCellPill({
         <HoverCard.Positioner style={{ zIndex: 100 }}>
           <HoverCard.Content
             data-focus-hover-card={cell.songId}
-            bg="bg.default"
             borderColor="border.default"
             borderRadius="md"
             borderWidth="1px"
-            boxShadow="xl"
-            p="3"
             w="310px"
             maxW="90vw"
+            p="3"
             fontSize="xs"
             lineHeight="normal"
             textAlign="left"
+            bg="bg.default"
+            boxShadow="xl"
             pointerEvents="auto"
           >
             <Stack gap="2.5">
               {/* Header: Jacket + Song Title + Cycle & Nickname */}
               <HStack gap="2.5" alignItems="flex-start">
                 <SongJacket id={cell.songId} size={48} />
-                <Stack gap="1" flex="1" minW="0">
-                  <HStack gap="1.5" flexWrap="wrap" alignItems="center">
+                <Stack flex="1" gap="1" minW="0">
+                  <HStack gap="1.5" alignItems="center" flexWrap="wrap">
                     {cell.nickname && (
                       <NicknameChip
                         nickname={cell.nickname}
@@ -293,7 +293,7 @@ function FocusCellPill({
                           })}
                     </Badge>
                   </HStack>
-                  <Text fontWeight="bold" fontSize="sm" lineClamp={2} title={name}>
+                  <Text title={name} fontSize="sm" fontWeight="bold" lineClamp={2}>
                     {name}
                   </Text>
                   {cell.englishName && cell.englishName !== name && (
@@ -307,13 +307,13 @@ function FocusCellPill({
               {/* Event info */}
               {cell.eventName && (
                 <Box
-                  bg="bg.subtle"
                   borderColor="border.subtle"
                   borderRadius="sm"
                   borderWidth="1px"
                   p="2"
+                  bg="bg.subtle"
                 >
-                  <Flex justify="space-between" align="center" gap="1" mb="0.5">
+                  <Flex gap="1" justify="space-between" align="center" mb="0.5">
                     <Text color="fg.muted" fontSize="2xs" fontWeight="bold">
                       {t('stats.focus.hoverEvent', { defaultValue: 'Event' })}
                     </Text>
@@ -356,9 +356,9 @@ function FocusCellPill({
                     {t('stats.focus.hoverPerformances', { defaultValue: 'Live Performances' })}
                   </Text>
                   <Text
-                    fontWeight="bold"
-                    fontSize="xs"
                     color={isPerformed ? 'accent.default' : 'fg.muted'}
+                    fontSize="xs"
+                    fontWeight="bold"
                   >
                     {isPerformed
                       ? t('stats.focus.playedTimes', {
@@ -375,80 +375,80 @@ function FocusCellPill({
                     <Wrap gap="1">
                       {cell.screen2dCount > 0 && (
                         <Box
-                          display="inline-flex"
-                          alignItems="center"
-                          gap="1"
-                          px="1.5"
-                          py="0.5"
-                          borderRadius="sm"
-                          borderWidth="1px"
-                          fontSize="2xs"
-                          fontWeight="medium"
                           style={{
                             backgroundColor: 'color-mix(in srgb, #06b6d4 15%, transparent)',
                             borderColor: '#06b6d4',
                             color: '#06b6d4'
                           }}
+                          display="inline-flex"
+                          gap="1"
+                          alignItems="center"
+                          borderRadius="sm"
+                          borderWidth="1px"
+                          py="0.5"
+                          px="1.5"
+                          fontSize="2xs"
+                          fontWeight="medium"
                         >
                           <span>2D: {cell.screen2dCount}x</span>
                         </Box>
                       )}
                       {cell.cast3dCount > 0 && (
                         <Box
-                          display="inline-flex"
-                          alignItems="center"
-                          gap="1"
-                          px="1.5"
-                          py="0.5"
-                          borderRadius="sm"
-                          borderWidth="1px"
-                          fontSize="2xs"
-                          fontWeight="medium"
                           style={{
                             backgroundColor: 'color-mix(in srgb, #f97316 15%, transparent)',
                             borderColor: '#f97316',
                             color: '#f97316'
                           }}
+                          display="inline-flex"
+                          gap="1"
+                          alignItems="center"
+                          borderRadius="sm"
+                          borderWidth="1px"
+                          py="0.5"
+                          px="1.5"
+                          fontSize="2xs"
+                          fontWeight="medium"
                         >
                           <span>3D Cast: {cell.cast3dCount}x</span>
                         </Box>
                       )}
                       {(cell.connectLiveCount ?? 0) > 0 && (
                         <Box
-                          display="inline-flex"
-                          alignItems="center"
-                          gap="1"
-                          px="1.5"
-                          py="0.5"
-                          borderRadius="sm"
-                          borderWidth="1px"
-                          fontSize="2xs"
-                          fontWeight="medium"
                           style={{
                             backgroundColor: 'color-mix(in srgb, #8b5cf6 15%, transparent)',
                             borderColor: '#8b5cf6',
                             color: '#8b5cf6'
                           }}
+                          display="inline-flex"
+                          gap="1"
+                          alignItems="center"
+                          borderRadius="sm"
+                          borderWidth="1px"
+                          py="0.5"
+                          px="1.5"
+                          fontSize="2xs"
+                          fontWeight="medium"
                         >
                           <span>Connect: {cell.connectLiveCount}x</span>
                         </Box>
                       )}
                       {(cell.symphonyCount ?? 0) > 0 && (
                         <Box
-                          display="inline-flex"
-                          alignItems="center"
-                          gap="1"
-                          px="1.5"
-                          py="0.5"
-                          borderRadius="sm"
-                          borderWidth="1px"
-                          fontSize="2xs"
-                          fontWeight="medium"
                           style={{
                             backgroundColor: 'color-mix(in srgb, #ec4899 15%, transparent)',
                             borderColor: '#ec4899',
                             color: '#ec4899'
                           }}
+                          display="inline-flex"
+                          gap="1"
+                          alignItems="center"
+                          borderRadius="sm"
+                          borderWidth="1px"
+                          py="0.5"
+                          px="1.5"
+                          fontSize="2xs"
+                          fontWeight="medium"
                         >
                           <span>Symphony: {cell.symphonyCount}x</span>
                         </Box>
@@ -459,13 +459,13 @@ function FocusCellPill({
                     <Stack gap="1" pt="1" fontSize="2xs">
                       {cell.firstLiveName && (
                         <Flex gap="1.5" align="baseline">
-                          <Text color="fg.muted" flexShrink={0}>
+                          <Text flexShrink={0} color="fg.muted">
                             {t('stats.focus.hoverStageDebut', { defaultValue: 'Debut:' })}
                           </Text>
                           <Text fontWeight="medium" lineClamp={1}>
                             {cell.firstLiveName}
                             {cell.firstLiveDate && (
-                              <Text as="span" color="fg.muted" ml="1">
+                              <Text as="span" ml="1" color="fg.muted">
                                 ({cell.firstLiveDate})
                               </Text>
                             )}
@@ -476,13 +476,13 @@ function FocusCellPill({
                         cell.latestLiveName &&
                         cell.latestLiveName !== cell.firstLiveName && (
                           <Flex gap="1.5" align="baseline">
-                            <Text color="fg.muted" flexShrink={0}>
+                            <Text flexShrink={0} color="fg.muted">
                               {t('stats.focus.hoverLatestLive', { defaultValue: 'Latest:' })}
                             </Text>
                             <Text fontWeight="medium" lineClamp={1}>
                               {cell.latestLiveName}
                               {cell.latestLiveDate && (
-                                <Text as="span" color="fg.muted" ml="1">
+                                <Text as="span" ml="1" color="fg.muted">
                                   ({cell.latestLiveDate})
                                 </Text>
                               )}
@@ -493,12 +493,12 @@ function FocusCellPill({
                   </>
                 ) : (
                   <Box
-                    bg="bg.subtle"
                     borderColor="border.subtle"
                     borderRadius="sm"
                     borderWidth="1px"
                     p="2"
                     textAlign="center"
+                    bg="bg.subtle"
                   >
                     <Text color="fg.muted" fontSize="2xs">
                       {t('stats.focus.unperformed', {
@@ -511,9 +511,9 @@ function FocusCellPill({
 
               {/* Footer Hint */}
               <Box
-                pt="2"
-                borderTopWidth="1px"
                 borderColor="border.subtle"
+                borderTopWidth="1px"
+                pt="2"
                 color="fg.subtle"
                 fontSize="2xs"
                 textAlign="center"
