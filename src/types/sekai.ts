@@ -82,6 +82,7 @@ export interface SekaiCharacter {
   name: string; // EN, given name first
   nameJa: string;
   unit?: string; // SekaiUnitMeta id
+  color?: string;
 }
 
 // Past real-life / connect lives (data/sekai/lives.json), baked by scripts/fetch-sekai-lives.ts

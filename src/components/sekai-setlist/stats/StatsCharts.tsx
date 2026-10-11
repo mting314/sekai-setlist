@@ -62,13 +62,13 @@ export function FormatStackedBarChart({ data }: { data: UnitFormatBreakdown[] })
   ];
 
   return (
-    <Stack gap="3" w="full">
+    <Stack gap="3" w="full" maxW="full" minW="0">
       <Wrap gap="4" justify="flex-end" px="2">
         {formats.map((f) => (
           <ChartLegendItem key={f.key} label={f.label} color={f.color} />
         ))}
       </Wrap>
-      <Box w="full" overflowX="auto">
+      <Box w="full" maxW="full" minW="0" overflowX="auto">
         <svg
           viewBox={`0 0 ${W} ${H}`}
           width="100%"
@@ -232,7 +232,7 @@ export function ReleaseDelayHistogram({
   const barW = Math.min(52, colW * 0.72);
 
   return (
-    <Box w="full" overflowX="auto">
+    <Box w="full" maxW="full" minW="0" overflowX="auto">
       <svg
         viewBox={`0 0 ${W} ${H}`}
         width="100%"

@@ -23,19 +23,113 @@ import type {
 const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
 const isoDate = (ms: number) => new Date(ms + JST_OFFSET_MS).toISOString().slice(0, 10);
 
-const EventLink = styled('a', {
+const HoverBannerLink = styled('a', {
   base: {
-    display: 'inline-flex',
-    gap: '1',
-    alignItems: 'center',
-    color: 'accent.default',
-    textDecoration: 'none',
-    fontSize: 'xs',
-    fontWeight: 'medium',
-    lineClamp: 1,
-    _hover: { textDecoration: 'underline' }
+    display: 'block',
+    borderRadius: 'sm',
+    overflow: 'hidden',
+    borderWidth: '1px',
+    borderColor: 'border.subtle',
+    flexShrink: 0,
+    transition: 'transform 0.15s ease, opacity 0.15s ease',
+    _hover: { transform: 'scale(1.03)', opacity: 0.9 }
   }
 });
+
+function EventBlock({
+  cell,
+  t
+}: {
+  cell: CharacterFocusCell;
+  t: (key: string, opts?: any) => string;
+}) {
+  const [broken, setBroken] = useState(false);
+  if (!cell.eventName) return null;
+
+  const showBanner = !!cell.bannerUrl && !broken;
+  const eventUrl = cell.eventId ? sekaiBestEventUrl(cell.eventId) : undefined;
+
+  return (
+    <Box
+      borderColor="border.subtle"
+      borderRadius="sm"
+      borderWidth="1px"
+      p="2"
+      bg="bg.subtle"
+    >
+      <Flex gap="2.5" align="center">
+        {showBanner && (
+          <HoverBannerLink
+            href={eventUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={cell.eventName}
+            onClick={(e: MouseEvent) => e.stopPropagation()}
+            style={{ width: '96px' }}
+          >
+            <img
+              src={cell.bannerUrl}
+              alt={cell.eventName}
+              loading="lazy"
+              referrerPolicy="no-referrer"
+              onError={() => setBroken(true)}
+              style={{
+                width: '100%',
+                height: 'auto',
+                aspectRatio: '488 / 208',
+                display: 'block',
+                objectFit: 'cover'
+              }}
+            />
+          </HoverBannerLink>
+        )}
+
+        <Stack flex="1" gap="0.5" minW="0">
+          <Flex justify="space-between" align="center" gap="1">
+            <Text color="fg.muted" fontSize="2xs" fontWeight="bold">
+              {t('stats.focus.hoverEvent', { defaultValue: 'Event' })}
+            </Text>
+            {cell.publishedAt && (
+              <Text color="fg.muted" fontSize="2xs">
+                {isoDate(cell.publishedAt)}
+              </Text>
+            )}
+          </Flex>
+
+          {eventUrl ? (
+            <a
+              href={eventUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: 'none', color: 'inherit' }}
+              onClick={(e: MouseEvent) => e.stopPropagation()}
+            >
+              <HStack gap="1" alignItems="flex-start">
+                <Text
+                  fontSize="xs"
+                  fontWeight="bold"
+                  lineHeight="1.3"
+                  lineClamp={3}
+                  _hover={{ color: 'accent.default' }}
+                >
+                  {cell.eventName}
+                </Text>
+                <BiLinkExternal
+                  size={11}
+                  style={{ flexShrink: 0, marginTop: '2px', opacity: 0.7 }}
+                />
+              </HStack>
+            </a>
+          ) : (
+            <Text fontSize="xs" fontWeight="bold" lineHeight="1.3" lineClamp={3}>
+              {cell.eventName}
+            </Text>
+          )}
+        </Stack>
+      </Flex>
+    </Box>
+  );
+}
 
 export type HeatmapPalette = 'emerald' | 'sunset' | 'neon';
 
@@ -182,7 +276,7 @@ function FocusCellPill({
   const { t } = useTranslation();
   const openSong = useSongInfo();
 
-  if (!cell || !cell.songId) {
+  if (!cell) {
     return (
       <Box
         display="flex"
@@ -195,6 +289,74 @@ function FocusCellPill({
       >
         —
       </Box>
+    );
+  }
+
+  if (!cell.songId) {
+    // Event exists (e.g. WL2) but has no commissioned song
+    return (
+      <HoverCard.Root openDelay={120} closeDelay={150} positioning={{ placement: 'top', gutter: 8 }}>
+        <HoverCard.Trigger asChild>
+          <Box
+            as="button"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            w="full"
+            h="7"
+            color="fg.subtle"
+            fontSize="xs"
+            borderRadius="sm"
+            borderWidth="1px"
+            borderColor="border.subtle"
+            bg="bg.subtle"
+            cursor="pointer"
+            _hover={{ borderColor: 'border.default', color: 'fg.muted' }}
+          >
+            —
+          </Box>
+        </HoverCard.Trigger>
+        <Portal>
+          <HoverCard.Positioner style={{ zIndex: 100 }}>
+            <HoverCard.Content
+              borderColor="border.default"
+              borderRadius="md"
+              borderWidth="1px"
+              w="300px"
+              maxW="90vw"
+              p="3"
+              fontSize="xs"
+              bg="bg.default"
+              boxShadow="xl"
+            >
+              <Stack gap="2">
+                <HStack gap="1.5" alignItems="center">
+                  {cell.nickname && (
+                    <NicknameChip
+                      nickname={cell.nickname}
+                      eventId={cell.eventId}
+                    />
+                  )}
+                  <Badge size="sm" variant="subtle">
+                    {cell.worldLinkCycle
+                      ? t('stats.focus.hoverWorldLinkCycle', {
+                          cycle: cell.worldLinkCycle,
+                          defaultValue: `World Link ${cell.worldLinkCycle}`
+                        })
+                      : t('stats.focus.hoverWorldLink', { defaultValue: 'World Link' })}
+                  </Badge>
+                </HStack>
+                <EventBlock cell={cell} t={t} />
+                <Text color="fg.muted" fontSize="2xs">
+                  {t('stats.focus.noCommissionedSong', {
+                    defaultValue: 'No commissioned song (MV Another-Cut release)'
+                  })}
+                </Text>
+              </Stack>
+            </HoverCard.Content>
+          </HoverCard.Positioner>
+        </Portal>
+      </HoverCard.Root>
     );
   }
 
@@ -218,9 +380,7 @@ function FocusCellPill({
         defaultValue: 'Awaiting first live performance'
       })}`;
 
-  const label = cell.isWorldLink
-    ? `WL ${cell.performanceCount > 0 ? `${cell.performanceCount}x` : '0x'}`
-    : `${cell.performanceCount}x`;
+  const label = `${cell.performanceCount}x`;
 
   return (
     <HoverCard.Root openDelay={120} closeDelay={150} positioning={{ placement: 'top', gutter: 8 }}>
@@ -261,7 +421,7 @@ function FocusCellPill({
             borderColor="border.default"
             borderRadius="md"
             borderWidth="1px"
-            w="310px"
+            w="300px"
             maxW="90vw"
             p="3"
             fontSize="xs"
@@ -286,7 +446,12 @@ function FocusCellPill({
                     )}
                     <Badge size="sm" variant="subtle">
                       {cell.isWorldLink
-                        ? t('stats.focus.hoverWorldLink', { defaultValue: 'World Link' })
+                        ? cell.worldLinkCycle
+                          ? t('stats.focus.hoverWorldLinkCycle', {
+                              cycle: cell.worldLinkCycle,
+                              defaultValue: `World Link ${cell.worldLinkCycle}`
+                            })
+                          : t('stats.focus.hoverWorldLink', { defaultValue: 'World Link' })
                         : t('stats.focus.hoverFocusCycle', {
                             cycle: cell.cycle,
                             defaultValue: `Focus ${cell.cycle}`
@@ -305,49 +470,7 @@ function FocusCellPill({
               </HStack>
 
               {/* Event info */}
-              {cell.eventName && (
-                <Box
-                  borderColor="border.subtle"
-                  borderRadius="sm"
-                  borderWidth="1px"
-                  p="2"
-                  bg="bg.subtle"
-                >
-                  <Flex gap="1" justify="space-between" align="center" mb="0.5">
-                    <Text color="fg.muted" fontSize="2xs" fontWeight="bold">
-                      {t('stats.focus.hoverEvent', { defaultValue: 'Event' })}
-                    </Text>
-                    {cell.publishedAt && (
-                      <Text color="fg.muted" fontSize="2xs">
-                        {isoDate(cell.publishedAt)}
-                      </Text>
-                    )}
-                  </Flex>
-                  {cell.eventId ? (
-                    <EventLink
-                      href={sekaiBestEventUrl(cell.eventId)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e: MouseEvent) => e.stopPropagation()}
-                    >
-                      <span
-                        style={{
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap'
-                        }}
-                      >
-                        {cell.eventName}
-                      </span>
-                      <BiLinkExternal size={11} style={{ flexShrink: 0 }} />
-                    </EventLink>
-                  ) : (
-                    <Text fontSize="xs" fontWeight="medium" lineClamp={1}>
-                      {cell.eventName}
-                    </Text>
-                  )}
-                </Box>
-              )}
+              <EventBlock cell={cell} t={t} />
 
               {/* Performances Section */}
               <Stack gap="1.5">
@@ -557,9 +680,12 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
           counts[lvl] = (counts[lvl] || 0) + 1;
         }
       }
-      if (char.worldLink) {
-        const lvl = getHeatLevel(char.worldLink.performanceCount);
-        counts[lvl] = (counts[lvl] || 0) + 1;
+      const wls = char.worldLinks ?? (char.worldLink ? [char.worldLink] : []);
+      for (const wl of wls) {
+        if (wl && wl.songId) {
+          const lvl = getHeatLevel(wl.performanceCount);
+          counts[lvl] = (counts[lvl] || 0) + 1;
+        }
       }
     }
     return counts;
@@ -579,7 +705,7 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
       title={t('stats.focus.title', { defaultValue: 'Character Focus Songs Live Debut Matrix' })}
       description={t('stats.focus.subtitle', {
         defaultValue:
-          'Tracking event-commissioned focus songs for the 20 main characters across Focus Cycles 1–7 and World Link. Click any cell to view song credits and setlists.'
+          'Tracking event-commissioned focus songs for the 20 main characters across Focus Cycles 1–7 and World Link rotations (WL1–WL3). Click any cell to view song credits and setlists.'
       })}
     >
       <Stack gap="4">
@@ -685,7 +811,7 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
           </HStack>
 
           {/* Palette Selector */}
-          <HStack gap="1" alignItems="center">
+          <HStack gap="1" alignItems="center" flexWrap="wrap">
             <Text color="fg.muted" fontSize="2xs">
               {t('stats.focus.palette', { defaultValue: 'Palette:' })}
             </Text>
@@ -732,8 +858,11 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
           borderWidth="1px"
           bg="bg.default"
           overflowX="auto"
+          w="full"
+          maxW="full"
+          minW="0"
         >
-          <Box minW="680px">
+          <Box minW="760px">
             {/* Header row */}
             <Flex
               align="center"
@@ -753,9 +882,11 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
                   F{num}
                 </Box>
               ))}
-              <Box flex="1" textAlign="center">
-                WL
-              </Box>
+              {[1, 2, 3].map((num) => (
+                <Box key={`wl-${num}`} flex="1" textAlign="center">
+                  WL{num}
+                </Box>
+              ))}
               <Box w="60px" pr="2" textAlign="right">
                 {t('stats.focus.ratio', { defaultValue: 'Done' })}
               </Box>
@@ -804,15 +935,19 @@ export function FocusMatrixSection({ stats }: { stats: FocusMatrixStats }) {
                       </Box>
                     ))}
 
-                    {/* World Link */}
-                    <Box flex="1" px="1">
-                      <FocusCellPill
-                        cell={char.worldLink}
-                        lang={i18n.language}
-                        palette={palette}
-                        selectedHeatLevel={selectedHeatLevel}
-                      />
-                    </Box>
+                    {/* World Link 1 to 3 */}
+                    {(char.worldLinks ?? (char.worldLink ? [null, null, char.worldLink] : [])).map(
+                      (cell, wlIdx) => (
+                        <Box key={`wl-${wlIdx}`} flex="1" px="1">
+                          <FocusCellPill
+                            cell={cell}
+                            lang={i18n.language}
+                            palette={palette}
+                            selectedHeatLevel={selectedHeatLevel}
+                          />
+                        </Box>
+                      )
+                    )}
 
                     {/* Done count */}
                     <Box w="60px" pr="2" textAlign="right">

@@ -431,7 +431,7 @@
     },
     "focus": {
       "title": "Character Focus Songs Live Debut Matrix",
-      "subtitle": "Tracking event-commissioned focus songs for the 20 main characters across Focus Cycles 1–7 and World Link. Click any cell to view song credits and setlists.",
+      "subtitle": "Tracking event-commissioned focus songs for the 20 main characters across Focus Cycles 1–7 and World Link rotations (WL1–WL3). Click any cell to view song credits and setlists.",
       "debutProgress": "Debut Progress by Focus Cycle",
       "legendPerformed": "Performed (>0x)",
       "legendUnperformed": "Awaiting Debut (0x)",
@@ -455,6 +455,7 @@
       "heatLevel_5": "7+x",
       "hoverFocusCycle": "Focus Cycle {{cycle}}",
       "hoverWorldLink": "World Link Event",
+      "hoverWorldLinkCycle": "World Link {{cycle}}",
       "hoverEvent": "Event",
       "hoverAdded": "Added: {{date}}",
       "hoverPlays": "Total Live Plays: {{count}}",
@@ -466,7 +467,8 @@
       "hoverFormatCast": "3D Cast: {{count}}x",
       "hoverFormatConnect": "Connect Live: {{count}}x",
       "hoverFormatSymphony": "Symphony: {{count}}x",
-      "hoverClickToOpen": "Click cell to view song info & setlists"
+      "hoverClickToOpen": "Click cell to view song info & setlists",
+      "noCommissionedSong": "No commissioned song (MV Another-Cut release)"
     },
     "version": {
       "title": "Performance Version Length: Full vs Short Size",
@@ -475,7 +477,7 @@
       "shortTitle": "Short / Game Size / Medleys",
       "playsOf": "plays out of {{count}} total",
       "fullNote": "Standard live performance format for all COLORFUL LIVE and Thanks Festival sets.",
-      "shortNote": "Appeared in Sekai Symphony 2026 medleys and select 5th Thanks Fes slots.",
+      "shortNote": "Appeared in 6th Thanks Fes medleys, 2026 Unit Fan Meetings, Sekai Symphony, and select 5th Thanks Fes slots.",
       "allShortList": "All {{count}} Short & Game Version Performances Recorded"
     },
     "unperformed": {

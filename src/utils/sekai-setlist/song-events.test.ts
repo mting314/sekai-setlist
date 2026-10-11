@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { credit, sekaiBestEventUrl, songEventsById } from './song-events';
+import { nicknameFocusCharacterId, sekaiCharacterColor } from './catalog';
 
 const ev = (over: Partial<Parameters<typeof songEventsById>[0][number]>) => ({
   event_id: 1,
@@ -90,5 +91,24 @@ describe('credit', () => {
     expect(credit('-')).toBeUndefined();
     expect(credit('')).toBeUndefined();
     expect(credit(null)).toBeUndefined();
+  });
+});
+
+describe('nicknameFocusCharacterId and character colors', () => {
+  it('extracts character id from event nicknames', () => {
+    expect(nicknameFocusCharacterId('saki1')).toBe(2);
+    expect(nicknameFocusCharacterId('mafu4')).toBe(18);
+    expect(nicknameFocusCharacterId('ichi7')).toBe(1);
+    expect(nicknameFocusCharacterId('rui2')).toBe(16);
+    expect(nicknameFocusCharacterId('wl3-1')).toBeUndefined();
+    expect(nicknameFocusCharacterId('')).toBeUndefined();
+    expect(nicknameFocusCharacterId(undefined)).toBeUndefined();
+  });
+
+  it('maps characters to their official image color', () => {
+    expect(sekaiCharacterColor(1)).toBe('#33aaee'); // Ichika
+    expect(sekaiCharacterColor(2)).toBe('#ffdd45'); // Saki
+    expect(sekaiCharacterColor(18)).toBe('#8889cc'); // Mafuyu
+    expect(sekaiCharacterColor(999)).toBeUndefined();
   });
 });

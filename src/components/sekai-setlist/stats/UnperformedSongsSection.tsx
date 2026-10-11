@@ -249,9 +249,9 @@ export function UnperformedSongsSection({
       <Stack gap="4">
         {/* Mode Toggle & Sort Buttons */}
         <Flex gap="2.5" justify="space-between" align="center" flexWrap="wrap">
-          <HStack gap="2">
+          <Wrap gap="2">
             <Button
-              size="sm"
+              size={{ base: 'xs', sm: 'sm' }}
               variant={mode === 'commissioned' ? 'solid' : 'outline'}
               onClick={() => {
                 setMode('commissioned');
@@ -264,7 +264,7 @@ export function UnperformedSongsSection({
               })}
             </Button>
             <Button
-              size="sm"
+              size={{ base: 'xs', sm: 'sm' }}
               variant={mode === 'covers' ? 'solid' : 'outline'}
               onClick={() => {
                 setMode('covers');
@@ -276,10 +276,10 @@ export function UnperformedSongsSection({
                 defaultValue: 'Covers & Outside ({{count}})'
               })}
             </Button>
-          </HStack>
+          </Wrap>
 
           {/* Sort order toggle */}
-          <HStack gap="1.5">
+          <HStack gap="1.5" flexWrap="wrap">
             <Text color="fg.muted" fontSize="2xs">
               {t('stats.sort', { defaultValue: 'Sort:' })}
             </Text>
@@ -428,7 +428,7 @@ export function UnperformedSongsSection({
         </Stack>
 
         {/* Filter Bar (Search + Unit Filter) */}
-        <Stack gap="2.5">
+        <Stack gap="2.5" w="full" maxW="full" minW="0">
           <Input
             placeholder={t('sekaiSetlist.searchPlaceholder', {
               defaultValue: 'Search by title or reading…'
@@ -466,6 +466,9 @@ export function UnperformedSongsSection({
           borderWidth="1px"
           bg="bg.default"
           overflow="hidden"
+          w="full"
+          maxW="full"
+          minW="0"
         >
           <Stack gap="0" divideY="1px" divideColor="border.subtle" maxH="580px" overflowY="auto">
             {filteredSongs.length === 0 ? (
@@ -482,26 +485,33 @@ export function UnperformedSongsSection({
                 return (
                   <Flex
                     key={song.songId}
-                    gap={{ base: '3', md: '3.5' }}
+                    gap={{ base: '2', md: '3.5' }}
                     justify="space-between"
-                    align="center"
+                    align={{ base: 'flex-start', md: 'center' }}
                     py="3"
-                    px={{ base: '3', md: '3.5' }}
+                    px={{ base: '2.5', md: '3.5' }}
                     transition="background-color 0.15s ease"
                     _hover={{ bg: 'bg.subtle' }}
                   >
-                    <HStack flex="1" gap={{ base: '2.5', md: '3' }} minW="0">
+                    <HStack
+                      flex="1"
+                      gap={{ base: '2', md: '3' }}
+                      minW="0"
+                      alignItems={{ base: 'flex-start', md: 'center' }}
+                    >
                       <Text
                         flexShrink={0}
-                        w="7"
+                        w={{ base: '5', sm: '7' }}
+                        whiteSpace="nowrap"
                         color="fg.muted"
-                        fontSize="sm"
+                        fontSize={{ base: 'xs', sm: 'sm' }}
                         fontWeight="bold"
                         textAlign="center"
+                        pt={{ base: '0.5', md: '0' }}
                       >
                         #{idx + 1}
                       </Text>
-                      <SongJacket id={song.songId} size={56} />
+                      <SongJacket id={song.songId} size={48} />
                       <Stack flex="1" gap="1" minW="0">
                         <HStack gap="2" alignItems="center" flexWrap="wrap">
                           <Text
@@ -683,7 +693,7 @@ export function UnperformedSongsSection({
                       </Stack>
                     </HStack>
 
-                    <HStack gap="2" flexShrink={0}>
+                    <HStack gap="2" flexShrink={0} pt={{ base: '0.5', md: '0' }}>
                       <SongPlayButton songId={song.songId} />
                       <SongInfoButton songId={song.songId} />
                     </HStack>

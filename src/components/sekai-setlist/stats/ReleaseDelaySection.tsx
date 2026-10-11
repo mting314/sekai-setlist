@@ -65,7 +65,8 @@ function DelayTable({
               <HStack flex="1" gap="2.5" minW="0">
                 <Text
                   flexShrink={0}
-                  w="4"
+                  minW="5"
+                  whiteSpace="nowrap"
                   color="fg.muted"
                   fontSize="xs"
                   fontWeight="bold"

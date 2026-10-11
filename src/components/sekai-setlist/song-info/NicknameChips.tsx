@@ -1,11 +1,16 @@
 /**
- * Event nicknames ("saki1", "wl3-4") as small chips tinted with the song's unit colour. Fans
- * name event songs after their event, so these sit next to song titles everywhere.
+ * Event nicknames ("saki1", "wl3-4") as small chips tinted with the event's focus character colour
+ * (falling back to the song's unit colour for World Link and non-focus events).
  */
 import type { CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 import { styled } from 'styled-system/jsx';
-import { getSekaiSong, sekaiSongColors } from '~/utils/sekai-setlist/catalog';
+import {
+  getSekaiSong,
+  nicknameFocusCharacterId,
+  sekaiCharacterColor,
+  sekaiSongColors
+} from '~/utils/sekai-setlist/catalog';
 import { sekaiBestEventUrl } from '~/utils/sekai-setlist/song-events';
 
 const chipBase = {
@@ -47,22 +52,34 @@ const ChipSpan = styled('span', { base: chipBase });
 export function NicknameChip({
   nickname,
   songId,
-  eventId
+  eventId,
+  focusCharacterId,
+  unitColor
 }: {
   nickname: string;
-  songId: string;
+  songId?: string;
   eventId?: number;
+  focusCharacterId?: number;
+  unitColor?: string;
 }) {
   const { t } = useTranslation();
   const resolvedEventId =
     eventId ??
     (() => {
+      if (!songId) return undefined;
       const song = getSekaiSong(songId);
       const idx = song?.nicknames?.indexOf(nickname);
       return idx != null && idx !== -1 ? song?.eventIds?.[idx] : undefined;
     })();
 
-  const style = { '--chip-color': sekaiSongColors(songId)[0] } as CSSProperties;
+  const charId = focusCharacterId ?? nicknameFocusCharacterId(nickname);
+  const chipColor =
+    (charId != null ? sekaiCharacterColor(charId) : undefined) ??
+    unitColor ??
+    (songId ? sekaiSongColors(songId)[0] : undefined) ??
+    '#888888';
+
+  const style = { '--chip-color': chipColor } as CSSProperties;
   const title = resolvedEventId
     ? t('songInfo.viewEventOnSekaiBest', {
         nickname,
@@ -77,6 +94,7 @@ export function NicknameChip({
         target="_blank"
         rel="noopener noreferrer"
         data-nickname={nickname}
+        data-character-id={charId}
         title={title}
         style={style}
         onClick={(e) => e.stopPropagation()}
@@ -87,7 +105,7 @@ export function NicknameChip({
   }
 
   return (
-    <ChipSpan data-nickname={nickname} title={title} style={style}>
+    <ChipSpan data-nickname={nickname} data-character-id={charId} title={title} style={style}>
       {nickname}
     </ChipSpan>
   );

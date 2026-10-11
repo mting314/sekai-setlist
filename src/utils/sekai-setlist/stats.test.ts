@@ -48,18 +48,43 @@ describe('computeSekaiStats', () => {
     expect(focusMatrix.performedFocusSongs).toBeGreaterThan(100);
     expect(focusMatrix.completionRate).toBeGreaterThan(75);
 
-    // Verify first character (Ichika Hoshino) has focus 1
+    // Verify first character (Ichika Hoshino) has focus 1 and 3 World Link rotations
     const ichika = focusMatrix.characters[0];
     expect(ichika.name).toBe('Ichika Hoshino');
     expect(ichika.cycles[0]?.cycle).toBe(1);
     expect(ichika.cycles[0]?.isPerformed).toBe(true);
+    expect(ichika.cycles[0]?.bannerUrl).toBeDefined();
+    expect(ichika.worldLinks.length).toBe(3);
+    expect(ichika.worldLinks[0]?.nickname).toBe('wl1-5');
+    expect(ichika.worldLinks[0]?.songId).toBe('424');
+    expect(ichika.worldLinks[0]?.worldLinkCycle).toBe(1);
+    expect(ichika.worldLinks[0]?.bannerUrl).toBeDefined();
+    expect(ichika.worldLinks[1]?.nickname).toBe('wl2-4');
+    expect(ichika.worldLinks[1]?.eventName).toBe('ordinary,yet special us');
+    expect(ichika.worldLinks[1]?.songId).toBeUndefined();
+    expect(ichika.worldLinks[1]?.worldLinkCycle).toBe(2);
+    expect(ichika.worldLinks[1]?.bannerUrl).toBeDefined();
+    expect(ichika.worldLinks[2]?.nickname).toBe('wl3-1');
+    expect(ichika.worldLinks[2]?.songId).toBe('739');
+    expect(ichika.worldLinks[2]?.worldLinkCycle).toBe(3);
+    expect(ichika.worldLinks[2]?.bannerUrl).toBeDefined();
+    expect(ichika.worldLink?.nickname).toBe('wl3-1');
+
+    // Verify Nightcord character (Kanade) has correct WL rotations
+    const kanade = focusMatrix.characters.find((c) => c.name === 'Kanade Yoisaki')!;
+    expect(kanade.worldLinks[0]?.nickname).toBe('wl1-1');
+    expect(kanade.worldLinks[0]?.songId).toBe('384');
+    expect(kanade.worldLinks[1]?.nickname).toBe('wl2-3');
+    expect(kanade.worldLinks[1]?.eventName).toBe('泡沫に抱かれて');
+    expect(kanade.worldLinks[2]?.nickname).toBe('wl3-5');
+    expect(kanade.worldLinks[2]?.songId).toBe('788');
   });
 
   it('computes version breakdown with short/game version counts', () => {
     const stats = computeSekaiStats();
     const { versionBreakdown } = stats;
-    expect(versionBreakdown.shortOrGameCount).toBe(26);
-    expect(versionBreakdown.shortVersionItems.length).toBe(26);
+    expect(versionBreakdown.shortOrGameCount).toBe(67);
+    expect(versionBreakdown.shortVersionItems.length).toBe(67);
     expect(versionBreakdown.fullVersionCount).toBe(
       versionBreakdown.totalPerformances - versionBreakdown.shortOrGameCount
     );

@@ -3,156 +3,182 @@
     "id": 1,
     "name": "Ichika Hoshino",
     "nameJa": "星乃一歌",
-    "unit": "leo_need"
+    "unit": "leo_need",
+    "color": "#33aaee"
   },
   {
     "id": 2,
     "name": "Saki Tenma",
     "nameJa": "天馬咲希",
-    "unit": "leo_need"
+    "unit": "leo_need",
+    "color": "#ffdd45"
   },
   {
     "id": 3,
     "name": "Honami Mochizuki",
     "nameJa": "望月穂波",
-    "unit": "leo_need"
+    "unit": "leo_need",
+    "color": "#ee6666"
   },
   {
     "id": 4,
     "name": "Shiho Hinomori",
     "nameJa": "日野森志歩",
-    "unit": "leo_need"
+    "unit": "leo_need",
+    "color": "#bbde22"
   },
   {
     "id": 5,
     "name": "Minori Hanasato",
     "nameJa": "花里みのり",
-    "unit": "more_more_jump"
+    "unit": "more_more_jump",
+    "color": "#ffcdac"
   },
   {
     "id": 6,
     "name": "Haruka Kiritani",
     "nameJa": "桐谷遥",
-    "unit": "more_more_jump"
+    "unit": "more_more_jump",
+    "color": "#99cdff"
   },
   {
     "id": 7,
     "name": "Airi Momoi",
     "nameJa": "桃井愛莉",
-    "unit": "more_more_jump"
+    "unit": "more_more_jump",
+    "color": "#ffa9cc"
   },
   {
     "id": 8,
     "name": "Shizuku Hinomori",
     "nameJa": "日野森雫",
-    "unit": "more_more_jump"
+    "unit": "more_more_jump",
+    "color": "#9aeede"
   },
   {
     "id": 9,
     "name": "Kohane Azusawa",
     "nameJa": "小豆沢こはね",
-    "unit": "vivid_bad_squad"
+    "unit": "vivid_bad_squad",
+    "color": "#ff679a"
   },
   {
     "id": 10,
     "name": "An Shiraishi",
     "nameJa": "白石杏",
-    "unit": "vivid_bad_squad"
+    "unit": "vivid_bad_squad",
+    "color": "#00bbdc"
   },
   {
     "id": 11,
     "name": "Akito Shinonome",
     "nameJa": "東雲彰人",
-    "unit": "vivid_bad_squad"
+    "unit": "vivid_bad_squad",
+    "color": "#ff7721"
   },
   {
     "id": 12,
     "name": "Toya Aoyagi",
     "nameJa": "青柳冬弥",
-    "unit": "vivid_bad_squad"
+    "unit": "vivid_bad_squad",
+    "color": "#0077dd"
   },
   {
     "id": 13,
     "name": "Tsukasa Tenma",
     "nameJa": "天馬司",
-    "unit": "wonderlands_showtime"
+    "unit": "wonderlands_showtime",
+    "color": "#ffbb00"
   },
   {
     "id": 14,
     "name": "Emu Otori",
     "nameJa": "鳳えむ",
-    "unit": "wonderlands_showtime"
+    "unit": "wonderlands_showtime",
+    "color": "#ff66bc"
   },
   {
     "id": 15,
     "name": "Nene Kusanagi",
     "nameJa": "草薙寧々",
-    "unit": "wonderlands_showtime"
+    "unit": "wonderlands_showtime",
+    "color": "#34dd9a"
   },
   {
     "id": 16,
     "name": "Rui Kamishiro",
     "nameJa": "神代類",
-    "unit": "wonderlands_showtime"
+    "unit": "wonderlands_showtime",
+    "color": "#bb88ed"
   },
   {
     "id": 17,
     "name": "Kanade Yoisaki",
     "nameJa": "宵崎奏",
-    "unit": "nightcord"
+    "unit": "nightcord",
+    "color": "#bb6588"
   },
   {
     "id": 18,
     "name": "Mafuyu Asahina",
     "nameJa": "朝比奈まふゆ",
-    "unit": "nightcord"
+    "unit": "nightcord",
+    "color": "#8889cc"
   },
   {
     "id": 19,
     "name": "Ena Shinonome",
     "nameJa": "東雲絵名",
-    "unit": "nightcord"
+    "unit": "nightcord",
+    "color": "#ccaa87"
   },
   {
     "id": 20,
     "name": "Mizuki Akiyama",
     "nameJa": "暁山瑞希",
-    "unit": "nightcord"
+    "unit": "nightcord",
+    "color": "#e4a8ca"
   },
   {
     "id": 21,
     "name": "Miku Hatsune",
     "nameJa": "初音ミク",
-    "unit": "virtual_singer"
+    "unit": "virtual_singer",
+    "color": "#33ccba"
   },
   {
     "id": 22,
     "name": "Rin Kagamine",
     "nameJa": "鏡音リン",
-    "unit": "virtual_singer"
+    "unit": "virtual_singer",
+    "color": "#ffcc11"
   },
   {
     "id": 23,
     "name": "Len Kagamine",
     "nameJa": "鏡音レン",
-    "unit": "virtual_singer"
+    "unit": "virtual_singer",
+    "color": "#ffee12"
   },
   {
     "id": 24,
     "name": "Luka Megurine",
     "nameJa": "巡音ルカ",
-    "unit": "virtual_singer"
+    "unit": "virtual_singer",
+    "color": "#ffbacc"
   },
   {
     "id": 25,
     "name": "MEIKO",
     "nameJa": "MEIKO",
-    "unit": "virtual_singer"
+    "unit": "virtual_singer",
+    "color": "#de4444"
   },
   {
     "id": 26,
     "name": "KAITO",
     "nameJa": "KAITO",
-    "unit": "virtual_singer"
+    "unit": "virtual_singer",
+    "color": "#3367cd"
   }
 ]

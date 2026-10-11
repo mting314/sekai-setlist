@@ -193,6 +193,16 @@ for (const m of musics) {
   if (Object.values(d).some((v) => v !== undefined)) details[m.id] = d;
 }
 
+const SEKAI_CHARACTER_COLORS: Record<number, string> = {
+  1: '#33aaee', 2: '#ffdd45', 3: '#ee6666', 4: '#bbde22',
+  5: '#ffcdac', 6: '#99cdff', 7: '#ffa9cc', 8: '#9aeede',
+  9: '#ff679a', 10: '#00bbdc', 11: '#ff7721', 12: '#0077dd',
+  13: '#ffbb00', 14: '#ff66bc', 15: '#34dd9a', 16: '#bb88ed',
+  17: '#bb6588', 18: '#8889cc', 19: '#ccaa87', 20: '#e4a8ca',
+  21: '#33ccba', 22: '#ffcc11', 23: '#ffee12', 24: '#ffbacc',
+  25: '#de4444', 26: '#3367cd'
+};
+
 const enCharById = new Map(charactersEn.map((c) => [c.id, c]));
 const chars = characters.map((c) => {
   const en = enCharById.get(c.id) ?? c;
@@ -200,7 +210,8 @@ const chars = characters.map((c) => {
     id: c.id,
     name: [en.givenName, en.firstName].filter(Boolean).join(' '),
     nameJa: `${c.firstName ?? ''}${c.givenName}`,
-    unit: c.unit && CHARACTER_UNIT[c.unit]
+    unit: c.unit && CHARACTER_UNIT[c.unit],
+    color: SEKAI_CHARACTER_COLORS[c.id]
   };
 });
 

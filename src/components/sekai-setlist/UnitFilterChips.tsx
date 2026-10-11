@@ -41,7 +41,7 @@ export function UnitFilterChips({
 }) {
   const { t } = useTranslation();
   return (
-    <HStack gap="1.5" mx="-1" px="1" pb="1" overflowX="auto" flexWrap="nowrap">
+    <HStack gap="1.5" mx="-1" px="1" pb="1" overflowX="auto" flexWrap="nowrap" w="full" maxW="full" minW="0">
       {sekaiUnits.map((u) => (
         <Chip
           key={u.id}

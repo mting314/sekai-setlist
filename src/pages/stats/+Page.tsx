@@ -26,7 +26,7 @@ export function Page() {
   return (
     <>
       <Metadata title={pageTitle} helmet />
-      <Stack gap={6} w="full" maxW="5xl" mx="auto" py={{ base: 2, md: 4 }}>
+      <Stack gap={6} w="full" maxW="5xl" mx="auto" minW="0" py={{ base: 2, md: 4 }}>
         {/* Page Header */}
         <Stack gap={1.5}>
           <Text as="h1" fontSize={{ base: '2xl', md: '3xl' }} fontWeight="bold">

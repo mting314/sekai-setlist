@@ -1,6 +1,8 @@
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Flex, Grid, HStack, Stack } from 'styled-system/jsx';
 import { StatsPanel } from './StatsPanel';
+import { Button } from '~/components/ui/styled/button';
 import { Text } from '~/components/ui/styled/text';
 import { SongInfoButton } from '~/components/sekai-setlist/song-info/SongInfoButton';
 import { SongPlayButton } from '~/components/sekai-setlist/audio/SongPlayButton';
@@ -13,6 +15,14 @@ import {
 
 export function VersionBreakdownSection({ stats }: { stats: VersionBreakdownStats }) {
   const { t, i18n } = useTranslation();
+  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
+
+  const sortedItems = useMemo(() => {
+    if (sortOrder === 'newest') {
+      return stats.shortVersionItems.toReversed();
+    }
+    return stats.shortVersionItems;
+  }, [stats.shortVersionItems, sortOrder]);
 
   const fullPct = ((stats.fullVersionCount / stats.totalPerformances) * 100).toFixed(1);
   const shortPct = ((stats.shortOrGameCount / stats.totalPerformances) * 100).toFixed(1);
@@ -95,7 +105,7 @@ export function VersionBreakdownSection({ stats }: { stats: VersionBreakdownStat
             <Text mt="1.5" color="fg.subtle" fontSize="2xs">
               {t('stats.version.shortNote', {
                 defaultValue:
-                  'Appeared in Sekai Symphony 2026 medleys and select 5th Thanks Fes slots.'
+                  'Appeared in 6th Thanks Fes medleys, 2026 Unit Fan Meetings, Sekai Symphony, and select 5th Thanks Fes slots.'
               })}
             </Text>
           </Box>
@@ -109,7 +119,7 @@ export function VersionBreakdownSection({ stats }: { stats: VersionBreakdownStat
           </Flex>
         </Box>
 
-        {/* List of the 11 Short Version Performances */}
+        {/* List of Short Version Performances */}
         <Box
           borderColor="border.subtle"
           borderRadius="l2"
@@ -118,16 +128,42 @@ export function VersionBreakdownSection({ stats }: { stats: VersionBreakdownStat
           overflow="hidden"
         >
           <Box borderColor="border.subtle" borderBottomWidth="1px" p="3" bg="bg.subtle">
-            <Text fontSize="xs" fontWeight="bold">
-              {t('stats.version.allShortList', {
-                defaultValue: 'All {{count}} Short & Game Version Performances Recorded',
-                count: stats.shortOrGameCount
-              })}
-            </Text>
+            <Flex justify="space-between" align="center" flexWrap="wrap" gap="2">
+              <Text fontSize="xs" fontWeight="bold">
+                {t('stats.version.allShortList', {
+                  defaultValue: 'All {{count}} Short & Game Version Performances Recorded',
+                  count: stats.shortOrGameCount
+                })}
+              </Text>
+              <HStack gap="1.5">
+                <Button
+                  size="xs"
+                  variant={sortOrder === 'newest' ? 'subtle' : 'ghost'}
+                  onClick={() => setSortOrder('newest')}
+                  h="auto"
+                  py="0.5"
+                  px="2"
+                  fontSize="2xs"
+                >
+                  {t('stats.newestFirst', { defaultValue: 'Newest First' })}
+                </Button>
+                <Button
+                  size="xs"
+                  variant={sortOrder === 'oldest' ? 'subtle' : 'ghost'}
+                  onClick={() => setSortOrder('oldest')}
+                  h="auto"
+                  py="0.5"
+                  px="2"
+                  fontSize="2xs"
+                >
+                  {t('stats.oldestFirst', { defaultValue: 'Oldest First' })}
+                </Button>
+              </HStack>
+            </Flex>
           </Box>
 
-          <Stack gap="0" divideY="1px" divideColor="border.subtle">
-            {stats.shortVersionItems.map((item, idx) => {
+          <Stack gap="0" divideY="1px" divideColor="border.subtle" maxH="440px" overflowY="auto">
+            {sortedItems.map((item, idx) => {
               const name = item.songId ? sekaiSongName(item.songId, i18n.language) : item.title;
               const fmt = getLiveFormat(item.liveSeries);
               const fmtColor = FORMAT_COLORS[fmt];

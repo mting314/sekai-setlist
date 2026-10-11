@@ -21,6 +21,8 @@ describe('event nickname chips', () => {
     const [stella, tyw] = container.querySelectorAll<HTMLElement>('[data-view-item=song]');
     const chip = within(stella).getByText('saki1');
     expect(chip).toHaveAttribute('data-nickname', 'saki1');
+    expect(chip).toHaveAttribute('data-character-id', '2');
+    expect(chip.style.getPropertyValue('--chip-color')).toBe('#ffdd45');
     expect(chip).toHaveAttribute('href', 'https://sekai.best/event/1');
     expect(chip).toHaveAttribute('target', '_blank');
     expect(tyw.querySelector('[data-nickname]')).toBeNull();

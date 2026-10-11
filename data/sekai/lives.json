@@ -6785,19 +6785,23 @@
         "songs": [
           {
             "songId": "551",
-            "title": "ロストアンブレラ"
+            "title": "ロストアンブレラ",
+            "note": "(Short ver.)"
           },
           {
             "songId": "477",
-            "title": "モザイクロール (Reloaded)"
+            "title": "モザイクロール (Reloaded)",
+            "note": "(Short ver.)"
           },
           {
             "songId": "670",
-            "title": "い〜やい〜やい〜や"
+            "title": "い〜やい〜やい〜や",
+            "note": "(Short ver.)"
           },
           {
             "songId": "586",
-            "title": "ヤンキーボーイ・ヤンキーガール"
+            "title": "ヤンキーボーイ・ヤンキーガール",
+            "note": "(Short ver.)"
           },
           {
             "songId": "64",
@@ -7004,19 +7008,23 @@
         "songs": [
           {
             "songId": "601",
-            "title": "ルマ"
+            "title": "ルマ",
+            "note": "(Short ver.)"
           },
           {
             "songId": "723",
-            "title": "ラヴィ"
+            "title": "ラヴィ",
+            "note": "(Short ver.)"
           },
           {
             "songId": "665",
-            "title": "ロケットサイダー"
+            "title": "ロケットサイダー",
+            "note": "(Short ver.)"
           },
           {
             "songId": "632",
-            "title": "Surges"
+            "title": "Surges",
+            "note": "(Short ver.)"
           },
           {
             "songId": "193",

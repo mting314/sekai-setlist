@@ -116,7 +116,12 @@ export function SongEventCard({ event, songId }: { event: SekaiSongEvent; songId
               {eventTypeLabel}
             </Badge>
             {event.nickname && (
-              <NicknameChip nickname={event.nickname} songId={songId} eventId={event.id} />
+              <NicknameChip
+                nickname={event.nickname}
+                songId={songId}
+                eventId={event.id}
+                focusCharacterId={event.focusCharacterId}
+              />
             )}
             {event.unit && <UnitBadge unit={event.unit} link />}
             <Box ml="auto">

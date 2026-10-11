@@ -137,6 +137,7 @@ export interface ReleaseDelayStats {
 export interface CharacterFocusCell {
   cycle: number; // 1..7 (or 0 for World Link)
   isWorldLink?: boolean;
+  worldLinkCycle?: number; // 1, 2, or 3 for World Link rotations
   songId?: string;
   title?: string;
   englishName?: string;
@@ -144,6 +145,7 @@ export interface CharacterFocusCell {
   eventId?: number;
   eventName?: string;
   nickname?: string;
+  bannerUrl?: string;
   publishedAt?: number;
   isPerformed: boolean;
   performanceCount: number;
@@ -166,7 +168,8 @@ export interface CharacterFocusRow {
   unitName: string;
   unitColor: string;
   cycles: (CharacterFocusCell | null)[]; // 0..6 for Focus 1..7
-  worldLink: CharacterFocusCell | null;
+  worldLink: CharacterFocusCell | null; // Latest WL cell (for backwards compatibility)
+  worldLinks: (CharacterFocusCell | null)[]; // WL1, WL2, WL3
   totalSongs: number;
   performedSongs: number;
 }
@@ -249,12 +252,89 @@ export interface SekaiStatsData {
 const byRelease = (a: UnperformedSongItem, b: UnperformedSongItem) =>
   (a.publishedAt ?? 0) - (b.publishedAt ?? 0) || Number(a.songId) - Number(b.songId);
 
-const UNIT_WL_NICKNAME: Record<string, string> = {
-  leo_need: 'wl3-1',
-  more_more_jump: 'wl3-2',
-  vivid_bad_squad: 'wl3-3',
-  wonderlands_showtime: 'wl3-4',
-  nightcord: 'wl3-5'
+const UNIT_WL_NICKNAMES: Record<string, [string, string, string]> = {
+  leo_need: ['wl1-5', 'wl2-4', 'wl3-1'],
+  more_more_jump: ['wl1-4', 'wl2-5', 'wl3-2'],
+  vivid_bad_squad: ['wl1-2', 'wl2-1', 'wl3-3'],
+  wonderlands_showtime: ['wl1-3', 'wl2-2', 'wl3-4'],
+  nightcord: ['wl1-1', 'wl2-3', 'wl3-5']
+};
+
+const WL1_FALLBACK: Record<
+  string,
+  { songId: string; eventId: number; eventName: string; nickname: string; bannerUrl: string }
+> = {
+  nightcord: {
+    songId: '384',
+    eventId: 112,
+    eventName: '水底に影を探して',
+    nickname: 'wl1-1',
+    bannerUrl: 'https://storage.sekai.best/sekai-jp-assets/home/banner/event_underwater_2023/event_underwater_2023.webp'
+  },
+  vivid_bad_squad: {
+    songId: '398',
+    eventId: 118,
+    eventName: 'BREAK DOWN THE WALL',
+    nickname: 'wl1-2',
+    bannerUrl: 'https://storage.sekai.best/sekai-jp-assets/home/banner/event_breakdown_2024/event_breakdown_2024.webp'
+  },
+  wonderlands_showtime: {
+    songId: '411',
+    eventId: 124,
+    eventName: '星を目指して、ヨーソロー！',
+    nickname: 'wl1-3',
+    bannerUrl: 'https://storage.sekai.best/sekai-jp-assets/home/banner/event_yosoro_2024/event_yosoro_2024.webp'
+  },
+  more_more_jump: {
+    songId: '405',
+    eventId: 130,
+    eventName: 'いつか花咲くステージへ',
+    nickname: 'wl1-4',
+    bannerUrl: 'https://storage.sekai.best/sekai-jp-assets/home/banner/event_blooming_2024/event_blooming_2024.webp'
+  },
+  leo_need: {
+    songId: '424',
+    eventId: 137,
+    eventName: 'あの日見た夜空は、いつかの未来へ',
+    nickname: 'wl1-5',
+    bannerUrl: 'https://storage.sekai.best/sekai-jp-assets/home/banner/event_nightsky_2024/event_nightsky_2024.webp'
+  }
+};
+
+const WL2_EVENT_INFO: Record<
+  string,
+  { eventId: number; eventName: string; nickname: string; bannerUrl: string }
+> = {
+  vivid_bad_squad: {
+    eventId: 163,
+    eventName: 'Turning Pain into Drive',
+    nickname: 'wl2-1',
+    bannerUrl: 'https://storage.sekai.best/sekai-jp-assets/home/banner/event_wl_2nd_street_2025/event_wl_2nd_street_2025.webp'
+  },
+  wonderlands_showtime: {
+    eventId: 167,
+    eventName: 'Dear my fellows',
+    nickname: 'wl2-2',
+    bannerUrl: 'https://storage.sekai.best/sekai-jp-assets/home/banner/event_wl_2nd_themepark_2025/event_wl_2nd_themepark_2025.webp'
+  },
+  nightcord: {
+    eventId: 170,
+    eventName: '泡沫に抱かれて',
+    nickname: 'wl2-3',
+    bannerUrl: 'https://storage.sekai.best/sekai-jp-assets/home/banner/event_wl_2nd_schoolrefusal_2025/event_wl_2nd_schoolrefusal_2025.webp'
+  },
+  leo_need: {
+    eventId: 171,
+    eventName: 'ordinary,yet special us',
+    nickname: 'wl2-4',
+    bannerUrl: 'https://storage.sekai.best/sekai-jp-assets/home/banner/event_wl_2nd_lightsound_2025/event_wl_2nd_lightsound_2025.webp'
+  },
+  more_more_jump: {
+    eventId: 176,
+    eventName: 'All ways Jump! with you',
+    nickname: 'wl2-5',
+    bannerUrl: 'https://storage.sekai.best/sekai-jp-assets/home/banner/event_wl_2nd_idol_2025/event_wl_2nd_idol_2025.webp'
+  }
 };
 
 export function computeSekaiStats(): SekaiStatsData {
@@ -314,7 +394,8 @@ export function computeSekaiStats(): SekaiStatsData {
 
         // Check version note
         const note = (songEntry.note ?? '').toLowerCase();
-        const isShortOrGame = note.includes('short') || note.includes('game ver');
+        const isShortOrGame =
+          note.includes('short') || note.includes('game ver') || note.includes('medley');
 
         if (isShortOrGame) {
           shortOrGameCount++;
@@ -566,9 +647,28 @@ export function computeSekaiStats(): SekaiStatsData {
   for (const char of mainCharacters) {
     const charUnitMeta = char.unit ? unitMap.get(char.unit) : undefined;
     const cycles: (CharacterFocusCell | null)[] = Array.from({ length: 7 }, () => null);
+    const worldLinks: (CharacterFocusCell | null)[] = [null, null, null];
     let worldLinkCell: CharacterFocusCell | null = null;
     let charTotalSongs = 0;
     let charPerfSongs = 0;
+
+    // Initialize WL2 event info if available for this unit
+    const wl2Meta = char.unit ? WL2_EVENT_INFO[char.unit] : undefined;
+    if (wl2Meta) {
+      worldLinks[1] = {
+        cycle: 0,
+        worldLinkCycle: 2,
+        isWorldLink: true,
+        eventId: wl2Meta.eventId,
+        eventName: wl2Meta.eventName,
+        nickname: wl2Meta.nickname,
+        bannerUrl: wl2Meta.bannerUrl,
+        isPerformed: false,
+        performanceCount: 0,
+        screen2dCount: 0,
+        cast3dCount: 0
+      };
+    }
 
     // Scan details for events tied to this character
     for (const [sId, d] of Object.entries(details)) {
@@ -597,6 +697,7 @@ export function computeSekaiStats(): SekaiStatsData {
               eventId: ev.id,
               eventName: ev.name,
               nickname: ev.nickname,
+              bannerUrl: ev.bannerUrl,
               publishedAt: s?.publishedAt,
               isPerformed: isPerf,
               performanceCount: tr?.totalAppearances ?? 0,
@@ -622,40 +723,89 @@ export function computeSekaiStats(): SekaiStatsData {
               cycleStats[cycleNum - 1]!.performed++;
             }
           }
-        } else if (char.unit && ev.nickname === UNIT_WL_NICKNAME[char.unit]) {
-          // World link event for this unit
-          const tr = songTracker.get(sId);
-          const isPerf = !!tr && tr.totalAppearances > 0;
-          const s2d = tr?.screen2dCount ?? 0;
-          const cl = tr?.connectLiveCount ?? 0;
-          const c3d = tr?.cast3dCount ?? 0;
-          const sym = tr?.symphonyCount ?? 0;
+        } else if (char.unit && UNIT_WL_NICKNAMES[char.unit]) {
+          const wlList = UNIT_WL_NICKNAMES[char.unit]!;
+          const wlIdx = wlList.indexOf(ev.nickname ?? '');
+          if (wlIdx !== -1) {
+            // World link event for this unit
+            const tr = songTracker.get(sId);
+            const isPerf = !!tr && tr.totalAppearances > 0;
+            const s2d = tr?.screen2dCount ?? 0;
+            const cl = tr?.connectLiveCount ?? 0;
+            const c3d = tr?.cast3dCount ?? 0;
+            const sym = tr?.symphonyCount ?? 0;
 
-          worldLinkCell = {
-            cycle: 0,
-            isWorldLink: true,
-            songId: sId,
-            title: s?.title,
-            englishName: s?.englishName,
-            assetbundleName: s?.assetbundleName,
-            eventId: ev.id,
-            eventName: ev.name,
-            nickname: ev.nickname,
-            publishedAt: s?.publishedAt,
-            isPerformed: isPerf,
-            performanceCount: tr?.totalAppearances ?? 0,
-            total2dCount: s2d + cl,
-            screen2dCount: s2d,
-            cast3dCount: c3d,
-            connectLiveCount: cl,
-            symphonyCount: sym,
-            firstLiveName: tr?.firstLive?.name,
-            firstLiveDate: tr?.firstLive?.startDate,
-            latestLiveName: tr?.latestLive?.name,
-            latestLiveDate: tr?.latestLive?.startDate
-          };
+            const cell: CharacterFocusCell = {
+              cycle: 0,
+              worldLinkCycle: wlIdx + 1,
+              isWorldLink: true,
+              songId: sId,
+              title: s?.title,
+              englishName: s?.englishName,
+              assetbundleName: s?.assetbundleName,
+              eventId: ev.id,
+              eventName: ev.name,
+              nickname: ev.nickname,
+              bannerUrl: ev.bannerUrl,
+              publishedAt: s?.publishedAt,
+              isPerformed: isPerf,
+              performanceCount: tr?.totalAppearances ?? 0,
+              total2dCount: s2d + cl,
+              screen2dCount: s2d,
+              cast3dCount: c3d,
+              connectLiveCount: cl,
+              symphonyCount: sym,
+              firstLiveName: tr?.firstLive?.name,
+              firstLiveDate: tr?.firstLive?.startDate,
+              latestLiveName: tr?.latestLive?.name,
+              latestLiveDate: tr?.latestLive?.startDate
+            };
+
+            worldLinks[wlIdx] = cell;
+            if (wlIdx === 2) {
+              worldLinkCell = cell;
+            }
+          }
         }
       }
+    }
+
+    // Fallback for WL1 if not populated from details
+    if (!worldLinks[0] && char.unit && WL1_FALLBACK[char.unit]) {
+      const fb = WL1_FALLBACK[char.unit]!;
+      const s = songMap.get(fb.songId);
+      const tr = songTracker.get(fb.songId);
+      const isPerf = !!tr && tr.totalAppearances > 0;
+      const s2d = tr?.screen2dCount ?? 0;
+      const cl = tr?.connectLiveCount ?? 0;
+      const c3d = tr?.cast3dCount ?? 0;
+      const sym = tr?.symphonyCount ?? 0;
+
+      worldLinks[0] = {
+        cycle: 0,
+        worldLinkCycle: 1,
+        isWorldLink: true,
+        songId: fb.songId,
+        title: s?.title,
+        englishName: s?.englishName,
+        assetbundleName: s?.assetbundleName,
+        eventId: fb.eventId,
+        eventName: fb.eventName,
+        nickname: fb.nickname,
+        bannerUrl: fb.bannerUrl,
+        publishedAt: s?.publishedAt,
+        isPerformed: isPerf,
+        performanceCount: tr?.totalAppearances ?? 0,
+        total2dCount: s2d + cl,
+        screen2dCount: s2d,
+        cast3dCount: c3d,
+        connectLiveCount: cl,
+        symphonyCount: sym,
+        firstLiveName: tr?.firstLive?.name,
+        firstLiveDate: tr?.firstLive?.startDate,
+        latestLiveName: tr?.latestLive?.name,
+        latestLiveDate: tr?.latestLive?.startDate
+      };
     }
 
     characterRows.push({
@@ -666,7 +816,8 @@ export function computeSekaiStats(): SekaiStatsData {
       unitName: charUnitMeta?.name ?? 'Other',
       unitColor: charUnitMeta?.color ?? '#8a8a8a',
       cycles,
-      worldLink: worldLinkCell,
+      worldLink: worldLinkCell ?? worldLinks[2],
+      worldLinks,
       totalSongs: charTotalSongs,
       performedSongs: charPerfSongs
     });

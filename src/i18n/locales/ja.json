@@ -423,7 +423,7 @@
     },
     "focus": {
       "title": "キャラクター別 バナー曲ライブ披露マトリクス",
-      "subtitle": "メイン20キャラのイベント書き下ろし曲（Focus 1〜7）およびワールドリンク曲のライブ披露状況。セルをクリックすると楽曲詳細が開きます。",
+      "subtitle": "メイン20キャラのイベント書き下ろし曲（Focus 1〜7）およびワールドリンク曲（WL1〜WL3）のライブ披露状況。セルをクリックすると楽曲詳細が開きます。",
       "debutProgress": "フォーカス別 披露進捗",
       "legendPerformed": "披露済み (>0回)",
       "legendUnperformed": "初披露待ち (0回)",
@@ -447,6 +447,7 @@
       "heatLevel_5": "7回以上",
       "hoverFocusCycle": "バナーイベント 第{{cycle}}弾",
       "hoverWorldLink": "ワールドリンクイベント",
+      "hoverWorldLinkCycle": "ワールドリンク 第{{cycle}}弾",
       "hoverEvent": "イベント",
       "hoverAdded": "ゲーム内実装：{{date}}",
       "hoverPlays": "ライブ通算披露：{{count}}回",
@@ -458,7 +459,8 @@
       "hoverFormatCast": "3Dキャスト: {{count}}回",
       "hoverFormatConnect": "コネクトライブ: {{count}}回",
       "hoverFormatSymphony": "シンフォニー: {{count}}回",
-      "hoverClickToOpen": "クリックで楽曲詳細・セットリストを表示"
+      "hoverClickToOpen": "クリックで楽曲詳細・セットリストを表示",
+      "noCommissionedSong": "書き下ろし楽曲なし（3DMVアナザーカット）"
     },
     "version": {
       "title": "楽曲の演奏尺：フルサイズ vs ショート／ゲームサイズ",
@@ -467,7 +469,7 @@
       "shortTitle": "ショート／ゲームサイズ／メドレー",
       "playsOf": "全{{count}}回中",
       "fullNote": "セカイライブ・感謝祭の標準披露フォーマット。",
-      "shortNote": "セカイシンフォニー2026のメドレーや第5回感謝祭のゲーム尺などに限定。",
+      "shortNote": "第6回感謝祭のメドレー、2026年ユニットファンミ、セカイシンフォニー、第5回感謝祭のゲーム尺などに限定。",
       "allShortList": "記録されている全{{count}}回のショート／ゲーム尺披露"
     },
     "unperformed": {

@@ -108,5 +108,9 @@ describe('Stats & Infographics Page', () => {
     // Verify hover card content appears with focus info or performance count
     const hoverCards = document.querySelectorAll('[data-focus-hover-card]');
     expect(hoverCards.length).toBeGreaterThan(0);
+
+    // Verify event banner is present
+    const bannerImg = hoverCards[0]?.querySelector('img[referrerpolicy="no-referrer"]');
+    expect(bannerImg).toBeInTheDocument();
   });
 });

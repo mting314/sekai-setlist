@@ -23,6 +23,9 @@ export function StatsPanel({
       p={{ base: '3.5', md: '5' }}
       bg="bg.default"
       shadow="xs"
+      w="full"
+      maxW="full"
+      minW="0"
     >
       <Flex
         gap="2.5"
@@ -31,7 +34,7 @@ export function StatsPanel({
         mb="4"
         flexWrap="wrap"
       >
-        <Box>
+        <Box minW="0" maxW="full">
           <HStack gap="2" flexWrap="wrap">
             <Text fontSize="lg" fontWeight="bold">
               {title}
@@ -44,7 +47,7 @@ export function StatsPanel({
             </Text>
           )}
         </Box>
-        {actions && <HStack gap="2">{actions}</HStack>}
+        {actions && <HStack gap="2" flexWrap="wrap">{actions}</HStack>}
       </Flex>
       {children}
     </Box>
