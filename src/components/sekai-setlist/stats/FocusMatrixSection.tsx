@@ -513,7 +513,12 @@ function FocusCellPill({
                           fontSize="2xs"
                           fontWeight="medium"
                         >
-                          <span>2D: {cell.screen2dCount}x</span>
+                          <span>
+                            {t('stats.focus.hoverFormatColorfulLive', {
+                              count: cell.screen2dCount,
+                              defaultValue: `COLORFUL LIVE: ${cell.screen2dCount}x`
+                            })}
+                          </span>
                         </Box>
                       )}
                       {cell.cast3dCount > 0 && (
@@ -533,7 +538,12 @@ function FocusCellPill({
                           fontSize="2xs"
                           fontWeight="medium"
                         >
-                          <span>3D Cast: {cell.cast3dCount}x</span>
+                          <span>
+                            {t('stats.focus.hoverFormatCast', {
+                              count: cell.cast3dCount,
+                              defaultValue: `Cast Live: ${cell.cast3dCount}x`
+                            })}
+                          </span>
                         </Box>
                       )}
                       {(cell.connectLiveCount ?? 0) > 0 && (
@@ -553,7 +563,12 @@ function FocusCellPill({
                           fontSize="2xs"
                           fontWeight="medium"
                         >
-                          <span>Connect: {cell.connectLiveCount}x</span>
+                          <span>
+                            {t('stats.focus.hoverFormatConnect', {
+                              count: cell.connectLiveCount,
+                              defaultValue: `Connect Live: ${cell.connectLiveCount}x`
+                            })}
+                          </span>
                         </Box>
                       )}
                       {(cell.symphonyCount ?? 0) > 0 && (
@@ -573,7 +588,12 @@ function FocusCellPill({
                           fontSize="2xs"
                           fontWeight="medium"
                         >
-                          <span>Symphony: {cell.symphonyCount}x</span>
+                          <span>
+                            {t('stats.focus.hoverFormatSymphony', {
+                              count: cell.symphonyCount,
+                              defaultValue: `Symphony: ${cell.symphonyCount}x`
+                            })}
+                          </span>
                         </Box>
                       )}
                     </Wrap>
